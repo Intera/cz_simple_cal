@@ -3,7 +3,9 @@
 <f:if condition="{address.firstName}"><span class="given-name">{address.firstName}</span></f:if>
 <f:if condition="{cal:condition.oneNotEmpty(values: {0: address.title, 1: address.firstName})}"><f:then></f:then>
 <f:else>
-	<f:translate key="{f:if(condition: '{cal:condition.compare(value1: address.gender, value2: \'m\')}', then:'title.gender.male', else:'title.gender.female')}" />
+	<f:if condition="{address.gender}">
+		<f:translate key="{f:if(condition: '{cal:condition.compare(value1: address.gender, value2: \'m\')}', then:'title.gender.male', else:'title.gender.female')}" />
+	</f:if>
 </f:else>
 </f:if>
 <f:if condition="{address.middleName}"><span class="additional-name">{address.middleName}</span></f:if>
