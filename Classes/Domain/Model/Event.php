@@ -659,6 +659,11 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @return null
 	 */
 	protected function buildOrganizerDummy() {
+
+		if (empty($this->organizerName) && empty($this->organizerAddress) && empty($this->organizerZip) && empty($this->organizerCity) && empty($this->organizerCountry)) {
+			return;
+		}
+
 		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 		$this->organizerDummy = $objectManager->get('Tx_CzSimpleCal_Domain_Model_AddressDummy');
 		
@@ -701,6 +706,11 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @return null
 	 */
 	protected function buildLocationDummy() {
+
+		if (empty($this->locationName) && empty($this->locationAddress) && empty($this->locationZip) && empty($this->locationCity) && empty($this->locationCountry)) {
+			return;
+		}
+
 		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 		$this->locationDummy = $objectManager->get('Tx_CzSimpleCal_Domain_Model_AddressDummy');
 		
