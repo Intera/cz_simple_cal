@@ -17,6 +17,8 @@ plugin.tx_czsimplecal_pi1 {
 	    }
 	}
 	
+	mvc.callDefaultActionIfActionCantBeResolved = 1
+
 	settings {
 	
 		EventIndex {
