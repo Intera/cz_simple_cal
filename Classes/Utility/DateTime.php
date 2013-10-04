@@ -72,4 +72,7 @@ class Tx_CzSimpleCal_Utility_DateTime extends DateTime {
 		return $this->format('U');
 	}
 	
+	public function getTimestampInteger() {
+		return parent::getTimestamp();
+	}
 }
