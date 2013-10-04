@@ -14,37 +14,21 @@ class Tx_CzSimpleCal_Indexer_Event {
 	
 	/**
 	 * @var Tx_CzSimpleCal_Domain_Repository_EventRepository
+	 * @inject
 	 */
 	protected $eventRepository = null;
-	
+
 	/**
 	 * @var Tx_CzSimpleCal_Domain_Repository_EventIndexRepository
+	 * @inject
 	 */
 	protected $eventIndexRepository = null;
-	
+
 	/**
 	 * @var Tx_Extbase_Persistence_ManagerInterface
+	 * @inject
 	 */
 	protected $persistenceManager = null;
-	
-	/**
-	 * constructor
-	 * 
-	 * @param Tx_CzSimpleCal_Domain_Repository_EventRepository $eventRepository
-	 * @param Tx_CzSimpleCal_Domain_Repository_EventIndexRepository $eventIndexRepository
-	 * @param Tx_Extbase_Persistence_ManagerInterface $persistenceManager
-	 */
-	public function __construct(
-		Tx_CzSimpleCal_Domain_Repository_EventRepository $eventRepository,
-		Tx_CzSimpleCal_Domain_Repository_EventIndexRepository $eventIndexRepository,
-		Tx_Extbase_Persistence_ManagerInterface $persistenceManager
-	) {
-		t3lib_div::makeInstance('Tx_Extbase_Dispatcher');
-		
-		$this->eventRepository = $eventRepository;
-		$this->eventIndexRepository = $eventIndexRepository;
-		$this->persistenceManager = $persistenceManager;
-	}
 	
 	/**
 	 * destructor
