@@ -20,7 +20,7 @@
 
 /**
  * format a localized name of a country by its isoCode
- * 
+ *
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @author Christian Zenker <christian.zenker@599media.de>
  */
@@ -37,25 +37,25 @@ class Tx_CzSimpleCal_ViewHelpers_Format_CountryNameViewHelper extends Tx_Fluid_C
 		if(empty($isoCode)) {
 			return '';
 		}
-		
+
 		(!is_null(self::$staticInfoObject)) || self::init();
-		
+
 		if(self::$staticInfoObject === false) {
 			// if init went wrong
 			return $isoCode;
 		}
-		
+
 		return self::$staticInfoObject->getStaticInfoName('COUNTRIES', $isoCode);
 	}
-	
+
 	/**
 	 * @var tx_staticinfotables_pi1
 	 */
 	protected static $staticInfoObject = null;
-	
+
 	/**
 	 * init static info tables to use with this view helper
-	 * 
+	 *
 	 * @return null
 	 */
 	protected static function init() {
@@ -63,14 +63,14 @@ class Tx_CzSimpleCal_ViewHelpers_Format_CountryNameViewHelper extends Tx_Fluid_C
 		if(!is_null(self::$staticInfoObject)) {
 			return;
 		}
-		
+
 		// check if static_info_tables is installed
 		if(!t3lib_extMgm::isLoaded('static_info_tables')) {
 			self::$staticInfoObject = false;
 			t3lib_div::devLog('static_info_tables needs to be installed to use '.get_class(self), get_class(self), 1);
 			return;
 		}
-		
+
 		require_once(t3lib_extMgm::extPath('static_info_tables').'pi1/class.tx_staticinfotables_pi1.php');
 		// init class
 		// code taken from the documentation

@@ -7,7 +7,7 @@
         </TCEforms>
         <type>array</type>
         <el>
-        
+
           <settings.override.EventIndex.allowedActions>
             <TCEforms>
               <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView</label>
@@ -23,7 +23,7 @@
               </config>
             </TCEforms>
           </settings.override.EventIndex.allowedActions>
-          
+
           <settings.override.action.filter.categories.uid>
             <TCEforms>
               <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.filterCategories</label>
@@ -38,7 +38,7 @@
               </config>
             </TCEforms>
           </settings.override.action.filter.categories.uid>
-          
+
           <settings.override.action.filter.organizer>
             <TCEforms>
               <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.filterOrganizer</label>
@@ -54,7 +54,7 @@
               </config>
             </TCEforms>
           </settings.override.action.filter.organizer>
-          
+
           <settings.override.action.filter.location>
             <TCEforms>
               <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.filterLocation</label>
@@ -70,8 +70,8 @@
               </config>
             </TCEforms>
           </settings.override.action.filter.location>
-          
-              
+
+
           <settings.override.action.startDate>
             <TCEforms>
               <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate</label>
@@ -118,7 +118,7 @@
               </config>
             </TCEforms>
           </settings.override.action.startDate>
-          
+
           <settings.override.action.endDate>
             <TCEforms>
               <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.endDate</label>
@@ -161,7 +161,7 @@
               </config>
             </TCEforms>
           </settings.override.action.endDate>
-          
+
           <settings.override.action.maxEvents>
             <TCEforms>
               <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.maxEvents</label>
@@ -175,7 +175,7 @@
               </config>
             </TCEforms>
           </settings.override.action.maxEvents>
-          
+
           <settings.override.action.orderBy>
             <TCEforms>
               <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.orderBy</label>
@@ -198,7 +198,7 @@
               </config>
             </TCEforms>
           </settings.override.action.orderBy>
-          
+
           <settings.override.action.order>
             <TCEforms>
               <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.order</label>
@@ -221,8 +221,8 @@
               </config>
             </TCEforms>
           </settings.override.action.order>
-          
-              
+
+
         </el>
       </ROOT>
     </sDEF>

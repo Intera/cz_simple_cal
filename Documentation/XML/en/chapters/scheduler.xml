@@ -11,7 +11,7 @@
 
 	<section xml:id="chapter.scheduler.basics">
 		<title>Understanding the index task</title>
-		
+
 		<para>
 			The purpose of the index task is to create an index of all events as described in the
 			<link linkend="chapter.concepts.eventindex">basic concepts</link>.
@@ -30,7 +30,7 @@
 				</para>
 				<para>
 					This might happen if you use any weired extension, that manipulates records on a
-					database level or if you even manipulate the records on the database yourself. 
+					database level or if you even manipulate the records on the database yourself.
 				</para>
 			</listitem>
 			<listitem>
@@ -40,7 +40,7 @@
 					with a relative date format.
 				</para>
 				<para>
-					I would recommend this way as it keeps your database tables as small as possible and 
+					I would recommend this way as it keeps your database tables as small as possible and
 					you probably don't want recurring events to repeat until ten years from now.
 					If you had limited <literal>recurranceEnd</literal> to <userinput>+1 year</userinput>
 					you should update your index every once in a while as the event index will only have
@@ -49,13 +49,13 @@
 				</para>
 			</listitem>
 		</itemizedlist>
-		
+
 		<para>
 			So, to comprehend: You don't need to set up a scheduler task if you do not use recurring events
 			or only use them with <literal>recurrance until</literal> for a short time.
 		</para>
 	</section>
-	
+
 	<section xml:id="chapter.scheduler.configuration">
 		<title>index task configuration</title>
 		<variablelist>
@@ -71,8 +71,8 @@
 					</para>
 					<note>
 						<para>
-							Depending on how many events you have, the indexer might be to slow to index all events in 
-							one run. So your scheduler should run more often than the value in this property, if you 
+							Depending on how many events you have, the indexer might be to slow to index all events in
+							one run. So your scheduler should run more often than the value in this property, if you
 							can't ensure that your machine is capable of indexing all events at once.
 						</para>
 					</note>
@@ -91,5 +91,5 @@
 			</varlistentry>
 		</variablelist>
 	</section>
-	
+
 </chapter>

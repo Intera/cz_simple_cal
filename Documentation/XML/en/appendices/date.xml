@@ -11,7 +11,7 @@
 	<para>
 		The first thing to mention is that you can <emphasis>only</emphasis> use english phrases and month names. Numeric formats are usually standartized formats.<sbr/>
 	</para>
-	
+
 	<note>
 		<para>
 			The type <literal>date</literal> is based on <productname>PHP</productname>'s <link xlink:href="http://php.net/manual/en/datetime.formats.php">date and time formats</link>.
@@ -19,12 +19,12 @@
 			to keep compatibility.
 		</para>
 	</note>
-	
+
 	<xi:include href="../../contrib/php.net-rev300164/formats.xml" xpointer="datetime.formats.date" />
 	<xi:include href="../../contrib/php.net-rev300164/formats.xml" xpointer="datetime.formats.time" />
 	<xi:include href="../../contrib/php.net-rev300164/formats.xml" xpointer="datetime.formats.compound" />
 	<!-- <xi:include href="../../contrib/php.net-rev300164/formats.xml" xpointer="datetime.formats.relative" /> -->
-	
+
 	<section xml:id="datetime.formats.relative">
 		<title>Relative Formats</title>
 		<table>
@@ -171,16 +171,16 @@
 				</tbody>
 			</tgroup>
 		</table>
-		
+
 		<caution>
 			<para>Weeks always start with mondays. That's a difference to the original DateTime starts with sundays.</para>
 		</caution>
-			
+
 	</section>
-	
+
 	<section xml:id="datetime.formats.chaining">
 		<title>Chaining</title>
-		<para>All afore mentioned formats can be chained by using the pipe character (<literal>|</literal>). All rules 
+		<para>All afore mentioned formats can be chained by using the pipe character (<literal>|</literal>). All rules
 		will be applied one after another.</para>
 		<example>
 			<title>Chaining of DateTime formats</title>
@@ -190,6 +190,6 @@
 			</itemizedlist>
 		</example>
 	</section>
-		
-	
+
+
 </appendix>

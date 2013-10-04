@@ -30,10 +30,10 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class Tx_CzSimpleCal_Domain_Repository_EventRepository extends Tx_Extbase_Persistence_Repository {
-	
+
 	/**
 	 * find a record by its uid regardless of its pid
-	 * 
+	 *
 	 * @param $uid
 	 * @return Tx_CzSimpleCal_Domain_Model_Event
 	 */
@@ -46,21 +46,21 @@ class Tx_CzSimpleCal_Domain_Repository_EventRepository extends Tx_Extbase_Persis
 		;
 		$query->setLimit(1);
 		$query->matching($query->equals('uid',$uid));
-		
+
 		$result = $query->execute();
 		if(count($result) < 1) {
 			return null;
 		}
-		
+
 		$object = $result->getFirst();
 		$this->identityMap->registerObject($object, $uid);
-		
+
 		return $object;
 	}
-	
+
 	/**
 	 * find all records regardless of their storage page, enable fields or language
-	 * 
+	 *
 	 * @return array <Tx_CzSimpleCal_Domain_Model_Event>
 	 */
 	public function findAllEverywhere() {
@@ -70,14 +70,14 @@ class Tx_CzSimpleCal_Domain_Repository_EventRepository extends Tx_Extbase_Persis
 			setRespectEnableFields(false)->
 			setRespectSysLanguage(false)
 		;
-		
+
 		return $query->execute();
 	}
-	
+
 	/**
 	 * find records for the indexing task
 	 * with parameters suitable for the indexer
-	 * 
+	 *
 	 * @param integer $limit
 	 * @param integer $maxAge UNIX timestamp
 	 */
@@ -106,15 +106,15 @@ class Tx_CzSimpleCal_Domain_Repository_EventRepository extends Tx_Extbase_Persis
 			 * - sorting would make the query slower
 			 * - multiple parallel scheduler tasks could do the same work as there is no locking
 			 *     with this "random" sorting, there is at least a chance this won't happen
-			 */ 
+			 */
 		}
 		return $query->execute();
 	}
-	
+
 	/**
 	 * make a given slug unique
 	 * returns a unique slug
-	 * 
+	 *
 	 * @param $slug
 	 * @param $uid
 	 * @return string
@@ -149,7 +149,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventRepository extends Tx_Extbase_Persis
 			));
 			$query->setLimit(1);
 			$result = $query->execute();
-			
+
 			if($result->count() == 0) {
 				return $slug.'-1';
 			} else {
@@ -158,10 +158,10 @@ class Tx_CzSimpleCal_Domain_Repository_EventRepository extends Tx_Extbase_Persis
 			}
 		}
 	}
-	
+
 	/**
 	 * get the UNIX timestamp of the indexing of the oldest event that needs indexing
-	 * 
+	 *
 	 * @return integer UNIX timestamp
 	 */
 	public function getMaxIndexAge() {
@@ -174,18 +174,18 @@ class Tx_CzSimpleCal_Domain_Repository_EventRepository extends Tx_Extbase_Persis
 		$query->setOrderings(array(
 			'last_indexed' => Tx_Extbase_Persistence_Query::ORDER_ASCENDING
 		));
-		
+
 		$query->setLimit(1);
-		
+
 		$result = $query->execute();
-		
+
 		if($result->count() == 0) {
 			return null;
 		} else {
 			return $result->getFirst()->getLastIndexed()->format('U');
 		}
 	}
-	
+
 	/**
 	 * find all events by a given user id
 	 * @param string $userId
@@ -194,17 +194,17 @@ class Tx_CzSimpleCal_Domain_Repository_EventRepository extends Tx_Extbase_Persis
 		if(!$userId) {
 			return null;
 		}
-		
+
 		$query = $this->createQuery();
-		
+
 		$query->matching($query->equals('cruser_fe', $userId));
-		
+
 		$query->setOrderings(array(
 			'start_day' => Tx_Extbase_Persistence_Query::ORDER_DESCENDING
 		));
-				
+
 		return $query->execute();
 	}
-	
+
 }
 ?>

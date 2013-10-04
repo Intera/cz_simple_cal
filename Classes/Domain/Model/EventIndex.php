@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -25,59 +25,59 @@
 ***************************************************************/
 
 /**
- * 
+ *
  *
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model_Base {
-	
+
 	/**
 	 * the timestamp from the beginning of that event
-	 * 
+	 *
 	 * @ugly integer is used as we'd like an instance of the Utility_DayTime, but extbase would only return a DateTime Object in the extbase version shipped with TYPO3 4.4
 	 * @var integer
 	 */
 	protected $start;
-	
+
 	/**
 	 * the timestamp from the end of that event
-	 * 
+	 *
 	 * @ugly integer is used as we'd like an instance of the Utility_DayTime, but extbase would only return a DateTime Object in the extbase version shipped with TYPO3 4.4
 	 * @var integer
 	 */
 	protected $end;
-	
+
 	/**
 	 * the start date as DateTime object
-	 * 
+	 *
 	 * @var Tx_CzSimpleCal_Utility_DateTime
 	 */
 	protected $dateTimeObjectStart = null;
-	
+
 	/**
 	 * the end date as DateTime object
-	 * 
+	 *
 	 * @var Tx_CzSimpleCal_Utility_DateTime
 	 */
 	protected $dateTimeObjectEnd = null;
-	
+
 	/**
 	 * the pid of the record
-	 * 
+	 *
 	 * @var integer
 	 */
 	protected $pid;
-	
+
 	/**
 	 * @var Tx_CzSimpleCal_Domain_Model_Event
 	 */
 	protected $event;
-	
+
 	/**
 	 * set the timestamp from the beginning of that event
-	 * 
+	 *
 	 * @param integer $start
 	 * @return null
 	 */
@@ -85,7 +85,7 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 		$this->start = $start;
 		$this->dateTimeObjectStart = null;
 	}
-	
+
 	/**
 	 * get the timestamp from the beginning of that event
 	 * @return integer
@@ -93,10 +93,10 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 	public function getStart() {
 		return $this->start;
 	}
-	
+
 	/**
 	 * get the start of this event as a dateTimeObject
-	 * 
+	 *
 	 * @return Tx_CzSimpleCal_Utility_DateTime
 	 */
 	public function getDateTimeObjectStart() {
@@ -108,7 +108,7 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 		}
 		return $this->dateTimeObjectStart;
 	}
-	
+
 	/**
 	 * set the timestamp from the end of that event
 	 * @param integer $end
@@ -118,7 +118,7 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 		$this->end = $end;
 		$this->dateTimeObjectEnd = null;
 	}
-	
+
 	/**
 	 * get the timestamp from the end of that event
 	 * @return integer
@@ -126,10 +126,10 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 	public function getEnd() {
 		return $this->end;
 	}
-	
+
 	/**
 	 * get the end of this event as a dateTimeObject
-	 * 
+	 *
 	 * @return Tx_CzSimpleCal_Utility_DateTime
 	 */
 	public function getDateTimeObjectEnd() {
@@ -141,42 +141,42 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 		}
 		return $this->dateTimeObjectEnd;
 	}
-	
+
 	public function setEvent($event) {
 		$this->event = $event;
 	}
-	
+
 	public function getEvent() {
 		return $this->event;
 	}
-	
-	
+
+
 	/**
 	 * create a new instance with data from a given array
-	 * 
+	 *
 	 * @param $data
 	 * @return Tx_CzSimpleCal_Domain_Model_EventIndex
 	 */
 	public static function fromArray($data) {
 		$obj = new Tx_CzSimpleCal_Domain_Model_EventIndex();
-		
+
 		foreach($data as $name => $value) {
 			$methodName = 'set'.t3lib_div::underscoredToUpperCamelCase($name);
-			
+
 			// check if there is a setter defined (use of is_callable to check if the scope is public)
 			if(!is_callable(array($obj,	$methodName))) {
 				throw new InvalidArgumentException(sprintf('Could not find the %s method to set %s in %s.', $methodName, $name, get_class($obj)));
 			}
-			
+
 			call_user_func(array($obj, $methodName), $value);
 		}
-		
-		return $obj;		
+
+		return $obj;
 	}
-	
+
 	/**
 	 * get a hash for this recurrance of the event
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getHash() {
@@ -187,10 +187,10 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']
 		);
 	}
-	
+
 	/**
 	 * tunnel all methods that were not found to the Event
-	 * 
+	 *
 	 * @param $method
 	 * @param $args
 	 * @return mixed
@@ -203,17 +203,17 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 		if(!is_callable($callback)) {
 			throw new BadMethodCallException(sprintf('The method %s was neither found in %s nor in %s.', $method, get_class($this), get_class($this->event)));
 		}
-		
+
 		return call_user_func_array($callback, $args);
 	}
-	
+
 	/**
 	 * the property slug
 	 *
 	 * @var string slug
 	 */
 	protected $slug;
-	
+
 	/**
 	 * getter for slug
 	 *
@@ -222,10 +222,10 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 	public function getSlug() {
 		return $this->slug;
 	}
-	
+
 	/**
 	 * setter for slug
-	 * 
+	 *
 	 * @param string $slug
 	 * @return Tx_CzSimpleCal_Domain_Model_EventIndex
 	 */
@@ -236,28 +236,28 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 		$this->slug = $slug;
 		return $this;
 	}
-	
+
 	/**
 	 * generate a slug for this record
-	 * 
+	 *
 	 * @return string
 	 */
 	public function generateSlug() {
 		$value = $this->generateRawSlug();
 		$value = Tx_CzSimpleCal_Utility_Inflector::urlize($value);
-		
+
 		$eventIndexRepository = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->
 			get('Tx_CzSimpleCal_Domain_Repository_EventIndexRepository')
 		;
 		$slug = $eventIndexRepository->makeSlugUnique($value, $this->uid);
 		$this->setSlug($slug);
 	}
-	
+
 	/**
 	 * generate a raw slug that might have invalid characters
-	 * 
+	 *
 	 * you could overwrite this if you want a different slug
-	 * 
+	 *
 	 * @return string
 	 */
 	protected function generateRawSlug() {
@@ -267,10 +267,10 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends Tx_CzSimpleCal_Domain_Model
 		}
 		return $value;
 	}
-	
+
 	/**
-	 * will be called before instance is added to the repository 
-	 * 
+	 * will be called before instance is added to the repository
+	 *
 	 * @return null
 	 */
 	public function preCreate() {

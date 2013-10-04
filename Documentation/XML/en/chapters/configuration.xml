@@ -8,18 +8,18 @@
      xmlns:mathml="http://www.w3.org/1998/Math/MathML">
 
 	<title>Configuration</title>
-	
+
 	<section xml:id="chapter.configuration.extconf">
 		<title>extConf</title>
 		<para>
-			When installing the extension the <productname>Extension Manager</productname> will let 
+			When installing the extension the <productname>Extension Manager</productname> will let
 			you set some values.
 		</para>
 		<variablelist>
 			<varlistentry>
 				<term>recurrenceEnd</term>
 				<listitem>
-					<para>					
+					<para>
 						<productname>cz_simple_cal</productname> indexes recurring events. Here you can set until
 						what date the indexing should be done. Use any valid format for the
 						<link linkend="appendix.date"><literal>date</literal> type</link> here - <literal>2020-12-31</literal>
@@ -32,7 +32,7 @@
 			</varlistentry>
 		</variablelist>
 	</section>
-	
+
 	<section xml:id="chapter.configuration.typoscript">
 		<title>TypoScript</title>
 		<para>
@@ -47,7 +47,7 @@
 			<varlistentry>
 				<term>persistence.storagePid<sbr/>(type: <literal>string</literal>)</term>
 				<listitem>
-					<para>	
+					<para>
 						The page id where your records are stored. You can set multiple pages seperated by comma (<literal>,</literal>).
 					</para>
 					<note>
@@ -60,7 +60,7 @@
 			<varlistentry>
 				<term>view.templateRootPath<sbr/>view.partialRootPath<sbr/>(type: <literal>string</literal>)</term>
 				<listitem>
-					<para>	
+					<para>
 						The path to the folder your customized templates or partials are stored in.
 					</para>
 					<note>
@@ -75,7 +75,7 @@
 			<varlistentry>
 				<term>_LOCAL_LANG.[lang].[key]<sbr/>(type: <literal>string</literal>)</term>
 				<listitem>
-					<para>	
+					<para>
 						An array were you can override localized strings with your custom substitudes.<sbr/>
 						<literal>[lang]</literal> is the 2-sign-language code used by <productname>TYPO3</productname>, like <literal>en</literal> or <literal>de</literal>.<sbr/>
 						<literal>[key]</literal> is the identifier of the string. For a list of identifiers, have a look at <literal>EXT:cz_simple_cal/Resources/Private/Language/locallang.xml</literal>.
@@ -98,7 +98,7 @@
 			</para>
 			<note>
 				<para>
-					Thanks to <productname>fluid</productname>, you'll have every setting available in each <productname>fluid</productname>-template 
+					Thanks to <productname>fluid</productname>, you'll have every setting available in each <productname>fluid</productname>-template
 					through the property <literal>{settings}</literal>.
 				</para>
 			</note>
@@ -186,17 +186,17 @@
 					</listitem>
 				</varlistentry>
 			</variablelist>
-				
-			
-			
-			
+
+
+
+
 			<section xml:id="chapter.configuration.typoscript.EventIndex.list">
 				<title><literal>list</literal> action</title>
 				<para>
 					This action is used to display a list of timely connected events.
 				</para>
 				<para>
-					Examples would be to show upcoming events, the last events or all events on a certain month. 
+					Examples would be to show upcoming events, the last events or all events on a certain month.
 				</para>
 				<variablelist>
 					<varlistentry>
@@ -247,7 +247,7 @@
 						<term>orderBy<sbr />(type: "<literal>start</literal>" or "<literal>end</literal>")</term>
 						<listitem>
 							<para>
-								If the resulting events should be sorted by their <literal>start</literal> or <literal>end</literal> date. 
+								If the resulting events should be sorted by their <literal>start</literal> or <literal>end</literal> date.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -255,7 +255,7 @@
 						<term>maxEvents<sbr />(type: <literal>positive integer</literal>)</term>
 						<listitem>
 							<para>
-								The maximum of events to return. 
+								The maximum of events to return.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -278,7 +278,7 @@
 								selects only events of the organizers with uids <literal>4</literal> and <literal>2</literal>.
 								<programlisting>filter.categories.uid = 4
 filter.location.uid = 2</programlisting>
-								selects only events of the organizer with uid <literal>4</literal> at the location with 
+								selects only events of the organizer with uid <literal>4</literal> at the location with
 								uid <literal>2</literal>.
 							</example>
 							<para>
@@ -295,7 +295,7 @@ filter.categories.uid.negate = 1</programlisting>
 								<para>
 									Note, that for technical limitations, extbase is just able to select events, that
 									actually have a category in the above example. If you have events, that are not
-									assigned to any category, they won't show up neither! 
+									assigned to any category, they won't show up neither!
 								</para>
 							</caution>
 							<para>This example is interchangeable with the above one:</para>
@@ -383,7 +383,7 @@ filter.categories.uid.negate = 1</programlisting>
 						<term>orderBy<sbr />(type: "<literal>start</literal>" or "<literal>end</literal>")</term>
 						<listitem>
 							<para>
-								If the resulting events should be sorted by their <literal>start</literal> or <literal>end</literal> date. 
+								If the resulting events should be sorted by their <literal>start</literal> or <literal>end</literal> date.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -391,7 +391,7 @@ filter.categories.uid.negate = 1</programlisting>
 						<term>maxEvents<sbr />(type: <literal>positive integer</literal>)</term>
 						<listitem>
 							<para>
-								The maximum of events to return. 
+								The maximum of events to return.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -414,7 +414,7 @@ filter.categories.uid.negate = 1</programlisting>
 								selects only events of the organizers with uids <literal>4</literal> and <literal>2</literal>.
 								<programlisting>filter.categories.uid = 4
 filter.location.uid = 2</programlisting>
-								selects only events of the organizer with uid <literal>4</literal> at the location with 
+								selects only events of the organizer with uid <literal>4</literal> at the location with
 								uid <literal>2</literal>.
 							</example>
 						</listitem>
@@ -426,7 +426,7 @@ filter.location.uid = 2</programlisting>
 								The timespan for which to group the events.
 							</para>
 							<para>
-								Allowed values are <literal>day</literal>, <literal>week</literal>, <literal>month</literal> and <literal>year</literal>. 
+								Allowed values are <literal>day</literal>, <literal>week</literal>, <literal>month</literal> and <literal>year</literal>.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -449,7 +449,7 @@ filter.location.uid = 2</programlisting>
 						</listitem>
 					</varlistentry>
 				</variablelist>
-			</section>	
+			</section>
 			<section xml:id="chapter.configuration.typoscript.EventIndex.show">
 				<title><literal>show</literal> action</title>
 				<para>This action is just showing an EventIndex.</para>
@@ -460,7 +460,7 @@ filter.location.uid = 2</programlisting>
 					the dancing hour on Thursday, 13th of January at 18:00.
 				</para>
 				<para>No further configuration available.</para>
-			</section>	
+			</section>
 		</section>
 		<section xml:id="chapter.configuration.typoscript.Event">
 			<title><literal>Event configuration</literal></title>
@@ -501,7 +501,7 @@ filter.location.uid = 2</programlisting>
 					</listitem>
 				</varlistentry>
 			</variablelist>
-			
+
 			<section xml:id="chapter.configuration.typoscript.Event.show">
 				<title><literal>show</literal> action</title>
 				<para>This action is just showing a single event.</para>
@@ -528,6 +528,6 @@ filter.location.uid = 2</programlisting>
 			</section>
 		</section>
 	</section>
-	
-	
+
+
 </chapter>

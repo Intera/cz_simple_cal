@@ -30,10 +30,10 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_Persistence_Repository {
-	
+
 	/**
 	 * find all records and return them ordered by the start date ascending
-	 * 
+	 *
 	 * @return array
 	 */
 	public function findAll() {
@@ -41,12 +41,12 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		$query->setOrderings(array('start' => 'ASC'));
 		return $query->execute();
 	}
-	
+
 	/**
 	 * find all events matching some settings
-	 * 
+	 *
 	 * for all options for the settings see setupSettings()
-	 * 
+	 *
 	 * @see setupSettings()
 	 * @param $settings
 	 * @return array
@@ -54,15 +54,15 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 	public function findAllWithSettings($settings = array()) {
 		$settings = $this->cleanSettings($settings);
 		$query = $this->setupSettings($settings);
-		
+
 		return $query->execute();
 	}
-	
+
 	/**
 	 * find all events matching some settings and count them
-	 * 
+	 *
 	 * for all options for the settings see setupSettings()
-	 * 
+	 *
 	 * @see setupSettings()
 	 * @see doCountAllWithSettings()
 	 * @param $settings
@@ -72,10 +72,10 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		$settings = $this->cleanSettings($settings);
 		return $this->doCountAllWithSettings($settings);
 	}
-	
+
 	/**
 	 * find all events matching some settings and count them
-	 * 
+	 *
 	 * @param $settings
 	 * @ugly doing dozens of database requests
 	 * @return array
@@ -96,10 +96,10 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			} else {
 				$step = null;
 			}
-			
+
 			$startDate = new Tx_CzSimpleCal_Utility_DateTime('@'.$settings['startDate']);
 			$startDate->setTimezone(new DateTimeZone(date_default_timezone_get()));
-			
+
 			$endDate = $settings['endDate'];
 			while ($startDate->getTimestamp() < $endDate) {
 				if($step === null) {
@@ -108,7 +108,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 					$tempEndDate = clone $startDate;
 					$tempEndDate->modify($step.' -1 second');
 				}
-				
+
 				$output[] = array(
 					'date' => $startDate->format('c'),
 					'count' => $this->doCountAllWithSettings(array_merge(
@@ -116,28 +116,28 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 						array(
 							'startDate' => $startDate->format('U'),
 							'endDate' => $tempEndDate ? $tempEndDate->format('U') : null,
-							'groupBy' => null 
+							'groupBy' => null
 						)
 					))
 				);
-				
+
 				if($step === null) {
 					break;
 				} else {
 					$startDate->modify($step);
 				}
 			}
-			
+
 			return $output;
 		}
-		
+
 	}
-	
+
 	/**
 	 * setup settings for an query
-	 * 
+	 *
 	 * possible restrictions are:
-	 * 
+	 *
 	 *  * startDate             integer timestamp of the start
 	 *  * endDate               integer timestamp of the end
 	 *  * order                 string  the mode to sort by (could be 'asc' or 'desc')
@@ -146,9 +146,9 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 	 *  * includeStartedEvents  boolean if events that were in progress on the startDate should be shown
 	 *  * excludeOverlongEvents boolean if events that were not yet finished on the endDate should be excluded
 	 *  * filter                array   key is field name and value the desired value, multiple filters are concated with "AND"
-	 * 
+	 *
 	 * all given values must be sanitized
-	 * 
+	 *
 	 * @param array $settings
 	 * @param $query
 	 * @ugly extbase query needs a better fluent interface for query creation
@@ -158,7 +158,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		if(is_null($query)) {
 			$query = $this->createQuery();
 		}
-		
+
 		// startDate
 		if(isset($settings['startDate'])) {
 			$constraint = $query->greaterThanOrEqual($settings['includeStartedEvents'] ? 'end' : 'start', $settings['startDate']);
@@ -166,24 +166,24 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		// endDate
 		if(isset($settings['endDate'])) {
 			$temp_constraint = $query->lessThanOrEqual($settings['excludeOverlongEvents'] ? 'end' : 'start', $settings['endDate']);
-			 
+
 			if(isset($constraint)) {
 				$constraint = $query->logicalAnd($constraint, $temp_constraint);
 			} else {
 				$constraint = $temp_constraint;
 			}
 		}
-		
+
 		// filterCategories
 		if(isset($settings['filter'])) {
 			foreach($settings['filter'] as $name => $filter) {
 				if(is_array($filter['value'])) {
 					$temp_constraint = $query->in('event.'.$name, $filter['value']);
-					
+
 					if(isset($filter['negate']) && $filter['negate']) {
 						$temp_constraint = $query->logicalNot($temp_constraint);
 					}
-					
+
 					if(isset($constraint)) {
 						$constraint = $query->logicalAnd($constraint, $temp_constraint);
 					} else {
@@ -193,19 +193,19 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 				// @todo: support for atomic values
 			}
 		}
-		
+
 		// all constraints should be gathered here
-		
+
 		// set the WHERE part
 		if(isset($constraint)) {
 			$query->matching($constraint);
 		}
-		
+
 		// limit
 		if(isset($settings['maxEvents'])) {
 			$query->setLimit(intval($settings['maxEvents']));
 		}
-		
+
 		// order and orderBy
 		if(isset($settings['order']) || isset($settings['orderBy'])) {
 			if(!isset($settings['orderBy'])) {
@@ -217,7 +217,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			} else {
 				throw new InvalidArgumentException('"orderBy" should be one of "start" or "end".');
 			}
-			
+
 			if(!isset($settings['order'])) {
 				$order = Tx_Extbase_Persistence_Query::ORDER_ASCENDING;
 			} elseif(strtolower($settings['order']) === 'asc') {
@@ -227,16 +227,16 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			} else {
 				throw new InvalidArgumentException('"order" should be one of "asc" or "desc".');
 			}
-			
+
 			$query->setOrderings(array($orderBy => $order));
 		}
-		
+
 		return $query;
 	}
-	
+
 	/**
 	 * filter settings for all allowed properties for setupSettings()
-	 * 
+	 *
 	 * @var array
 	 */
 	protected static $filterSettings = array(
@@ -278,31 +278,31 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			'flags' => FILTER_FORCE_ARRAY
 		),
 	);
-	
+
 	/**
 	 * do the cleaning of the values so that no wrong variable type or value will be used
-	 * 
+	 *
 	 * @param $settings
-	 * @return array 
+	 * @return array
 	 */
 	protected function cleanSettings($settings) {
 
-		// unset unknown fields 
+		// unset unknown fields
 		$settings = array_intersect_key($settings, self::$filterSettings);
-		
+
 		$settings = filter_var_array($settings, self::$filterSettings);
-		
-		
+
+
 		if(isset($settings['filter'])) {
 			$settings['filter'] = $this->setupFilters($settings['filter']);
 		}
-		
+
 		return $settings;
 	}
-	
+
 	/**
 	 * sanitize the "order" setting
-	 * 
+	 *
 	 * @param $value
 	 * @return string|null
 	 */
@@ -318,11 +318,11 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		}
 		return null;
 	}
-	
+
 	/**
 	 * sanitize something to be a valid string
 	 * (only ASCII letters, numbers, ".", "_" and "-")
-	 * 
+	 *
 	 * @param $value
 	 */
 	protected static function sanitizeString($value) {
@@ -337,19 +337,19 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			return $value;
 		}
 	}
-	
+
 	/**
 	 * sanitizing the value for the "filter" setting.
 	 * If multiple values are given return an array
-	 * 
+	 *
 	 * @param $filter
 	 */
 	protected static function sanitizeFilter($filter) {
 		$out = array();
-		
+
 		if(!is_array($filter)) {
 			$filter = array(
-				'value' => t3lib_div::trimExplode(',', $filter, true) 
+				'value' => t3lib_div::trimExplode(',', $filter, true)
 			);
 		} elseif(!empty($filter['_typoScriptNodeValue']) && !is_array($filter['_typoScriptNodeValue'])) {
 			/* this field is set if something like
@@ -358,10 +358,10 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			 *         foo.negate = 1
 			 *     }
 			 * was set in the frontend
-			 * 
-			 * This is processed prior to the value field, so 
+			 *
+			 * This is processed prior to the value field, so
 			 * that a flexform is able to override it.
-			 * 
+			 *
 			 * @see Tx_Extbase_Utility_TypoScript
 			 */
 			$filter['value'] = t3lib_div::trimExplode(',', $filter['_typoScriptNodeValue'], true);
@@ -369,7 +369,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		} elseif(!empty($filter['value']) && !is_array($filter['value'])) {
 			$filter['value'] = t3lib_div::trimExplode(',', $filter['value'], true);
 		}
-		
+
 		foreach($filter['value'] as &$value) {
 			if(is_numeric($value)) {
 				$value = intval($value);
@@ -377,10 +377,10 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		}
 		return empty($filter['value']) ? null : $filter;
 	}
-	
+
 	/**
 	 * sanitizing the given filters
-	 * 
+	 *
 	 * @param $filters
 	 * @param $prefix
 	 * @return array
@@ -389,9 +389,9 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		if(!is_array($filters)) {
 			return null;
 		}
-		
+
 		$return = array();
-		
+
 		foreach($filters as $name => $filter) {
 			if($this->isFilter($filter)) {
 				$cleanedFilter = self::sanitizeFilter($filter);
@@ -401,7 +401,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			} else {
 				if(is_array($filter)) {
 					$return = array_merge(
-						$return, 
+						$return,
 						$this->setupFilters($filter, $prefix.$name.'.')
 					);
 				}
@@ -409,19 +409,19 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		}
 		return $return;
 	}
-	
+
 	/**
 	 * check if a given value is a filter
-	 * 
+	 *
 	 * @param mixed $filter
 	 */
 	protected function isFilter($filter) {
 		return !is_array($filter) || array_key_exists('negate', $filter) || array_key_exists('value', $filter);
 	}
-	
+
 	/**
 	 * make a given slug unique among all records
-	 * 
+	 *
 	 * @param $slug
 	 * @param $uid
 	 * @return string the unique slug
@@ -456,7 +456,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			));
 			$query->setLimit(1);
 			$result = $query->execute();
-			
+
 			if($result->count() === 0) {
 				return $slug.'-1';
 			} else {
@@ -465,20 +465,20 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			}
 		}
 	}
-	
+
 	/**
 	 * call an event before adding an event to the repo
-	 * 
+	 *
 	 * @see Classes/Persistence/Tx_Extbase_Persistence_Repository::add()
 	 */
 	public function add($object) {
 		$object->preCreate();
 		parent::add($object);
 	}
-	
+
 	/**
 	 * get a list of upcomming appointments by an event uid
-	 * 
+	 *
 	 * @param integer $eventUid
 	 * @param integer $limit
 	 */
@@ -490,7 +490,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			$query->greaterThanOrEqual('start', time())
 		));
 		$query->setOrderings(array('start' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
-		
+
 		return $query->execute();
 	}
 }

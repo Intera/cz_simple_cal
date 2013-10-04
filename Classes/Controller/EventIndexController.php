@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -33,14 +33,14 @@
  */
 
 class Tx_CzSimpleCal_Controller_EventIndexController extends Tx_CzSimpleCal_Controller_BaseExtendableController {
-	
+
 	/**
 	 * override this property so that no empty view will be created
 	 */
 	protected $defaultViewObjectName = 'Tx_CzSimpleCal_View_EventIndex';
-	
+
 	protected $controllerName = 'EventIndex';
-	
+
 	/**
 	 * @var Tx_CzSimpleCal_Domain_Repository_EventRepository
 	 */
@@ -48,39 +48,39 @@ class Tx_CzSimpleCal_Controller_EventIndexController extends Tx_CzSimpleCal_Cont
 
 	/**
 	 * inject an eventRepository
-	 * 
+	 *
 	 * @param Tx_CzSimpleCal_Domain_Repository_EventRepository $eventRepository
 	 */
 	public function injectEventRepository(Tx_CzSimpleCal_Domain_Repository_EventRepository $eventRepository) {
 		$this->eventRepository = $eventRepository;
 	}
-		
+
 	/**
 	 * @var Tx_CzSimpleCal_Domain_Repository_EventIndexRepository
 	 */
 	protected $eventIndexRepository;
-	
+
 	/**
 	 * inject an eventIndexRepository
-	 * 
+	 *
 	 * @param Tx_CzSimpleCal_Domain_Repository_EventRepository $eventRepository
 	 */
 	public function injectEventIndexRepository(Tx_CzSimpleCal_Domain_Repository_EventIndexRepository $eventIndexRepository) {
 		$this->eventIndexRepository = $eventIndexRepository;
 	}
-	
+
 	/**
 	 * builds a list of some events
-	 * 
+	 *
 	 * @return null
 	 */
 	public function listAction() {
 		$start = $this->getStartDate();
 		$end = $this->getEndDate();
-		
+
 		$this->view->assign('start', $start);
 		$this->view->assign('end', $end);
-		
+
 		$this->view->assign(
 			'events',
 			$this->eventIndexRepository->findAllWithSettings(array_merge(
@@ -92,17 +92,17 @@ class Tx_CzSimpleCal_Controller_EventIndexController extends Tx_CzSimpleCal_Cont
 			))
 		);
 	}
-	
+
 	/**
 	 * count events and group them by an according timespan
 	 */
 	public function countEventsAction() {
 		$start = $this->getStartDate();
 		$end = $this->getEndDate();
-		
+
 		$this->view->assign('start', $start);
 		$this->view->assign('end', $end);
-		
+
 		$this->view->assign(
 			'data',
 			$this->eventIndexRepository->countAllWithSettings(array_merge(
@@ -114,29 +114,29 @@ class Tx_CzSimpleCal_Controller_EventIndexController extends Tx_CzSimpleCal_Cont
 			))
 		);
 	}
-	
+
 	/**
 	 * display a single event
-	 * 
+	 *
 	 * @param integer $event
 	 * @return null
 	 */
 	public function showAction($event) {
-		
+
 		/* don't let Extbase fetch the event
 		 * as you won't be able to extend the model
 		 * via an extension
 		 */
 		$event = $this->eventIndexRepository->findByUid($event);
-		
+
 		if(empty($event)) {
 			$this->throwStatus(404, 'Not found', 'The requested event could not be found.');
 		}
-		
+
 		$this->view->assign('event', $event);
 	}
-	
-	
+
+
 	/**
 	 * get the start date of events that should be fetched
 	 *
@@ -155,10 +155,10 @@ class Tx_CzSimpleCal_Controller_EventIndexController extends Tx_CzSimpleCal_Cont
 			return null;
 		}
 	}
-	
+
 	/**
 	 * get the end date of events that should be fetched
-	 * 
+	 *
 	 * @todo getDate support
 	 * @return DateTime
 	 */

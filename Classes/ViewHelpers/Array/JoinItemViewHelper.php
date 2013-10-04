@@ -21,7 +21,7 @@
  *                                                                        */
 
 /**
- * 
+ *
  *
  * @version $Id: JoinViewHelper.php$
  * @package Fluid
@@ -43,10 +43,10 @@ class Tx_CzSimpleCal_ViewHelpers_Array_JoinItemViewHelper extends Tx_Fluid_Core_
 		if(!$this->viewHelperVariableContainer->exists($viewHelperName, $key)) {
 			throw LogicException(sprintf('%s must be used as child of %s.', get_class($this), $viewHelperName));
 		}
-		
+
 		$values = $this->viewHelperVariableContainer->get($viewHelperName, $key);
 		$values[] = $this->renderChildren();
-		
+
 		$this->viewHelperVariableContainer->addOrUpdate($viewHelperName, $key, $values);
 	}
 }

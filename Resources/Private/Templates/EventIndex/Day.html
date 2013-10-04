@@ -5,7 +5,7 @@
 <div class="vcalendar vcalendar-day">
 <f:if condition="{events}">
 	<f:then>
-		<f:for each="{events}" as="event">			
+		<f:for each="{events}" as="event">
 			<f:render partial="EventIndex/event-for-list.html" arguments="{event: event, settings:settings}" />
 		</f:for>
 	</f:then>

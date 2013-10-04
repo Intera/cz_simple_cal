@@ -1,22 +1,22 @@
-<?php 
+<?php
 
 /**
  * sanitizes and validates a given date
- * 
+ *
  * @author Christian Zenker <christian.zenker@599media.de>
  */
 class Tx_CzSimpleCal_Domain_Validator_TimeValidator extends Tx_Extbase_Validation_Validator_AbstractValidator {
-	
+
 	public function isValid($value) {
 		$setterMethodName = 'set'.$this->options['propertyName'];
 		$getterMethodName = 'get'.$this->options['propertyName'];
 		$object = $this->options['object'];
-		
+
 		// check that value and domain property match
 		if($value != $object->{$getterMethodName}()) {
 			throw new RuntimeException('the given value and the value of the object don\'t match in '.get_class($this));
 		}
-		
+
 		// required
 		if(empty($value)) {
 			if($this->options['required']) {
@@ -26,7 +26,7 @@ class Tx_CzSimpleCal_Domain_Validator_TimeValidator extends Tx_Extbase_Validatio
 				return true;
 			}
 		}
-		
+
 		// sanitize input
 		if(is_numeric($value) && $value > 0) {
 			$object->{$setterMethodName}(intval($value));
@@ -46,18 +46,18 @@ class Tx_CzSimpleCal_Domain_Validator_TimeValidator extends Tx_Extbase_Validatio
 			}
 			$time = 3600 * $hour + $min * 60;
 		}
-		
-		
+
+
 		if($time < 0 || $time > 3600 * 24) {
 			$this->addError('could not be parsed.', 'parseError');
 			return false;
 		}
-		
+
 		$object->{$setterMethodName}($time);
 		return true;
 	}
-	
-	
+
+
 }
 
 ?>

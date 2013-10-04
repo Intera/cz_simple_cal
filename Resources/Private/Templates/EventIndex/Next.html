@@ -8,7 +8,7 @@
 			<cal:calendar.onNewDay event="{event}">
 				<f:render partial="EventIndex/dayWrapper.html" arguments="{event: event, settings:settings}" />
 			</cal:calendar.onNewDay>
-			
+
 			<f:render partial="EventIndex/event-for-list.html" arguments="{event: event, settings:settings}" />
 		</f:for>
 	</f:then>

@@ -1,28 +1,28 @@
-<?php 
+<?php
 require_once(t3lib_extmgm::extPath('fluid') . 'Tests/Unit/ViewHelpers/ViewHelperBaseTestcase.php');
- 
+
 /**
  * testing the features of the Condition_CompareViewHelper
- * 
+ *
  * @author Christian Zenker <christian.zenker@599media.de>
  */
 class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBaseTestcase {
-	
+
 	protected $viewHelper = null;
 	protected $viewHelperVariableContainer = null;
 	protected $viewHelperNode = null;
-	
-	
+
+
 	public function setUp() {
 		parent::setUp();
-		
+
 		$this->initViewHelper();
 	}
-	
+
 	protected function initViewHelper() {
 		$this->viewHelper = new Tx_CzSimpleCal_ViewHelpers_Condition_CompareViewHelper();
 	}
-	
+
 	/**
 	 * @dataProvider provideDataForEquals
 	 */
@@ -30,7 +30,7 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '='));
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '=='));
 	}
-	
+
 	public function provideDataForEquals() {
 		$array = array(
 			array(true, true, true),
@@ -43,7 +43,7 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 			array(42, '42', true),
 			array(42, 42.00, true),
 			array('42', 42.00, true),
-			
+
 			array(false, true, false),
 			array(false, 42, false),
 			array(false, '42', false),
@@ -53,7 +53,7 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 			array(42, 42.0001, false),
 			array('foobar', 42.00, false),
 		);
-		
+
 		$labels = array();
 		foreach($array as $value) {
 			$labels[] = sprintf(
@@ -65,14 +65,14 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		}
 		return array_combine($labels, $array);
 	}
-	
+
 	/**
 	 * @dataProvider provideDataForSame
 	 */
 	public function testSame($value1, $value2, $expected) {
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '==='));
 	}
-	
+
 	public function provideDataForSame() {
 		$array = array(
 			array(true, true, true),
@@ -85,7 +85,7 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 			array(42, '42', false),
 			array(42, 42.00, false),
 			array('42', 42.00, false),
-			
+
 			array(false, true, false),
 			array(false, 42, false),
 			array(false, '42', false),
@@ -95,7 +95,7 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 			array(42, 42.0001, false),
 			array('foobar', 42.00, false),
 		);
-		
+
 		$labels = array();
 		foreach($array as $value) {
 			$labels[] = sprintf(
@@ -107,7 +107,7 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		}
 		return array_combine($labels, $array);
 	}
-	
+
 	/**
 	 * @dataProvider provideDataForNotEquals
 	 */
@@ -115,11 +115,11 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '!='));
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '<>'));
 	}
-	
+
 	public function provideDataForNotEquals() {
 		$array = $this->provideDataForEquals();
 		$outArray = array();
-		
+
 		foreach($array as $label => $config) {
 			$label = strtr($label, array(
 				'==' => '!=',
@@ -134,20 +134,20 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		}
 		return $outArray;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * @dataProvider provideDataForNotSame
 	 */
 	public function testNotSame($value1, $value2, $expected) {
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '!=='));
 	}
-	
+
 	public function provideDataForNotSame() {
 		$array = $this->provideDataForSame();
 		$outArray = array();
-		
+
 		foreach($array as $label => $config) {
 			$label = strtr($label, array(
 				'===' => '!==',
@@ -162,14 +162,14 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		}
 		return $outArray;
 	}
-	
+
 	/**
 	 * @dataProvider provideDataForGreaterThan
 	 */
 	public function testGreaterThan($value1, $value2, $expected) {
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '>'));
 	}
-	
+
 	public function provideDataForGreaterThan() {
 		$array = array(
 			array(true, true, false),
@@ -183,20 +183,20 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 			array(42, '42', false),
 			array(42, 42.00, false),
 			array('42', 42.00, false),
-			
+
 			array(true, false, true),
 			array(4, 2, true),
 			array('4', 2, true),
 			array(4.00, 2, true),
 			array(pi(), 2, true),
-			
+
 			array(false, true, false),
 			array(2, 4, false),
 			array(2, '4', false),
 			array(2, 4.00, false),
 			array(2, pi(), false),
 		);
-		
+
 		$labels = array();
 		foreach($array as $value) {
 			$labels[] = sprintf(
@@ -208,7 +208,7 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		}
 		return array_combine($labels, $array);
 	}
-	
+
 	/**
 	 * @dataProvider provideDataForGreaterThanEquals
 	 */
@@ -216,7 +216,7 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '>='));
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '=>'));
 	}
-	
+
 	public function provideDataForGreaterThanEquals() {
 		$array = array(
 			array(true, true, true),
@@ -230,20 +230,20 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 			array(42, '42', true),
 			array(42, 42.00, true),
 			array('42', 42.00, true),
-			
+
 			array(true, false, true),
 			array(4, 2, true),
 			array('4', 2, true),
 			array(4.00, 2, true),
 			array(pi(), 2, true),
-			
+
 			array(false, true, false),
 			array(2, 4, false),
 			array(2, '4', false),
 			array(2, 4.00, false),
 			array(2, pi(), false),
 		);
-		
+
 		$labels = array();
 		foreach($array as $value) {
 			$labels[] = sprintf(
@@ -255,18 +255,18 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		}
 		return array_combine($labels, $array);
 	}
-	
+
 	/**
 	 * @dataProvider provideDataForLessThan
 	 */
 	public function testLessThan($value1, $value2, $expected) {
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '<'));
 	}
-	
+
 	public function provideDataForLessThan() {
 		$array = $this->provideDataForGreaterThanEquals();
 		$outArray = array();
-		
+
 		foreach($array as $label => $config) {
 			$label = strtr($label, array(
 				'&gt;=' => '&lt;',
@@ -281,18 +281,18 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		}
 		return $outArray;
 	}
-	
+
 	/**
 	 * @dataProvider provideDataForLessThanEquals
 	 */
 	public function testLessThanEquals($value1, $value2, $expected) {
 		self::assertSame($expected, $this->viewHelper->render($value1, $value2, '<='));
 	}
-	
+
 	public function provideDataForLessThanEquals() {
 		$array = $this->provideDataForGreaterThan();
 		$outArray = array();
-		
+
 		foreach($array as $label => $config) {
 			$label = strtr($label, array(
 				'&gt;' => '&lt;=',
@@ -307,11 +307,11 @@ class Condition_CompareViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBas
 		}
 		return $outArray;
 	}
-	
-	
+
+
 	/**
 	 * helps rendering a value and its type for atomic values
-	 * 
+	 *
 	 * @param mixed $value
 	 * @return string
 	 */

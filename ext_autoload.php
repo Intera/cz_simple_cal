@@ -10,24 +10,24 @@ return array(
 	'tx_czsimplecal_hook_cmdmap' => $extensionClassesPath . 'Hook/Cmdmap.php',
 
 	'tx_czsimplecal_utility_flexconfig' => $extensionClassesPath . 'Utility/FlexConfig.php',
-	
+
 
 	//needed for tests
 	'tx_czsimplecal_test_baseseleniumtestcase' => t3lib_extMgm::extPath('cz_simple_cal') . 'Tests/BaseSeleniumTestCase.php',
 
 
 	/**
-	 * 
+	 *
 	 * quickfix. The pre-save hook of records could not find the repository
 	 * the new dispatcher and DI should fix this later on.
-	 * 
+	 *
 	 * @todo remove this if no longer needed
-	 */ 
+	 */
 	'tx_czsimplecal_domain_repository_eventrepository' => $extensionClassesPath . 'Domain/Repository/EventRepository.php',
 	'tx_czsimplecal_domain_repository_eventindexrepository' => $extensionClassesPath . 'Domain/Repository/EventIndexRepository.php',
 	'tx_czsimplecal_domain_repository_categoryrepository' => $extensionClassesPath . 'Domain/Repository/CategoryRepository.php',
 	'tx_czsimplecal_domain_repository_exceptionrepository' => $extensionClassesPath . 'Domain/Repository/ExceptionRepository.php',
-	
+
 	'tx_czsimplecal_domain_model_base' => $extensionClassesPath . 'Domain/Model/Base.php',
 	'tx_czsimplecal_domain_model_baseaddress' => $extensionClassesPath . 'Domain/Model/BaseAddress.php',
 	'tx_czsimplecal_domain_model_baseevent' => $extensionClassesPath . 'Domain/Model/BaseEvent.php',
@@ -38,7 +38,7 @@ return array(
 	'tx_czsimplecal_domain_model_exceptiongroup' => $extensionClassesPath . 'Domain/Model/ExceptionGroup.php',
 	'tx_czsimplecal_domain_model_location' => $extensionClassesPath . 'Domain/Model/Location.php',
 	'tx_czsimplecal_domain_model_organizer' => $extensionClassesPath . 'Domain/Model/Organizer.php',
-	
+
 	'tx_czsimplecal_domain_interface_hastimespan' => $extensionClassesPath . 'Domain/Interface/HasTimespan.php',
 	'tx_czsimplecal_domain_interface_isrecurring' => $extensionClassesPath . 'Domain/Interface/IsRecurring.php',
 
@@ -60,6 +60,6 @@ return array(
 	'tx_czsimplecal_utility_flexconfig' => $extensionClassesPath . 'Utility/FlexConfig.php',
 	'tx_czsimplecal_utility_inflector' => $extensionClassesPath . 'Utility/Inflector.php',
 	'tx_czsimplecal_utility_strtotime' => $extensionClassesPath . 'Utility/StrToTime.php',
-	
+
 );
 ?>

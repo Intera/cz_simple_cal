@@ -20,7 +20,7 @@
 
 /**
  * get the hostname of a url
- * 
+ *
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @author Christian Zenker <christian.zenker@599media.de>
  */
@@ -37,7 +37,7 @@ class Tx_CzSimpleCal_ViewHelpers_Format_HostNameViewHelper extends Tx_Fluid_Core
 		if(empty($uri)) {
 			return '';
 		}
-		
+
 		if(strpos($uri, '://') === false) {
 			$uri = 'http://'.$uri;
 		}

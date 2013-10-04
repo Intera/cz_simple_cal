@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Tx_CzSimpleCal_Hook_Datamap {
 
@@ -6,7 +6,7 @@ class Tx_CzSimpleCal_Hook_Datamap {
 	 * @var Tx_CzSimpleCal_Domain_Repository_EventRepository
 	 */
 	protected $eventRepository;
-	
+
 	/**
 	 * the extbase framework is not initialized in the constructor anymore
 	 * because initializing the framework is costy
@@ -16,13 +16,13 @@ class Tx_CzSimpleCal_Hook_Datamap {
 	public function __construct() {
 		/* don't do any extbasy stuff here! */
 	}
-	
+
 	/**
 	 * implements the hook processDatamap_afterDatabaseOperations that gets invoked
 	 * when a form in the backend was saved and written to the database.
-	 * 
+	 *
 	 * Here we will do the caching of recurring events
-	 * 
+	 *
 	 * @param string $status
 	 * @param string $table
 	 * @param integer $id
@@ -33,26 +33,26 @@ class Tx_CzSimpleCal_Hook_Datamap {
 		$GLOBALS['LANG']->includeLLFile('EXT:cz_simple_cal/Resources/Private/Language/locallang_mod.xml');
 		if ($table == 'tx_czsimplecal_domain_model_event') {
 			//if: an event was changed
-			
+
 			if($status == 'new') {
 				// if: record is new
 				$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 				$indexer = $objectManager->get('Tx_CzSimpleCal_Indexer_Event');
-				
+
 				// get the uid of the new record
 				if(!is_numeric($id)) {
 					$id = $tce->substNEWwithIDs[$id];
 				}
-				
+
 				// create the slug
-				
+
 				$event = $this->fetchEventObject($id);
 				$event->generateSlug();
 				$this->getEventRepository()->update($event);
-				
+
 				// index events
 				$indexer->create($event);
-				
+
 				$message = t3lib_div::makeInstance(
 					't3lib_FlashMessage',
 					$GLOBALS['LANG']->getLL('flashmessages.tx_czsimplecal_domain_model_event.create'),
@@ -60,15 +60,15 @@ class Tx_CzSimpleCal_Hook_Datamap {
 					t3lib_FlashMessage::OK
 				);
 				t3lib_FlashMessageQueue::addMessage($message);
-				
-				
+
+
 			} else {
 				if($this->haveFieldsChanged(Tx_CzSimpleCal_Domain_Model_Event::getFieldsRequiringReindexing(), $fieldArray)) {
 					//if: record was updated and a value that requires re-indexing was changed
 					$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 					$indexer = $objectManager->get('Tx_CzSimpleCal_Indexer_Event');
 					$indexer->update($id);
-					
+
 					$message = t3lib_div::makeInstance(
 						't3lib_FlashMessage',
 						$GLOBALS['LANG']->getLL('flashmessages.tx_czsimplecal_domain_model_event.updateAndIndex'),
@@ -76,7 +76,7 @@ class Tx_CzSimpleCal_Hook_Datamap {
 						t3lib_FlashMessage::OK
 					);
 					t3lib_FlashMessageQueue::addMessage($message);
-					
+
 				} else {
 					$message = t3lib_div::makeInstance(
 						't3lib_FlashMessage',
@@ -89,12 +89,12 @@ class Tx_CzSimpleCal_Hook_Datamap {
 			}
 		}
 	}
-	
+
 	/**
 	 * treat the values before handling by t3lib_TCEmain
-	 * 
+	 *
 	 * We replace empty values with our custom NULL values here for dates and times
-	 * 
+	 *
 	 * @param array $fieldArray
 	 * @param string $table
 	 * @param integer $id
@@ -102,11 +102,11 @@ class Tx_CzSimpleCal_Hook_Datamap {
 	 */
 	public function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, $tce) {
 		if($table == 'tx_czsimplecal_domain_model_event' || $table == 'tx_czsimplecal_domain_model_exception') {
-			
+
 			t3lib_div::loadTCA($table);
 			foreach(array('start_time', 'end_date', 'end_time', 'recurrance_until') as $fieldName) {
 				if(array_key_exists($fieldName, $fieldArray)) {
-					/* 
+					/*
 					 * this must be an empty string, not "0"!
 					 *  - empty strings are created by the clear field button introduced with TYPO3 4.5 and by deleting a value
 					 *  - "0" means midnight, so don't strip it
@@ -118,11 +118,11 @@ class Tx_CzSimpleCal_Hook_Datamap {
 			}
 		}
 	}
-	
+
 	/**
 	 * implement the hook processDatamap_postProcessFieldArray that gets invoked
 	 * right before a dataset is written to the database
-	 * 
+	 *
 	 * @param $status
 	 * @param $table
 	 * @param $id
@@ -131,16 +131,16 @@ class Tx_CzSimpleCal_Hook_Datamap {
 	 * @return null
 	 */
 	public function processDatamap_postProcessFieldArray($status, $table, $id, &$fieldArray, $tce) {
-		
+
 		if($table == 'tx_czsimplecal_domain_model_event' || $table == 'tx_czsimplecal_domain_model_exception') {
 			// store the timezone to the database
 			$fieldArray['timezone'] = date('T');
 		}
 	}
-	
+
 	/**
-	 * check if fields have been changed in the record 
-	 * 
+	 * check if fields have been changed in the record
+	 *
 	 * @param $fields
 	 * @return boolean
 	 */
@@ -151,10 +151,10 @@ class Tx_CzSimpleCal_Hook_Datamap {
 		);
 		return !empty($criticalFields);
 	}
-	
+
 	/**
 	 * get an event object by its uid
-	 * 
+	 *
 	 * @param integer $id
 	 * @throws InvalidArgumentException
 	 * @return Tx_CzSimpleCal_Domain_Model_Event
@@ -166,13 +166,13 @@ class Tx_CzSimpleCal_Hook_Datamap {
 		}
 		return $event;
 	}
-	
-	
+
+
 	/**
 	 * get the event repository
-	 * 
+	 *
 	 * this wrapper is needed so we just initialize the extbase framework if it is needed
-	 * 
+	 *
 	 * @see __construct()
 	 * @return Tx_CzSimpleCal_Domain_Repository_EventRepository
 	 */
@@ -183,5 +183,5 @@ class Tx_CzSimpleCal_Hook_Datamap {
 		}
 		return $this->eventRepository;
 	}
-	
+
 }

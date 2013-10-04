@@ -10,13 +10,13 @@
  *
  *         DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
  * TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- * 
+ *
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
 /**
  * A view helper to return true if one of the values is not empty
- * 
+ *
  * @license WTFPL
  * @author Christian Zenker <christian.zenker@599media.de>
  */

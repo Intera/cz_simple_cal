@@ -7,7 +7,7 @@
 			<thead>
 				<tr>
 					<td colspan="8">
-						<f:link.action 
+						<f:link.action
 							action="minimonth"
 							arguments="{getDate:'{cal:format.dateTime(timestamp: dayOfMonth.date, get:\'first day of last month\')}'}"
 							title="{cal:format.dateTime(timestamp: dayOfMonth.date, get:'first day of last month', format:'{f:translate(key:\'format.monthAndYear\')}')}"
@@ -27,21 +27,21 @@
 					</f:for>
 				</tr>
 			</thead>
-			
-			
+
+
 			<tbody>
 				<f:for each="{data}" as="day">
 					<f:if condition="{cal:format.dateTime(timestamp: day.date, format: '%u')} == 1">
 						<tr><f:render partial="EventIndex/minimonth/woy.html" arguments="{day: day, settings:settings, actionSettings: actionSettings, monthNumber: monthNumber}"></f:render>
 					</f:if>
-					
+
 					<f:render partial="EventIndex/minimonth/day.html" arguments="{day: day, settings:settings, actionSettings: actionSettings, monthNumber: monthNumber}"></f:render>
-					
+
 					<f:if condition="{cal:format.dateTime(timestamp: day.date, format: '%u')} == 7"></tr></f:if>
 				</f:for>
 			</tbody>
 		</table>
-		
+
 		</f:alias>
 	</f:then>
 </f:if>

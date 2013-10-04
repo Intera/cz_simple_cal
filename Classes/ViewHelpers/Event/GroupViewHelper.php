@@ -23,9 +23,9 @@
  * @author Christian Zenker <christian.zenker@599media.de>
  */
 class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
-	
+
 	/**
-	 * 
+	 *
 	 * @param array $events the events
 	 * @param string $as the variable name the group events should be written to
 	 * @param string $by one of the supported types
@@ -48,17 +48,17 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 		} else {
 			throw new InvalidArgumentException(sprintf('%s can\'t group by "%s". Maybe a misspelling?', get_class($this), $by));
 		}
-		
+
 		$this->templateVariableContainer->add($as, $events);
 			$output = $this->renderChildren();
 		$this->templateVariableContainer->remove($as);
-		
+
 		return $output;
 	}
-	
+
 	/**
 	 * do grouping by some time related constraint
-	 * 
+	 *
 	 * @param Tx_Extbase_Persistence_QueryResultInterface $events
 	 * @param string $string
 	 * @return array
@@ -73,15 +73,15 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 					'events' => array(),
 				);
 			}
-			
+
 			$result[$key]['events'][] = $event;
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * do grouping by location
-	 * 
+	 *
 	 * @param $events
 	 */
 	protected function groupByLocation($events) {
@@ -94,15 +94,15 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 					'events' => array(),
 				);
 			}
-			
+
 			$result[$locationKey]['events'][] = $event;
 		}
 		return $this->order($result);
 	}
-	
+
 	/**
 	 * do grouping by organizer
-	 * 
+	 *
 	 * @param $events
 	 */
 	protected function groupByOrganizer($events) {
@@ -115,12 +115,12 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 					'events' => array(),
 				);
 			}
-			
+
 			$result[$organizerKey]['events'][] = $event;
 		}
 		return $this->order($result);
 	}
-	
+
 	protected function order($events) {
 		if(!$this->arguments['orderBy'] && !$this->arguments['order']) {
 			return $events;
@@ -133,17 +133,17 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 			}
 		}
 	}
-	
+
 	protected $orderGetMethodName = null;
-	
+
 	protected function orderByObjectMethod($a, $b) {
 		if(strlen($this->orderGetMethodName) < 5) {
 			throw new UnexpectedValueException(sprintf('%s was called without setting a getMethodName', __FUNCTION__, $code));
 		}
-		
+
 		$aValue = call_user_func(array($a['info'], $this->orderGetMethodName));
 		$bValue = call_user_func(array($b['info'], $this->orderGetMethodName));
-		
+
 		return $aValue < $bValue ? -1 : ($aValue > $bValue ? 1 : 0);
 	}
 }

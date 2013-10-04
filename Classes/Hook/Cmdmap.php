@@ -1,9 +1,9 @@
-<?php 
+<?php
 
 class Tx_CzSimpleCal_Hook_Cmdmap {
 	/**
 	 * implements the hook processCmdmap_postProcess
-	 * 
+	 *
 	 * @param unknown_type $command
 	 * @param unknown_type $table
 	 * @param unknown_type $id
@@ -15,7 +15,7 @@ class Tx_CzSimpleCal_Hook_Cmdmap {
 			//if: an event was changed
 			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 			$indexer = $objectManager->get('Tx_CzSimpleCal_Indexer_Event');
-			
+
 			if($command === 'move') {
 				$indexer->update($id);
 			} elseif($command === 'delete') {

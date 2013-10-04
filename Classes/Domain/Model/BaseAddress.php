@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,14 +38,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * @var integer pid
 	 */
 	protected $pid;
-	
+
 	/**
 	 * the property hidden
 	 *
 	 * @var boolean hidden
 	 */
 	protected $hidden;
-	
+
 	/**
 	 * getter for hidden
 	 *
@@ -54,10 +54,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getHidden() {
 		return $this->hidden;
 	}
-	
+
 	/**
 	 * setter for hidden
-	 * 
+	 *
 	 * @param boolean $hidden
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -65,14 +65,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->hidden = $hidden;
 		return $this;
 	}
-	
+
 	/**
 	 * the property gender
 	 *
 	 * @var string gender
 	 */
 	protected $gender;
-	
+
 	/**
 	 * getter for gender
 	 *
@@ -81,10 +81,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getGender() {
 		return $this->gender;
 	}
-	
+
 	/**
 	 * setter for gender
-	 * 
+	 *
 	 * @param string $gender
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -92,14 +92,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->gender = $gender;
 		return $this;
 	}
-	
+
 	/**
 	 * the property name
 	 *
 	 * @var string name
 	 */
 	protected $name;
-	
+
 	/**
 	 * getter for name
 	 *
@@ -108,10 +108,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getName() {
 		return $this->name;
 	}
-	
+
 	/**
 	 * setter for name
-	 * 
+	 *
 	 * @param string $name
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -119,14 +119,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->name = $name;
 		return $this;
 	}
-	
+
 	/**
 	 * the property firstName
 	 *
 	 * @var string firstName
 	 */
 	protected $firstName;
-	
+
 	/**
 	 * getter for firstName
 	 *
@@ -135,10 +135,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getFirstName() {
 		return $this->firstName;
 	}
-	
+
 	/**
 	 * setter for firstName
-	 * 
+	 *
 	 * @param string $firstName
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -146,14 +146,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->firstName = $firstName;
 		return $this;
 	}
-	
+
 	/**
 	 * the property middleName
 	 *
 	 * @var string middleName
 	 */
 	protected $middleName;
-	
+
 	/**
 	 * getter for middleName
 	 *
@@ -162,10 +162,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getMiddleName() {
 		return $this->middleName;
 	}
-	
+
 	/**
 	 * setter for middleName
-	 * 
+	 *
 	 * @param string $middleName
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -173,14 +173,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->middleName = $middleName;
 		return $this;
 	}
-	
+
 	/**
 	 * the property lastName
 	 *
 	 * @var string lastName
 	 */
 	protected $lastName;
-	
+
 	/**
 	 * getter for lastName
 	 *
@@ -189,10 +189,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getLastName() {
 		return $this->lastName;
 	}
-	
+
 	/**
 	 * setter for lastName
-	 * 
+	 *
 	 * @param string $lastName
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -200,14 +200,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->lastName = $lastName;
 		return $this;
 	}
-	
+
 	/**
 	 * the property title
 	 *
 	 * @var string title
 	 */
 	protected $title;
-	
+
 	/**
 	 * getter for title
 	 *
@@ -216,10 +216,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getTitle() {
 		return $this->title;
 	}
-	
+
 	/**
 	 * setter for title
-	 * 
+	 *
 	 * @param string $title
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -227,14 +227,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->title = $title;
 		return $this;
 	}
-	
+
 	/**
 	 * the property address
 	 *
 	 * @var string address
 	 */
 	protected $address;
-	
+
 	/**
 	 * getter for address
 	 *
@@ -243,10 +243,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getAddress() {
 		return $this->address;
 	}
-	
+
 	/**
 	 * setter for address
-	 * 
+	 *
 	 * @param string $address
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -254,14 +254,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->address = $address;
 		return $this;
 	}
-	
+
 	/**
 	 * the property building
 	 *
 	 * @var string building
 	 */
 	protected $building;
-	
+
 	/**
 	 * getter for building
 	 *
@@ -270,10 +270,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getBuilding() {
 		return $this->building;
 	}
-	
+
 	/**
 	 * setter for building
-	 * 
+	 *
 	 * @param string $building
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -281,14 +281,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->building = $building;
 		return $this;
 	}
-	
+
 	/**
 	 * the property room
 	 *
 	 * @var string room
 	 */
 	protected $room;
-	
+
 	/**
 	 * getter for room
 	 *
@@ -297,10 +297,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getRoom() {
 		return $this->room;
 	}
-	
+
 	/**
 	 * setter for room
-	 * 
+	 *
 	 * @param string $room
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -308,14 +308,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->room = $room;
 		return $this;
 	}
-	
+
 	/**
 	 * the property birthday
 	 *
 	 * @var DateTime birthday
 	 */
 	protected $birthday;
-	
+
 	/**
 	 * getter for birthday
 	 *
@@ -324,10 +324,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getBirthday() {
 		return $this->birthday;
 	}
-	
+
 	/**
 	 * setter for birthday
-	 * 
+	 *
 	 * @param DateTime $birthday
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -335,14 +335,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->birthday = $birthday;
 		return $this;
 	}
-	
+
 	/**
 	 * the property phone
 	 *
 	 * @var string phone
 	 */
 	protected $phone;
-	
+
 	/**
 	 * getter for phone
 	 *
@@ -351,10 +351,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getPhone() {
 		return $this->phone;
 	}
-	
+
 	/**
 	 * setter for phone
-	 * 
+	 *
 	 * @param string $phone
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -362,14 +362,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->phone = $phone;
 		return $this;
 	}
-	
+
 	/**
 	 * the property fax
 	 *
 	 * @var string fax
 	 */
 	protected $fax;
-	
+
 	/**
 	 * getter for fax
 	 *
@@ -378,10 +378,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getFax() {
 		return $this->fax;
 	}
-	
+
 	/**
 	 * setter for fax
-	 * 
+	 *
 	 * @param string $fax
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -389,14 +389,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->fax = $fax;
 		return $this;
 	}
-	
+
 	/**
 	 * the property mobile
 	 *
 	 * @var string mobile
 	 */
 	protected $mobile;
-	
+
 	/**
 	 * getter for mobile
 	 *
@@ -405,10 +405,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getMobile() {
 		return $this->mobile;
 	}
-	
+
 	/**
 	 * setter for mobile
-	 * 
+	 *
 	 * @param string $mobile
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -416,14 +416,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->mobile = $mobile;
 		return $this;
 	}
-	
+
 	/**
 	 * the property www
 	 *
 	 * @var string www
 	 */
 	protected $www;
-	
+
 	/**
 	 * getter for www
 	 *
@@ -432,10 +432,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getWww() {
 		return $this->www;
 	}
-	
+
 	/**
 	 * setter for www
-	 * 
+	 *
 	 * @param string $www
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -443,14 +443,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->www = $www;
 		return $this;
 	}
-	
+
 	/**
 	 * the property email
 	 *
 	 * @var string email
 	 */
 	protected $email;
-	
+
 	/**
 	 * getter for email
 	 *
@@ -459,10 +459,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getEmail() {
 		return $this->email;
 	}
-	
+
 	/**
 	 * setter for email
-	 * 
+	 *
 	 * @param string $email
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -470,14 +470,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->email = $email;
 		return $this;
 	}
-	
+
 	/**
 	 * the property company
 	 *
 	 * @var string company
 	 */
 	protected $company;
-	
+
 	/**
 	 * getter for company
 	 *
@@ -486,10 +486,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getCompany() {
 		return $this->company;
 	}
-	
+
 	/**
 	 * setter for company
-	 * 
+	 *
 	 * @param string $company
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -497,14 +497,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->company = $company;
 		return $this;
 	}
-	
+
 	/**
 	 * the property city
 	 *
 	 * @var string city
 	 */
 	protected $city;
-	
+
 	/**
 	 * getter for city
 	 *
@@ -513,10 +513,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getCity() {
 		return $this->city;
 	}
-	
+
 	/**
 	 * setter for city
-	 * 
+	 *
 	 * @param string $city
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -524,14 +524,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->city = $city;
 		return $this;
 	}
-	
+
 	/**
 	 * the property zip
 	 *
 	 * @var string zip
 	 */
 	protected $zip;
-	
+
 	/**
 	 * getter for zip
 	 *
@@ -540,10 +540,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getZip() {
 		return $this->zip;
 	}
-	
+
 	/**
 	 * setter for zip
-	 * 
+	 *
 	 * @param string $zip
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -551,14 +551,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->zip = $zip;
 		return $this;
 	}
-	
+
 	/**
 	 * the property region
 	 *
 	 * @var string region
 	 */
 	protected $region;
-	
+
 	/**
 	 * getter for region
 	 *
@@ -567,10 +567,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getRegion() {
 		return $this->region;
 	}
-	
+
 	/**
 	 * setter for region
-	 * 
+	 *
 	 * @param string $region
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -578,14 +578,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->region = $region;
 		return $this;
 	}
-	
+
 	/**
 	 * the property country
 	 *
 	 * @var string country
 	 */
 	protected $country;
-	
+
 	/**
 	 * getter for country
 	 *
@@ -594,10 +594,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getCountry() {
 		return $this->country;
 	}
-	
+
 	/**
 	 * setter for country
-	 * 
+	 *
 	 * @param string $country
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -605,21 +605,21 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->country = $country;
 		return $this;
 	}
-	
+
 	/**
 	 * the property image
 	 *
 	 * @var string image
 	 */
 	protected $image;
-	
+
 	/**
 	 * an array used internally to cache the images as an array
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_cache_images = null;
-	
+
 	/**
 	 * getter for image
 	 *
@@ -629,10 +629,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getImage() {
 		return $this->image;
 	}
-	
+
 	/**
 	 * get all images as an array
-	 * 
+	 *
 	 * @return array<Tx_CzEwlSponsor_Domain_Model_File>
 	 */
 	public function getImages() {
@@ -645,10 +645,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		}
 		return $this->_cache_images;
 	}
-	
+
 	/**
 	 * setter for image
-	 * 
+	 *
 	 * @deprecated not a very clever mechanism to set images. This method should be replaced by a setImagesMethod, that handles array input
 	 * @param string $image
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
@@ -657,14 +657,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->image = $image;
 		return $this;
 	}
-	
+
 	/**
 	 * the property description
 	 *
 	 * @var string description
 	 */
 	protected $description;
-	
+
 	/**
 	 * getter for description
 	 *
@@ -673,10 +673,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getDescription() {
 		return $this->description;
 	}
-	
+
 	/**
 	 * setter for description
-	 * 
+	 *
 	 * @param string $description
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -684,19 +684,19 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->description = $description;
 		return $this;
 	}
-	
+
 /**
 	 * the property sorting
-	 * 
+	 *
 	 * Note:
-	 * This is a non-standard property on the 
+	 * This is a non-standard property on the
 	 * tt_address record, but the naming is quite
 	 * common in TYPO3.
 	 *
 	 * @var integer sorting
 	 */
 	protected $sorting;
-	
+
 	/**
 	 * getter for sorting
 	 *
@@ -705,10 +705,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function getSorting() {
 		return $this->sorting;
 	}
-	
+
 	/**
 	 * setter for sorting
-	 * 
+	 *
 	 * @param integer $sorting
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
@@ -716,10 +716,10 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 		$this->sorting = $sorting;
 		return $this;
 	}
-	
+
 	public function __toString() {
 		return $this->getName();
 	}
-	
+
 }
 ?>

@@ -158,7 +158,7 @@ $TCA['tx_czsimplecal_domain_model_event'] = array(
 			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.description',
 			'config' => array (
 				'type' => 'text',
-				'cols' => 40,	   
+				'cols' => 40,
 				'rows' => 6,
 				'wizards' => array(
 					'_PADDING' => 4,
@@ -194,7 +194,7 @@ $TCA['tx_czsimplecal_domain_model_event'] = array(
 			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.images_caption',
 			'config'  => array(
 				'type' => 'text',
-				'cols' => 40,	   
+				'cols' => 40,
 				'rows' => 3,
 			)
 		),
@@ -203,7 +203,7 @@ $TCA['tx_czsimplecal_domain_model_event'] = array(
 			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.images_alternative',
 			'config'  => array(
 				'type' => 'text',
-				'cols' => 40,	   
+				'cols' => 40,
 				'rows' => 3,
 			)
 		),
@@ -229,7 +229,7 @@ $TCA['tx_czsimplecal_domain_model_event'] = array(
 			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.files_caption',
 			'config'  => array(
 				'type' => 'text',
-				'cols' => 40,	   
+				'cols' => 40,
 				'rows' => 3,
 			)
 		),
@@ -402,7 +402,7 @@ $TCA['tx_czsimplecal_domain_model_event'] = array(
 				'size' => 25,
 				'softref' => 'typolink',
 				'type' => 'input',
-		
+
 				'wizards' => array(
 					'_PADDING' => 2,
 					'link' => array(
@@ -496,7 +496,7 @@ if(t3lib_extMgm::isLoaded('static_info_tables')) {
 			'maxitems' => 1,
 		)
 	);
-	
+
 	$TCA['tx_czsimplecal_domain_model_event']['columns']['location_country'] = array(
 		'exclude' => 1,
 		'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.location_country',

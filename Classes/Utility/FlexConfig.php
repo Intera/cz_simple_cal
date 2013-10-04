@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * @author Christian Zenker <christian.zenker@599media.de>
@@ -8,13 +8,13 @@ class Tx_CzSimpleCal_Utility_FlexConfig {
 	public function getAllowedActions($config) {
 		$pid = $config['row']['pid'];
 		$tsConfig = t3lib_befunc::getPagesTSconfig($pid);
-		
+
 		$flexConfig = &$tsConfig['options.']['cz_simple_cal_pi1.']['flexform.'];
-		
+
 		if(empty($flexConfig) || !isset($flexConfig['allowedActions.'])) {
 			return;
 		}
-		
+
 		$allowedActions = array();
 		if(isset($flexConfig['allowedActions'])) {
 			$enabled = array();
@@ -25,7 +25,7 @@ class Tx_CzSimpleCal_Utility_FlexConfig {
 		} else {
 			$allowedActions = $flexConfig['allowedActions.'];
 		}
-		
+
 		foreach($allowedActions as $name => $action) {
 			$name = rtrim($name, '.');
 			$label = $GLOBALS['LANG']->sL($action['label']);
@@ -38,5 +38,5 @@ class Tx_CzSimpleCal_Utility_FlexConfig {
 			);
 		}
 	}
-	
+
 }

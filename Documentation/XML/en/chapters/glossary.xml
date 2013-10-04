@@ -18,7 +18,7 @@
 			<glossseealso otherterm="glossary.time">Time</glossseealso>
 		</glossdef>
 	</glossentry>
-	
+
 	<glossentry>
 		<glossterm xml:id="glossary.day">Day</glossterm>
 		<glossdef>
@@ -28,7 +28,7 @@
 			<glossseealso otherterm="glossary.time">Time</glossseealso>
 		</glossdef>
 	</glossentry>
-	
+
 	<glossentry>
 		<glossterm xml:id="glossary.time">Time</glossterm>
 		<glossdef>
@@ -48,7 +48,7 @@
 			<glossseealso otherterm="glossary.eventindex">EventIndex</glossseealso>
 		</glossdef>
 	</glossentry>
-	
+
 	<glossentry>
 		<glossterm xml:id="glossary.event-controller">Event (Controller)</glossterm>
 		<glossdef>
@@ -63,27 +63,27 @@
 		<glossterm xml:id="glossary.eventindex">EventIndex (Domain Object)</glossterm>
 		<glossdef>
 			<para>
-			In contrast to the <link linkend="glossary.event-domain-object">Event</link> an <literal>EventIndex</literal> 
-			is a representation of a concrete occurance of the event. So an <literal>Event</literal> the recurrs every week will have a 
+			In contrast to the <link linkend="glossary.event-domain-object">Event</link> an <literal>EventIndex</literal>
+			is a representation of a concrete occurance of the event. So an <literal>Event</literal> the recurrs every week will have a
 			<literal>EventIndex</literal> representation fore every week.
 			Even not recurring Events have an <literal>EventIndex</literal> representation. Queries on several events are
 			almost exclusivly done on these domain objects.
-			</para>  
+			</para>
 			<glossseealso otherterm="glossary.event-domain-object">Event</glossseealso>
 		</glossdef>
 	</glossentry>
-	
+
 	<glossentry>
 		<glossterm xml:id="glossary.exception">Exception (Domain Object)</glossterm>
 		<glossdef>
 			<para>
-			An <literal>Exception</literal> is an "<literal>Event</literal>" that symbolizes that an Event is not taking place when 
+			An <literal>Exception</literal> is an "<literal>Event</literal>" that symbolizes that an Event is not taking place when
 			the exception is active. It might be recurring, but Exceptions is not stored are not stored as Indices in the database
 			as it is done with Events.
 			</para>
 		</glossdef>
 	</glossentry>
-	
+
 	<glossentry>
 		<glossterm xml:id="glossary.exceptiongroup">ExceptionGroup (Domain Object)</glossterm>
 		<glossdef>
@@ -92,17 +92,17 @@
 			</para>
 		</glossdef>
 	</glossentry>
-	
+
 	<glossentry>
 		<glossterm xml:id="glossary.getdate">GetDate</glossterm>
 		<glossdef>
 			<para>
 			GetDate is a concept taken from the TYPO3 extension <productname>cal</productname>. GetDate makes some actions configurable
-			using GET-parameters. All relative dates of the action are calculated based on that date. 
+			using GET-parameters. All relative dates of the action are calculated based on that date.
 			</para>
 		</glossdef>
 	</glossentry>
-	
+
 	<glossentry>
 		<glossterm xml:id="glossary.timespan">Timespan</glossterm>
 		<glossdef>
@@ -111,7 +111,7 @@
 			</para>
 		</glossdef>
 	</glossentry>
-	
+
 	<glossentry>
 		<glossterm xml:id="glossary.timeline">Timeline</glossterm>
 		<glossdef>
@@ -121,7 +121,7 @@
 			<glossseealso otherterm="glossary.timespan">Timespan</glossseealso>
 		</glossdef>
 	</glossentry>
-	
+
 	<glossentry>
 		<glossterm xml:id="glossary.fake-action">Fake Action</glossterm>
 		<glossdef>
@@ -132,7 +132,7 @@
 			<glossseealso otherterm="glossary.real-action">Real Action</glossseealso>
 		</glossdef>
 	</glossentry>
-	
+
 	<glossentry>
 		<glossterm xml:id="glossary.real-action">Real Action</glossterm>
 		<glossdef>

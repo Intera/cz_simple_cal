@@ -9,7 +9,7 @@
 
 	<title>Concepts</title>
 	<para>This section tries to explain some of the basic concepts of the calendar.</para>
-	
+
 	<section xml:id="chapter.concepts.eventindex">
 		<title>Event Index</title>
 		<para>
@@ -22,20 +22,20 @@
 			So if you only change the title or a description, no indexing is done.
 		</note>
 		<note>
-			<para>You can use the <productname>scheduler</productname> extension to re-index all your events. This 
-			should be done if you updated Exceptions that are applied to multiple Events, moved records around or if you 
+			<para>You can use the <productname>scheduler</productname> extension to re-index all your events. This
+			should be done if you updated Exceptions that are applied to multiple Events, moved records around or if you
 			changed the <code>recurrenceEnd</code> setting. The <productname>scheduler</productname> is a core extension
 			and shipped with <productname>TYPO3</productname>, but you might have to install it in the extension manager.
 			</para>
 		</note>
-		
+
 		<para>
 			Due to the indexing of events you usually deal with <link linkend="glossary.eventindex">EventIndices</link> in your
 			templates. But the objects are smart enough to tunnel unknown methods to the <link linkend="glossary.eventindex">Event</link>
-			they belong to. So you can work with <literal>EventIndices</literal> as if they were Events.   
+			they belong to. So you can work with <literal>EventIndices</literal> as if they were Events.
 		</para>
 	</section>
-	
+
 	<section xml:id="chapter.concepts.fake-actions">
 		<title>Fake Actions</title>
 		<para>
@@ -47,7 +47,7 @@
 		</para>
 		<para>See <link linkend="chapter.howto.add-fake-action">HowTo: Add a fake action</link> to learn - guess what - how to add a fake action.</para>
 	</section>
-	
+
 	<section xml:id="chapter.concepts.date-type">
 		<title>The type <literal>date</literal></title>
 		<para>

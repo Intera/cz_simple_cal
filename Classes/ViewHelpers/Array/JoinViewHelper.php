@@ -23,31 +23,31 @@
 /**
  * join multiple values from an array into a string
  * (kind of PHP's implode())
- * 
- * you might use the item property as well as the 
+ *
+ * you might use the item property as well as the
  * Tx_CzSimpleCal_ViewHelpers_Array_JoinItemViewHelper
  * to give the items to be joined
- * 
+ *
  * <example>
  *   <cal:array.join items="{0:'foo', 1:'bar', 2:'baz'}" by=", " />
- *   
- *   renders as 
- *   
+ *
+ *   renders as
+ *
  *   "foo, bar, baz"
  * </example>
- * 
+ *
  * <example>
  *   <cal:array.join>
  *     <cal.array.joinItem>foo</cal.array.joinItem>
  *     <cal.array.joinItem>bar</cal.array.joinItem>
  *     <cal.array.joinItem>baz</cal.array.joinItem>
  *   </cal:array.join>
- *   
+ *
  *   renders as
- *   
+ *
  *   "foo, bar, baz"
  * </example>
- * 
+ *
  * @version $Id: JoinViewHelper.php$
  * @package Fluid
  * @subpackage ViewHelpers
@@ -67,43 +67,43 @@ class Tx_CzSimpleCal_ViewHelpers_Array_JoinViewHelper extends Tx_Fluid_Core_View
 		if(is_null($items)) {
 			$items = $this->getItems();
 		}
-		
+
 		if($removeEmpty) {
 			$items = $this->removeEmpty($items);
 		}
-		
+
 		return implode($by, $items);
 	}
-	
+
 	/**
 	 * get items from the nodes
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function getItems() {
 		$viewHelperName = get_class($this);
 		$key = 'items';
-		
+
 		if($this->viewHelperVariableContainer->exists($viewHelperName, $key)) {
 			$temp = $this->viewHelperVariableContainer->get($viewHelperName, $key);
 		}
 		$this->viewHelperVariableContainer->addOrUpdate($viewHelperName, $key, array());
-		
+
 		$this->renderChildren();
-		
+
 		$return = $this->viewHelperVariableContainer->get($viewHelperName, $key);
-		
+
 		$this->viewHelperVariableContainer->remove($viewHelperName, $key);
 		if(isset($temp)) {
 			$this->viewHelperVariableContainer->add($viewHelperName, $key, $temp);
 		}
-		
+
 		return $return;
 	}
-	
+
 	/**
 	 * remove empty values from array
-	 * 
+	 *
 	 * @param array $items
 	 * @return array
 	 */

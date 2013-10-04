@@ -60,7 +60,7 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 
     /**
      * inject an categoryRepository
-     * 
+     *
      * @param Tx_CzSimpleCal_Domain_Repository_CategoryRepository $categoryRepository
      */
     public function injectCategoryRepository(Tx_CzSimpleCal_Domain_Repository_CategoryRepository $categoryRepository) {

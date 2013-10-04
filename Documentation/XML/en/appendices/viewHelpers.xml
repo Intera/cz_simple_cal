@@ -8,7 +8,7 @@
      xmlns:mathml="http://www.w3.org/1998/Math/MathML">
 
 	<title>ViewHelpers</title>
-	
+
 	<section>
 		<title><classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Array_&#x200B;JoinViewHelper</classname></title>
 		<para>
@@ -38,7 +38,7 @@
 				</listitem>
 			</varlistentry>
 		</variablelist>
-		
+
 
  		<example>
  			<title>
@@ -54,7 +54,7 @@
  				<computeroutput>foo, bar, baz</computeroutput>.
  			</para>
  		</example>
- 		 		
+
  		<example>
  			<title>Using <classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Array_&#x200B;JoinViewHelper</classname> shorthand-syntax</title>
  			<para>
@@ -63,7 +63,7 @@
  			</para>
  		</example>
 	</section>
-	
+
 	<section>
 		<title><classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Calendar_&#x200B;CreateDateTimeViewHelper</classname></title>
 		<para>create a <classname>Tx_CzSimpleCal_&#x200B;Utility_&#x200B;DateTime</classname> object.</para>
@@ -85,7 +85,7 @@
 </f:map>]]></programlisting>
  		</example>
 	</section>
-	
+
 	<section>
 		<title><classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Calendar_&#x200B;OnNewDayViewHelper</classname></title>
 		<para>renders its content if the submitted event is on a different date then the previous one</para>
@@ -113,7 +113,7 @@
 </f:for>]]></programlisting>
 		</example>
 	</section>
-	
+
 	<section>
 		<title><classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Condition_&#x200B;CompareViewHelper</classname></title>
 		<para>Compare two values. Best used in conjunction with <classname>Tx_Fluid_&#x200B;ViewHelpers_&#x200B;IfViewHelper</classname>.</para>
@@ -163,11 +163,11 @@
 							<term><literal>&lt;=</literal>, <literal>=&lt;</literal></term>
 							<listitem><para>check if the first value is smaller or equal than the second one</para></listitem>
 						</varlistentry>
-					</variablelist> 
+					</variablelist>
 				</listitem>
 			</varlistentry>
 		</variablelist>
-		
+
 		<example>
 			<title>Usage of <classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Condition_&#x200B;CompareViewHelper</classname></title>
 			<programlisting><![CDATA[<f:if
@@ -188,7 +188,7 @@
 			<para>The fourth expression would evaluate depending on the value of the <literal>age</literal> property of the <literal>person</literal> object.</para>
 		</example>
 	</section>
-	
+
 	<section>
 		<title><classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Condition_&#x200B;OneNotEmptyViewHelper</classname></title>
 		<para>A view helper to return true if one of the values is not empty.</para>
@@ -208,7 +208,7 @@
 			<para>The second expression evaluates to true if eiter <literal>foo.bar</literal> or <literal>foo.baz</literal> returns a non-empty value.</para>
 		</example>
 	</section>
-	
+
 	<section>
 		<title><classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Format_&#x200B;DateTimeViewHelper</classname></title>
 		<para>Formats a unix timestamp or <classname>DateTime</classname> object to a human-readable, localized string.</para>
@@ -226,16 +226,16 @@
 			<varlistentry>
 				<term>format<sbr/>(type: <literal>string</literal></term>
 				<listitem>
-					<para>Formatting string to be parsed by <methodname>strftime()</methodname>. See the 
+					<para>Formatting string to be parsed by <methodname>strftime()</methodname>. See the
 						<link xlink:href="http://www.php.net/manual/en/function.strftime.php"><productname>PHP</productname> documentation on <methodname>strftime()</methodname></link> for details.
 					</para>
 					<warning><para>
 						The <productname>Fluid</productname> <classname>Tx_Fluid_&#x200B;ViewHelpers_&#x200B;Format_&#x200B;DateViewHelper</classname>
-						uses a different syntax for the <literal>format</literal> property. 
+						uses a different syntax for the <literal>format</literal> property.
 					</para>
 					<para>
 						That is because we use a different <productname>PHP</productname> function to format the date and
-						time as this function has the advantage of using localized names for months and weekdays. 
+						time as this function has the advantage of using localized names for months and weekdays.
 					</para>
 					</warning>
 				</listitem>
@@ -250,7 +250,7 @@
 				</listitem>
 			</varlistentry>
 		</variablelist>
-		
+
 		<example>
 			<title>Using <classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Format_&#x200B;DateTimeViewHelper</classname></title>
 			<programlisting><![CDATA[<cal:format.dateTime timestamp="1234567890" /></programlisting>
@@ -272,7 +272,7 @@
 			<para>The sixth example outputs <computeroutput>2009-02-01</computeroutput>.</para>
 		</example>
 	</section>
-	
+
 	<section>
 		<title><classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Format_&#x200B;NumberChoiceViewHelper</classname></title>
 		<para>Renders a string based on a given number.</para>
@@ -300,9 +300,9 @@
 					If you are familiar with either, there is nothing new to learn for you here.
 				</para>
 			</note>
-			<para>The basic idea is to define intervals of numbers and a corresponding string to use. 
+			<para>The basic idea is to define intervals of numbers and a corresponding string to use.
 				Intervals are closed when using square brackets (<literal>[</literal> and <literal>]</literal>) meaning, they include
- 				the given number or open when using round brackets (<literal>(</literal> and <literal>)</literal>) meaning, they exclude 
+ 				the given number or open when using round brackets (<literal>(</literal> and <literal>)</literal>) meaning, they exclude
  				the given number.
  			</para>
  			<example>
@@ -345,7 +345,7 @@
 </f:format.numberChoice>]]></programlisting>
 			<para>Both of these version are interchangeable and would output <computeroutput>eggs</computeroutput>.</para>
 		</example>
-		
+
 		<example>
 			<title>Using <classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Format_&#x200B;NumberChoiceViewHelper</classname> with placeholders</title>
 			<programlisting><![CDATA[<f:format.numberChoice number="42" arguments="{number:42}">
@@ -353,7 +353,7 @@
 </f:format.numberChoice>]]></programlisting>
 			<para>will output <computeroutput>42 eggs</computeroutput>.</para>
 		</example>
-		
+
 		<example>
 			<title>Using <classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Format_&#x200B;NumberChoiceViewHelper</classname> with localization</title>
 			<programlisting><![CDATA[<f:format.numberChoice number="42" arguments="{number:42}">
@@ -361,7 +361,7 @@
 </f:format.numberChoice>]]></programlisting>
 		</example>
 	</section>
-	
+
 	<section>
 		<title><classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Format_&#x200B;TimespanToWordsViewHelper</classname></title>
 		<para>Renders a readable version for a timespan for days with as little repetition as possible.</para>
@@ -375,7 +375,7 @@
 				<listitem><para>the end day</para></listitem>
 			</varlistentry>
 		</variablelist>
-		
+
 		<example>
 			<title>Example using <classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Format_&#x200B;TimespanToWordsViewHelper</classname></title>
 			<para>
@@ -384,7 +384,7 @@
 			</para>
 		</example>
 	</section>
-	
+
 	<section>
 		<title><classname>Tx_CzSimpleCal_&#x200B;ViewHelpers_&#x200B;Link_&#x200B;ActionViewHelper</classname></title>
 		<para>
@@ -392,5 +392,5 @@
 			it determines the correct pageUid to use based on the actions configuration in TypoScript.
 		</para>
 	</section>
-	
+
 </appendix>

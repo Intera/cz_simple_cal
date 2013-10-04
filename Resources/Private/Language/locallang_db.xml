@@ -60,33 +60,33 @@
 			<label index="tx_czsimplecal_domain_model_event.flickr_tags">Flickr Tags</label>
 			<label index="tx_czsimplecal_domain_model_event.slug">Slug</label>
 			<label index="tx_czsimplecal_domain_model_event.last_indexed">Last indexed</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_event.tab_general">Event</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_resources">Resources</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_recurrance">Recurrance</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_location">Location</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_organizer">Organizer</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_socialmedia">Social Media</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_exception">Exception</label>
 			<label index="tx_czsimplecal_domain_model_exception.title">Title</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_exception.recurrance_until">Repeat until</label>
 			<label index="tx_czsimplecal_domain_model_exception.recurrance_times">Repeat times</label>
 			<label index="tx_czsimplecal_domain_model_exception.events">Events</label>
 			<label index="tx_czsimplecal_domain_model_exception.exception_groups">Exception Groups</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_exceptiongroup">Exception Group</label>
 			<label index="tx_czsimplecal_domain_model_exceptiongroup.title">Title</label>
 			<label index="tx_czsimplecal_domain_model_exceptiongroup.exceptions">Exceptions</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_category">Category</label>
 			<label index="tx_czsimplecal_domain_model_category.title">Title</label>
 			<label index="tx_czsimplecal_domain_model_category.show_page_instead">Show this page instead</label>
-			
+
 			<label index="tt_address.is_organizer">is calendar organizer</label>
 			<label index="tt_address.is_location">is calendar location</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_address">Address</label>
 			<label index="tx_czsimplecal_domain_model_address.name">Name</label>
 			<label index="tx_czsimplecal_domain_model_address.address">Address</label>
@@ -94,7 +94,7 @@
 			<label index="tx_czsimplecal_domain_model_address.city">City</label>
 			<label index="tx_czsimplecal_domain_model_address.country">Country</label>
 		</languageKey>
-		
+
 		<languageKey index="de" type="array">
 			<label index="tx_czsimplecal_domain_model_event">Event</label>
 			<label index="tx_czsimplecal_domain_model_event.title">Titel</label>
@@ -147,29 +147,29 @@
 			<label index="tx_czsimplecal_domain_model_event.exceptions">Ausnahmen</label>
 			<label index="tx_czsimplecal_domain_model_event.twitter_hashtags">Twitter Hashtags</label>
 			<label index="tx_czsimplecal_domain_model_event.flickr_tags">Flickr Tags</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_event.tab_general">Event</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_recurrance">Wiederholung</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_resources">Resourcen</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_location">Veranstaltungsort</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_organizer">Veranstalter</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_socialmedia">Social Media</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_exception">Ausnahme</label>
 			<label index="tx_czsimplecal_domain_model_exception.title">Titel</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_exception.recurrance_until">Wiederholung bis</label>
 			<label index="tx_czsimplecal_domain_model_exception.recurrance_times">Anzahl der Widerholungen</label>
 			<label index="tx_czsimplecal_domain_model_exception.events">Events</label>
 			<label index="tx_czsimplecal_domain_model_exception.exception_groups">Ausnahme Gruppen</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_exceptiongroup">Ausnahme Gruppe</label>
 			<label index="tx_czsimplecal_domain_model_exceptiongroup.title">Titel</label>
 			<label index="tx_czsimplecal_domain_model_exceptiongroup.exceptions">Ausnahmen</label>
-			
+
 			<label index="tx_czsimplecal_domain_model_category">Kategorien</label>
 			<label index="tx_czsimplecal_domain_model_category.title">Titel</label>
-			
+
 			<label index="tt_address.is_organizer">ist Veranstalter für Kalender</label>
 			<label index="tt_address.is_location">ist Veranstaltungsort für Kalender</label>
 		</languageKey>

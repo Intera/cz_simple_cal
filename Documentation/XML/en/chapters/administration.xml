@@ -8,11 +8,11 @@
      xmlns:mathml="http://www.w3.org/1998/Math/MathML">
 
 	<title>Administration</title>
-	
+
 	<section xml:id="chapter.administration.concepts">
 		<title>Concepts</title>
 		<para>This section tries to explain some of the basic concepts of the calendar.</para>
-		
+
 		<xi:include href="concepts.xml" xpointer="xpointer(/chapter/section)"  />
 	</section>
 	<section xml:id="chapter.administration.example">
@@ -24,7 +24,7 @@
 		<programlisting>01 plugin.tx_czsimplecal {
 02   #@description: the pid the records are stored in
 03   persistence.storagePid = {$plugin.tx_czsimplecal.pidList}
-04   # [...]	
+04   # [...]
 05   settings {
 06     EventIndex {
 07       # first one is the default action
@@ -50,7 +50,7 @@
 27           startDate  = now
 28           endDate    = now +1 month
 29           maxEvents = 1
-30           orderBy   = start  
+30           orderBy   = start
 31           order     = ASC
 32         }
 33         week {
@@ -87,14 +87,14 @@
 64       allowedActions = show
 65       actions {
 66         show {
-67           defaultPid = {$plugin.tx_czsimplecal.pids.default}	
+67           defaultPid = {$plugin.tx_czsimplecal.pids.default}
 68         }
 69       }
 70     }
-71     # this is where you can put your customized options 
+71     # this is where you can put your customized options
 72     custom {
 73     }
-74   } 
+74   }
 75 }</programlisting>
 	<para>
 		Line <literal>03</literal> holds the comma-seperated list of uids of the pages all relevant records are stored. Don't
@@ -119,14 +119,14 @@
 		The list action is used to show events from a certain timespan, like all events from one day or from one week.
 	</para>
 	<para>
-		In line <literal>11</literal> the default pid for this action is set. This is only used by the <literal>Tx_CzSimpleCal_ViewHelpers_Link_ActionViewHelper</literal> 
+		In line <literal>11</literal> the default pid for this action is set. This is only used by the <literal>Tx_CzSimpleCal_ViewHelpers_Link_ActionViewHelper</literal>
 		to allow easy linking of your whole calender is not shown on only one pid, but split over multiple pages.<sbr/>
 		If you link to the <literal>list</literal> View from another view, you don't have to set the <literal>pageUid</literal> property of the
 		<literal>Tx_Fluid_ViewHelpers_Link_ActionViewHelper</literal>.
 	</para>
 	<para>
 		In lines <literal>12</literal> and <literal>13</literal> the start and end dates for the list are defined. In this
-		example the list view shows all events from (midnight) today up to one month from today.  
+		example the list view shows all events from (midnight) today up to one month from today.
 	</para>
 	<note>
 		<para>
@@ -151,7 +151,7 @@
 	<note>
 		<para>
 			The filter array is quite powerfull. You can also use it to filter by organizer, location or even an events name.
-			See the <link linkend="chapter.configuration.typoscript.EventIndex.list">configuration documentation</link> for more details. 
+			See the <link linkend="chapter.configuration.typoscript.EventIndex.list">configuration documentation</link> for more details.
 		</para>
 	</note>
 	<para>
@@ -160,13 +160,13 @@
 		that aren't yet finished on <literal>endDate</literal> (<literal>excludeOverlongEvents</literal>).
 	</para>
 	<para>
-		Lines <literal>21</literal> to <literal>23</literal> hold the configuration for another action - the 
-		<literal>show</literal> action. It is used to show a single <emphasis>EventIndex</emphasis>! So if you 
+		Lines <literal>21</literal> to <literal>23</literal> hold the configuration for another action - the
+		<literal>show</literal> action. It is used to show a single <emphasis>EventIndex</emphasis>! So if you
 		had a dance course that meets once a week, this action would show the dance cours on Thursday, 13th January at 18:00, for
 		instance. The dance course as a whole could be represented by the <literal>Event</literal>-Controllers <literal>show</literal> action.
 	</para>
 	<para>
-		Lines <literal>24</literal> to <literal>32</literal> define an other action. It is thought to show the 
+		Lines <literal>24</literal> to <literal>32</literal> define an other action. It is thought to show the
 		next event in the calendar. This is done by utilizing the already known settings <literal>startDate</literal>,
 		<literal>endDate</literal> and <literal>maxEvents</literal>.
 	</para>
@@ -178,14 +178,14 @@
 		template for its view.
 	</para>
 	<para>
-		Lines <literal>33</literal> to <literal>42</literal> define another fake action for a week view. 
+		Lines <literal>33</literal> to <literal>42</literal> define another fake action for a week view.
 		The first notable thing to mark, are the <literal>startDate</literal> and the <literal>endDate</literal>
 		settings here: You can use some phrases like <literal>monday this week</literal> as part of the <link linkend="chapter.concepts.date-type">type <literal>date</literal></link>.
 		You find a full <link linkend="appendix.date">reference of the <literal>date</literal> type</link> in the appendix.
 	</para>
 	<para>
 		Line <literal>38</literal> defines which GET-parameters might override some of the settings of this action.
-		In this case we allow the user to override the <literal>getDate</literal> setting. <literal>getDate</literal> is 
+		In this case we allow the user to override the <literal>getDate</literal> setting. <literal>getDate</literal> is
 		the date we asume to be &quot;now&quot; before calculating the <literal>startDate</literal> and <literal>endDate</literal>.
 		So with this setting enabled, we create pages for each week.
 	</para>
@@ -199,15 +199,15 @@
 		It uses a technique, we call <emphasis>chaining</emphasis> (through the pipe character <literal>|</literal>)to evaluate complex date calculations.
 		The end date is calculated by first finding the <literal>first day of this month</literal>, then looking
 		for the <literal>first monday next week</literal> (that is the first monday in the next month) and then
-		subtracting one second. 
+		subtracting one second.
 	</para>
 	<para>
 		Lines <literal>63</literal> to <literal>70</literal> hold configuration for the <literal>Event</literal>-Controller.
 		The configuration is similar to that of the <literal>EventIndex</literal> controller.
 	</para>
 	<para>
-		Lines <literal>66</literal> to <literal>68</literal> configurate the only Real action of the <literal>Event</literal> 
-		controller - the <literal>show</literal> action.  
+		Lines <literal>66</literal> to <literal>68</literal> configurate the only Real action of the <literal>Event</literal>
+		controller - the <literal>show</literal> action.
 	</para>
 	<para>
 		Lines <literal>72</literal> to <literal>73</literal> is the <literal>custom</literal>-array where you can store
@@ -230,7 +230,7 @@
 		</para>
 		<para>
 			You find the default templates and partials in <filename>typo3conf/ext/cz_simple_cal/Resources/Private/Templates</filename> or <filename>Resources/Private/Partials</filename>
-			respectively. 
+			respectively.
 		</para>
 		<para>
 			To customize these templates, first copy the two folders <filename>Templates</filename> and <filename>Partials</filename>

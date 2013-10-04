@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -34,22 +34,22 @@
 abstract class Tx_CzSimpleCal_Domain_Model_Base extends Tx_Extbase_DomainObject_AbstractEntity {
 	/**
 	 * __call
-	 * 
+	 *
 	 * @param $methodName
 	 * @param $arguments
 	 */
 	public function __call($methodName, $arguments) {
 		/* this makes methods starting with "is..." and "has..." available to fluid templates
-		 * without the need of writing custom handlers. 
-		 * 
+		 * without the need of writing custom handlers.
+		 *
 		 * By default Extbase *only* calls methods starting with "get...", but
-		 * "getIsFoobar" is a rather stupid method name. 
-		 * 
+		 * "getIsFoobar" is a rather stupid method name.
+		 *
 		 * Usage:
 		 * 	{object.isFoobar}
 		 * will call isFoobar() on object.
 		 */
-		
+
 		if(strncmp('getIs', $methodName, 5) === 0) {
 			// if: the called method starts with "getIs..."
 			$methodName = 'is'.substr($methodName, 5);

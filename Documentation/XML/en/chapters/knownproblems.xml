@@ -8,12 +8,12 @@
      xmlns:mathml="http://www.w3.org/1998/Math/MathML">
 
 	<title>Known problems</title>
-	
+
 	<itemizedlist>
 		<listitem>
 			<para>Only compatible with <productname>Extbase</productname> 1.3 (shipped with <productname>TYPO3</productname> 4.5 LTS).</para>
 			<note>
-				<para>There is a version for TYPO3 4.4 and Extbase 1.2 in the github repository 
+				<para>There is a version for TYPO3 4.4 and Extbase 1.2 in the github repository
 				on the <literal>extbase-1.2</literal> branch. But this branch is deprecated. There might be some
 				bugfixes to that branch, but don't expect them or any new features.
 				</para>
@@ -28,6 +28,6 @@
 			</para>
 		</listitem>
 	</itemizedlist>
-	
+
 	<para>Any known bugs can be found in the <link xlink:href="http://forge.typo3.org/projects/extension-cz_simple_cal/issues">official bugtracker for <productname>cz_simple_cal</productname></link>.</para>
 </chapter>

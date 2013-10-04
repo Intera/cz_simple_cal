@@ -3,7 +3,7 @@
 <div class="vcard">
 <f:if condition="{organizer.company}">
 	<f:then>
-		<h5 class="fn org">{organizer.company}</h5>		
+		<h5 class="fn org">{organizer.company}</h5>
 		<f:if condition="{organizer.title}{organizer.firstName}{organizer.middleName}{organizer.lastName}">
 			<h6 class="n"><f:render partial="HCard/address-name.html" arguments="{settings: settings, address: organizer}" /></h6>
 		</f:if>

@@ -20,7 +20,7 @@
  <!--Time Formats: {{{-->
  <section xml:id="datetime.formats.time">
   <title>Time Formats</title>
-  
+
   <table>
    <title>Used Symbols</title>
    <tgroup cols="3">
@@ -340,7 +340,7 @@
     </tbody>
    </tgroup>
   </table>
-  
+
   <table>
    <title>ISO8601 Notations</title>
    <tgroup cols="3">

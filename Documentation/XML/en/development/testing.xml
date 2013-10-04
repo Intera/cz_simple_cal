@@ -9,28 +9,28 @@
 
 	<title>Testing</title>
 		<para>This section will explain how to set up a testing environment for the extension.</para>
-		
+
 		<section xml:id="development.testing.unit">
 			<title>Setting up Unit Tests</title>
 			<para>
-				You need to install the extension <productname>phpunit</productname> in order to run Unit Tests. You can 
-				find the extension <link xlink:href="http://typo3.org/extensions/repository/view/phpunit/current/"><productname>phpunit</productname> on TER</link>. 
+				You need to install the extension <productname>phpunit</productname> in order to run Unit Tests. You can
+				find the extension <link xlink:href="http://typo3.org/extensions/repository/view/phpunit/current/"><productname>phpunit</productname> on TER</link>.
 			</para>
 			<para>
 				There is not much to say on the installation of the extension. It is straight forward and as it comes bundled with
 				a PHPUnit library, so you won't even need to install a PEAR package. If you should encounter any difficulties, consult
-				the <link xlink:href="http://typo3.org/documentation/document-library/extension-manuals/phpunit/3.4.12/view/">documentation on the internet</link> or your local machine. 
+				the <link xlink:href="http://typo3.org/documentation/document-library/extension-manuals/phpunit/3.4.12/view/">documentation on the internet</link> or your local machine.
 			</para>
 			<para>
-				After successful installation you should see the PHPUnit module in the Admin Section. Click it and select 
-				<productname>cz_simple_cal</productname> as extension to run the unit tests. 
+				After successful installation you should see the PHPUnit module in the Admin Section. Click it and select
+				<productname>cz_simple_cal</productname> as extension to run the unit tests.
 				Make sure that all the options <literal>Success</literal>,  <literal>Failure</literal>, <literal>Skipped</literal> and <literal>Error</literal>
 				are checked. Otherwise you might miss a faulty behaviour.
 				Click <computeroutput>Run all tests</computeroutput> and all the tests should be run. If the bar is not green
-				after running all tests or the word "Success" is not displayed at the bottom of the list, something went wrong.  
+				after running all tests or the word "Success" is not displayed at the bottom of the list, something went wrong.
 			</para>
 		</section>
-		
+
 		<section xml:id="development.testing.selenium">
 			<title>Setting up Selenium Tests</title>
 			<tip>
@@ -56,7 +56,7 @@
 				<step>
 					<para>
 						Now install <productname>Selenium Remote Control (RC)</productname> - if you don't have it running already.<sbr/>
-						Download it at <link xlink:href="http://seleniumhq.org/download/">selenium.org</link> and unpack. All you need is 
+						Download it at <link xlink:href="http://seleniumhq.org/download/">selenium.org</link> and unpack. All you need is
 						the <filename class="directory">selenium-remote-control-1.x.x/selenium-server-1.x.x</filename> folder - you might as well delete
 						all the others.<sbr/>
 						Run the <filename>selenium-server.jar</filename> using <productname>JAVA</productname>, for example by typing
@@ -78,7 +78,7 @@
 							</para>
 							<note>
 								<para>
-									If you decide to <emphasis>not</emphasis> set this option, all you have to do is set the TypoScript 
+									If you decide to <emphasis>not</emphasis> set this option, all you have to do is set the TypoScript
 									constants in the root template with the pid of your <literal>data</literal> folder.
 								</para>
 								<para>
@@ -128,5 +128,5 @@
 				</step>
 			</procedure>
 		</section>
-		
+
 </chapter>

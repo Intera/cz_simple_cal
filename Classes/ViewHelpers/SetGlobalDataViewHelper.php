@@ -19,17 +19,17 @@
 
 /**
  * sets data of the global cObject
- * 
+ *
  * you can utilize this to set the <title>-tag or other <head> data
- * 
+ *
  * as page.headerData is generated after generating the content of the page
  * you can override some fields or create new ones
- * 
+ *
  * <example>
  *   <code>
  *     <cal:setGlobalData field="title">{event.title}</cal:setGlobalData>
  *   </code>
- *   
+ *
  *   <code>
  *     page.headerData {
  *       10 = TEXT
@@ -37,18 +37,18 @@
  *       10.wrap = <title>|</title>
  *     }
  *   </code>
- *   
+ *
  *   will output the events title as the pages title
- *   
+ *
  * </example>
- * 
+ *
  * or a less "hackier" example
- * 
+ *
  * <example>
  *   <code>
  *     <cal:setGlobalData field="override_title" data="{event.title}" />
  *   </code>
- *   
+ *
  *   <code>
  *     page.headerData {
  *       10 = TEXT

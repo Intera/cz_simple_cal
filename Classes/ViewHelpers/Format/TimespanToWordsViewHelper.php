@@ -19,15 +19,15 @@
  *                                                                        */
 
 /**
- * Renders a readable version for a timespan for days with as little 
+ * Renders a readable version for a timespan for days with as little
  * repetition as possible.
- * 
+ *
  * <code>
  *   <cal:format.timespan start="{christmasEve2010}" end="{newYearsEve2010}" />
  * </code>
- * 
+ *
  * outputs "Dec 24 to 31, 2010"
- * 
+ *
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @author Christian Zenker <christian.zenker@599media.de>
  */
@@ -42,7 +42,7 @@ class Tx_CzSimpleCal_ViewHelpers_Format_TimespanToWordsViewHelper extends Tx_Flu
 	 * @author Christian Zenker <christian.zenker@599media.de>
 	 */
 	public function render($start, $end) {
-		
+
 		if($start->format('Y') != $end->format('Y')) {
 			return
 				$this->getLL('timespan.from').' '.
@@ -71,18 +71,18 @@ class Tx_CzSimpleCal_ViewHelpers_Format_TimespanToWordsViewHelper extends Tx_Flu
 			;
 		}
 	}
-	
+
 	/**
 	 * the name of the extension that uses this ViewHelper
 	 * (used to determine the correct translation file)
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $extensionName = null;
-	
+
 	/**
 	 * helping function to get a translation of a string
-	 * 
+	 *
 	 * @param string $key
 	 * @return string
 	 */
@@ -92,6 +92,6 @@ class Tx_CzSimpleCal_ViewHelpers_Format_TimespanToWordsViewHelper extends Tx_Flu
 		}
 		return Tx_Extbase_Utility_Localization::translate($key, $this->extensionName);
 	}
-	
+
 }
 ?>

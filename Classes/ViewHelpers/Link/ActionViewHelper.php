@@ -14,7 +14,7 @@
  *                                                                        */
 
 /**
- * an enhanced Link_ActionViewHelper that sets the pageUid to link to 
+ * an enhanced Link_ActionViewHelper that sets the pageUid to link to
  * automatically by a setting in the settings array
  */
 class Tx_CzSimpleCal_ViewHelpers_Link_ActionViewHelper extends Tx_Fluid_ViewHelpers_Link_ActionViewHelper {
@@ -44,13 +44,13 @@ class Tx_CzSimpleCal_ViewHelpers_Link_ActionViewHelper extends Tx_Fluid_ViewHelp
 		if(is_null($pageUid)) {
 			$pageUid = $this->getPageUid($controller, $action);
 		}
-		
+
 		// this is the way it should work
 //		return parent::render($action,$arguments, $controller, $extensionName, $pluginName, $pageUid, $pageType, $noCache, $noCacheHash, $section, $format, $linkAccessRestrictedPages,$additionalParams, $absolute, $addQueryString,$argumentsToBeExcludedFromQueryString);
 		//@ugly
 		/* but as all link viewHelpers return an empty href when linking to a hidden
 		 * (or non-existant) page, we'll have to fix this
-		 */ 
+		 */
 		$uriBuilder = $this->controllerContext->getUriBuilder();
 		$uri = $uriBuilder
 			->reset()
@@ -70,35 +70,35 @@ class Tx_CzSimpleCal_ViewHelpers_Link_ActionViewHelper extends Tx_Fluid_ViewHelp
 		if(empty($uri)) {
 			return $this->renderChildren();
 		}
-		
+
 		$this->tag->addAttribute('href', $uri);
 		$this->tag->setContent($this->renderChildren());
 
 		return $this->tag->render();
 	}
-	
+
 	/**
 	 * get the predefined page url
-	 * 
+	 *
 	 * @param string $controller
 	 * @param string $action
 	 */
 	protected function getPageUid($controller = NULL, $action = NULL) {
-		
+
 		if(!$this->templateVariableContainer->exists('settings')) {
 			return null;
 		}
-		
+
 		if(is_null($controller)) {
 			$controller = $this->controllerContext->getRequest()->getControllerName();
 		}
 		if(is_null($action)) {
 			$action = $this->controllerContext->getRequest()->getControllerActionName();
 		}
-		
+
 		$settings = $this->templateVariableContainer->get('settings');
 		if(isset($settings[$controller]['actions'][$action]['defaultPid'])) {
-			return empty($settings[$controller]['actions'][$action]['defaultPid']) ? 
+			return empty($settings[$controller]['actions'][$action]['defaultPid']) ?
 				null:
 				intval($settings[$controller]['actions'][$action]['defaultPid'])
 			;

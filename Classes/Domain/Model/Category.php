@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -32,15 +32,15 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class Tx_CzSimpleCal_Domain_Model_Category extends Tx_CzSimpleCal_Domain_Model_Base {
-	
+
 	/**
 	 * a title for this category
 	 * @var string
 	 */
 	protected $title;
-	
-	
-	
+
+
+
 	/**
 	 * Setter for title
 	 *
@@ -59,17 +59,17 @@ class Tx_CzSimpleCal_Domain_Model_Category extends Tx_CzSimpleCal_Domain_Model_B
 	public function getTitle() {
 		return $this->title;
 	}
-	
+
 	/**
 	 * if respected by the template a TYPO3 page is linked
-	 * 
-	 * as there is no Category-Controller yet, thats the only way to link a page according to 
+	 *
+	 * as there is no Category-Controller yet, thats the only way to link a page according to
 	 * a controller. So you could create a page with information on your category for example.
 	 *
 	 * @var string showPageInstead
 	 */
 	protected $showPageInstead;
-	
+
 	/**
 	 * getter for showPageInstead
 	 *
@@ -78,10 +78,10 @@ class Tx_CzSimpleCal_Domain_Model_Category extends Tx_CzSimpleCal_Domain_Model_B
 	public function getShowPageInstead() {
 		return $this->showPageInstead;
 	}
-	
+
 	/**
 	 * setter for showPageInstead
-	 * 
+	 *
 	 * @param string $showPageInstead
 	 * @return Tx_CzSimpleCal_Domain_Model_Category
 	 */
@@ -89,6 +89,6 @@ class Tx_CzSimpleCal_Domain_Model_Category extends Tx_CzSimpleCal_Domain_Model_B
 		$this->showPageInstead = $showPageInstead;
 		return $this;
 	}
-	
+
 }
 ?>

@@ -7,8 +7,8 @@
 CREATE TABLE tx_czsimplecal_domain_model_event (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
-	
-	
+
+
 	title varchar(220) DEFAULT '',
 	start_day int(11) DEFAULT '0',
 	start_time int(11) DEFAULT '-1',
@@ -46,7 +46,7 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 	last_indexed int(11) DEFAULT '0',
 
 	cruser_fe int(11) DEFAULT '0',
-	
+
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -79,10 +79,10 @@ CREATE TABLE tx_czsimplecal_domain_model_eventindex (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	start    int(11) NOT NULL DEFAULT '0',
-	end      int(11) NOT NULL DEFAULT '0',	
+	end      int(11) NOT NULL DEFAULT '0',
 	event    int(11) NOT NULL DEFAULT '0',
 	slug varchar(250) DEFAULT '',
-	
+
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY slug (slug)
@@ -94,8 +94,8 @@ CREATE TABLE tx_czsimplecal_domain_model_eventindex (
 CREATE TABLE tx_czsimplecal_domain_model_exception (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
-	
-	
+
+
 	title text,
 	start_day int(11) DEFAULT '0',
 	start_time int(11) DEFAULT '-1',
@@ -119,11 +119,11 @@ CREATE TABLE tx_czsimplecal_domain_model_exception (
 CREATE TABLE tx_czsimplecal_domain_model_exceptiongroup (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
-	
-	
+
+
 	title text,
 	exceptions int(11) unsigned DEFAULT '0' NOT NULL,
-	
+
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
@@ -137,13 +137,13 @@ CREATE TABLE tx_czsimplecal_domain_model_exceptiongroup (
 CREATE TABLE tx_czsimplecal_exceptiongroup_exception_mm (
 	uid int(10) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
-	
+
 	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
 	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
 	tablenames varchar(255) DEFAULT '' NOT NULL,
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-	
+
 	tstamp int(10) unsigned DEFAULT '0' NOT NULL,
 	crdate int(10) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(3) unsigned DEFAULT '0' NOT NULL,
@@ -158,13 +158,13 @@ CREATE TABLE tx_czsimplecal_exceptiongroup_exception_mm (
 CREATE TABLE tx_czsimplecal_event_exception_mm (
 	uid int(10) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
-	
+
 	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
 	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
 	tablenames varchar(255) DEFAULT '' NOT NULL,
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-	
+
 	tstamp int(10) unsigned DEFAULT '0' NOT NULL,
 	crdate int(10) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(3) unsigned DEFAULT '0' NOT NULL,
@@ -180,8 +180,8 @@ CREATE TABLE tx_czsimplecal_event_exception_mm (
 CREATE TABLE tx_czsimplecal_domain_model_category (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
-	
-	
+
+
 	title text,
 	show_page_instead varchar(255) DEFAULT '' NOT NULL,
 
@@ -214,13 +214,13 @@ CREATE TABLE tx_czsimplecal_domain_model_category (
 CREATE TABLE tx_czsimplecal_domain_model_address (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
-	
+
 	name varchar(255) DEFAULT '' NOT NULL,
 	address text,
 	zip varchar(10) DEFAULT '' NOT NULL,
 	city varchar(255) DEFAULT '' NOT NULL,
 	country varchar(3) DEFAULT '' NOT NULL,
-	
+
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -250,13 +250,13 @@ CREATE TABLE tx_czsimplecal_domain_model_address (
 CREATE TABLE tx_czsimplecal_event_category_mm (
 	uid int(10) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
-	
+
 	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
 	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
 	tablenames varchar(255) DEFAULT '' NOT NULL,
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-	
+
 	tstamp int(10) unsigned DEFAULT '0' NOT NULL,
 	crdate int(10) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(3) unsigned DEFAULT '0' NOT NULL,

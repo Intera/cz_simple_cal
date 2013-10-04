@@ -22,18 +22,18 @@
       </personname>
       <email>christian.zenker@599media.de</email>
     </author>
-	
+
 	<copyright>
       <year>2010</year>
       <holder>Christian Zenker</holder>
     </copyright>
-    
+
     <legal><para>This document is published under the Open Content License available from <link href="http://www.opencontent.org/opl.shtml" />.</para></legal>
   </info>
 
   <!-- Chapters -->
 
-  <xi:include href="chapters/introduction.xml" />  
+  <xi:include href="chapters/introduction.xml" />
   <!-- <xi:include href="chapters/usersmanual.xml" /> -->
   <xi:include href="chapters/administration.xml" />
   <xi:include href="chapters/configuration.xml" />
@@ -45,7 +45,7 @@
   <!-- <xi:include href="chapters/changelog.xml" /> -->
   <xi:include href="chapters/copyrights.xml" />
   <xi:include href="chapters/glossary.xml" />
-  
+
   <xi:include href="appendices/date.xml" />
   <xi:include href="appendices/viewHelpers.xml" />
   <xi:include href="appendices/widgetViewHelpers.xml" />

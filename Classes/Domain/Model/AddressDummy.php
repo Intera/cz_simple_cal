@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2011 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is

@@ -52,7 +52,7 @@ $TCA['tx_czsimplecal_domain_model_eventindex'] = array(
 				'foreign_table' => 'tx_czsimplecal_domain_model_event',
 				'minitems' => 1,
 				'maxitems' => 1
-			) 
+			)
 		),
 		'slug' => array(
 			'exclude' => 0,

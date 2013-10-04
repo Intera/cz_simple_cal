@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -32,10 +32,10 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class Tx_CzSimpleCal_Utility_FileArrayBuilder {
-	
+
 	/**
 	 * build an array of image instances
-	 * 
+	 *
 	 * @param string|array $files string should use "," as seperator
 	 * @param string $path
 	 * @param string|array $alternateTexts string should use newline as seperator
@@ -44,23 +44,23 @@ class Tx_CzSimpleCal_Utility_FileArrayBuilder {
 	 */
 	public static function build($files, $path, $alternates = '', $captions = '') {
 		$return = array();
-		
+
 		if(!is_array($files)) {
 			$files = is_string($files) && !empty($files) ? t3lib_div::trimExplode(",", $files, false) : array();
 		}
-		
+
 		if(!is_array($alternates)) {
 			$alternates = is_string($alternates) && !empty($alternates) ? t3lib_div::trimExplode("\n", $alternates, false) : array();
 		}
-		
+
 		if(!is_array($captions)) {
-			$captions =  is_string($captions) && !empty($captions) ? t3lib_div::trimExplode("\n", $captions, false) : array();	
+			$captions =  is_string($captions) && !empty($captions) ? t3lib_div::trimExplode("\n", $captions, false) : array();
 		}
-		
+
 		if($path && substr($path, -1) !== '/') {
 			$path = $path.'/';
 		}
-		
+
 		foreach($files as $key=>$fileName) {
 			if(empty($fileName)) {
 				continue;
@@ -74,10 +74,10 @@ class Tx_CzSimpleCal_Utility_FileArrayBuilder {
 			if(array_key_exists($key, $alternates) && $alternates[$key]) {
 				$file->setAlternateText($alternates[$key]);
 			}
-			$return[] = $file; 
+			$return[] = $file;
 		}
-		
+
 		return $return;
 	}
-	
+
 }

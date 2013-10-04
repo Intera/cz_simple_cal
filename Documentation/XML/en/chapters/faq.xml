@@ -8,7 +8,7 @@
      xmlns:mathml="http://www.w3.org/1998/Math/MathML">
 
 	<title>FAQs</title>
-	
+
 	<qandaset>
 		<qandaentry>
 			<question>
@@ -38,16 +38,16 @@
 			<answer>
 				<para>
 					You should be familiar with <productname>Extbase</productname> and <productname>Fluid</productname>.
-					The source code itself is documented inline, so there should be a brief explanation on what each class and 
+					The source code itself is documented inline, so there should be a brief explanation on what each class and
 					method is used for. Read the according section to understand the <link linkend="chapter.administration.concepts">
 					basic concepts and philosophies of the extension</link>.
 				</para>
 				<para>
 					If you have any difficulties on understanding the code, you can contact the developer through the email-adressen
-					given in <productname>TYPO3 Forge</productname>. 
+					given in <productname>TYPO3 Forge</productname>.
 				</para>
 			</answer>
 		</qandaentry>
 	</qandaset>
-	
+
 </chapter>

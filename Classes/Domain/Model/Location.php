@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,6 +31,6 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_CzSimpleCal_Domain_Model_Location extends Tx_CzSimpleCal_Domain_Model_BaseAddress {	
+class Tx_CzSimpleCal_Domain_Model_Location extends Tx_CzSimpleCal_Domain_Model_BaseAddress {
 }
 ?>

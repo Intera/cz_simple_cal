@@ -76,7 +76,7 @@ $TCA['tx_czsimplecal_domain_model_category'] = array(
 				'size' => 25,
 				'softref' => 'typolink',
 				'type' => 'input',
-		
+
 				'wizards' => array(
 					'_PADDING' => 2,
 					'link' => array(

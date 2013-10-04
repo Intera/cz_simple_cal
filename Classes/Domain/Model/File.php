@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -39,7 +39,7 @@ class Tx_CzSimpleCal_Domain_Model_File {
 	 * @var string file
 	 */
 	protected $file;
-	
+
 	/**
 	 * getter for file
 	 *
@@ -48,10 +48,10 @@ class Tx_CzSimpleCal_Domain_Model_File {
 	public function getFile() {
 		return $this->file;
 	}
-	
+
 	/**
 	 * setter for file
-	 * 
+	 *
 	 * @param string $file
 	 * @return Tx_CzSimpleCal_Domain_Model_File
 	 */
@@ -59,14 +59,14 @@ class Tx_CzSimpleCal_Domain_Model_File {
 		$this->file = $file;
 		return $this;
 	}
-	
+
 	/**
 	 * the property path
 	 *
 	 * @var string path
 	 */
 	protected $path;
-	
+
 	/**
 	 * getter for path
 	 *
@@ -75,10 +75,10 @@ class Tx_CzSimpleCal_Domain_Model_File {
 	public function getPath() {
 		return $this->path;
 	}
-	
+
 	/**
 	 * setter for path
-	 * 
+	 *
 	 * @param string $path
 	 * @return Tx_CzSimpleCal_Domain_Model_File
 	 */
@@ -89,23 +89,23 @@ class Tx_CzSimpleCal_Domain_Model_File {
 		$this->path = $path;
 		return $this;
 	}
-	
+
 	/**
 	 * get the full path to the file
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getFilePath() {
 		return $this->path.$this->file;
 	}
-	
+
 	/**
 	 * the property alternateText
 	 *
 	 * @var string alternateText
 	 */
 	protected $alternateText;
-	
+
 	/**
 	 * getter for alternateText
 	 *
@@ -114,10 +114,10 @@ class Tx_CzSimpleCal_Domain_Model_File {
 	public function getAlternateText() {
 		return $this->alternateText;
 	}
-	
+
 	/**
 	 * setter for alternateText
-	 * 
+	 *
 	 * @param string $alternateText
 	 * @return Tx_CzSimpleCal_Domain_Model_File
 	 */
@@ -125,14 +125,14 @@ class Tx_CzSimpleCal_Domain_Model_File {
 		$this->alternateText = $alternateText;
 		return $this;
 	}
-	
+
 	/**
 	 * the property caption
 	 *
 	 * @var string caption
 	 */
 	protected $caption;
-	
+
 	/**
 	 * getter for caption
 	 *
@@ -141,10 +141,10 @@ class Tx_CzSimpleCal_Domain_Model_File {
 	public function getCaption() {
 		return $this->caption;
 	}
-	
+
 	/**
 	 * setter for caption
-	 * 
+	 *
 	 * @param string $caption
 	 * @return Tx_CzSimpleCal_Domain_Model_File
 	 */
@@ -152,7 +152,7 @@ class Tx_CzSimpleCal_Domain_Model_File {
 		$this->caption = $caption;
 		return $this;
 	}
-	
-	
+
+
 }
 ?>

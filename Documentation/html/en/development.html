@@ -5,14 +5,14 @@
 		</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
 			The extension is smart enough to notify if you changed some values that actually require indexing to run again.
 			So if you only change the title or a description, no indexing is done.
-		</div><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>You can use the <span class="productname">scheduler</span> extension to re-index all your events. This 
-			should be done if you updated Exceptions that are applied to multiple Events, moved records around or if you 
+		</div><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>You can use the <span class="productname">scheduler</span> extension to re-index all your events. This
+			should be done if you updated Exceptions that are applied to multiple Events, moved records around or if you
 			changed the <code class="code">recurrenceEnd</code> setting. The <span class="productname">scheduler</span> is a core extension
 			and shipped with <span class="productname">TYPO3</span>, but you might have to install it in the extension manager.
 			</p></div><p>
 			Due to the indexing of events you usually deal with <a class="link" href="#glossary.eventindex">EventIndices</a> in your
 			templates. But the objects are smart enough to tunnel unknown methods to the <a class="link" href="#glossary.eventindex">Event</a>
-			they belong to. So you can work with <code class="literal">EventIndices</code> as if they were Events.   
+			they belong to. So you can work with <code class="literal">EventIndices</code> as if they were Events.
 		</p></div><div class="section" title="Fake Actions"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="chapter.concepts.fake-actions"></a>Fake Actions</h2></div></div></div><p>
 			To make the extension as flexible as possible you can add <a class="link" href="#">fake actions</a>
 			to the controllers in your TypoScript.
@@ -25,19 +25,19 @@
 			The recommended way of setting a fixed day and time is the <code class="literal">YYYY-MM-DD (HH:MM:SS[T]?)?</code> syntax, but
 			there are also different valid syntaxes:
 		</p><div class="example"><a name="id3916581"></a><p class="title"><b>Example 1.1. Examples of valid dates and times</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><strong class="userinput"><code>2009-02-13</code></strong></p></li><li class="listitem"><p><strong class="userinput"><code>2009-02-13 23:31:30</code></strong></p></li><li class="listitem"><p><strong class="userinput"><code>2009-02-13 23:31:30UTC</code></strong></p></li><li class="listitem"><p><strong class="userinput"><code>13.2.09 23.31.30+00:00</code></strong></p></li><li class="listitem"><p><strong class="userinput"><code>February 13th, 2009 11 pm</code></strong></p></li></ul></div></div></div><br class="example-break"><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>Note that you can't use localized month names here.</p></div><p>Additionally you can use relative dates and chaining of different relative dates.</p><div class="example"><a name="id3916614"></a><p class="title"><b>Example 1.2. Examples of valid relative dates</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><strong class="userinput"><code>yesterday</code></strong></p></li><li class="listitem"><p><strong class="userinput"><code>last monday</code></strong></p></li><li class="listitem"><p><strong class="userinput"><code>+1 month -1 day</code></strong></p></li><li class="listitem"><p><strong class="userinput"><code>first day this month|monday this week</code></strong></p></li></ul></div></div></div><br class="example-break"><p>See <a class="link" href="#appendix.date" title="Appendix A. The type date">the appendix for the complete syntax.</a></p></div></div><div class="chapter" title="Chapter 2. Testing"><div class="titlepage"><div><div><h2 class="title"><a name="development.testing"></a>Chapter 2. Testing</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#development.testing.unit">Setting up Unit Tests</a></span></dt><dt><span class="section"><a href="#development.testing.selenium">Setting up Selenium Tests</a></span></dt></dl></div><p>This section will explain how to set up a testing environment for the extension.</p><div class="section" title="Setting up Unit Tests"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="development.testing.unit"></a>Setting up Unit Tests</h2></div></div></div><p>
-				You need to install the extension <span class="productname">phpunit</span> in order to run Unit Tests. You can 
-				find the extension <a class="link" href="http://typo3.org/extensions/repository/view/phpunit/current/" target="_top"><span class="productname">phpunit</span> on TER</a>. 
+				You need to install the extension <span class="productname">phpunit</span> in order to run Unit Tests. You can
+				find the extension <a class="link" href="http://typo3.org/extensions/repository/view/phpunit/current/" target="_top"><span class="productname">phpunit</span> on TER</a>.
 			</p><p>
 				There is not much to say on the installation of the extension. It is straight forward and as it comes bundled with
 				a PHPUnit library, so you won't even need to install a PEAR package. If you should encounter any difficulties, consult
-				the <a class="link" href="http://typo3.org/documentation/document-library/extension-manuals/phpunit/3.4.12/view/" target="_top">documentation on the internet</a> or your local machine. 
+				the <a class="link" href="http://typo3.org/documentation/document-library/extension-manuals/phpunit/3.4.12/view/" target="_top">documentation on the internet</a> or your local machine.
 			</p><p>
-				After successful installation you should see the PHPUnit module in the Admin Section. Click it and select 
-				<span class="productname">cz_simple_cal</span> as extension to run the unit tests. 
+				After successful installation you should see the PHPUnit module in the Admin Section. Click it and select
+				<span class="productname">cz_simple_cal</span> as extension to run the unit tests.
 				Make sure that all the options <code class="literal">Success</code>,  <code class="literal">Failure</code>, <code class="literal">Skipped</code> and <code class="literal">Error</code>
 				are checked. Otherwise you might miss a faulty behaviour.
 				Click <code class="computeroutput">Run all tests</code> and all the tests should be run. If the bar is not green
-				after running all tests or the word "Success" is not displayed at the bottom of the list, something went wrong.  
+				after running all tests or the word "Success" is not displayed at the bottom of the list, something went wrong.
 			</p></div><div class="section" title="Setting up Selenium Tests"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="development.testing.selenium"></a>Setting up Selenium Tests</h2></div></div></div><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3><p>
 					You should use a seperate TYPO3 installation and database for running selenium tests as you need to create some pages
 					for testing.
@@ -49,7 +49,7 @@
 							If the <span class="productname">selenium</span> extension is not enabled, all Selenium Tests will be skipped automatically.
 						</p></div></li><li class="step" title="Step 2"><p>
 						Now install <span class="productname">Selenium Remote Control (RC)</span> - if you don't have it running already.<br>
-						Download it at <a class="link" href="http://seleniumhq.org/download/" target="_top">selenium.org</a> and unpack. All you need is 
+						Download it at <a class="link" href="http://seleniumhq.org/download/" target="_top">selenium.org</a> and unpack. All you need is
 						the <code class="filename">selenium-remote-control-1.x.x/selenium-server-1.x.x</code> folder - you might as well delete
 						all the others.<br>
 						Run the <code class="filename">selenium-server.jar</code> using <span class="productname">JAVA</span>, for example by typing
@@ -60,7 +60,7 @@
 							</p></li><li class="step" title="Step 3.b"><p>
 								In the tab labeled <code class="literal">Import</code> select the option <code class="literal">Force ALL UIDs values</code>.
 							</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
-									If you decide to <span class="emphasis"><em>not</em></span> set this option, all you have to do is set the TypoScript 
+									If you decide to <span class="emphasis"><em>not</em></span> set this option, all you have to do is set the TypoScript
 									constants in the root template with the pid of your <code class="literal">data</code> folder.
 								</p><p>
 									But if you force all uids, updating the test data for newer versions of this extension might
@@ -97,20 +97,20 @@ or later.</code></p></div><div class="glossary" title="Glossary"><div class="tit
 			The most important controller for the Events. Technically it is no controller for the <a class="link" href="#glossary.event-domain-model"><code class="literal">Event</code></a>
 			but for the <a class="link" href="#glossary.eventindex"><code class="literal">EventIndex</code></a>
 			</p></dd><dt>EventIndex (Domain Object)</dt><dd><p>
-			In contrast to the <a class="link" href="#">Event</a> an <code class="literal">EventIndex</code> 
-			is a representation of a concrete occurance of the event. So an <code class="literal">Event</code> the recurrs every week will have a 
+			In contrast to the <a class="link" href="#">Event</a> an <code class="literal">EventIndex</code>
+			is a representation of a concrete occurance of the event. So an <code class="literal">Event</code> the recurrs every week will have a
 			<code class="literal">EventIndex</code> representation fore every week.
 			Even not recurring Events have an <code class="literal">EventIndex</code> representation. Queries on several events are
 			almost exclusivly done on these domain objects.
 			</p><p>See Also Event.</p></dd><dt>Exception (Domain Object)</dt><dd><p>
-			An <code class="literal">Exception</code> is an "<code class="literal">Event</code>" that symbolizes that an Event is not taking place when 
+			An <code class="literal">Exception</code> is an "<code class="literal">Event</code>" that symbolizes that an Event is not taking place when
 			the exception is active. It might be recurring, but Exceptions is not stored are not stored as Indices in the database
 			as it is done with Events.
 			</p></dd><dt>ExceptionGroup (Domain Object)</dt><dd><p>
 			A collection of <code class="literal">Exceptions</code> that belong together somehow.
 			</p></dd><dt>GetDate</dt><dd><p>
 			GetDate is a concept taken from the TYPO3 extension <span class="productname">cal</span>. GetDate makes some actions configurable
-			using GET-parameters. All relative dates of the action are calculated based on that date. 
+			using GET-parameters. All relative dates of the action are calculated based on that date.
 			</p></dd><dt>Timespan</dt><dd><p>
 			A timespan has a start and an end date and covers everything in between. There are no gaps in a timespan.
 			</p></dd><dt>Timeline</dt><dd><p>
@@ -217,5 +217,5 @@ or later.</code></p></div><div class="glossary" title="Glossary"><div class="tit
 							<code class="literal">reltext</code>
 							<code class="literal">space</code>
 							'week'
-						</td><td>Handles the special format "weekday + last/this/next week".</td><td>"Monday next week"</td></tr></tbody></table></div></div><br class="table-break"><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3><p>Weeks always start with mondays. That's a difference to the original DateTime starts with sundays.</p></div></div><div class="section" title="Chaining"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="datetime.formats.chaining"></a>Chaining</h2></div></div></div><p>All afore mentioned formats can be chained by using the pipe character (<code class="literal">|</code>). All rules 
+						</td><td>Handles the special format "weekday + last/this/next week".</td><td>"Monday next week"</td></tr></tbody></table></div></div><br class="table-break"><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3><p>Weeks always start with mondays. That's a difference to the original DateTime starts with sundays.</p></div></div><div class="section" title="Chaining"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="datetime.formats.chaining"></a>Chaining</h2></div></div></div><p>All afore mentioned formats can be chained by using the pipe character (<code class="literal">|</code>). All rules
 		will be applied one after another.</p><div class="example"><a name="id3919818"></a><p class="title"><b>Example A.1. Chaining of DateTime formats</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><strong class="userinput"><code>first day this month|monday this week</code></strong></p></li><li class="listitem"><p><strong class="userinput"><code>2009-02-13 00:00:00|sunday next week</code></strong></p></li></ul></div></div></div><br class="example-break"></div></div></div></body></html>

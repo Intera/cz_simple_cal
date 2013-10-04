@@ -1,24 +1,24 @@
-<?php 
+<?php
 require_once(t3lib_extmgm::extPath('fluid') . 'Tests/Unit/ViewHelpers/ViewHelperBaseTestcase.php');
- 
+
 /**
  * testing the features of the Condition_CompareViewHelper
- * 
+ *
  * @author Christian Zenker <christian.zenker@599media.de>
  */
 class Format_NumberChoiceViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBaseTestcase {
-	
+
 	protected $viewHelper = null;
-	
+
 	public function setUp() {
 		parent::setUp();
 		$this->viewHelper = new Tx_CzSimpleCal_ViewHelpers_Format_NumberChoiceViewHelper();
 	}
-	
+
 	public function testArgumentsParameter() {
 		self::assertEquals('baz', $this->viewHelper->render(1, '[0]foo|[1]###bar###', array('bar' => 'baz')), 'markers are substituted.');
 	}
-	
+
 	/**
      * @dataProvider provider
      * @return unknown_type
@@ -26,7 +26,7 @@ class Format_NumberChoiceViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperB
 	public function testIfCorrectIntervalIsFound($text, $number, $assert) {
 		self::assertEquals($assert, $this->viewHelper->render($number, $text));
 	}
-	
+
 	public function provider() {
     	return array(
     		array('[0]foo', 0, 'foo'),
@@ -38,7 +38,7 @@ class Format_NumberChoiceViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperB
     		array('[42]foo|[0,+Inf]bar', 42, 'foo'),             // overlapping intervals
        	);
     }
-    
+
 	/**
      * Gets the data set description of a TestCase.
      *
@@ -63,5 +63,5 @@ class Format_NumberChoiceViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperB
 
         return $buffer;
     }
-	
+
 }

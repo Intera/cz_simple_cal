@@ -1,9 +1,9 @@
-<?php 
+<?php
 
 require_once t3lib_extMgm::extPath('cz_simple_cal').'Classes/ViewHelpers/Format/TimespanToWordsViewHelper.php';
 
 class Tx_CzSimpleCalTests_Mock_ViewHelpers_Format_TimespanToWordsViewHelper extends Tx_CzSimpleCal_ViewHelpers_Format_TimespanToWordsViewHelper {
-	
+
 	protected $ll = array(
 		"timespan.format.sameDay" =>'%B %e, %Y',
 		"timespan.format.sameMonth.start" => '%B %e',
@@ -16,7 +16,7 @@ class Tx_CzSimpleCalTests_Mock_ViewHelpers_Format_TimespanToWordsViewHelper exte
 		"timespan.to" => 'to',
 		"timespan.on" => 'on',
 	);
-	
+
 	protected function getLL($key) {
 		return $this->ll[$key];
 	}

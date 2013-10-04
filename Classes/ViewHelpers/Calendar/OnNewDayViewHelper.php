@@ -20,7 +20,7 @@
 
 /**
  * renders its content if the submitted event is on a different date then the previous one
- * 
+ *
  * <example>
  * <f:for each="{events}" as="event">
  *   <cal:calendar.onNewDay event="{event}">
@@ -29,35 +29,35 @@
  *   {event.title}
  * </f:for>
  * </example>
- *  
+ *
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @author Christian Zenker <christian.zenker@599media.de>
  */
 class Tx_CzSimpleCal_ViewHelpers_Calendar_OnNewDayViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
-	
+
 	/**
-	 * 
+	 *
 	 * @param Tx_CzSimpleCal_Domain_Model_EventIndexer $event the event to compare to the previously submitted one
 	 * @param string $label if you need multiple irrelated instances set this to something unique
 	 * @return string
 	 */
 	public function render($event, $label = '') {
-		
+
 		$className = get_class($this);
-		
+
 		$name = 'last_day_wrapper_date';
 		if($label) {
 			$name.='_'.$label;
 		}
-		
+
 		if ($this->viewHelperVariableContainer->exists($className, $name)) {
 			$lastDay = $this->viewHelperVariableContainer->get($className, $name);
 		} else {
-			
+
 		}
-		
+
 		$thisDay = strtotime('midnight', $event->getStart());
-		
+
 		if($thisDay == $lastDay) {
 			return '';
 		} else {

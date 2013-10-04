@@ -29,15 +29,15 @@
  *
  * Output:
  * 2009-02-13
- * 
- * 
+ *
+ *
  * <code title="Defaults with string">
  * <cal:format.dateTime timestamp="2009-02-13 20:31:30GMT" />
  * </code>
  *
  * Output:
  * 2009-02-13
- * 
+ *
  *
  * <code title="Defaults with DateTime object">
  * <cal:format.dateTime timestamp="dateTimeObject" />
@@ -45,8 +45,8 @@
  *
  * Output:
  * 2009-02-13
- * 
- * 
+ *
+ *
  * <code title="Custom date format">
  * <cal:format.dateTime format="%a, %e. %B %G" timestamp="1234567890" />
  * </code>
@@ -62,7 +62,7 @@
  *
  * Output:
  * 2009-02-14
- * 
+ *
  *
  * <code title="relative date">
  * <cal:format.dateTime timestamp="1234567890" get="first of this month"/>
@@ -70,7 +70,7 @@
  *
  * Output:
  * 2009-02-01
- * 
+ *
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @see http://www.php.net/manual/en/function.strftime.php
  * @see http://www.php.net/manual/en/function.strtotime.php
@@ -89,17 +89,17 @@ class Tx_CzSimpleCal_ViewHelpers_Format_DateTimeViewHelper extends Tx_Fluid_Core
 	 * @author Christian Zenker <christian.zenker@599media.de>
 	 */
 	public function render($timestamp = NULL, $format = '%Y-%m-%d', $get = '') {
-		
+
 		$timestamp = $this->normalizeTimestamp($timestamp);
 		if($get) {
 			$timestamp = $this->modifyDate($timestamp, $get);
 		}
 		return strftime($format, $timestamp);
 	}
-	
+
 	/**
 	 * handle all the different input formats and return a real timestamp
-	 * 
+	 *
 	 * @param $timestamp
 	 * @return integer
 	 */
@@ -117,10 +117,10 @@ class Tx_CzSimpleCal_ViewHelpers_Format_DateTimeViewHelper extends Tx_Fluid_Core
 		}
 		return $timestamp;
 	}
-	
+
 	/**
 	 * do the modification to a relative date
-	 * 
+	 *
 	 * @param $timestamp
 	 * @param $get
 	 * @return string

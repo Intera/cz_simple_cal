@@ -28,7 +28,7 @@ Tx_Extbase_Utility_Extension::registerPlugin(
 //			'labels' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang_mod.xml'
 //		)
 //	);
-//	
+//
 //}
 
 // default typoscript

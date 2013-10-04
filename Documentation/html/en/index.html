@@ -23,14 +23,14 @@
 		</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
 			The extension is smart enough to notify if you changed some values that actually require indexing to run again.
 			So if you only change the title or a description, no indexing is done.
-		</div><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>You can use the <span class="productname">scheduler</span> extension to re-index all your events. This 
-			should be done if you updated Exceptions that are applied to multiple Events, moved records around or if you 
+		</div><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>You can use the <span class="productname">scheduler</span> extension to re-index all your events. This
+			should be done if you updated Exceptions that are applied to multiple Events, moved records around or if you
 			changed the <code class="code">recurrenceEnd</code> setting. The <span class="productname">scheduler</span> is a core extension
 			and shipped with <span class="productname">TYPO3</span>, but you might have to install it in the extension manager.
 			</p></div><p>
 			Due to the indexing of events you usually deal with <a class="link" href="#glossary.eventindex">EventIndices</a> in your
 			templates. But the objects are smart enough to tunnel unknown methods to the <a class="link" href="#glossary.eventindex">Event</a>
-			they belong to. So you can work with <code class="literal">EventIndices</code> as if they were Events.   
+			they belong to. So you can work with <code class="literal">EventIndices</code> as if they were Events.
 		</p></div><div class="section" title="Fake Actions"><div class="titlepage"><div><div><h3 class="title"><a name="chapter.concepts.fake-actions"></a>Fake Actions</h3></div></div></div><p>
 			To make the extension as flexible as possible you can add <a class="link" href="#">fake actions</a>
 			to the controllers in your TypoScript.
@@ -48,7 +48,7 @@
 		</p><pre class="programlisting">01 plugin.tx_czsimplecal {
 02   #@description: the pid the records are stored in
 03   persistence.storagePid = {$plugin.tx_czsimplecal.pidList}
-04   # [...]	
+04   # [...]
 05   settings {
 06     EventIndex {
 07       # first one is the default action
@@ -74,7 +74,7 @@
 27           startDate  = now
 28           endDate    = now +1 month
 29           maxEvents = 1
-30           orderBy   = start  
+30           orderBy   = start
 31           order     = ASC
 32         }
 33         week {
@@ -111,14 +111,14 @@
 64       allowedActions = show
 65       actions {
 66         show {
-67           defaultPid = {$plugin.tx_czsimplecal.pids.default}	
+67           defaultPid = {$plugin.tx_czsimplecal.pids.default}
 68         }
 69       }
 70     }
-71     # this is where you can put your customized options 
+71     # this is where you can put your customized options
 72     custom {
 73     }
-74   } 
+74   }
 75 }</pre><p>
 		Line <code class="literal">03</code> holds the comma-seperated list of uids of the pages all relevant records are stored. Don't
 		forget to give the pages of your tt_address records if you plan on using them for organizers and locations.
@@ -137,13 +137,13 @@
 		Lines <code class="literal">10</code> to <code class="literal">20</code> hold the configuration for the <code class="literal">list</code> Action.<br>
 		The list action is used to show events from a certain timespan, like all events from one day or from one week.
 	</p><p>
-		In line <code class="literal">11</code> the default pid for this action is set. This is only used by the <code class="literal">Tx_CzSimpleCal_ViewHelpers_Link_ActionViewHelper</code> 
+		In line <code class="literal">11</code> the default pid for this action is set. This is only used by the <code class="literal">Tx_CzSimpleCal_ViewHelpers_Link_ActionViewHelper</code>
 		to allow easy linking of your whole calender is not shown on only one pid, but split over multiple pages.<br>
 		If you link to the <code class="literal">list</code> View from another view, you don't have to set the <code class="literal">pageUid</code> property of the
 		<code class="literal">Tx_Fluid_ViewHelpers_Link_ActionViewHelper</code>.
 	</p><p>
 		In lines <code class="literal">12</code> and <code class="literal">13</code> the start and end dates for the list are defined. In this
-		example the list view shows all events from (midnight) today up to one month from today.  
+		example the list view shows all events from (midnight) today up to one month from today.
 	</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
 			Only the start date of an event is taken into account, when deciding if an event is in that interval by default.
 			So an event, that started yesterday but is still running today, won't be shown in that list. But an event that starts
@@ -159,18 +159,18 @@
 		If you would uncomment that line, you would only select events in the category with the uid <code class="literal">42</code>.
 	</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
 			The filter array is quite powerfull. You can also use it to filter by organizer, location or even an events name.
-			See the <a class="link" href="#chapter.configuration.typoscript.EventIndex.list" title="list action">configuration documentation</a> for more details. 
+			See the <a class="link" href="#chapter.configuration.typoscript.EventIndex.list" title="list action">configuration documentation</a> for more details.
 		</p></div><p>
 		Lines <code class="literal">18</code> and <code class="literal">19</code> allow you to also include already started but not
 		yet finished events to your results (<code class="literal">includeStartedEvents</code>) as well as exclude events
 		that aren't yet finished on <code class="literal">endDate</code> (<code class="literal">excludeOverlongEvents</code>).
 	</p><p>
-		Lines <code class="literal">21</code> to <code class="literal">23</code> hold the configuration for another action - the 
-		<code class="literal">show</code> action. It is used to show a single <span class="emphasis"><em>EventIndex</em></span>! So if you 
+		Lines <code class="literal">21</code> to <code class="literal">23</code> hold the configuration for another action - the
+		<code class="literal">show</code> action. It is used to show a single <span class="emphasis"><em>EventIndex</em></span>! So if you
 		had a dance course that meets once a week, this action would show the dance cours on Thursday, 13th January at 18:00, for
 		instance. The dance course as a whole could be represented by the <code class="literal">Event</code>-Controllers <code class="literal">show</code> action.
 	</p><p>
-		Lines <code class="literal">24</code> to <code class="literal">32</code> define an other action. It is thought to show the 
+		Lines <code class="literal">24</code> to <code class="literal">32</code> define an other action. It is thought to show the
 		next event in the calendar. This is done by utilizing the already known settings <code class="literal">startDate</code>,
 		<code class="literal">endDate</code> and <code class="literal">maxEvents</code>.
 	</p><p>
@@ -180,13 +180,13 @@
 		as if it was a <code class="literal">list</code> action, but with different settings and it uses the <code class="literal">next</code>
 		template for its view.
 	</p><p>
-		Lines <code class="literal">33</code> to <code class="literal">42</code> define another fake action for a week view. 
+		Lines <code class="literal">33</code> to <code class="literal">42</code> define another fake action for a week view.
 		The first notable thing to mark, are the <code class="literal">startDate</code> and the <code class="literal">endDate</code>
 		settings here: You can use some phrases like <code class="literal">monday this week</code> as part of the <a class="link" href="#chapter.concepts.date-type" title="The type date">type <code class="literal">date</code></a>.
 		You find a full <a class="link" href="#appendix.date" title="Appendix A. The type date">reference of the <code class="literal">date</code> type</a> in the appendix.
 	</p><p>
 		Line <code class="literal">38</code> defines which GET-parameters might override some of the settings of this action.
-		In this case we allow the user to override the <code class="literal">getDate</code> setting. <code class="literal">getDate</code> is 
+		In this case we allow the user to override the <code class="literal">getDate</code> setting. <code class="literal">getDate</code> is
 		the date we asume to be "now" before calculating the <code class="literal">startDate</code> and <code class="literal">endDate</code>.
 		So with this setting enabled, we create pages for each week.
 	</p><p>
@@ -198,13 +198,13 @@
 		It uses a technique, we call <span class="emphasis"><em>chaining</em></span> (through the pipe character <code class="literal">|</code>)to evaluate complex date calculations.
 		The end date is calculated by first finding the <code class="literal">first day of this month</code>, then looking
 		for the <code class="literal">first monday next week</code> (that is the first monday in the next month) and then
-		subtracting one second. 
+		subtracting one second.
 	</p><p>
 		Lines <code class="literal">63</code> to <code class="literal">70</code> hold configuration for the <code class="literal">Event</code>-Controller.
 		The configuration is similar to that of the <code class="literal">EventIndex</code> controller.
 	</p><p>
-		Lines <code class="literal">66</code> to <code class="literal">68</code> configurate the only Real action of the <code class="literal">Event</code> 
-		controller - the <code class="literal">show</code> action.  
+		Lines <code class="literal">66</code> to <code class="literal">68</code> configurate the only Real action of the <code class="literal">Event</code>
+		controller - the <code class="literal">show</code> action.
 	</p><p>
 		Lines <code class="literal">72</code> to <code class="literal">73</code> is the <code class="literal">custom</code>-array where you can store
 		whichever values you like. There are no conventions whatsoever.
@@ -216,7 +216,7 @@
 			</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><a class="link" href="http://flow3.typo3.org/documentation/manuals/fluid/" target="_top">http://flow3.typo3.org/documentation/manuals/fluid/</a></li><li class="listitem"><a class="link" href="http://www.typovision.de/cheatsheet/" target="_top">http://www.typovision.de/cheatsheet/</a></li><li class="listitem"><a class="link" href="http://forge.typo3.org/projects/typo3v4-mvc/wiki/Collection_of_Documentation" target="_top">http://forge.typo3.org/projects/typo3v4-mvc/wiki/Collection_of_Documentation</a></li></ul></div><p>
 		</p><p>
 			You find the default templates and partials in <code class="filename">typo3conf/ext/cz_simple_cal/Resources/Private/Templates</code> or <code class="filename">Resources/Private/Partials</code>
-			respectively. 
+			respectively.
 		</p><p>
 			To customize these templates, first copy the two folders <code class="filename">Templates</code> and <code class="filename">Partials</code>
 			to a different location, like <code class="filename">fileadmin/template/cz_simple_cal/</code>.
@@ -228,9 +228,9 @@
   			After doing that you are free to modify the templates as desired. The <a class="link" href="#appendix.viewHelpers" title="Appendix B. ViewHelpers">viewHelpers shipped with <span class="productname">cz_simple_cal</span>
   			are described in an appendix</a>.
   		</p></div></div><div class="chapter" title="Chapter 3. Configuration"><div class="titlepage"><div><div><h2 class="title"><a name="chapter.configuration"></a>Chapter 3. Configuration</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#chapter.configuration.extconf">extConf</a></span></dt><dt><span class="section"><a href="#chapter.configuration.typoscript">TypoScript</a></span></dt><dd><dl><dt><span class="section"><a href="#chapter.configuration.typoscript.settings">type <code class="literal">settings</code></a></span></dt><dt><span class="section"><a href="#chapter.configuration.typoscript.EventIndex"><code class="literal">EventIndex configuration</code></a></span></dt><dt><span class="section"><a href="#chapter.configuration.typoscript.Event"><code class="literal">Event configuration</code></a></span></dt></dl></dd></dl></div><div class="section" title="extConf"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="chapter.configuration.extconf"></a>extConf</h2></div></div></div><p>
-			When installing the extension the <span class="productname">Extension Manager</span> will let 
+			When installing the extension the <span class="productname">Extension Manager</span> will let
 			you set some values.
-		</p><div class="variablelist"><dl><dt><span class="term">recurrenceEnd</span></dt><dd><p>					
+		</p><div class="variablelist"><dl><dt><span class="term">recurrenceEnd</span></dt><dd><p>
 						<span class="productname">cz_simple_cal</span> indexes recurring events. Here you can set until
 						what date the indexing should be done. Use any valid format for the
 						<a class="link" href="#appendix.date" title="Appendix A. The type date"><code class="literal">date</code> type</a> here - <code class="literal">2020-12-31</code>
@@ -241,17 +241,17 @@
 		</p><p>
 			The following settings are <span class="productname">Extbase</span>-specific. If you have worked with <span class="productname">Extbase</span>
 			before, you should be quite familiar with them.
-		</p><div class="variablelist"><dl><dt><span class="term">persistence.storagePid<br>(type: <code class="literal">string</code>)</span></dt><dd><p>	
+		</p><div class="variablelist"><dl><dt><span class="term">persistence.storagePid<br>(type: <code class="literal">string</code>)</span></dt><dd><p>
 						The page id where your records are stored. You can set multiple pages seperated by comma (<code class="literal">,</code>).
 					</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
 							If you use tt_address for location and/or organizer, you also have to give the pids of these records.
-						</p></div></dd><dt><span class="term">view.templateRootPath<br>view.partialRootPath<br>(type: <code class="literal">string</code>)</span></dt><dd><p>	
+						</p></div></dd><dt><span class="term">view.templateRootPath<br>view.partialRootPath<br>(type: <code class="literal">string</code>)</span></dt><dd><p>
 						The path to the folder your customized templates or partials are stored in.
 					</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
 							You find the default templates and partials in <code class="filename">typo3conf/ext/cz_simple_cal/Resources/Private/Templates</code> or <code class="filename">Resources/Private/Partials</code>.<br>
 							If you copied those folders to <code class="filename">fileadmin/template/cz_simple_cal/</code> the paths to set were
 							<code class="filename">fileadmin/template/cz_simple_cal/Templates/</code> or <code class="filename">fileadmin/template/cz_simple_cal/Partials/</code> respectively.
-						</p></div></dd><dt><span class="term">_LOCAL_LANG.[lang].[key]<br>(type: <code class="literal">string</code>)</span></dt><dd><p>	
+						</p></div></dd><dt><span class="term">_LOCAL_LANG.[lang].[key]<br>(type: <code class="literal">string</code>)</span></dt><dd><p>
 						An array were you can override localized strings with your custom substitudes.<br>
 						<code class="literal">[lang]</code> is the 2-sign-language code used by <span class="productname">TYPO3</span>, like <code class="literal">en</code> or <code class="literal">de</code>.<br>
 						<code class="literal">[key]</code> is the identifier of the string. For a list of identifiers, have a look at <code class="literal">EXT:cz_simple_cal/Resources/Private/Language/locallang.xml</code>.
@@ -260,7 +260,7 @@
 					</p></dd></dl></div><div class="section" title="type settings"><div class="titlepage"><div><div><h3 class="title"><a name="chapter.configuration.typoscript.settings"></a>type <code class="literal">settings</code></h3></div></div></div><p>
 				All cz_simple_cal-configuration goes into <code class="literal">plugin.tx_czsimplecal.settings</code>.
 			</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
-					Thanks to <span class="productname">fluid</span>, you'll have every setting available in each <span class="productname">fluid</span>-template 
+					Thanks to <span class="productname">fluid</span>, you'll have every setting available in each <span class="productname">fluid</span>-template
 					through the property <code class="literal">{settings}</code>.
 				</p></div><div class="variablelist"><dl><dt><span class="term">custom<br>(type: <code class="literal">array</code>)</span></dt><dd><p>
 							This space is reserved for whatever values you'd like to have available in your templates.
@@ -296,7 +296,7 @@
 						is used	by a viewHelper to ease linking.</p><p>Additional configuration options are available depending on the selected Real Action.</p></dd></dl></div><div class="section" title="list action"><div class="titlepage"><div><div><h4 class="title"><a name="chapter.configuration.typoscript.EventIndex.list"></a><code class="literal">list</code> action</h4></div></div></div><p>
 					This action is used to display a list of timely connected events.
 				</p><p>
-					Examples would be to show upcoming events, the last events or all events on a certain month. 
+					Examples would be to show upcoming events, the last events or all events on a certain month.
 				</p><div class="variablelist"><dl><dt><span class="term">startDate<br>(type: <code class="literal">date</code>)</span></dt><dd><p>
 								The start of the event list.<br>
 								By default this list contains only events that start <span class="emphasis"><em>after</em></span> this point.
@@ -312,9 +312,9 @@
 							</p></dd><dt><span class="term">order<br>(type: "<code class="literal">asc</code>" or "<code class="literal">desc</code>")</span></dt><dd><p>
 								Sort the resulting EventIndexes ascending (<code class="literal">asc</code>) or descending (<code class="literal">desc</code>).
 							</p></dd><dt><span class="term">orderBy<br>(type: "<code class="literal">start</code>" or "<code class="literal">end</code>")</span></dt><dd><p>
-								If the resulting events should be sorted by their <code class="literal">start</code> or <code class="literal">end</code> date. 
+								If the resulting events should be sorted by their <code class="literal">start</code> or <code class="literal">end</code> date.
 							</p></dd><dt><span class="term">maxEvents<br>(type: <code class="literal">positive integer</code>)</span></dt><dd><p>
-								The maximum of events to return. 
+								The maximum of events to return.
 							</p></dd><dt><span class="term">filter.[field]<br>(type: <code class="literal">array</code>)</span></dt><dd><p>
 								 Filter the resulting events by a value from the database. You can assign multiple
 								 values seperated by comma.
@@ -327,7 +327,7 @@
 								selects only events of the organizers with uids <code class="literal">4</code> and <code class="literal">2</code>.
 								<pre class="programlisting">filter.categories.uid = 4
 filter.location.uid = 2</pre>
-								selects only events of the organizer with uid <code class="literal">4</code> at the location with 
+								selects only events of the organizer with uid <code class="literal">4</code> at the location with
 								uid <code class="literal">2</code>.
 							</div></div><br class="example-break"><p>
 								You can also exclude the listed values from a filter by using the <code class="literal">negate</code>
@@ -338,7 +338,7 @@ filter.categories.uid.negate = 1</pre>
 							</div></div><br class="example-break"><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3><p>
 									Note, that for technical limitations, extbase is just able to select events, that
 									actually have a category in the above example. If you have events, that are not
-									assigned to any category, they won't show up neither! 
+									assigned to any category, they won't show up neither!
 								</p></div><p>This example is interchangeable with the above one:</p><div class="example"><a name="id3872452"></a><p class="title"><b>Example 3.5. Advanced usage of filters II</b></p><div class="example-contents"><pre class="programlisting">filter.categories.uid.value = 42
 filter.categories.uid.negate = 1</pre></div></div><br class="example-break"></dd><dt><span class="term">getDate<br>(type: <code class="literal">date</code>)</span></dt><dd><p>
 								The date given here will be asumed to be <code class="literal">now</code> for relative dates in
@@ -365,9 +365,9 @@ filter.categories.uid.negate = 1</pre></div></div><br class="example-break"></dd
 							</p></dd><dt><span class="term">order<br>(type: "<code class="literal">asc</code>" or "<code class="literal">desc</code>")</span></dt><dd><p>
 								Sort the resulting EventIndexes ascending (<code class="literal">asc</code>) or descending (<code class="literal">desc</code>).
 							</p></dd><dt><span class="term">orderBy<br>(type: "<code class="literal">start</code>" or "<code class="literal">end</code>")</span></dt><dd><p>
-								If the resulting events should be sorted by their <code class="literal">start</code> or <code class="literal">end</code> date. 
+								If the resulting events should be sorted by their <code class="literal">start</code> or <code class="literal">end</code> date.
 							</p></dd><dt><span class="term">maxEvents<br>(type: <code class="literal">positive integer</code>)</span></dt><dd><p>
-								The maximum of events to return. 
+								The maximum of events to return.
 							</p></dd><dt><span class="term">filter.[field]<br>(type: <code class="literal">array</code>)</span></dt><dd><p>
 								 Filter the resulting events by a value from the database. You can assign multiple
 								 values seperated by comma.
@@ -380,12 +380,12 @@ filter.categories.uid.negate = 1</pre></div></div><br class="example-break"></dd
 								selects only events of the organizers with uids <code class="literal">4</code> and <code class="literal">2</code>.
 								<pre class="programlisting">filter.categories.uid = 4
 filter.location.uid = 2</pre>
-								selects only events of the organizer with uid <code class="literal">4</code> at the location with 
+								selects only events of the organizer with uid <code class="literal">4</code> at the location with
 								uid <code class="literal">2</code>.
 							</div></div><br class="example-break"></dd><dt><span class="term">groupBy<br></span></dt><dd><p>
 								The timespan for which to group the events.
 							</p><p>
-								Allowed values are <code class="literal">day</code>, <code class="literal">week</code>, <code class="literal">month</code> and <code class="literal">year</code>. 
+								Allowed values are <code class="literal">day</code>, <code class="literal">week</code>, <code class="literal">month</code> and <code class="literal">year</code>.
 							</p></dd><dt><span class="term">getDate<br>(type: <code class="literal">date</code>)</span></dt><dd><p>
 								The date given here will be asumed to be <code class="literal">now</code> for relative dates in
 								<code class="literal">startDate</code> and <code class="literal">endDate</code>.
@@ -428,13 +428,13 @@ filter.location.uid = 2</pre>
 					Events where not added through <span class="productname">TYPO3</span>s native forms.
 				</p><p>
 					This might happen if you use any weired extension, that manipulates records on a
-					database level or if you even manipulate the records on the database yourself. 
+					database level or if you even manipulate the records on the database yourself.
 				</p></li><li class="listitem"><p>
 					You have recurring events and use
 					<a class="link" href="#chapter.configuration.extconf" title="extConf"><code class="literal">recurranceEnd</code></a>
 					with a relative date format.
 				</p><p>
-					I would recommend this way as it keeps your database tables as small as possible and 
+					I would recommend this way as it keeps your database tables as small as possible and
 					you probably don't want recurring events to repeat until ten years from now.
 					If you had limited <code class="literal">recurranceEnd</code> to <strong class="userinput"><code>+1 year</code></strong>
 					you should update your index every once in a while as the event index will only have
@@ -449,8 +449,8 @@ filter.location.uid = 2</pre>
 						This field is of the <a class="link" href="#appendix.date" title="Appendix A. The type date"><code class="literal">date</code> type</a>.
 						So if you enter <strong class="userinput"><code>-1 month</code></strong> all the events will be re-indexed after one month.
 					</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
-							Depending on how many events you have, the indexer might be to slow to index all events in 
-							one run. So your scheduler should run more often than the value in this property, if you 
+							Depending on how many events you have, the indexer might be to slow to index all events in
+							one run. So your scheduler should run more often than the value in this property, if you
 							can't ensure that your machine is capable of indexing all events at once.
 						</p></div><p>
 						If you leave this field empty the events that where indexed the longest time ago will be indexed.
@@ -463,15 +463,15 @@ filter.location.uid = 2</pre>
 			Adding a fake action is pretty simple and can be done only using TypoScript. Let's say we want to add a view that
 			displays the event that has recently finished. We'll call this action <code class="literal">recent</code>.
 		</p><div class="procedure"><ol class="procedure" type="1"><li class="step" title="Choose a fitting real action"><p class="title"><b>Choose a fitting real action</b></p><p>
-					In our example case this would be the <code class="literal">listAction</code>. <code class="literal">ShowAction</code> won't fit as 
-					you don't know the id of the event to display in advance. Instead, we'll limit the list to display only one 
+					In our example case this would be the <code class="literal">listAction</code>. <code class="literal">ShowAction</code> won't fit as
+					you don't know the id of the event to display in advance. Instead, we'll limit the list to display only one
 					event.
 				</p></li><li class="step" title="Extend the TypoScript configuration"><p class="title"><b>Extend the TypoScript configuration</b></p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>All given TypoScript paths are relative to <code class="code">plugin.tx_czsimplecal</code>. I am to lazy to
 					add this to the path each time, and so should you. Use the curly brackets: <code class="code">plugin.tx_czsimplecal{ //... }</code>
 				</p></div><p>
-					The TypoScript settings already hold some action configurations. So we'll just copy the configuration for the 
+					The TypoScript settings already hold some action configurations. So we'll just copy the configuration for the
 					<code class="literal">listAction</code> in <code class="code">settings.EventIndex.actions.list</code> to <code class="code">settings.EventIndex.actions.recent</code>.
-				</p><p>The configureable options should be pretty obvious. But first we'll add <code class="code">useAction = list</code> to the 
+				</p><p>The configureable options should be pretty obvious. But first we'll add <code class="code">useAction = list</code> to the
 				actions configuration. This way the fake <code class="literal">recentAction</code> knows which real action to call.
 				Now we can change the other configuration like this:
 				</p><pre class="programlisting">recent {
@@ -480,13 +480,13 @@ filter.location.uid = 2</pre>
     endDate    = now
 
     maxEvents = 1
-    orderBy   = end  
+    orderBy   = end
     order     = DESC
 }</pre><p>Guess what each of the configuration values is doing. ;) We select all events between now and one month ago,
 				order them by their endtime and just pick the first one.</p></li><li class="step" title="Add the action to the allowed actions"><p class="title"><b>Add the action to the allowed actions</b></p><p>Just add the name of the action to the <code class="code">allowedActions</code> in <code class="code">settins.EventIndex</code>.</p></li><li class="step" title="Create a view"><p class="title"><b>Create a view</b></p><p>
 					Well, thats even simpler: Just copy the <code class="literal">list.html</code> template and rename it to
 					<code class="literal">recent.html</code>. Do changes on the file if you like - removing the dayWrapper could be a good idea.
-				</p></li></ol></div></div></div><div class="chapter" title="Chapter 6. Known problems"><div class="titlepage"><div><div><h2 class="title"><a name="chapter.knownproblems"></a>Chapter 6. Known problems</h2></div></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Only compatible with <span class="productname">Extbase</span> 1.3 (shipped with <span class="productname">TYPO3</span> 4.5 LTS).</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>There is a version for TYPO3 4.4 and Extbase 1.2 in the github repository 
+				</p></li></ol></div></div></div><div class="chapter" title="Chapter 6. Known problems"><div class="titlepage"><div><div><h2 class="title"><a name="chapter.knownproblems"></a>Chapter 6. Known problems</h2></div></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Only compatible with <span class="productname">Extbase</span> 1.3 (shipped with <span class="productname">TYPO3</span> 4.5 LTS).</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>There is a version for TYPO3 4.4 and Extbase 1.2 in the github repository
 				on the <code class="literal">extbase-1.2</code> branch. But this branch is deprecated. There might be some
 				bugfixes to that branch, but don't expect them or any new features.
 				</p></div></li><li class="listitem"><p>Updating problems due to the development in progress of extbase might occur.</p><p>
@@ -506,12 +506,12 @@ filter.location.uid = 2</pre>
 					wish to do so.
 				</p></td></tr><tr class="question" title="7.2."><td align="left" valign="top"><a name="id3873379"></a><a name="id3873380"></a><p><b>7.2.</b></p></td><td align="left" valign="top"><p>I'm a programmer, how can I dive into the code?</p></td></tr><tr class="answer"><td align="left" valign="top"></td><td align="left" valign="top"><p>
 					You should be familiar with <span class="productname">Extbase</span> and <span class="productname">Fluid</span>.
-					The source code itself is documented inline, so there should be a brief explanation on what each class and 
+					The source code itself is documented inline, so there should be a brief explanation on what each class and
 					method is used for. Read the according section to understand the <a class="link" href="#chapter.administration.concepts" title="Concepts">
 					basic concepts and philosophies of the extension</a>.
 				</p><p>
 					If you have any difficulties on understanding the code, you can contact the developer through the email-adressen
-					given in <span class="productname">TYPO3 Forge</span>. 
+					given in <span class="productname">TYPO3 Forge</span>.
 				</p></td></tr></tbody></table></div></div><div class="chapter" title="Chapter 8. Copyright Notice"><div class="titlepage"><div><div><h2 class="title"><a name="chapter.copyrights"></a>Chapter 8. Copyright Notice</h2></div></div></div><p>This project uses some of the <a class="link" href="http://p.yusukekamiyamane.com/" target="_top">Fugue Icons</a>. They are published under a <a class="link" href="http://creativecommons.org/licenses/by/3.0" target="_top"><span class="productname">Creative Commons</span></a> license:</p><p><code class="literal">Copyright (C) 2010 Yusuke Kamiyamane. All rights reserved.
 The icons are licensed under a Creative Commons Attribution
 3.0 license.</code></p><p>The <a class="link" href="#appendix.date" title="Appendix A. The type date">documentation on the date type in the appendix</a> is a slight modification of the official
@@ -528,20 +528,20 @@ or later.</code></p></div><div class="glossary" title="Glossary"><div class="tit
 			The most important controller for the Events. Technically it is no controller for the <a class="link" href="#glossary.event-domain-model"><code class="literal">Event</code></a>
 			but for the <a class="link" href="#glossary.eventindex"><code class="literal">EventIndex</code></a>
 			</p></dd><dt>EventIndex (Domain Object)</dt><dd><p>
-			In contrast to the <a class="link" href="#">Event</a> an <code class="literal">EventIndex</code> 
-			is a representation of a concrete occurance of the event. So an <code class="literal">Event</code> the recurrs every week will have a 
+			In contrast to the <a class="link" href="#">Event</a> an <code class="literal">EventIndex</code>
+			is a representation of a concrete occurance of the event. So an <code class="literal">Event</code> the recurrs every week will have a
 			<code class="literal">EventIndex</code> representation fore every week.
 			Even not recurring Events have an <code class="literal">EventIndex</code> representation. Queries on several events are
 			almost exclusivly done on these domain objects.
 			</p><p>See Also Event.</p></dd><dt>Exception (Domain Object)</dt><dd><p>
-			An <code class="literal">Exception</code> is an "<code class="literal">Event</code>" that symbolizes that an Event is not taking place when 
+			An <code class="literal">Exception</code> is an "<code class="literal">Event</code>" that symbolizes that an Event is not taking place when
 			the exception is active. It might be recurring, but Exceptions is not stored are not stored as Indices in the database
 			as it is done with Events.
 			</p></dd><dt>ExceptionGroup (Domain Object)</dt><dd><p>
 			A collection of <code class="literal">Exceptions</code> that belong together somehow.
 			</p></dd><dt>GetDate</dt><dd><p>
 			GetDate is a concept taken from the TYPO3 extension <span class="productname">cal</span>. GetDate makes some actions configurable
-			using GET-parameters. All relative dates of the action are calculated based on that date. 
+			using GET-parameters. All relative dates of the action are calculated based on that date.
 			</p></dd><dt>Timespan</dt><dd><p>
 			A timespan has a start and an end date and covers everything in between. There are no gaps in a timespan.
 			</p></dd><dt>Timeline</dt><dd><p>
@@ -648,7 +648,7 @@ or later.</code></p></div><div class="glossary" title="Glossary"><div class="tit
 							<code class="literal">reltext</code>
 							<code class="literal">space</code>
 							'week'
-						</td><td>Handles the special format "weekday + last/this/next week".</td><td>"Monday next week"</td></tr></tbody></table></div></div><br class="table-break"><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3><p>Weeks always start with mondays. That's a difference to the original DateTime starts with sundays.</p></div></div><div class="section" title="Chaining"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="datetime.formats.chaining"></a>Chaining</h2></div></div></div><p>All afore mentioned formats can be chained by using the pipe character (<code class="literal">|</code>). All rules 
+						</td><td>Handles the special format "weekday + last/this/next week".</td><td>"Monday next week"</td></tr></tbody></table></div></div><br class="table-break"><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3><p>Weeks always start with mondays. That's a difference to the original DateTime starts with sundays.</p></div></div><div class="section" title="Chaining"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="datetime.formats.chaining"></a>Chaining</h2></div></div></div><p>All afore mentioned formats can be chained by using the pipe character (<code class="literal">|</code>). All rules
 		will be applied one after another.</p><div class="example"><a name="id3876314"></a><p class="title"><b>Example A.1. Chaining of DateTime formats</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><strong class="userinput"><code>first day this month|monday this week</code></strong></p></li><li class="listitem"><p><strong class="userinput"><code>2009-02-13 00:00:00|sunday next week</code></strong></p></li></ul></div></div></div><br class="example-break"></div></div><div class="appendix" title="Appendix B. ViewHelpers"><div class="titlepage"><div><div><h2 class="title"><a name="appendix.viewHelpers"></a>Appendix B. ViewHelpers</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id3876346"><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Array_&#8203;JoinViewHelper</code></a></span></dt><dt><span class="section"><a href="#id3876456"><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Calendar_&#8203;CreateDateTimeViewHelper</code></a></span></dt><dt><span class="section"><a href="#id3876503"><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Calendar_&#8203;OnNewDayViewHelper</code></a></span></dt><dt><span class="section"><a href="#id3876553"><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Condition_&#8203;CompareViewHelper</code></a></span></dt><dt><span class="section"><a href="#id3876753"><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Condition_&#8203;OneNotEmptyViewHelper</code></a></span></dt><dt><span class="section"><a href="#id3876803"><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Format_&#8203;DateTimeViewHelper</code></a></span></dt><dt><span class="section"><a href="#id3876985"><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Format_&#8203;NumberChoiceViewHelper</code></a></span></dt><dd><dl><dt><span class="section"><a href="#id3877045">The <code class="literal">numberChoice format</code></a></span></dt></dl></dd><dt><span class="section"><a href="#id3877233"><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Format_&#8203;TimespanToWordsViewHelper</code></a></span></dt><dt><span class="section"><a href="#id3877287"><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Link_&#8203;ActionViewHelper</code></a></span></dt></dl></div><div class="section" title="Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Array_&#8203;JoinViewHelper"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id3876346"></a><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Array_&#8203;JoinViewHelper</code></h2></div></div></div><p>
 			Join multiple values from an array into a string (kind of <span class="productname">PHP</span>'s <code class="methodname">implode()</code>).
 		</p><p>
@@ -693,14 +693,14 @@ or later.</code></p></div><div class="glossary" title="Glossary"><div class="tit
 &lt;f:if condition="{x:condition.oneNotEmpty(0:foo.bar, 1:foo.baz)}"&gt;
   {foo.bar} {foo.baz}&lt;/f:if&gt;</pre><p>The first expression would evaluate to false as all these given values are considered empty.</p><p>The second expression evaluates to true if eiter <code class="literal">foo.bar</code> or <code class="literal">foo.baz</code> returns a non-empty value.</p></div></div><br class="example-break"></div><div class="section" title="Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Format_&#8203;DateTimeViewHelper"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id3876803"></a><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Format_&#8203;DateTimeViewHelper</code></h2></div></div></div><p>Formats a unix timestamp or <code class="classname">DateTime</code> object to a human-readable, localized string.</p><div class="variablelist"><dl><dt><span class="term">timestamp<br>(type: <code class="literal">integer</code> | <code class="literal">date</code> | <code class="literal">DateTime</code>)</span></dt><dd><p>This might be either
 					</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>a unix timestamp</p></li><li class="listitem"><p>a <code class="classname">DateTime</code> object (this includes <code class="classname">Tx_CzSimpleCal_&#8203;Utility_&#8203;DateTime</code>)</p></li><li class="listitem"><p>some string of the type <code class="literal">date</code></p></li></ul></div><p>
-				</p></dd><dt><span class="term">format<br>(type: <code class="literal">string</code></span></dt><dd><p>Formatting string to be parsed by <code class="methodname">strftime()</code>. See the 
+				</p></dd><dt><span class="term">format<br>(type: <code class="literal">string</code></span></dt><dd><p>Formatting string to be parsed by <code class="methodname">strftime()</code>. See the
 						<a class="link" href="http://www.php.net/manual/en/function.strftime.php" target="_top"><span class="productname">PHP</span> documentation on <code class="methodname">strftime()</code></a> for details.
 					</p><div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Warning</h3><p>
 						The <span class="productname">Fluid</span> <code class="classname">Tx_Fluid_&#8203;ViewHelpers_&#8203;Format_&#8203;DateViewHelper</code>
-						uses a different syntax for the <code class="literal">format</code> property. 
+						uses a different syntax for the <code class="literal">format</code> property.
 					</p><p>
 						That is because we use a different <span class="productname">PHP</span> function to format the date and
-						time as this function has the advantage of using localized names for months and weekdays. 
+						time as this function has the advantage of using localized names for months and weekdays.
 					</p></div></dd><dt><span class="term">get<br>(type: <code class="literal">date</code></span></dt><dd><p>Get some related date.</p><p>
 						You should usually use a relative format here. This is applied to the date given in <code class="literal">timestamp</code>.
 					</p></dd></dl></div><div class="example"><a name="id3876933"></a><p class="title"><b>Example B.7. Using <code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Format_&#8203;DateTimeViewHelper</code></b></p><div class="example-contents"><pre class="programlisting">&lt;cal:format.dateTime timestamp="1234567890" /&gt;&lt;/programlisting&gt;
@@ -718,9 +718,9 @@ or later.</code></p></div><div class="glossary" title="Glossary"><div class="tit
 					The syntax is identical to the <code class="methodname">format_&#8203;number_&#8203;choice()</code> helper of
 					<span class="productname">symfony</span> - and they took the class from the <span class="productname">PRADO</span> project.
 					If you are familiar with either, there is nothing new to learn for you here.
-				</p></div><p>The basic idea is to define intervals of numbers and a corresponding string to use. 
+				</p></div><p>The basic idea is to define intervals of numbers and a corresponding string to use.
 				Intervals are closed when using square brackets (<code class="literal">[</code> and <code class="literal">]</code>) meaning, they include
- 				the given number or open when using round brackets (<code class="literal">(</code> and <code class="literal">)</code>) meaning, they exclude 
+ 				the given number or open when using round brackets (<code class="literal">(</code> and <code class="literal">)</code>) meaning, they exclude
  				the given number.
  			</p><div class="example"><a name="id3877089"></a><p class="title"><b>Example B.8. Examples for intervals</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><code class="literal">[0]</code> would match 0.</p></li><li class="listitem"><p><code class="literal">[0,1]</code> would match 0 and 1.</p></li><li class="listitem"><p><code class="literal">[0,2)</code> would match 0 and 1, not 2.</p></li><li class="listitem"><p><code class="literal">[0,+Inf]</code> would match every non-negative number.</p></li><li class="listitem"><p><code class="literal">(0,+Inf]</code> would match every positive number.</p></li><li class="listitem"><p><code class="literal">[-Inf,+Inf]</code> would match any number</p></li></ul></div></div></div><br class="example-break"><p>You can combine different conditions using the pipe (<code class="literal">|</code>.
 				The conditions are parsed from left to right using the first matching,
@@ -743,16 +743,16 @@ or later.</code></p></div><div class="glossary" title="Glossary"><div class="tit
 			Identical to the <code class="classname">Tx_Fluid_&#8203;ViewHelpers_&#8203;Link_&#8203;ActionViewHelper</code>, but
 			it determines the correct pageUid to use based on the actions configuration in TypoScript.
 		</p></div></div><div class="appendix" title="Appendix C. Widgets"><div class="titlepage"><div><div><h2 class="title"><a name="appendix.widgets"></a>Appendix C. Widgets</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#appendix.widgets.whatis">What are Widgets?</a></span></dt><dt><span class="section"><a href="#id3877354"><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Widget_&#8203;EventIndex_&#8203;ListViewHelper</code></a></span></dt></dl></div><div class="section" title="What are Widgets?"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="appendix.widgets.whatis"></a>What are Widgets?</h2></div></div></div><p>
-			Widgets where first introduced in <span class="productname">Fluid</span> 1.3. Widgets are defined as 
+			Widgets where first introduced in <span class="productname">Fluid</span> 1.3. Widgets are defined as
 			<span class="quote">&#8220;<span class="quote">special ViewHelpers that encapsulate complex functionality and consist of their own <span class="emphasis"><em>controller</em></span> and <span class="emphasis"><em>view</em></span> part</span>&#8221;</span>.
 		</p><p>
-			Non-Programming speeking, Widgets are more complex ViewHelpers with a seperate template, or Partials with 
+			Non-Programming speeking, Widgets are more complex ViewHelpers with a seperate template, or Partials with
 			some programming logic.
 		</p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
-				
+
 			</p></div></div><div class="section" title="Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Widget_&#8203;EventIndex_&#8203;ListViewHelper"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id3877354"></a><code class="classname">Tx_CzSimpleCal_&#8203;ViewHelpers_&#8203;Widget_&#8203;EventIndex_&#8203;ListViewHelper</code></h2></div></div></div><p>This view helper allows you to embed a list of events into a different action.</p><p>
 			The arguments are exacly the same as in EventIndex's action "list". So you
- 			can transfer all the flexibility you have there to this Widget. For ease of use 
+ 			can transfer all the flexibility you have there to this Widget. For ease of use
 			all basic properties where transformed into attributes of the ViewHelper.
 		</p><p>
 			See <a class="link" href="#chapter.configuration.typoscript.EventIndex.list" title="list action"><code class="literal">list</code> action</a> for

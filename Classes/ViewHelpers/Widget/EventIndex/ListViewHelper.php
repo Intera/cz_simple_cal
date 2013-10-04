@@ -22,16 +22,16 @@
 
 /**
  * This view helper allows you to embed a list of events into a different action
- * 
+ *
  * The arguments are exacly the same as in EventIndex's action "list". So you
- * can transfer all the flexibility you have there to this Widget. For ease of use 
+ * can transfer all the flexibility you have there to this Widget. For ease of use
  * all basic properties where transformed into attributes of the ViewHelper.
- * 
+ *
  * <example>
  *   <code>
  *     <cal:widget.eventIndex.list startDate="now" maxEvents="3" />
  *   </code>
- *   
+ *
  *   will show you the next 3 events from now on.
  * </example>
  *
@@ -53,7 +53,7 @@ class Tx_CzSimpleCal_ViewHelpers_Widget_EventIndex_ListViewHelper extends Tx_Flu
 		$this->controller = $controller;
 	}
 
-	
+
 	/**
 	 * Initialize all arguments. You need to override this method and call
 	 * $this->registerArgument(...) inside this method, to register all your arguments.
@@ -69,11 +69,11 @@ class Tx_CzSimpleCal_ViewHelpers_Widget_EventIndex_ListViewHelper extends Tx_Flu
 		$this->registerArgument('includeStartedEvents', 'integer', 'includeStartedEvents', false, null);
 		$this->registerArgument('excludeOverlongEvents', 'integer', 'excludeOverlongEvents', false, null);
 		$this->registerArgument('filter', 'array', 'filter', false, null);
-		
-		
+
+
 		$this->registerArgument('templateFilePath', 'string', 'template file path', false, null);
 	}
-	
+
 	/**
 	 * @return string
 	 */

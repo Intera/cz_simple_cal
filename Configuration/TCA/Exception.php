@@ -158,7 +158,7 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 				'autoSizeMax' => 20
 			)
 		),
-		
+
 		'exception_groups' => array(
 			'exclude' => 0,
 			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception.exception_events',
