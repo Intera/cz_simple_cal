@@ -845,6 +845,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 */
 	public function getNextAppointments($limit = 3) {
 		if(is_null($this->nextAppointments) || $this->nextAppointmentsCount < $limit) {
+			/** @var Tx_CzSimpleCal_Domain_Repository_EventIndexRepository $eventIndexRepository */
 			$eventIndexRepository = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->
 				get('Tx_CzSimpleCal_Domain_Repository_EventIndexRepository')
 			;
