@@ -41,6 +41,13 @@ class Tx_CzSimpleCal_Domain_Model_File {
 	protected $file;
 
 	/**
+	 * Public path and filename of the file.
+	 *
+	 * @var string
+	 */
+	protected $pathAndFilename = NULL;
+
+	/**
 	 * getter for file
 	 *
 	 * @return string
@@ -96,7 +103,12 @@ class Tx_CzSimpleCal_Domain_Model_File {
 	 * @return string
 	 */
 	public function getFilePath() {
-		return $this->path.$this->file;
+		if (isset($this->pathAndFilename)) {
+			$path = $this->pathAndFilename;
+		} else {
+			$path = $this->path . $this->file;
+		}
+		return $path;
 	}
 
 	/**
@@ -153,6 +165,14 @@ class Tx_CzSimpleCal_Domain_Model_File {
 		return $this;
 	}
 
-
+	/**
+	 * If the path and filename is set it will not be generated
+	 * automatically by concatenating the path and the filename.
+	 *
+	 * @param string $pathAndFilename
+	 */
+	public function setPathAndFilename($pathAndFilename) {
+		$this->pathAndFilename = $pathAndFilename;
+	}
 }
 ?>

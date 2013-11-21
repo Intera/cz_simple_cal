@@ -80,4 +80,29 @@ class Tx_CzSimpleCal_Utility_FileArrayBuilder {
 		return $return;
 	}
 
+
+	/**
+	 * Builds an array of file domain models for the given file references.
+	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $files
+	 * @return array<Tx_CzSimpleCal_Domain_Model_File>
+	 */
+	public static function buildFromReferences(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $files) {
+		$filesArray = array();
+
+		/**
+		 * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference $fileReference
+		 * @var Tx_CzSimpleCal_Domain_Model_File $file
+		 */
+		foreach ($files as $fileReference) {
+			$file = new Tx_CzSimpleCal_Domain_Model_File();
+			$originalReference = $fileReference->getOriginalResource();
+			$file->setPathAndFilename($originalReference->getOriginalFile()->getPublicUrl());
+			$file->setAlternateText($originalReference->getAlternative());
+			$file->setCaption($originalReference->getDescription());
+			$filesArray[] = $file;
+		}
+
+		return $filesArray;
+	}
 }

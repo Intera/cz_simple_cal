@@ -206,37 +206,18 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * the image files associated with this event
 	 *
-	 * @var string
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+	 * @lazy
 	 */
 	protected $images;
 
 	/**
-	 * alternative labels for images of this event
-	 *
-	 * @var string
-	 */
-	protected $imagesAlternative;
-
-	/**
-	 * captions for images of this event
-	 *
-	 * @var string
-	 */
-	protected $imagesCaption;
-
-	/**
 	 * files associated with this event
 	 *
-	 * @var string
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+	 * @lazy
 	 */
 	protected $files;
-
-	/**
-	 * captions for files of this event
-	 *
-	 * @var string
-	 */
-	protected $filesCaption;
 
 
 	/**
@@ -933,13 +914,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 */
 	public function getImages() {
 		if(is_null($this->_cache_images)) {
-			t3lib_div::loadTCA('tx_czsimplecal_domain_model_event');
-			$this->_cache_images = Tx_CzSimpleCal_Utility_FileArrayBuilder::build(
-				$this->images,
-				$GLOBALS['TCA']['tx_czsimplecal_domain_model_event']['columns']['images']['config']['uploadfolder'],
-				$this->imagesAlternative,
-				$this->imagesCaption
-			);
+			$this->_cache_images = Tx_CzSimpleCal_Utility_FileArrayBuilder::buildFromReferences($this->files, TRUE);
 		}
 		return $this->_cache_images;
 	}
@@ -957,14 +932,8 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @return array<Tx_CzEwlSponsor_Domain_Model_File>
 	 */
 	public function getFiles() {
-		if(is_null($this->_cache_files)) {
-			t3lib_div::loadTCA('tx_czsimplecal_domain_model_event');
-			$this->_cache_files = Tx_CzSimpleCal_Utility_FileArrayBuilder::build(
-				$this->files,
-				$GLOBALS['TCA']['tx_czsimplecal_domain_model_event']['columns']['files']['config']['uploadfolder'],
-				'',
-				$this->filesCaption
-			);
+		if (is_null($this->_cache_files)) {
+			$this->_cache_files = Tx_CzSimpleCal_Utility_FileArrayBuilder::buildFromReferences($this->files);
 		}
 		return $this->_cache_files;
 	}
