@@ -1,5 +1,3 @@
-# TYPO3 does not see a difference between NULL and 0 - so we will use -1 as NULL
-
 
 ###
 # Domain model "Event"
@@ -11,9 +9,9 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 
 	title varchar(220) DEFAULT '',
 	start_day int(11) DEFAULT '0',
-	start_time int(11) DEFAULT '-1',
-	end_day int(11) DEFAULT '-1',
-	end_time int(11) DEFAULT '-1',
+	start_time int(11) DEFAULT NULL,
+	end_day int(11) DEFAULT NULL,
+	end_time int(11) DEFAULT NULL,
 	timezone varchar(20) DEFAULT 'GMT',
 	teaser text,
 	description text,
@@ -24,7 +22,7 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 	files_caption text,
 	recurrance_type varchar(30) DEFAULT 'none',
 	recurrance_subtype varchar(30) DEFAULT '',
-	recurrance_until int(11) DEFAULT '-1',
+	recurrance_until int(11) DEFAULT NULL,
 	location_name varchar(255) DEFAULT '',
 	location_address text,
 	location_city varchar(255) DEFAULT '',
@@ -98,13 +96,13 @@ CREATE TABLE tx_czsimplecal_domain_model_exception (
 
 	title text,
 	start_day int(11) DEFAULT '0',
-	start_time int(11) DEFAULT '-1',
-	end_day int(11) DEFAULT '-1',
-	end_time int(11) DEFAULT '-1',
+	start_time int(11) DEFAULT NULL,
+	end_day int(11) DEFAULT NULL,
+	end_time int(11) DEFAULT NULL,
 	timezone varchar(20) DEFAULT 'GMT',
 	recurrance_type varchar(30) DEFAULT 'none',
 	recurrance_subtype varchar(30) DEFAULT '',
-	recurrance_until int(11) DEFAULT '-1',
+	recurrance_until int(11) DEFAULT NULL,
 
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,

@@ -56,9 +56,7 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 				'type' => 'input',
 				'size' => 12,
 				'max' => 20,
-				'eval' => 'time',
-				'checkbox' => '-1',
-				'default' => '-1'
+				'eval' => 'null,time',
 			)
 		),
 		'end_day' => array(
@@ -68,9 +66,7 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 				'type' => 'input',
 				'size' => 12,
 				'max' => 20,
-				'eval' => 'date',
-				'checkbox' => '-1',
-				'default' => '-1'
+				'eval' => 'null,date',
 			)
 		),
 		'end_time' => array(
@@ -80,9 +76,7 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 				'type' => 'input',
 				'size' => 12,
 				'max' => 20,
-				'eval' => 'time',
-				'checkbox' => '-1',
-				'default' => '-1'
+				'eval' => 'null,time',
 			)
 		),
 		'timezone' => array(
@@ -141,9 +135,7 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 				'type' => 'input',
 				'size' => 12,
 				'max' => 20,
-				'eval' => 'date',
-				'checkbox' => '-1',
-				'default' => '-1'
+				'eval' => 'null,date',
 			)
 		),
 		'events' => array(

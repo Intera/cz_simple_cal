@@ -130,7 +130,7 @@ abstract class Tx_CzSimpleCal_Domain_Model_BaseEvent extends Tx_CzSimpleCal_Doma
 	public function setStartTime($startTime) {
 		$this->startTime =
 			(empty($startTime) && $startTime !== 0) || $startTime < 0 ?
-			-1 :
+			NULL :
 			$startTime
 		;
 	}
@@ -142,7 +142,7 @@ abstract class Tx_CzSimpleCal_Domain_Model_BaseEvent extends Tx_CzSimpleCal_Doma
 	 */
 	public function getStartTime() {
 		return is_numeric($this->startTime) ?
-			($this->startTime < 0 ? null : sprintf('%02d:%02d', floor($this->startTime / 3600), floor($this->startTime % 3600 / 60))):
+			(sprintf('%02d:%02d', floor($this->startTime / 3600), floor($this->startTime % 3600 / 60))):
 			$this->startTime
 		;
 	}
@@ -168,7 +168,7 @@ abstract class Tx_CzSimpleCal_Domain_Model_BaseEvent extends Tx_CzSimpleCal_Doma
 	public function setEndDay($endDay) {
 
 		$this->endDay = (empty($endDay) && $endDay !== 0) || $endDay < 0 ?
-			-1 :
+			NULL :
 			$endDay
 		;
 	}
@@ -180,7 +180,7 @@ abstract class Tx_CzSimpleCal_Domain_Model_BaseEvent extends Tx_CzSimpleCal_Doma
 	 */
 	public function getEndDay() {
 		return is_numeric($this->endDay) ?
-			($this->endDay < 0 ? null : strftime('%Y-%m-%d', $this->endDay)):
+			(strftime('%Y-%m-%d', $this->endDay)):
 			$this->endDay
 		;
 	}
@@ -193,7 +193,7 @@ abstract class Tx_CzSimpleCal_Domain_Model_BaseEvent extends Tx_CzSimpleCal_Doma
 	 */
 	public function setEndTime($endTime) {
 		$this->endTime = (empty($endTime) && $endTime !== 0) || $endTime < 0 ?
-			-1 :
+			NULL :
 			$endTime
 		;
 	}
@@ -205,7 +205,7 @@ abstract class Tx_CzSimpleCal_Domain_Model_BaseEvent extends Tx_CzSimpleCal_Doma
 	 */
 	public function getEndTime() {
 		return is_numeric($this->endTime) ?
-			($this->endTime < 0 ? null : sprintf('%02d:%02d', floor($this->endTime / 3600), floor($this->endTime % 3600 / 60))):
+			(sprintf('%02d:%02d', floor($this->endTime / 3600), floor($this->endTime % 3600 / 60))):
 			$this->endTime
 		;
 	}
@@ -242,8 +242,8 @@ abstract class Tx_CzSimpleCal_Domain_Model_BaseEvent extends Tx_CzSimpleCal_Doma
 
 		$start = $this->startDay + max(0, $this->startTime);
 
-		if($this->endTime < 0) {
-			if($this->startTime < 0) {
+		if($this->endTime === NULL) {
+			if($this->startTime === NULL) {
 				// if: no start and no end time -> this is an allday event -> set end as end of the day
 				$end = max($this->endDay, $this->startDay) + 86399;
 			} else {

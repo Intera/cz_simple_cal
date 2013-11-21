@@ -600,7 +600,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @return boolean
 	 */
 	public function isAlldayEvent() {
-		return $this->startTime < 0;
+		return $this->startTime === NULL;
 	}
 
 	/**
@@ -609,7 +609,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @return boolean
 	 */
 	public function hasEndTime() {
-		return $this->endTime > -1;
+		return $this->endTime !== NULL;
 	}
 
 	/**
@@ -618,7 +618,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @return boolean
 	 */
 	public function isOneDayEvent() {
-		return $this->endDay < 0 || $this->endDay === $this->startDay;
+		return $this->endDay === NULL || $this->endDay === $this->startDay;
 	}
 
 	/**
