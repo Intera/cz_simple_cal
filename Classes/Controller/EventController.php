@@ -67,15 +67,16 @@ class Tx_CzSimpleCal_Controller_EventController extends Tx_CzSimpleCal_Controlle
 		 * as you won't be able to extend the model
 		 * via an extension
 		 */
-		$event = $this->eventRepository->findByUid($event);
+		/** @var Tx_CzSimpleCal_Domain_Model_Event $eventObject */
+		$eventObject = $this->eventRepository->findByUid($event);
 
 
-		if(empty($event)) {
+		if(empty($eventObject)) {
 			$this->throwStatus(404, 'Not found', 'The requested event could not be found.');
 		}
 
-		$this->view->assign('event', $event);
+		$this->view->assign('event', $eventObject);
+		$this->view->assign('renderData', $this->generateRenderData($eventObject));
 	}
-
 }
 ?>

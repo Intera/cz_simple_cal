@@ -113,5 +113,67 @@ plugin.tx_czsimplecal_pi1 {
 		# this is where you can put your customized options
 		custom {
 		}
+
+		rendering {
+
+			descriptionAndImages {
+
+
+				mapEventProperties {
+					uid = uid
+					bodytext = description
+				}
+
+				overrideData {
+
+					// This might be used as condition somewhere so we set
+					// it just to be sure
+					CType = textpic
+
+					// Images are aligned in tex right by default
+					imageorient = 17
+
+					// Enable click enlarge by default
+					image_zoom = 1
+
+					// we do not want the header to be rendered
+					header =
+				}
+
+				renderObject =< tt_content.textpic
+				renderObject {
+					20 {
+						imgList.cObject.references {
+							table = tx_czsimplecal_domain_model_event
+							fieldName = images
+						}
+						imagesHaveCaptions.cObject.references < .imgList.cObject.references
+					}
+				}
+			}
+
+			files {
+
+				mapEventProperties {
+					uid = uid
+				}
+
+				overrideData {
+					// we do not want the header to be rendered
+					header =
+				}
+
+				renderObject =< tt_content.uploads
+				renderObject {
+					15 = TEXT
+					15.data = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang.xml:tx_czsimplecal_domain_model_event_files
+					15.wrap = <h3>|</h3>
+					20.references {
+						table = tx_czsimplecal_domain_model_event
+						fieldName = files
+					}
+				}
+			}
+		}
 	}
 }

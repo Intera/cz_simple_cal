@@ -304,5 +304,37 @@ abstract class Tx_CzSimpleCal_Controller_BaseExtendableController extends Tx_Ext
 		$this->initializeSettings();
 	}
 
+	/**
+	 * Generates the data needed for rendering description, images and files.
+	 *
+	 * @param Tx_CzSimpleCal_Domain_Model_Event $event
+	 * @return array
+	 */
+	protected function generateRenderData($event) {
 
+		$renderData = array();
+		$contentObject = $this->configurationManager->getContentObject();
+		$contentObjectData = $contentObject->data;
+
+		foreach (array('descriptionAndImages', 'files') as $variableName) {
+
+			$dataSettings = $this->settings['rendering'][$variableName];
+			$data = $contentObjectData;
+
+			if (is_array($dataSettings['mapEventProperties'])) {
+				foreach ($dataSettings['mapEventProperties'] as $dataProperty => $eventProperty) {
+					$propertyGetter = 'get' . ucfirst($eventProperty);
+					$data[$dataProperty] = $event->$propertyGetter();
+				}
+			}
+
+			if (is_array($dataSettings['overrideData'])) {
+				$data = array_merge($data, $dataSettings['overrideData']);
+			}
+
+			$renderData[$variableName] = $data;
+		}
+
+		return $renderData;
+	}
 }

@@ -127,13 +127,15 @@ class Tx_CzSimpleCal_Controller_EventIndexController extends Tx_CzSimpleCal_Cont
 		 * as you won't be able to extend the model
 		 * via an extension
 		 */
-		$event = $this->eventIndexRepository->findByUid($event);
+		/** @var Tx_CzSimpleCal_Domain_Model_EventIndex $eventIndexObject */
+		$eventIndexObject = $this->eventIndexRepository->findByUid($event);
 
-		if(empty($event)) {
+		if(empty($eventIndexObject)) {
 			$this->throwStatus(404, 'Not found', 'The requested event could not be found.');
 		}
 
-		$this->view->assign('event', $event);
+		$this->view->assign('event', $eventIndexObject);
+		$this->view->assign('renderData', $this->generateRenderData($eventIndexObject->getEvent()));
 	}
 
 
