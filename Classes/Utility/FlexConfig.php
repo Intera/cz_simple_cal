@@ -36,6 +36,7 @@ class Tx_CzSimpleCal_Utility_FlexConfig {
 	 * $config['items'] array.
 	 *
 	 * @param array $config The current configuration of the FlexForm select field.
+	 * @return void
 	 */
 	public function getAllowedActions($config) {
 

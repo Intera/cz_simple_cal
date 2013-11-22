@@ -57,11 +57,11 @@ class Tx_CzSimpleCal_ViewHelpers_Widget_EventIndex_Controller_CountController ex
 	 * and sets it to be a timestamp
 	 *
 	 * @param mixed $value
-	 * @return void
+	 * @return integer
 	 */
 	protected function normalizeArgumentToTimestamp($value) {
 		if(empty($value)) {
-			return;
+			return NULL;
 		} elseif(is_numeric($value)) {
 			return t3lib_div::intInRange($this->argumentName, 0);
 		} elseif(is_string($value)) {
@@ -69,7 +69,7 @@ class Tx_CzSimpleCal_ViewHelpers_Widget_EventIndex_Controller_CountController ex
 		} elseif($value instanceof DateTime) {
 			return intval($value->format('U'));
 		}
-		return;
+		return NULL;
 	}
 
 	/**
