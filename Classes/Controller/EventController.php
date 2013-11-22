@@ -1,5 +1,4 @@
 <?php
-
 /***************************************************************
 *  Copyright notice
 *
@@ -36,17 +35,9 @@ class Tx_CzSimpleCal_Controller_EventController extends Tx_CzSimpleCal_Controlle
 
 	/**
 	 * @var Tx_CzSimpleCal_Domain_Repository_EventRepository
+	 * @inject
 	 */
 	protected $eventRepository;
-
-	/**
-	 * inject an eventRepository
-	 *
-	 * @param Tx_CzSimpleCal_Domain_Repository_EventRepository $eventRepository
-	 */
-	public function injectEventRepository(Tx_CzSimpleCal_Domain_Repository_EventRepository $eventRepository) {
-		$this->eventRepository = $eventRepository;
-	}
 
 	/**
 	 * display a single event

@@ -24,11 +24,10 @@
 class Tx_CzSimpleCal_ViewHelpers_Widget_EventIndex_Controller_ListController extends Tx_Fluid_Core_Widget_AbstractWidgetController {
 
 	/**
-	 * @param Tx_CzSimpleCal_Domain_Repository_EventIndexRepository $eventIndexRepository
+	 * @var Tx_CzSimpleCal_Domain_Repository_EventIndexRepository
+	 * @inject
 	 */
-	public function injectEventIndexRepository(Tx_CzSimpleCal_Domain_Repository_EventIndexRepository $eventIndexRepository) {
-		$this->eventIndexRepository = $eventIndexRepository;
-	}
+	protected $eventIndexRepository;
 
 	/**
 	 * the action settings to use for fetching the events

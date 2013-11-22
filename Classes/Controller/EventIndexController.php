@@ -36,17 +36,9 @@ class Tx_CzSimpleCal_Controller_EventIndexController extends Tx_CzSimpleCal_Cont
 
 	/**
 	 * @var Tx_CzSimpleCal_Domain_Repository_EventIndexRepository
+	 * @inject
 	 */
 	protected $eventIndexRepository;
-
-	/**
-	 * inject an eventIndexRepository
-	 *
-	 * @param Tx_CzSimpleCal_Domain_Repository_EventRepository $eventRepository
-	 */
-	public function injectEventIndexRepository(Tx_CzSimpleCal_Domain_Repository_EventIndexRepository $eventIndexRepository) {
-		$this->eventIndexRepository = $eventIndexRepository;
-	}
 
 	/**
 	 * builds a list of some events
