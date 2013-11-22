@@ -121,7 +121,7 @@ class Tx_CzSimpleCal_Controller_EventIndexController extends Tx_CzSimpleCal_Cont
 	/**
 	 * get the start date of events that should be fetched
 	 *
-	 * @return DateTime
+	 * @return Tx_CzSimpleCal_Utility_DateTime
 	 */
 	protected function getStartDate() {
 		if(array_key_exists('startDate', $this->actionSettings)) {
@@ -141,7 +141,7 @@ class Tx_CzSimpleCal_Controller_EventIndexController extends Tx_CzSimpleCal_Cont
 	 * get the end date of events that should be fetched
 	 *
 	 * @todo getDate support
-	 * @return DateTime
+	 * @return Tx_CzSimpleCal_Utility_DateTime
 	 */
 	protected function getEndDate() {
 		if(array_key_exists('endDate', $this->actionSettings)) {
