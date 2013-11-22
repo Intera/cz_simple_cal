@@ -35,13 +35,6 @@
 class Tx_CzSimpleCal_Controller_EventIndexController extends Tx_CzSimpleCal_Controller_BaseExtendableController {
 
 	/**
-	 * override this property so that no empty view will be created
-	 */
-	protected $defaultViewObjectName = 'Tx_CzSimpleCal_View_EventIndex';
-
-	protected $controllerName = 'EventIndex';
-
-	/**
 	 * @var Tx_CzSimpleCal_Domain_Repository_EventRepository
 	 */
 	protected $eventRepository;

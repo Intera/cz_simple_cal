@@ -1,23 +1,31 @@
 options.cz_simple_cal_pi1.flexform {
-	allowedActions = list,show,next,day,week,minimonth
 	allowedActions {
-		list {
-			label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.list
-		}
-		show {
-			label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.show
-		}
-		next {
-			label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.next
-		}
-		day {
-			label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.day
-		}
-		week {
-			label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.week
-		}
-		minimonth {
-			label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.minimonth
+		enabledActions = list,show,next,day,week,minimonth
+		availableActions {
+			list {
+				value = EventIndex->list
+				label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.list
+			}
+			show {
+				value = EventIndex->show
+				label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.show
+			}
+			next {
+				value = EventIndex->next
+				label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.next
+			}
+			day {
+				value = EventIndex->day
+				label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.day
+			}
+			week {
+				value = EventIndex->week
+				label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.week
+			}
+			minimonth {
+				value = EventIndex->minimonth
+				label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.minimonth
+			}
 		}
 	}
 }
