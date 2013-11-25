@@ -19,35 +19,22 @@ plugin.tx_czsimplecal_pi1 {
 
 	mvc.callDefaultActionIfActionCantBeResolved = 1
 
+	view.defaultPid = {$plugin.tx_czsimplecal.pids.default}
+
 	settings {
 
 		EventIndex {
-			# first one is the default action
-			allowedActions = list,minimonth,day,week,show,next
 			actions {
 				list {
-					defaultPid = {$plugin.tx_czsimplecal.pids.default}
 					startDate  = today
 					endDate    = today +1 month
 
 					maxEvents = 9999
 					orderBy   = start
 					order     = ASC
-					# filter.categories = 42
-
-					# excludeOverlongEvents = 0
-					# includeStartedEvents = 0
-				}
-
-				show {
-					defaultPid = {$plugin.tx_czsimplecal.pids.default}
 				}
 
 				next {
-					defaultPid = {$plugin.tx_czsimplecal.pids.default}
-
-					useAction = list
-
 					startDate  = now
 					endDate    = now +1 month
 
@@ -57,10 +44,6 @@ plugin.tx_czsimplecal_pi1 {
 				}
 
 				minimonth {
-					defaultPid = {$plugin.tx_czsimplecal.pids.default}
-
-					useAction = countEvents
-
 					getPostAllowed = getDate
 
 					startDate  = first day of this month|monday this week
@@ -69,10 +52,6 @@ plugin.tx_czsimplecal_pi1 {
 				}
 
 				week {
-					defaultPid = {$plugin.tx_czsimplecal.pids.default}
-
-					useAction = list
-
 					startDate = monday this week
 					endDate   = sunday this week 23:59:59
 
@@ -84,10 +63,6 @@ plugin.tx_czsimplecal_pi1 {
 				}
 
 				day {
-					defaultPid = {$plugin.tx_czsimplecal.pids.default}
-
-					useAction = list
-
 					startDate = today
 					endDate   = today 23:59:59
 
@@ -96,16 +71,6 @@ plugin.tx_czsimplecal_pi1 {
 					maxEvents = 999
 					orderBy = start
 					order   = ASC
-				}
-			}
-		}
-
-
-		Event {
-			allowedActions = show
-			actions {
-				show {
-					defaultPid = {$plugin.tx_czsimplecal.pids.default}
 				}
 			}
 		}
