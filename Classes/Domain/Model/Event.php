@@ -395,13 +395,17 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * Getter for status.
 	 *
-	 * @return \Tx_CzSimpleCal_Domain_Model_EventStatus
+	 * This method returns a string and no instance of the EventStatus
+	 * enumeration to prevent problems when the value is used in Fluid
+	 * template (e.g. in conditions).
+	 *
+	 * @return string
 	 */
 	public function getStatus() {
 		if (!isset($this->status)) {
 			$this->status = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_EventStatus');
 		}
-		return $this->status;
+		return (string)$this->status;
 	}
 
 
