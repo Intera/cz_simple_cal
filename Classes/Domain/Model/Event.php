@@ -219,12 +219,17 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 */
 	protected $files;
 
-
 	/**
 	 * @var int cruserFe
 	 */
 	protected $cruserFe;
 
+
+	/**
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+	 * @inject
+	 */
+	protected $objectManager;
 
 	/**
 	 * Setter for title
@@ -525,8 +530,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 */
 	public function addCategory(Tx_CzSimpleCal_Domain_Model_Category $category) {
 		if(!is_object($this->categories)) {
-			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-			$this->categories = $objectManager->get('Tx_Extbase_Persistence_ObjectStorage');
+			$this->categories = $this->objectManager->get('Tx_Extbase_Persistence_ObjectStorage');
 		}
 		$this->categories->attach($category);
 	}
@@ -555,10 +559,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 			 * in domain model objects
 			 */
 
-			$exceptionRepository = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->
-				get('Tx_CzSimpleCal_Domain_Repository_ExceptionRepository')
-			;
-
+			$exceptionRepository = $this->objectManager->get('Tx_CzSimpleCal_Domain_Repository_ExceptionRepository');
 			$this->exceptions_ = $exceptionRepository->findAllForEventId($this->uid);
 		}
 
@@ -645,8 +646,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 			return;
 		}
 
-		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-		$this->organizerDummy = $objectManager->get('Tx_CzSimpleCal_Domain_Model_AddressDummy');
+		$this->organizerDummy = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_AddressDummy');
 
 		$this->organizerDummy->setName($this->organizerName);
 		$this->organizerDummy->setAddress($this->organizerAddress);
@@ -692,8 +692,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 			return;
 		}
 
-		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-		$this->locationDummy = $objectManager->get('Tx_CzSimpleCal_Domain_Model_AddressDummy');
+		$this->locationDummy = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_AddressDummy');
 
 		$this->locationDummy->setName($this->locationName);
 		$this->locationDummy->setAddress($this->locationAddress);
@@ -775,9 +774,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 		$value = $this->generateRawSlug();
 		$value = Tx_CzSimpleCal_Utility_Inflector::urlize($value);
 
-		$eventRepository = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->
-			get('Tx_CzSimpleCal_Domain_Repository_EventRepository')
-		;
+		$eventRepository = $this->objectManager->get('Tx_CzSimpleCal_Domain_Repository_EventRepository');
 		$slug = $eventRepository->makeSlugUnique($value, $this->uid);
 		$this->setSlug($slug);
 	}
@@ -846,9 +843,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	public function getNextAppointments($limit = 3) {
 		if(is_null($this->nextAppointments) || $this->nextAppointmentsCount < $limit) {
 			/** @var Tx_CzSimpleCal_Domain_Repository_EventIndexRepository $eventIndexRepository */
-			$eventIndexRepository = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->
-				get('Tx_CzSimpleCal_Domain_Repository_EventIndexRepository')
-			;
+			$eventIndexRepository = $this->objectManager->get('Tx_CzSimpleCal_Domain_Repository_EventIndexRepository');
 			$this->nextAppointments = $eventIndexRepository->
 				findNextAppointmentsByEventUid($this->getUid(), $limit)
 			;
