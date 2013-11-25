@@ -44,6 +44,12 @@ abstract class Tx_CzSimpleCal_Controller_BaseExtendableController extends Tx_Ext
 	protected function initializeActionSettings() {
 		$this->actionSettings = &$this->settings[$this->request->getControllerName()]['actions'][$this->request->getControllerActionName()];
 
+		// Since an action does not need any settings any more we need
+		// to make sure that the actionSettings array is initalized.
+		if (!is_array($this->actionSettings)) {
+			$this->actionSettings = array();
+		}
+
 		// merge the settings from the flexform
 		if(isset($this->settings['override']['action'])) {
 			// this will override values if they are not empty
