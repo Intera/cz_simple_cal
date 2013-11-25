@@ -36,6 +36,7 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 	show_page_instead varchar(255) DEFAULT '' NOT NULL,
 	exceptions int(11) unsigned DEFAULT '0' NOT NULL,
 	twitter_hashtags varchar(255) DEFAULT '',
+	status varchar(255) DEFAULT NULL,
 	flickr_tags varchar(255) DEFAULT '',
 	slug varchar(250) DEFAULT '',
 	last_indexed int(11) DEFAULT '0',

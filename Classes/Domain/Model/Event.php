@@ -224,6 +224,12 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 */
 	protected $cruserFe;
 
+	/**
+	 * Status of the event.
+	 *
+	 * @var Tx_CzSimpleCal_Domain_Model_EventStatus
+	 */
+	protected $status;
 
 	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
@@ -386,7 +392,17 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 		return $this->locationCountry;
 	}
 
-
+	/**
+	 * Getter for status.
+	 *
+	 * @return \Tx_CzSimpleCal_Domain_Model_EventStatus
+	 */
+	public function getStatus() {
+		if (!isset($this->status)) {
+			$this->status = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_EventStatus');
+		}
+		return $this->status;
+	}
 
 
 

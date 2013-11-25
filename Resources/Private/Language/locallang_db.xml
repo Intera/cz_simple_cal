@@ -58,6 +58,10 @@
 			<label index="tx_czsimplecal_domain_model_event.exceptions">Exceptions</label>
 			<label index="tx_czsimplecal_domain_model_event.twitter_hashtags">Twitter Hashtags</label>
 			<label index="tx_czsimplecal_domain_model_event.flickr_tags">Flickr Tags</label>
+			<label index="tx_czsimplecal_domain_model_event.status">Status</label>
+			<label index="tx_czsimplecal_domain_model_event.status.tentative">Tentative</label>
+			<label index="tx_czsimplecal_domain_model_event.status.confirmed">Confirmed</label>
+			<label index="tx_czsimplecal_domain_model_event.status.cancelled">Cancelled</label>
 			<label index="tx_czsimplecal_domain_model_event.slug">Slug</label>
 			<label index="tx_czsimplecal_domain_model_event.last_indexed">Last indexed</label>
 
@@ -147,6 +151,10 @@
 			<label index="tx_czsimplecal_domain_model_event.exceptions">Ausnahmen</label>
 			<label index="tx_czsimplecal_domain_model_event.twitter_hashtags">Twitter Hashtags</label>
 			<label index="tx_czsimplecal_domain_model_event.flickr_tags">Flickr Tags</label>
+			<label index="tx_czsimplecal_domain_model_event.status">Status</label>
+			<label index="tx_czsimplecal_domain_model_event.status.tentative">Vorläufig</label>
+			<label index="tx_czsimplecal_domain_model_event.status.confirmed">Bestätigt</label>
+			<label index="tx_czsimplecal_domain_model_event.status.cancelled">Abgesagt</label>
 
 			<label index="tx_czsimplecal_domain_model_event.tab_general">Event</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_recurrance">Wiederholung</label>
