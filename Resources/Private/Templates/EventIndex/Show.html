@@ -8,5 +8,5 @@
 
 <f:render partial="EventDetails" arguments="{settings: settings, event: event.event, renderData: renderData}"/>
 
-<f:link.action controller="EventIndex" action="list"><f:translate key="msg.backToList"/></f:link.action>
+<f:link.action controller="EventIndex" action="list" addQueryString="true"><f:translate key="msg.backToList"/></f:link.action>
 </div>
