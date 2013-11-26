@@ -10,29 +10,9 @@
 </f:if>
 
 <f:if condition="{event.location}">
-	<f:then>
-		<p>
-			<f:translate key="location" />:
-			<f:render partial="Location/location-for-event-inline.html" arguments="{settings: settings, location: event.location}" />
-		</p>
-	</f:then>
-	<f:else>
-		<f:if condition="{event.locationName}">
-			<p><f:translate key="location" />: {event.locationName}</p>
-		</f:if>
-	</f:else>
+	<f:render partial="Location/location-for-event-inline.html" arguments="{settings: settings, location: event.location}" />
 </f:if>
 
 <f:if condition="{event.organizer}">
-	<f:then>
-		<p>
-			<f:translate key="organizer" />:
-			<f:render partial="Organizer/organizer-for-event-inline.html" arguments="{settings: settings, organizer: event.organizer}" />
-		</p>
-	</f:then>
-	<f:else>
-		<f:if condition="{event.organizerName}">
-			<p><f:translate key="organizer" />: {event.organizerName}</p>
-		</f:if>
-	</f:else>
+	<f:render partial="Organizer/organizer-for-event-inline.html" arguments="{settings: settings, organizer: event.organizer}" />
 </f:if>

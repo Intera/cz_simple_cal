@@ -1,5 +1,7 @@
 {namespace cal=Tx_CzSimpleCal_ViewHelpers}
 <cal:useMicroformat format="hcard" />
+<p>
+<f:translate key="organizer" />:
 <span class="vcard">
 <f:if condition="{organizer.company}">
 	<f:then><span class="fn org">{organizer.company}</span></f:then>
@@ -19,3 +21,4 @@
 </cal:array.join>)
 </f:if>
 </span>
+</p>
