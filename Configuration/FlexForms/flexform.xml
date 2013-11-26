@@ -24,6 +24,26 @@
             </TCEforms>
           </switchableControllerActions>
 
+          <view.defaultPid>
+            <TCEforms>
+              <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.view.defaultPid</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>1</size>
+                <maxitems>1</maxitems>
+                <minitems>0</minitems>
+                <show_thumbs>1</show_thumbs>
+                <wizards>
+                  <suggest>
+                    <type>suggest</type>
+                  </suggest>
+                </wizards>
+              </config>
+            </TCEforms>
+          </view.defaultPid>
+
           <settings.override.action.filter.categories.uid>
             <TCEforms>
               <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.filterCategories</label>
