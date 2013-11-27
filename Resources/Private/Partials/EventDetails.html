@@ -9,10 +9,10 @@
 	</div>
 </f:if>
 
-<f:if condition="{event.location}">
-	<f:render partial="Location/location-for-event-inline.html" arguments="{settings: settings, location: event.location}" />
+<f:if condition="{event.activeLocation}">
+	<f:render partial="Location/location-for-event-inline.html" arguments="{settings: settings, location: event.activeLocation}" />
 </f:if>
 
-<f:if condition="{event.organizer}">
-	<f:render partial="Organizer/organizer-for-event-inline.html" arguments="{settings: settings, organizer: event.organizer}" />
+<f:if condition="{event.activeOrganizer}">
+	<f:render partial="Organizer/organizer-for-event-inline.html" arguments="{settings: settings, organizer: event.activeOrganizer}" />
 </f:if>

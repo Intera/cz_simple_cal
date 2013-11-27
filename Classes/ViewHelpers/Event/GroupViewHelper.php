@@ -86,11 +86,12 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 	 */
 	protected function groupByLocation($events) {
 		$result = array();
+		/** @var Tx_CzSimpleCal_Domain_Model_Event $event */
 		foreach($events as $event) {
-			$locationKey = $event->getLocation() ? $event->getLocation()->getUid() : 0;
+			$locationKey = $event->getActiveLocation() ? $event->getActiveLocation()->getUid() : 0;
 			if(!array_key_exists($locationKey, $result)) {
 				$result[$locationKey] = array(
-					'info' => $event->getLocation() ? $event->getLocation() : false,
+					'info' => $event->getActiveLocation() ? $event->getActiveLocation() : false,
 					'events' => array(),
 				);
 			}
@@ -107,11 +108,12 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 	 */
 	protected function groupByOrganizer($events) {
 		$result = array();
+		/** @var Tx_CzSimpleCal_Domain_Model_Event $event */
 		foreach($events as $event) {
-			$organizerKey = $event->getOrganizer() ? $event->getOrganizer()->getUid() : 0;
-			if(!array_key_exists($locationKey, $result)) {
+			$organizerKey = $event->getActiveOrganizer() ? $event->getActiveOrganizer()->getUid() : 0;
+			if(!array_key_exists($organizerKey, $result)) {
 				$result[$organizerKey] = array(
-					'info' => $event->getOrganizer() ? $event->getOrganizer() : false,
+					'info' => $event->getActiveOrganizer() ? $event->getActiveOrganizer() : false,
 					'events' => array(),
 				);
 			}

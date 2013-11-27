@@ -37,4 +37,7 @@ t3lib_extMgm::addPageTSConfig(
 		t3lib_extMgm::extPath('cz_simple_cal').'Configuration/TSconfig/default.txt'
 	)
 );
+
+// Register the hook that filters inline addresses from the record list.
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/class.db_list_extra.inc']['getTable'][] = 'Tx\\CzSimpleCal\\Hook\\DatabaseRecordListHook';
 ?>

@@ -80,47 +80,10 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	protected $description;
 
 	/**
-	 * the name of the location this event takes place in
-	 * @var string
-	 * @validate StringLength(maximum=255)
-	 */
-	protected $locationName;
-
-
-	/**
-	 * @var string
-	 * @validate StringLength(maximum=255)
-	 */
-	protected $locationAddress;
-
-	/**
-	 * @var string locationZip
-	 * @validate StringLength(maximum=12)
-	 */
-	protected $locationZip;
-
-
-	/**
-	 * @var string locationCity
-	 * @validate StringLength(maximum=255)
-	 */
-	protected $locationCity;
-
-
-	/**
-	 * @var string locationCountry
-	 * @validate StringLength(maximum=3)
-	 */
-	protected $locationCountry;
-
-	/**
-	 * a dummy address if no other record was given
-	 * @var Tx_CzSimpleCal_Domain_Model_AddressDummy
-	 */
-	protected $locationDummy = null;
-
-	/**
-	 * the organizer of the event
+	 * The location of the event. This record is used in multiple
+	 * events (selected by element browser).
+	 *
+	 * This setting has precedence before $locationInline.
 	 *
 	 * @lazy
 	 * @var Tx_CzSimpleCal_Domain_Model_Location
@@ -128,53 +91,33 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	protected $location;
 
 	/**
-	 * the name of the institution or person the event is organized by
-	 * @var string
-	 * @validate StringLength(maximum=255)
+	 * The location of the event. This record is only used in the
+	 * current event (inline element).
+	 *
+	 * @lazy
+	 * @var Tx_CzSimpleCal_Domain_Model_Location
 	 */
-	protected $organizerName;
+	protected $locationInline;
 
 	/**
-	 * @var string organizerAddress
-	 * @validate String
-	 */
-	protected $organizerAddress;
-
-
-	/**
-	 * @var string organizerZip
-	 * @validate StringLength(maximum=12)
-	 */
-	protected $organizerZip;
-
-
-	/**
-	 * @var string organizerCity
-	 * @validate StringLength(maximum=255)
-	 */
-	protected $organizerCity;
-
-
-	/**
-	 * @var string organizerCountry
-	 * @validate StringLength(maximum=3)
-	 */
-	protected $organizerCountry;
-
-
-	/**
-	 * a dummy address if no other record was given
-	 * @var Tx_CzSimpleCal_Domain_Model_AddressDummy
-	 */
-	protected $organizerDummy = null;
-
-	/**
-	 * the organizer of the event
+	 * The organizer of the event. This record is used in multiple
+	 * events (selected by element browser).
+	 *
+	 * This setting has precedence before $organizerInline.
 	 *
 	 * @lazy
 	 * @var Tx_CzSimpleCal_Domain_Model_Organizer
 	 */
 	protected $organizer;
+
+	/**
+	 * The organizer of the event. This record is only used in the
+	 * current event (inline element).
+	 *
+	 * @lazy
+	 * @var Tx_CzSimpleCal_Domain_Model_Organizer
+	 */
+	protected $organizerInline;
 
 	/**
 	 * categories
@@ -299,18 +242,20 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 *
 	 * @param string $locationName the name of the location this event takes place in
 	 * @return void
+	 * @deprecated Please set the property directly in the inline location.
 	 */
 	public function setLocationName($locationName) {
-		$this->locationName = $locationName;
+		$this->getLocationInline(TRUE, TRUE)->setName($locationName);
 	}
 
 	/**
 	 * Getter for locationName
 	 *
 	 * @return string the name of the location this event takes place in
+	 * @deprecated Please get the property directly from the inline location.
 	 */
 	public function getLocationName() {
-		return $this->locationName;
+		return $this->getLocationInline(TRUE)->getName();
 	}
 
 	/**
@@ -318,38 +263,41 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 *
 	 * @param string $locationAddress the address of the location this event takes place in
 	 * @return void
+	 * @deprecated Please set the property directly in the inline location.
 	 */
 	public function setLocationAddress($locationAddress) {
-		$this->locationAddress = $locationAddress;
+		$this->getLocationInline(TRUE, TRUE)->setAddress($locationAddress);
 	}
 
 	/**
 	 * Getter for locationAddress
 	 *
 	 * @return string the address of the location this event takes place in
+	 * @deprecated Please get the property directly from the inline location.
 	 */
 	public function getLocationAddress() {
-		return $this->locationAddress;
+		return $this->getLocationInline(TRUE)->getAddress();
 	}
-
 
 	/**
 	 * Setter for locationZip
 	 *
 	 * @param string $locationZip
 	 * @return void
+	 * @deprecated Please set the property directly in the inline location.
 	 */
 	public function setLocationZip($locationZip) {
-		$this->locationZip = $locationZip;
+		$this->getLocationInline(TRUE, TRUE)->setZip($locationZip);
 	}
 
 	/**
 	 * Getter for locationZip
 	 *
 	 * @return string $locationZip
+	 * @deprecated Please get the property directly from the inline location.
 	 */
 	public function getLocationZip() {
-		return $this->locationZip;
+		return $this->getLocationInline(TRUE)->getZip();
 	}
 
 
@@ -358,18 +306,20 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 *
 	 * @param string $locationCity
 	 * @return void
+	 * @deprecated Please set the property directly in the inline location.
 	 */
 	public function setLocationCity($locationCity) {
-		$this->locationCity = $locationCity;
+		$this->getLocationInline(TRUE, TRUE)->setCity($locationCity);
 	}
 
 	/**
 	 * Getter for locationCity
 	 *
 	 * @return string $locationCity
+	 * @deprecated Please get the property directly from the inline location.
 	 */
 	public function getLocationCity() {
-		return $this->locationCity;
+		return $this->getLocationInline(TRUE)->getCity();
 	}
 
 
@@ -378,18 +328,20 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 *
 	 * @param string $locationCountry
 	 * @return void
+	 * @deprecated Please set the property directly in the inline location.
 	 */
 	public function setLocationCountry($locationCountry) {
-		$this->locationCountry = $locationCountry;
+		$this->getLocationInline(TRUE, TRUE)->setCountry($locationCountry);
 	}
 
 	/**
 	 * Getter for locationCountry
 	 *
 	 * @return string $locationCountry
+	 * @deprecated Please get the property directly from the inline location.
 	 */
 	public function getLocationCountry() {
-		return $this->locationCountry;
+		return $this->getLocationInline(TRUE)->getCountry();
 	}
 
 	/**
@@ -415,9 +367,10 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 *
 	 * @param string $organizerName the name of the institution or person the event is organized by
 	 * @return void
+	 * @deprecated Please set the property directly in the inline organizer.
 	 */
 	public function setOrganizerName($organizerName) {
-		$this->organizerName = $organizerName;
+		$this->getOrganizerInline(TRUE, TRUE)->setName($organizerName);
 	}
 
 
@@ -426,18 +379,20 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 *
 	 * @param string $organizerAddress
 	 * @return void
+	 * @deprecated Please set the property directly in the inline organizer.
 	 */
 	public function setOrganizerAddress($organizerAddress) {
-		$this->organizerAddress = $organizerAddress;
+		$this->getOrganizerInline(TRUE, TRUE)->setAddress($organizerAddress);
 	}
 
 	/**
 	 * Getter for organizerAddress
 	 *
 	 * @return string $organizerAddress
+	 * @deprecated Please get the property directly from the inline organizer.
 	 */
 	public function getOrganizerAddress() {
-		return $this->organizerAddress;
+		return $this->getOrganizerInline(TRUE)->getAddress();
 	}
 
 
@@ -446,18 +401,20 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 *
 	 * @param string $organizerZip
 	 * @return void
+	 * @deprecated Please set the property directly in the inline organizer.
 	 */
 	public function setOrganizerZip($organizerZip) {
-		$this->organizerZip = $organizerZip;
+		$this->getOrganizerInline(TRUE,TRUE)->setZip($organizerZip);
 	}
 
 	/**
 	 * Getter for organizerZip
 	 *
 	 * @return string $organizerZip
+	 * @deprecated Please get the property directly from the inline organizer.
 	 */
 	public function getOrganizerZip() {
-		return $this->organizerZip;
+		return $this->getOrganizerInline(TRUE)->getZip();
 	}
 
 
@@ -466,18 +423,20 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 *
 	 * @param string $organizerCity
 	 * @return void
+	 * @deprecated Please set the property directly in the inline organizer.
 	 */
 	public function setOrganizerCity($organizerCity) {
-		$this->organizerCity = $organizerCity;
+		$this->getOrganizerInline(TRUE, TRUE)->setCity($organizerCity);
 	}
 
 	/**
 	 * Getter for organizerCity
 	 *
 	 * @return string $organizerCity
+	 * @deprecated Please get the property directly from the inline organizer.
 	 */
 	public function getOrganizerCity() {
-		return $this->organizerCity;
+		return $this->getOrganizerInline(TRUE)->getCity();
 	}
 
 
@@ -486,18 +445,20 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 *
 	 * @param string $organizerCountry
 	 * @return void
+	 * @deprecated Please set the property directly in the inline organizer.
 	 */
 	public function setOrganizerCountry($organizerCountry) {
-		$this->organizerCountry = $organizerCountry;
+		$this->getOrganizerInline(TRUE, TRUE)->setCountry($organizerCountry);
 	}
 
 	/**
 	 * Getter for organizerCountry
 	 *
 	 * @return string $organizerCountry
+	 * @deprecated Please get the property directly from the inline organizer.
 	 */
 	public function getOrganizerCountry() {
-		return $this->organizerCountry;
+		return $this->getOrganizerInline(TRUE)->getCountry();
 	}
 
 
@@ -505,9 +466,10 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * Getter for organizerName
 	 *
 	 * @return string the name of the institution or person the event is organized by
+	 * @deprecated Please get the property directly from the inline organizer.
 	 */
 	public function getOrganizerName() {
-		return $this->organizerName;
+		return $this->getOrganizerInline(TRUE)->getName();
 	}
 
 	/**
@@ -545,7 +507,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * Adds a Category
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Category The Category to be added
+	 * @param Tx_CzSimpleCal_Domain_Model_Category $category The Category to be added
 	 * @return void
 	 */
 	public function addCategory(Tx_CzSimpleCal_Domain_Model_Category $category) {
@@ -558,7 +520,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * Removes a Category
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Category The Category to be removed
+	 * @param Tx_CzSimpleCal_Domain_Model_Category $category The Category to be removed
 	 * @return void
 	 */
 	public function removeCategory(Tx_CzSimpleCal_Domain_Model_Category $category) {
@@ -642,38 +604,49 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	}
 
 	/**
+	 * Getter for the inline organizer.
+	 *
+	 * If no inline organizer is present a dummy organizer will be created
+	 * on the fly.
+	 *
+	 * @param boolean $createDummyOrganizer Internal use only! If this
+	 * is TRUE a dummy organizer will be initalized if no inline
+	 * organizer was set. For use with getter methods.
+	 * @param boolean $persistDummyOrganizer Internal use only! If this
+	 * is TRUE the dummy organizer will be set to the class variable so
+	 * that is will be persisted. For use with setter methods.
+	 * @return Tx_CzSimpleCal_Domain_Model_Organizer
+	 */
+	public function getOrganizerInline($createDummyOrganizer = FALSE, $persistDummyOrganizer = FALSE) {
+
+		$organizer = $this->organizerInline;
+
+		if (!isset($organizer) && $createDummyOrganizer) {
+			/** @var Tx_CzSimpleCal_Domain_Model_Organizer $organizer */
+			$organizer = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_Organizer');
+			if ($persistDummyOrganizer) {
+				$this->organizerInline = $organizer;
+			}
+		}
+		return $organizer;
+	}
+
+	/**
+	 * Setter for the inline organizer record.
+	 *
+	 * @param Tx_CzSimpleCal_Domain_Model_Organizer $organizerInline
+	 */
+	public function setOrganizerInline($organizerInline) {
+		$this->organizerInline = $organizerInline;
+	}
+
+	/**
 	 * get the organizer of the event
 	 *
 	 * @return Tx_CzSimpleCal_Domain_Model_Organizer
 	 */
 	public function getOrganizer() {
-		if($this->organizer) {
-			return $this->organizer;
-		}
-		if(is_null($this->organizerDummy)) {
-			$this->buildOrganizerDummy();
-		}
-		return $this->organizerDummy;
-	}
-
-	/**
-	 * build the organizerDummy
-	 * @return null
-	 */
-	protected function buildOrganizerDummy() {
-
-		if (empty($this->organizerName) && empty($this->organizerAddress) && empty($this->organizerZip) && empty($this->organizerCity) && empty($this->organizerCountry)) {
-			return;
-		}
-
-		$this->organizerDummy = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_AddressDummy');
-
-		$this->organizerDummy->setName($this->organizerName);
-		$this->organizerDummy->setAddress($this->organizerAddress);
-		$this->organizerDummy->setZip($this->organizerZip);
-		$this->organizerDummy->setCity($this->organizerCity);
-		$this->organizerDummy->setCountry($this->organizerCountry);
-
+		return $this->organizer;
 	}
 
 	/**
@@ -688,38 +661,83 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	}
 
 	/**
+	 * If a common organizer was set it will be returned. Otherwise
+	 * the inline organizer will be returned.
+	 *
+	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 */
+	public function getActiveOrganizer() {
+
+		$organizer = $this->getOrganizer();
+
+		if (isset($organizer)) {
+			return $organizer;
+		}
+
+		return $this->getOrganizerInline();
+	}
+
+	/**
+	 * Getter for the inline location.
+	 *
+	 * If no inline location is present a dummy location will be created
+	 * on the fly.
+	 *
+	 * @param boolean $createDummyLocation Internal use only! If this
+	 * is TRUE a dummy location will be initalized if no inline
+	 * location was set. For use with getter methods.
+	 * @param boolean $persistDummyLocation Internal use only! If this
+	 * is TRUE the dummy location will be set to the class variable so
+	 * that is will be persisted. For use with setter methods.
+	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 */
+	public function getLocationInline($createDummyLocation = FALSE, $persistDummyLocation = FALSE) {
+
+		$location = $this->locationInline;
+
+		if (!isset($location) && $createDummyLocation) {
+			/** @var Tx_CzSimpleCal_Domain_Model_Location $location */
+			$location = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_Location');
+			if ($persistDummyLocation) {
+				$this->locationInline = $location;
+			}
+		}
+		return $location;
+	}
+
+	/**
+	 * Setter for the inline location record.
+	 *
+	 * @param Tx_CzSimpleCal_Domain_Model_Location $locationInline
+	 */
+	public function setLocationInline($locationInline) {
+		$this->locationInline = $locationInline;
+	}
+
+	/**
 	 * getter for location
 	 *
 	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
 	public function getLocation() {
-		if($this->location) {
-			return $this->location;
-		}
-		if(is_null($this->locationDummy)) {
-			$this->buildLocationDummy();
-		}
-		return $this->locationDummy;
+		return $this->location;
 	}
 
 	/**
-	 * build the location
-	 * @return null
+	 * If a common location was set it will be returned. Otherwise
+	 * the inline location will be returned.
+	 *
+	 * @return Tx_CzSimpleCal_Domain_Model_Location
 	 */
-	protected function buildLocationDummy() {
+	public function getActiveLocation() {
 
-		if (empty($this->locationName) && empty($this->locationAddress) && empty($this->locationZip) && empty($this->locationCity) && empty($this->locationCountry)) {
-			return;
+		$location = $this->getLocation();
+
+		if (isset($location)) {
+			return $location;
 		}
 
-		$this->locationDummy = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_AddressDummy');
-
-		$this->locationDummy->setName($this->locationName);
-		$this->locationDummy->setAddress($this->locationAddress);
-		$this->locationDummy->setZip($this->locationZip);
-		$this->locationDummy->setCity($this->locationCity);
-		$this->locationDummy->setCountry($this->locationCountry);
-
+		return $this->getLocationInline();
 	}
 
 	/**

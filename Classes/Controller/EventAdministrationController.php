@@ -119,11 +119,6 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 				'endDay',
 				'endTime',
 				'flickrTags',
-				'locationAddress',
-				'locationCity',
-				'locationCountry',
-				'locationName',
-				'locationZip',
 				'showPageInstead',
 				'startDay',
 				'startTime',
@@ -141,6 +136,9 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 				$event->setCruserFe($this->getFrontendUserId());
 			}
 		}
+
+		// todo: set organizer / location properties
+
 		$categories = $this->getCategories();
 		if(!$event->getCategory() && $categories->count() > 0) {
 			$event->addCategory($categories->getFirst());

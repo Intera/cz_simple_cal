@@ -192,12 +192,6 @@ class Domain_Model_EventTest extends tx_phpunit_testcase {
 //		self::assertEquals('someone', $organizer->getCompany());
 	}
 
-	public function testGetOrganizerName() {
-		$organizerName = $this->object->getOrganizerName();
-
-		self::assertEquals('someone', $organizerName);
-	}
-
 	public function testGetRecurrances() {
 		//@todo test
 		self::markTestIncomplete('no tests done yet');
