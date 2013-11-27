@@ -44,7 +44,7 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 		} elseif($by === 'location') {
 			$events = $this->groupByLocation($events);
 		} elseif($by === 'organizer') {
-			$events = $this->groupByOrganzier($events);
+			$events = $this->groupByOrganizer($events);
 		} else {
 			throw new InvalidArgumentException(sprintf('%s can\'t group by "%s". Maybe a misspelling?', get_class($this), $by));
 		}
