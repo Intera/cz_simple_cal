@@ -779,7 +779,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 */
 	public function setSlug($slug) {
 		if(preg_match('/^[a-z0-9\-]*$/i', $slug) === false) {
-			throw new InvalidArgument(sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.'));
+			throw new InvalidArgumentException(sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.'));
 		}
 		$this->slug = $slug;
 		return $this;
