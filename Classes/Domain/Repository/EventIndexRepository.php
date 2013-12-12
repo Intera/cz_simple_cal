@@ -43,6 +43,25 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 	}
 
 	/**
+	 * Finds all event index entries for the given event without
+	 * respecting storage pages or enable fields.
+	 *
+	 * @param Tx_CzSimpleCal_Domain_Model_Event $event
+	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+	 */
+	public function findAllByEventEverywhere($event) {
+		$query = $this->createQuery();
+		$query->getQuerySettings()
+			->setRespectStoragePage(FALSE)
+			->setRespectSysLanguage(FALSE)
+			->setIgnoreEnableFields(TRUE);
+		$query->matching(
+			$query->equals('event', $event)
+		);
+		return $query->execute();
+	}
+
+	/**
 	 * find all events matching some settings
 	 *
 	 * for all options for the settings see setupSettings()

@@ -71,10 +71,10 @@ class Tx_CzSimpleCal_Indexer_Event {
 	 * @param Tx_CzSimpleCal_Domain_Model_Event $event
 	 */
 	protected function doDelete($event) {
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			self::$eventIndexTable,
-			'event = '.$event->getUid()
-		);
+		$eventIndexEntries = $this->eventIndexRepository->findAllByEventEverywhere($event);
+		foreach ($eventIndexEntries as $eventIndexEntry) {
+			$this->eventIndexRepository->remove($eventIndexEntry);
+		}
 	}
 
 	/**
