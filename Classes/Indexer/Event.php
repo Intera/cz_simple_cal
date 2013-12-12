@@ -25,21 +25,6 @@ class Tx_CzSimpleCal_Indexer_Event {
 	protected $eventIndexRepository = null;
 
 	/**
-	 * @var Tx_Extbase_Persistence_ManagerInterface
-	 * @inject
-	 */
-	protected $persistenceManager = null;
-
-	/**
-	 * destructor
-	 *
-	 * this will persist all changes
-	 */
-	public function __destruct() {
-		$this->persistenceManager->persistAll();
-	}
-
-	/**
 	 * create an eventIndex
 	 *
 	 * @param integer|Tx_CzSimpleCal_Domain_Model_Event $event
@@ -115,9 +100,6 @@ class Tx_CzSimpleCal_Indexer_Event {
 				$instance
 			);
 		}
-
-		// store everything to database manually to allow correct unique hash creation when using scheduler
-//		$this->persistenceManager->persistAll();
 	}
 
 	/**
