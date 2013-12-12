@@ -6,8 +6,6 @@ return array(
 	'tx_czsimplecal_scheduler_index' => $extensionClassesPath . 'Scheduler/Index.php',
 	//needed for hooks
 	'tx_czsimplecal_indexer_event' => $extensionClassesPath . 'Indexer/Event.php',
-	'tx_czsimplecal_hook_datamap' => $extensionClassesPath . 'Hook/Datamap.php',
-	'tx_czsimplecal_hook_cmdmap' => $extensionClassesPath . 'Hook/Cmdmap.php',
 
 	'tx_czsimplecal_utility_flexconfig' => $extensionClassesPath . 'Utility/FlexConfig.php',
 
