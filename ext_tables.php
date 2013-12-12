@@ -41,11 +41,6 @@ $TCA['tt_content']['types']['list']['subtypes_addlist']['czsimplecal_pi1'] = 'pi
 $TCA['tt_content']['types']['list']['subtypes_excludelist']['czsimplecal_pi1'] = 'layout,select_key';
 t3lib_extMgm::addPiFlexFormValue('czsimplecal_pi1', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform.xml');
 
-// hook into the post storing process to update the index of recurring events
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:'.$_EXTKEY.'/Legacy/class.tx_czsimplecal_getDatamapHook.php:tx_czsimplecal_getDatamapHook';
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass'][] = 'EXT:'.$_EXTKEY.'/Legacy/class.tx_czsimplecal_getCmdmapHook.php:tx_czsimplecal_getCmdmapHook';
-
-
 // TCA config
 t3lib_extMgm::addLLrefForTCAdescr('tx_czsimplecal_domain_model_event','EXT:cz_simple_cal/Resources/Private/Language/locallang_csh_tx_czsimplecal_domain_model_event.xml');
 t3lib_extMgm::allowTableOnStandardPages('tx_czsimplecal_domain_model_event');
