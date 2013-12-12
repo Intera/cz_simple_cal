@@ -42,7 +42,7 @@ t3lib_extMgm::addPageTSConfig(
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/class.db_list_extra.inc']['getTable'][] = 'Tx\\CzSimpleCal\\Hook\\DatabaseRecordListHook';
 
 // hook into the post storing process to update the index of recurring events
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:'.$_EXTKEY.'/Legacy/class.tx_czsimplecal_getDatamapHook.php:tx_czsimplecal_getDatamapHook';
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass'][] = 'EXT:'.$_EXTKEY.'/Legacy/class.tx_czsimplecal_getCmdmapHook.php:tx_czsimplecal_getCmdmapHook';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'Tx\\CzSimpleCal\\Hook\\DataHandlerHook';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass'][] = 'Tx\\CzSimpleCal\\Hook\\DataHandlerHook';
 
 ?>
