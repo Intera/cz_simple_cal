@@ -100,6 +100,7 @@ $TCA['tx_czsimplecal_domain_model_event'] = array(
 				'size' => 12,
 				'max' => 20,
 				'eval' => 'null,time',
+				'default' => NULL,
 			)
 		),
 		'end_day' => array(
@@ -110,6 +111,7 @@ $TCA['tx_czsimplecal_domain_model_event'] = array(
 				'size' => 12,
 				'max' => 20,
 				'eval' => 'null,date',
+				'default' => NULL,
 			)
 		),
 		'end_time' => array(
@@ -120,6 +122,7 @@ $TCA['tx_czsimplecal_domain_model_event'] = array(
 				'size' => 12,
 				'max' => 20,
 				'eval' => 'null,time',
+				'default' => NULL,
 			)
 		),
 		'timezone' => array(
