@@ -50,18 +50,13 @@ class Tx_CzSimpleCal_Recurrance_Timeline_Base implements Iterator, Countable {
 	 * @return Tx_CzSimpleCal_Recurrance_Timeline_Base
 	 */
 	public function add($data) {
-		try {
-			$data = $this->cleanData($data);
-			$this->isDataValid($data);
-			$this->data[$data['start']] = $data;
-			if($data['start'] < $this->lastValue) {
-				$this->sortNeeded = true;
-			}
-			$this->lastValue = $data['start'];
+		$data = $this->cleanData($data);
+		$this->isDataValid($data);
+		$this->data[$data['start']] = $data;
+		if($data['start'] < $this->lastValue) {
+			$this->sortNeeded = true;
 		}
-		catch (UnexpectedValueException $e) {
-			throw new UnexpectedValueException(sprintf('The given data is not valid for %s: %s', get_class($this), $e->getMessage()));
-		}
+		$this->lastValue = $data['start'];
 		return $this;
 	}
 
@@ -99,8 +94,8 @@ class Tx_CzSimpleCal_Recurrance_Timeline_Base implements Iterator, Countable {
 			throw new UnexpectedValueException('"end" should not be "0".');
 		}
 
-		if($data['start'] > $data['end']) {
-			throw new UnexpectedValueException(sprintf('"start" should not be later than "end". (%d, %d)', $data['start'], $data['end']));
+		if ($data['start'] > $data['end']) {
+			throw new UnexpectedValueException(sprintf('"start" should not be later than "end". (%d, %d)', $data['start'], $data['end']), 1392817280);
 		}
 
 		if(array_key_exists($data['start'], $this->data)) {

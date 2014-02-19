@@ -216,7 +216,8 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * Adds the given message to the flash message queue.
+	 * Fetches the translation for the given key and add the translated
+	 * message to the flash message queue.
 	 *
 	 * @param string $translationKey
 	 * @param integer $severity
@@ -225,6 +226,17 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	protected function addTranslatedFlashMessage($translationKey, $severity = FlashMessage::OK) {
 		$this->initializeFashMessageClasses();
 		$message = $this->languageService->sl('LLL:' . $this->languageFile . ':' . $translationKey);
+		$this->addFlashmessage($message, $severity);
+	}
+
+	/**
+	 * Adds the given message to the flash message queue.
+	 *
+	 * @param string $message
+	 * @param int $severity
+	 */
+	protected function addFlashmessage($message, $severity = FlashMessage::OK) {
+		$this->initializeFashMessageClasses();
 		/** @var FlashMessage $flashMessage */
 		$flashMessage = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage', $message, '', $severity);
 		$this->flashMessageService->getMessageQueueByIdentifier()->enqueue($flashMessage);
@@ -288,13 +300,13 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 
 		switch ($changeType) {
 			case 'update':
-				$this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.updateAndIndex');
 				$this->eventIndexer->update($event);
+				$this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.updateAndIndex');
 				break;
 			case 'new':
 				$this->generateEventSlug($event);
-				$this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.create');
 				$this->eventIndexer->update($event);
+				$this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.create');
 				break;
 			case 'delete':
 				$this->eventIndexer->delete($event);
@@ -317,12 +329,27 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->initializeEventIndexClasses();
 		$updatedEvents = $this->updatedEvents;
 		$this->updatedEvents = array();
+		$errorDuringIndexing = FALSE;
 
 		foreach ($updatedEvents as $eventUid => $changeType) {
-			$this->indexUpdatedEvent($eventUid, $changeType);
+			try {
+				$this->indexUpdatedEvent($eventUid, $changeType);
+			} catch (\UnexpectedValueException $e) {
+				$errorDuringIndexing = TRUE;
+				$translationKey = 'flashmessages.exception.indexUpdatedEvent';
+				$exceptionCode = $e->getCode();
+				if ($exceptionCode > 0) {
+					$translationKey .= '.' . $exceptionCode;
+				}
+				$this->initializeFashMessageClasses();
+				$message = $this->languageService->sl('LLL:' . $this->languageFile . ':' . $translationKey);
+				$this->addFlashmessage(sprintf($message, $e->getMessage()), FlashMessage::ERROR);
+			}
 		}
 
-		$this->persistenceManager->persistAll();
+		if (!$errorDuringIndexing) {
+			$this->persistenceManager->persistAll();
+		}
 	}
 
 	/**

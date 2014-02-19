@@ -11,6 +11,8 @@
             <label index="flashmessages.tx_czsimplecal_domain_model_event.create">Event was created and indexed succesfully.</label>
             <label index="flashmessages.tx_czsimplecal_domain_model_event.updateNoIndex">Changes were saved, but no reindexing seemed to be necessary.</label>
             <label index="flashmessages.tx_czsimplecal_domain_model_event.updateAndIndex">Changes were saved and event was reindexed.</label>
+			<label index="flashmessages.exception.indexUpdatedEvent">An error occured during the indexing of the event: %s</label>
+			<label index="flashmessages.exception.indexUpdatedEvent.1392817280">Error during indexing the event: the end date of the event is larger than the start date. Please make sure you removed the checkoxed at all fields that are not set. (Error details: %s)</label>
 
         	<label index="tx_czsimplecal_scheduler_index.label">Index calendar events</label>
         	<label index="tx_czsimplecal_scheduler_index.description">Indexing all calendar events of czSimpleCal.</label>
@@ -26,6 +28,9 @@
             <label index="flashmessages.tx_czsimplecal_domain_model_event.create">Veranstaltung wurde angelegt und indiziert.</label>
             <label index="flashmessages.tx_czsimplecal_domain_model_event.updateNoIndex">Änderungen gespeichert. Eine Neuindizierung scheint nicht notwendig.</label>
             <label index="flashmessages.tx_czsimplecal_domain_model_event.updateAndIndex">Änderungen gespeichert. Veranstaltung wurde neu indiziert.</label>
+
+			<label index="flashmessages.exception.indexUpdatedEvent">Während der Indizierung der Veranstaltung ist ein Fehler aufgetreten: %s</label>
+			<label index="flashmessages.exception.indexUpdatedEvent.1392817280">Während der Indizierung der Veranstaltung ist ein Fehler aufgetreten: die End-Zeit ist größer als die Start-Zeit. Bitte stellen Sie sicher, dass bei allen nicht benutzten Feldern das Häkchen entfernt wurde. (Fehlerdetails: %s)</label>
         </languageKey>
     </data>
 </T3locallang>
