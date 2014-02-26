@@ -72,6 +72,8 @@
 			<label index="tx_czsimplecal_domain_model_event.tab_organizer">Organizer</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_socialmedia">Social Media</label>
 
+			<label index="tx_czsimplecal_domain_model_event_index">Event index</label>
+
 			<label index="tx_czsimplecal_domain_model_exception">Exception</label>
 			<label index="tx_czsimplecal_domain_model_exception.title">Title</label>
 
@@ -155,6 +157,8 @@
 			<label index="tx_czsimplecal_domain_model_event.status.tentative">Vorläufig</label>
 			<label index="tx_czsimplecal_domain_model_event.status.confirmed">Bestätigt</label>
 			<label index="tx_czsimplecal_domain_model_event.status.cancelled">Abgesagt</label>
+
+			<label index="tx_czsimplecal_domain_model_event_index">Event Index</label>
 
 			<label index="tx_czsimplecal_domain_model_event.tab_general">Event</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_recurrance">Wiederholung</label>

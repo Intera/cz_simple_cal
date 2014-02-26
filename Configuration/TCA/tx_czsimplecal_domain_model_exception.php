@@ -1,8 +1,14 @@
 <?php
-if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
-
-$TCA['tx_czsimplecal_domain_model_exception'] = array(
-	'ctrl' => $TCA['tx_czsimplecal_domain_model_exception']['ctrl'],
+return array(
+	'ctrl' => array(
+		'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception',
+		'label' => 'title',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden'
+		),
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal') . 'Resources/Public/Icons/tx_czsimplecal_domain_model_exception.gif'
+	),
 	'interface' => array(
 		'showRecordFieldList' => 'title,start_day,start_time,end_day,end_time,recurrance_type,recurrance_subtype,recurrance_until'
 	),
@@ -15,8 +21,8 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 	'columns' => array(
 		'hidden' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
-			'config'  => array(
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+			'config' => array(
 				'type' => 'check'
 			)
 		),
@@ -32,8 +38,8 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 		),
 		'title' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception.title',
-			'config'  => array(
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception.title',
+			'config' => array(
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim,required'
@@ -41,8 +47,8 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 		),
 		'start_day' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_day',
-			'config'  => array(
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_day',
+			'config' => array(
 				'type' => 'input',
 				'size' => 12,
 				'max' => 20,
@@ -51,8 +57,8 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 		),
 		'start_time' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_time',
-			'config'  => array(
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_time',
+			'config' => array(
 				'type' => 'input',
 				'size' => 12,
 				'max' => 20,
@@ -61,8 +67,8 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 		),
 		'end_day' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_day',
-			'config'  => array(
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_day',
+			'config' => array(
 				'type' => 'input',
 				'size' => 12,
 				'max' => 20,
@@ -71,8 +77,8 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 		),
 		'end_time' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_time',
-			'config'  => array(
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_time',
+			'config' => array(
 				'type' => 'input',
 				'size' => 12,
 				'max' => 20,
@@ -81,8 +87,8 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 		),
 		'timezone' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.timezone',
-			'config'  => array(
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.timezone',
+			'config' => array(
 				'type' => 'input',
 				'size' => 40,
 				'max' => 40,
@@ -92,8 +98,8 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 		),
 		'recurrance_type' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type',
-			'config'  => array(
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type',
+			'config' => array(
 				'type' => 'select',
 				'items' => array(
 					array(
@@ -121,17 +127,17 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 		),
 		'recurrance_subtype' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_subtype',
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_subtype',
 			'displayCond' => 'FIELD:recurrance_type:!IN:0,,none,daily',
-			'config'  => array(
+			'config' => array(
 				'type' => 'select',
 				'itemsProcFunc' => 'EXT:cz_simple_cal/Legacy/class.tx_czsimplecal_dynEventForm.php:tx_czsimplecal_dynEventForm->getRecurranceSubtype'
 			)
 		),
 		'recurrance_until' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_until',
-			'config'  => array(
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_until',
+			'config' => array(
 				'type' => 'input',
 				'size' => 12,
 				'max' => 20,
@@ -153,8 +159,8 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 
 		'exception_groups' => array(
 			'exclude' => 0,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception.exception_events',
-			'config'  => array(
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception.exception_events',
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'tx_czsimplecal_domain_model_exceptiongroup',
 				'MM' => 'tx_czsimplecal_exceptiongroup_exception_mm',
@@ -166,4 +172,3 @@ $TCA['tx_czsimplecal_domain_model_exception'] = array(
 		),
 	),
 );
-?>

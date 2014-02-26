@@ -1,8 +1,22 @@
 <?php
-if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
-
-$TCA['tx_czsimplecal_domain_model_category'] = array(
-	'ctrl' => $TCA['tx_czsimplecal_domain_model_category']['ctrl'],
+return array(
+	'ctrl' => array(
+		'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_category',
+		'label' => 'title',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'versioningWS' => 2,
+		'versioning_followPages' => TRUE,
+		'origUid' => 't3_origuid',
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l18n_parent',
+		'transOrigDiffSourceField' => 'l18n_diffsource',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden'
+		),
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal') . 'Resources/Public/Icons/tx_czsimplecal_domain_model_category.gif'
+	),
 	'interface' => array(
 		'showRecordFieldList' => 'title,show_page_instead'
 	),
@@ -21,8 +35,8 @@ $TCA['tx_czsimplecal_domain_model_category'] = array(
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
-					array('LLL:EXT:lang/locallang_general.php:LGL.allLanguages',-1),
-					array('LLL:EXT:lang/locallang_general.php:LGL.default_value',0)
+					array('LLL:EXT:lang/locallang_general.php:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.php:LGL.default_value', 0)
 				)
 			)
 		),
@@ -40,28 +54,28 @@ $TCA['tx_czsimplecal_domain_model_category'] = array(
 			)
 		),
 		'l18n_diffsource' => array(
-			'config'=>array(
-				'type'=>'passthrough')
+			'config' => array(
+				'type' => 'passthrough')
 		),
 		't3ver_label' => array(
 			'displayCond' => 'FIELD:t3ver_label:REQ:true',
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.versionLabel',
 			'config' => array(
-				'type'=>'none',
+				'type' => 'none',
 				'cols' => 27
 			)
 		),
 		'hidden' => array(
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
-			'config'  => array(
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+			'config' => array(
 				'type' => 'check'
 			)
 		),
 		'title' => array(
 			'exclude' => 0,
-			'label'   => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_category.title',
-			'config'  => array(
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_category.title',
+			'config' => array(
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'

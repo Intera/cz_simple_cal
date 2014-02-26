@@ -1,13 +1,13 @@
 <?php
-if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
-
-
-/*
- * this TCA is needed to get the Domain Object Mapper of Extbase to work, but this table should not be displayed in the frontend
- */
-
-$TCA['tx_czsimplecal_domain_model_eventindex'] = array(
-	'ctrl' => $TCA['tx_czsimplecal_domain_model_eventindex']['ctrl'],
+// This TCA is needed to get the Domain Object Mapper of Extbase to work,
+// but this table should not be displayed in the Frontent.
+return array(
+	'ctrl' => array(
+		'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event_index',
+		'label' => '',
+		'hideTable' => TRUE,
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal') . 'Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif'
+	),
 	'interface' => array(
 		'showRecordFieldList' => ''
 	),
@@ -30,16 +30,16 @@ $TCA['tx_czsimplecal_domain_model_eventindex'] = array(
 		),
 		'start' => array(
 			'exclude' => 0,
-			'label'   => '',
-			'config'  => array(
+			'label' => '',
+			'config' => array(
 				'type' => 'input',
 				'eval' => 'datetime,required'
 			)
 		),
 		'end' => array(
 			'exclude' => 0,
-			'label'   => '',
-			'config'  => array(
+			'label' => '',
+			'config' => array(
 				'type' => 'input',
 				'eval' => 'datetime,required'
 			)
@@ -56,11 +56,10 @@ $TCA['tx_czsimplecal_domain_model_eventindex'] = array(
 		),
 		'slug' => array(
 			'exclude' => 0,
-			'label'   => '',
-			'config'  => array(
+			'label' => '',
+			'config' => array(
 				'type' => 'none', // just show the value - don't make it editable
 			)
 		),
 	),
 );
-?>
