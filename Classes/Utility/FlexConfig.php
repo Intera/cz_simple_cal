@@ -40,8 +40,8 @@ class Tx_CzSimpleCal_Utility_FlexConfig {
 	 */
 	public function getAllowedActions($config) {
 
-		$pid = $config['row']['pid'];
-		$tsConfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($pid);
+		$pid = \TYPO3\CMS\Backend\Utility\BackendUtility::getTSCpid('tt_content', $config['row']['uid'], $config['row']['pid']);
+		$tsConfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($pid[1]);
 
 		$flexConfig = & $tsConfig['options.']['cz_simple_cal_pi1.']['flexform.'];
 		if (empty($flexConfig) || !is_array($flexConfig['allowedActions.'])) {
