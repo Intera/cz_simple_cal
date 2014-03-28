@@ -47,7 +47,7 @@ class Domain_Model_EventTest extends tx_phpunit_testcase {
 		$query = $eventRepository->createQuery();
 		$query->getQuerySettings()->
 			setRespectStoragePage(false)->
-			setRespectEnableFields(false)->
+			setIgnoreEnableFields(TRUE)->
 			setRespectSysLanguage(false)
 		;
 

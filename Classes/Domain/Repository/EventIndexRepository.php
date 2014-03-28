@@ -449,7 +449,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		$query = $this->createQuery();
 		$query->getQuerySettings()->
 			setRespectStoragePage(false)->
-			setRespectEnableFields(false)->
+			setIgnoreEnableFields(TRUE)->
 			setRespectSysLanguage(false)
 		;
 		$query->matching($query->logicalAnd(
@@ -463,7 +463,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			$query = $this->createQuery();
 			$query->getQuerySettings()->
 				setRespectStoragePage(false)->
-				setRespectEnableFields(false)->
+				setIgnoreEnableFields(TRUE)->
 				setRespectSysLanguage(false)
 			;
 			$query->matching($query->logicalAnd(
