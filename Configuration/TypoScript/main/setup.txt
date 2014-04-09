@@ -119,7 +119,7 @@ plugin.tx_czsimplecal_pi1 {
 							table = tx_czsimplecal_domain_model_event
 							fieldName = images
 						}
-						imagesHaveCaptions.cObject.references < .imgList.cObject.references
+						preRenderRegisters.allImageCaptions.cObject.references < .imgList.cObject.references
 					}
 				}
 			}
