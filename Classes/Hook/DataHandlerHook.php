@@ -40,6 +40,11 @@ use TYPO3\CMS\Core\Messaging\FlashMessage;
 class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
+	 * @var \Tx\CzSimpleCal\Domain\Model\Event[]
+	 */
+	protected $eventCache = array();
+
+	/**
 	 * @var \Tx\CzSimpleCal\Indexer\Event
 	 */
 	protected $eventIndexer;
@@ -93,35 +98,6 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * Initializes all classes required for indexing events.
-	 *
-	 * @return void
-	 */
-	protected function initializeEventIndexClasses() {
-		if (isset($this->eventIndexer)) {
-			return;
-		}
-		/** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
-		$objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->eventIndexer = $objectManager->get('Tx\\CzSimpleCal\\Indexer\\Event');
-		$this->eventRepository = $objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventRepository');
-		$this->persistenceManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\PersistenceManagerInterface');
-	}
-
-	/**
-	 * Initializes all classes required for displaying flash messages.
-	 *
-	 * @return void
-	 */
-	protected function initializeFashMessageClasses() {
-		if (isset($this->flashMessageService)) {
-			return;
-		}
-		$this->flashMessageService = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessageService');
-		$this->languageService = $GLOBALS['LANG'];
-	}
-
-	/**
 	 * Will be called after all operations and process changed events.
 	 *
 	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
@@ -154,15 +130,55 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 			return;
 		}
 
+		$eventChanged = TRUE;
 		switch ($command) {
 			case 'move':
 			case 'undelete':
 				$this->registerUpdatedEvent($id);
 				break;
 			case 'delete':
+				if (!isset($this->eventCache[$id])) {
+
+				}
 				$this->registerUpdatedEvent($id, 'delete');
 				break;
+			default:
+				$eventChanged = FALSE;
+				break;
 		}
+
+		if ($eventChanged) {
+			$this->loadEventInCache($id);
+		}
+	}
+
+	/**
+	 * Implements the hook processCmdmap_preProcess.
+	 *
+	 * @param string $command
+	 * @param string $table
+	 * @param int $id
+	 * @param mixed $value
+	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
+	 * @param mixed $pasteUpdate
+	 * @return void
+	 */
+	public function processCmdmap_preProcess(
+		/** @noinspection PhpUnusedParameterInspection */
+		$command, $table, $id, $value, $dataHandler, $pasteUpdate
+	) {
+
+		if ($table !== 'tx_czsimplecal_domain_model_event') {
+			return;
+		}
+
+		if ($command !== 'delete') {
+			return;
+		}
+
+		// When the event is deleted we need to load it in the cache before it is
+		// processed because otherwise will will have no access to it any more.
+		$this->loadEventInCache($id);
 	}
 
 	/**
@@ -196,6 +212,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 			$id = $dataHandler->substNEWwithIDs[$id];
 		}
 
+		$this->loadEventInCache($id);
 		$this->registerUpdatedEvent($id, $status);
 	}
 
@@ -222,6 +239,19 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
+	 * Adds the given message to the flash message queue.
+	 *
+	 * @param string $message
+	 * @param int $severity
+	 */
+	protected function addFlashmessage($message, $severity = FlashMessage::OK) {
+		$this->initializeFashMessageClasses();
+		/** @var FlashMessage $flashMessage */
+		$flashMessage = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage', $message, '', $severity);
+		$this->flashMessageService->getMessageQueueByIdentifier()->enqueue($flashMessage);
+	}
+
+	/**
 	 * Fetches the translation for the given key and add the translated
 	 * message to the flash message queue.
 	 *
@@ -233,19 +263,6 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->initializeFashMessageClasses();
 		$message = $this->languageService->sl('LLL:' . $this->languageFile . ':' . $translationKey);
 		$this->addFlashmessage($message, $severity);
-	}
-
-	/**
-	 * Adds the given message to the flash message queue.
-	 *
-	 * @param string $message
-	 * @param int $severity
-	 */
-	protected function addFlashmessage($message, $severity = FlashMessage::OK) {
-		$this->initializeFashMessageClasses();
-		/** @var FlashMessage $flashMessage */
-		$flashMessage = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage', $message, '', $severity);
-		$this->flashMessageService->getMessageQueueByIdentifier()->enqueue($flashMessage);
 	}
 
 	/**
@@ -302,7 +319,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	protected function indexUpdatedEvent($eventUid, $changeType) {
 
-		$event = $this->fetchEventObject($eventUid);
+		$event = $this->eventCache[$eventUid];
 
 		switch ($changeType) {
 			case 'update':
@@ -355,6 +372,48 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if (!$errorDuringIndexing) {
 			$this->persistenceManager->persistAll();
+		}
+	}
+
+	/**
+	 * Initializes all classes required for indexing events.
+	 *
+	 * @return void
+	 */
+	protected function initializeEventIndexClasses() {
+		if (isset($this->eventIndexer)) {
+			return;
+		}
+		/** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
+		$objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		$this->eventIndexer = $objectManager->get('Tx\\CzSimpleCal\\Indexer\\Event');
+		$this->eventRepository = $objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventRepository');
+		$this->persistenceManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\PersistenceManagerInterface');
+	}
+
+	/**
+	 * Initializes all classes required for displaying flash messages.
+	 *
+	 * @return void
+	 */
+	protected function initializeFashMessageClasses() {
+		if (isset($this->flashMessageService)) {
+			return;
+		}
+		$this->flashMessageService = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessageService');
+		$this->languageService = $GLOBALS['LANG'];
+	}
+
+	/**
+	 * Loads the event with the given ID in the event cache so that it can
+	 * be processed when the data handler has finished its work.
+	 *
+	 * @param int $eventId
+	 */
+	protected function loadEventInCache($eventId) {
+		if (!isset($this->eventCache[$eventId])) {
+			$this->initializeEventIndexClasses();
+			$this->eventCache[$eventId] = $this->fetchEventObject($eventId);
 		}
 	}
 
