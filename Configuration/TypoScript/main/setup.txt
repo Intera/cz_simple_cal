@@ -19,7 +19,7 @@ config.tx_extbase {
 	}
 }
 
-plugin.tx_czsimplecal_pi1 {
+plugin.tx_czsimplecal {
 
 	#@description: the pid the records are stored in
 	persistence.storagePid = {$plugin.tx_czsimplecal.pidList}
