@@ -88,7 +88,7 @@ class RecurranceFactory {
 			throw new \RuntimeException('The recurrance_type should not be empty.');
 		}
 
-		$className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\Weekly\\' . GeneralUtility::underscoredToUpperCamelCase($type);
+		$className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
 
 		if(!class_exists($className)) {
 			throw new \BadMethodCallException(sprintf('The class %s does not exist for creating recurring events.', $className));
