@@ -88,6 +88,16 @@ class DateTime extends \DateTime {
 		date_default_timezone_set($timezone);
 	}
 
+	/**
+	 * Alter the timestamp of a DateTime object by incrementing or decrementing
+	 * in a format accepted by strtotime().
+	 *
+	 * This method overrides the default modify method of \DateTime and parses
+	 * the given string to the StrToTime utility.
+	 *
+	 * @param string $dateTime A string that can be parsed by StrToTime.
+	 * @return void
+	 */
 	public function modify($dateTime) {
 		$time = StrToTime::doSubstitutions($dateTime);
 		$time = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $time, true);
