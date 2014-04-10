@@ -1,37 +1,36 @@
 <?php
+namespace Tx\CzSimpleCal\Domain\Model;
 
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use Tx\CzSimpleCal\Utility\FileArrayBuilder;
 
 /**
- * a base class for addresses that extends tt_address
- *
- * @version $Id$
- * @copyright Copyright belongs to the respective authors
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * A base class for addresses that extends tt_address
  */
-class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Model_Base {
+class BaseAddress extends Base {
 	/**
 	 * the property pid
 	 *
@@ -59,7 +58,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for hidden
 	 *
 	 * @param boolean $hidden
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setHidden($hidden) {
 		$this->hidden = $hidden;
@@ -86,7 +85,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for gender
 	 *
 	 * @param string $gender
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setGender($gender) {
 		$this->gender = $gender;
@@ -113,7 +112,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for name
 	 *
 	 * @param string $name
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setName($name) {
 		$this->name = $name;
@@ -140,7 +139,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for firstName
 	 *
 	 * @param string $firstName
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setFirstName($firstName) {
 		$this->firstName = $firstName;
@@ -167,7 +166,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for middleName
 	 *
 	 * @param string $middleName
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setMiddleName($middleName) {
 		$this->middleName = $middleName;
@@ -194,7 +193,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for lastName
 	 *
 	 * @param string $lastName
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setLastName($lastName) {
 		$this->lastName = $lastName;
@@ -221,7 +220,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for title
 	 *
 	 * @param string $title
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
@@ -248,7 +247,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for address
 	 *
 	 * @param string $address
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setAddress($address) {
 		$this->address = $address;
@@ -275,7 +274,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for building
 	 *
 	 * @param string $building
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setBuilding($building) {
 		$this->building = $building;
@@ -302,7 +301,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for room
 	 *
 	 * @param string $room
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setRoom($room) {
 		$this->room = $room;
@@ -312,14 +311,14 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	/**
 	 * the property birthday
 	 *
-	 * @var DateTime birthday
+	 * @var \DateTime birthday
 	 */
 	protected $birthday;
 
 	/**
 	 * getter for birthday
 	 *
-	 * @return DateTime
+	 * @return \DateTime
 	 */
 	public function getBirthday() {
 		return $this->birthday;
@@ -328,8 +327,8 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	/**
 	 * setter for birthday
 	 *
-	 * @param DateTime $birthday
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @param \DateTime $birthday
+	 * @return BaseAddress
 	 */
 	public function setBirthday($birthday) {
 		$this->birthday = $birthday;
@@ -356,7 +355,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for phone
 	 *
 	 * @param string $phone
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setPhone($phone) {
 		$this->phone = $phone;
@@ -383,7 +382,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for fax
 	 *
 	 * @param string $fax
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setFax($fax) {
 		$this->fax = $fax;
@@ -410,7 +409,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for mobile
 	 *
 	 * @param string $mobile
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setMobile($mobile) {
 		$this->mobile = $mobile;
@@ -437,7 +436,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for www
 	 *
 	 * @param string $www
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setWww($www) {
 		$this->www = $www;
@@ -464,7 +463,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for email
 	 *
 	 * @param string $email
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setEmail($email) {
 		$this->email = $email;
@@ -491,7 +490,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for company
 	 *
 	 * @param string $company
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setCompany($company) {
 		$this->company = $company;
@@ -518,7 +517,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for city
 	 *
 	 * @param string $city
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setCity($city) {
 		$this->city = $city;
@@ -545,7 +544,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for zip
 	 *
 	 * @param string $zip
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setZip($zip) {
 		$this->zip = $zip;
@@ -572,7 +571,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for region
 	 *
 	 * @param string $region
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setRegion($region) {
 		$this->region = $region;
@@ -599,7 +598,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for country
 	 *
 	 * @param string $country
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setCountry($country) {
 		$this->country = $country;
@@ -633,12 +632,11 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	/**
 	 * get all images as an array
 	 *
-	 * @return array<Tx_CzEwlSponsor_Domain_Model_File>
+	 * @return \Tx\CzSimpleCal\Domain\Model\File[]
 	 */
 	public function getImages() {
 		if(is_null($this->_cache_images)) {
-			t3lib_div::loadTCA('tt_address');
-			$this->_cache_images = Tx_CzSimpleCal_Utility_FileArrayBuilder::build(
+			$this->_cache_images = FileArrayBuilder::build(
 				$this->image,
 				$GLOBALS['TCA']['tt_address']['columns']['image']['config']['uploadfolder']
 			);
@@ -651,7 +649,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 *
 	 * @deprecated not a very clever mechanism to set images. This method should be replaced by a setImagesMethod, that handles array input
 	 * @param string $image
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setImage($image) {
 		$this->image = $image;
@@ -678,7 +676,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for description
 	 *
 	 * @param string $description
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
@@ -710,7 +708,7 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	 * setter for sorting
 	 *
 	 * @param integer $sorting
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return BaseAddress
 	 */
 	public function setSorting($sorting) {
 		$this->sorting = $sorting;
@@ -720,6 +718,4 @@ class Tx_CzSimpleCal_Domain_Model_BaseAddress extends Tx_CzSimpleCal_Domain_Mode
 	public function __toString() {
 		return $this->getName();
 	}
-
 }
-?>

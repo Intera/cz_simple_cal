@@ -1,11 +1,36 @@
 <?php
+namespace Tx\CzSimpleCal\Recurrance\Type;
+
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 
 /**
  * weekly recurrance
- *
- * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_Recurrance_Type_Yearly extends Tx_CzSimpleCal_Recurrance_Type_Base {
+class Yearly extends Base {
 
 	/**
 	 * the main method building the recurrance
@@ -42,15 +67,16 @@ class Tx_CzSimpleCal_Recurrance_Type_Yearly extends Tx_CzSimpleCal_Recurrance_Ty
 	/**
 	 * special method to build events taking place relative to easter
 	 *
-	 * @param Tx_CzSimpleCal_Utility_DateTime $start
-	 * @param Tx_CzSimpleCal_Utility_DateTime $end
-	 * @param Tx_CzSimpleCal_Utility_DateTime $until
+	 * @param CzSimpleCalDateTime $start
+	 * @param CzSimpleCalDateTime $end
+	 * @param CzSimpleCalDateTime $until
+	 * @throws \RuntimeException
 	 * @see http://de.php.net/manual/en/function.easter-days.php
 	 */
 	protected function buildEaster($start, $end, $until) {
 
 		if(!function_exists('easter_days') || !function_exists('easter_date')) {
-			throw new RuntimeException(
+			throw new \RuntimeException(
 				'The function easter_days() or easter_date() is not available in your PHP installation.
 				The binaries were probably not compiled using --enable-calendar. Contact your
 				server administrator to fix this.'

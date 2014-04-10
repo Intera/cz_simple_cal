@@ -1,22 +1,31 @@
 <?php
+namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
-/*
- * It is free software; you can redistribute it and/or modify it under    *
- * the terms of the GNU Lesser General Public License as published by the *
- * Free Software Foundation, either version 3 of the License, or (at your *
- * option) any later version.                                             *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser       *
- * General Public License for more details.                               *
- *                                                                        *
- * You should have received a copy of the GNU Lesser General Public       *
- * License along with the script.                                         *
- * If not, see http://www.gnu.org/licenses/lgpl.html                      *
- *                                                                        *
- * The TYPO3 project - inspiring people to share!                         *
- *                                                                        */
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Renders a string based on a given number.
@@ -99,8 +108,7 @@
  *
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_ViewHelpers_Format_NumberChoiceViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
-
+class NumberChoiceViewHelper extends AbstractViewHelper {
 
 	/**
 	 * render a string based on a given number
@@ -109,7 +117,7 @@ class Tx_CzSimpleCal_ViewHelpers_Format_NumberChoiceViewHelper extends Tx_Fluid_
 	 * @param string   $text       the text configuration
 	 * @param array    $arguments  values for the markers
 	 * @return string Formatted string
-	 * @author Christian Zenker <christian.zenker@599media.de>
+	 * @throws \InvalidArgumentException
 	 */
 	public function render($number, $text = null, $arguments = array()) {
 		if(is_null($text)) {
@@ -121,14 +129,13 @@ class Tx_CzSimpleCal_ViewHelpers_Format_NumberChoiceViewHelper extends Tx_Fluid_
 			unset($arguments[$key]);
 		}
 
-		$formatter = new Tx_CzSimpleCal_ViewHelpers_Format_Contrib_ChoiceFormat();
+		$formatter = new \Tx\CzSimpleCal\ViewHelpers\Format\Contrib\ChoiceFormat();
 		$ret = $formatter->format($text, $number);
 
 		if($ret === false) {
-			throw new InvalidArgumentException(sprintf('format.numberChoice could not parse the text "%s".', $text));
+			throw new \InvalidArgumentException(sprintf('format.numberChoice could not parse the text "%s".', $text));
 		}
 
 		return strtr($ret, $arguments);
 	}
 }
-?>

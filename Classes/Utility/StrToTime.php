@@ -1,32 +1,39 @@
 <?php
-/*
- * It is free software; you can redistribute it and/or modify it under    *
- * the terms of the GNU Lesser General Public License as published by the *
- * Free Software Foundation, either version 3 of the License, or (at your *
- * option) any later version.                                             *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser       *
- * General Public License for more details.                               *
- *                                                                        *
- * You should have received a copy of the GNU Lesser General Public       *
- * License along with the script.                                         *
- * If not, see http://www.gnu.org/licenses/lgpl.html                      *
- *                                                                        *
- * The TYPO3 project - inspiring people to share!                         *
- *                                                                        */
+namespace Tx\CzSimpleCal\Utility;
 
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class to enhance strtotime to use some more features that are available in PHP 5.3 in PHP 5.2
  *
  * I decided not to support the full extend of PHP 5.3 functionality, but only the
  * features that are needed most often.
- *
- * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_Utility_StrToTime {
+class StrToTime {
 
 	/**
 	 * @var array
@@ -63,6 +70,7 @@ class Tx_CzSimpleCal_Utility_StrToTime {
 	 *
 	 * @param string $time
 	 * @param integer|false $now
+	 * @return bool|false|int|null
 	 */
 	public static function strtotime($time, $now = null) {
 		if(is_null($now)) {
@@ -71,7 +79,7 @@ class Tx_CzSimpleCal_Utility_StrToTime {
 
 		$time = self::doSubstitutions($time);
 
-		foreach(t3lib_div::trimExplode('|', $time, true) as $time) {
+		foreach(GeneralUtility::trimExplode('|', $time, true) as $time) {
 			$now = strtotime(self::strftime($time, $now), $now);
 			if($now === false) {
 				return false;
@@ -94,8 +102,8 @@ class Tx_CzSimpleCal_Utility_StrToTime {
 	 *
 	 * I encountered this bug when using PHP 5.3.2. Do the following:
 	 * <code>
-	 * 	$foo = new DateTime("first day of this month");
-	 * 	$foo->setDate(2009, 2, 13);
+	 *    $foo = new DateTime("first day of this month");
+	 *    $foo->setDate(2009, 2, 13);
 	 *  echo $foo->format('Y-m-d');
 	 * </code>
 	 *
@@ -105,7 +113,7 @@ class Tx_CzSimpleCal_Utility_StrToTime {
 	 * a month table.
 	 *
 	 * @param string $time
-	 * @param integer $now
+	 * @return string
 	 */
 	public static function doSubstitutionFirstDayOf($time) {
 		return strtr($time, self::$translateFirstDayOf);
@@ -118,8 +126,10 @@ class Tx_CzSimpleCal_Utility_StrToTime {
 	 * way to generate times of in the week format where sunday is the first day of the week
 	 *
 	 * @param string $time
+	 * @return mixed
 	 */
 	public static function doSubstitutionReltextWeek($time) {
+		/** @noinspection PhpUndefinedConstantInspection */
 		return preg_replace_callback(
 			'/(mon(?:day)?|tue(?:sday)?|wed(?:nesday)?|thu(?:rsday)?|fri(?:day)?|sat(?:urday)?|sun(?:day)?) (last|this|next) week/i',
 			array(self, 'callback_substitutedReltextWeekPattern'),
@@ -132,6 +142,7 @@ class Tx_CzSimpleCal_Utility_StrToTime {
 	 *
 	 * @see doCommonSubstitutions()
 	 * @param string $matches
+	 * @return string
 	 */
 	protected static function callback_substitutedReltextWeekPattern($matches) {
 		/**
@@ -161,6 +172,7 @@ class Tx_CzSimpleCal_Utility_StrToTime {
 	 *
 	 * @param string $time
 	 * @param integer $now
+	 * @return string
 	 */
 	public static function strftime($time, $now = null) {
 		if(strpos($time, '%') !== false) {

@@ -1,10 +1,10 @@
 <?php
+namespace Tx\CzSimpleCal\Controller;
 
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
- *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -16,6 +16,7 @@
  *  The GNU General Public License can be found at
  *  http://www.gnu.org/copyleft/gpl.html.
  *
+ *
  *  This script is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -24,51 +25,49 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+
 /**
  * Controller for the Event object with editing capabilities for frontend-users
  *
  * (We use a seperate controller for this to avoid side effects with the
  *  BaseExtendableController)
- *
- * @version $Id$
- * @copyright Copyright belongs to the respective authors
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-
-class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase_MVC_Controller_ActionController
-{
+class EventAdministrationController extends ActionController {
 
 	/**
-	 * @var Tx_CzSimpleCal_Domain_Repository_EventRepository
+	 * @var \Tx\CzSimpleCal\Domain\Repository\EventRepository
 	 */
 	protected $eventRepository;
 
 	/**
 	 * inject an eventRepository
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Repository_EventRepository $eventRepository
+	 * @param \Tx\CzSimpleCal\Domain\Repository\EventRepository $eventRepository
 	 */
-	public function injectEventRepository(Tx_CzSimpleCal_Domain_Repository_EventRepository $eventRepository)
+	public function injectEventRepository(\Tx\CzSimpleCal\Domain\Repository\EventRepository $eventRepository)
 	{
 		$this->eventRepository = $eventRepository;
 	}
 
     /**
-     * @var Tx_CzSimpleCal_Domain_Repository_CategoryRepository
+     * @var \Tx\CzSimpleCal\Domain\Repository\CategoryRepository
      */
     protected $categoryRepository;
 
     /**
      * inject an categoryRepository
      *
-     * @param Tx_CzSimpleCal_Domain_Repository_CategoryRepository $categoryRepository
+     * @param \Tx\CzSimpleCal\Domain\Repository\CategoryRepository $categoryRepository
      */
-    public function injectCategoryRepository(Tx_CzSimpleCal_Domain_Repository_CategoryRepository $categoryRepository) {
+    public function injectCategoryRepository(\Tx\CzSimpleCal\Domain\Repository\CategoryRepository $categoryRepository) {
         $this->categoryRepository = $categoryRepository;
     }
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -80,12 +79,12 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	 * injecting the container using dependency injection
 	 * causes an error.
 	 *
-	 * @return Tx_Extbase_Object_ObjectManager
+	 * @return \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	public function getObjectManager()
 	{
 		if (is_null($this->objectManager)) {
-			$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+			$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 		}
 		return $this->objectManager;
 	}
@@ -104,14 +103,14 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	/**
 	 * Displays a form for creating a new event
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Event $fromEvent
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $fromEvent
 	 * @return void
 	 * @dontvalidate $fromEvent
 	 */
-	public function newAction(Tx_CzSimpleCal_Domain_Model_Event $fromEvent = NULL)
+	public function newAction(\Tx\CzSimpleCal\Domain\Model\Event $fromEvent = NULL)
 	{
 		$this->abortOnMissingUser();
-		$event = new Tx_CzSimpleCal_Domain_Model_Event();
+		$event = new \Tx\CzSimpleCal\Domain\Model\Event();
 		if ($fromEvent) {
 			foreach (array(
 				'categories',
@@ -141,7 +140,9 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 
 		$categories = $this->getCategories();
 		if(!$event->getCategory() && $categories->count() > 0) {
-			$event->addCategory($categories->getFirst());
+			/** @var \Tx\CzSimpleCal\Domain\Model\Category $category */
+			$category = $categories->getFirst();
+			$event->addCategory($category);
 		}
 
 		$this->view->assign('cats', $categories);
@@ -151,11 +152,11 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	/**
 	 * Creates a new event
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Event $newEvent
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $newEvent
 	 * @return void
 	 * @dontvalidate $newEvent
 	 */
-	public function createAction(Tx_CzSimpleCal_Domain_Model_Event $newEvent)
+	public function createAction(\Tx\CzSimpleCal\Domain\Model\Event $newEvent)
 	{
 		$this->abortOnMissingUser();
 		$this->setDefaults($newEvent);
@@ -166,14 +167,18 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 			$this->eventRepository->add($newEvent);
 
 			// persist event as the indexer needs an uid
-			$this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
+			/** @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface $persistenceManager */
+			$persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\PersistenceManager');
+			$persistenceManager->persistAll();
 			// create index for event
-			$this->getObjectManager()->get('Tx_CzSimpleCal_Indexer_Event')->create($newEvent);
+			/** @var \Tx\CzSimpleCal\Indexer\Event $eventIndexer */
+			$eventIndexer = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Indexer\\Event');
+			$eventIndexer->create($newEvent);
 
-			$this->flashMessageContainer->add(
+			$this->addFlashMessage(
 				sprintf('The event "%s" was created.', $newEvent->getTitle()),
 				'',
-				t3lib_FlashMessage::OK
+				FlashMessage::OK
 			);
 			$this->clearCache();
 			$this->logEventLifecycle($newEvent, 1);
@@ -184,11 +189,11 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	/**
 	 * Displays a form for editing an existing event
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Event $event
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
 	 * @return void
 	 * @dontvalidate $event
 	 */
-	public function editAction(Tx_CzSimpleCal_Domain_Model_Event $event)
+	public function editAction(\Tx\CzSimpleCal\Domain\Model\Event $event)
 	{
 		$this->abortOnInvalidUser($event);
 		$categories = $this->getCategories();
@@ -200,11 +205,11 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	/**
 	 * Updates an existing event
 	 *
-	 * @param $event Tx_CzSimpleCal_Domain_Model_Event
+	 * @param $event \Tx\CzSimpleCal\Domain\Model\Event
 	 * @return void
 	 * @dontvalidate $event
 	 */
-	public function updateAction(Tx_CzSimpleCal_Domain_Model_Event $event)
+	public function updateAction(\Tx\CzSimpleCal\Domain\Model\Event $event)
 	{
 		$this->abortOnInvalidUser($event);
 		$this->view->assign('event', $event);
@@ -214,12 +219,14 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 			$this->eventRepository->update($event);
 
 			// update index for event
-			$this->getObjectManager()->get('Tx_CzSimpleCal_Indexer_Event')->update($event);
+			/** @var \Tx\CzSimpleCal\Indexer\Event $eventIndexer */
+			$eventIndexer = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Indexer\\Event');
+			$eventIndexer->update($event);
 
-			$this->flashMessageContainer->add(
+			$this->addFlashMessage(
 				sprintf('The event "%s" was updated.', $event->getTitle()),
 				'',
-				t3lib_FlashMessage::OK
+				FlashMessage::OK
 			);
 			$this->clearCache();
 			$this->logEventLifecycle($event, 2);
@@ -230,22 +237,24 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	/**
 	 * Deletes an existing event
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Event $event The event to delete
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event The event to delete
 	 * @return void
 	 * @dontvalidate $event
 	 */
-	public function deleteAction(Tx_CzSimpleCal_Domain_Model_Event $event)
+	public function deleteAction(\Tx\CzSimpleCal\Domain\Model\Event $event)
 	{
 		$this->abortOnInvalidUser($event);
 
 		// delete index for event
-		$this->getObjectManager()->get('Tx_CzSimpleCal_Indexer_Event')->delete($event);
+		/** @var \Tx\CzSimpleCal\Indexer\Event $eventIndexer */
+		$eventIndexer = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Indexer\\Event');
+		$eventIndexer->delete($event);
 
 		$this->eventRepository->remove($event);
-		$this->flashMessageContainer->add(
+		$this->addFlashMessage(
 			sprintf('The event "%s" was deleted.', $event->getTitle()),
 			'',
-			t3lib_FlashMessage::OK
+			FlashMessage::OK
 		);
 		$this->clearCache();
 		$this->logEventLifecycle($event, 3);
@@ -255,7 +264,7 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	/**
 	 * abort the action if the user is invalid
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Event $event The event
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event The event
 	 */
 	protected function abortOnInvalidUser($event)
 	{
@@ -277,17 +286,17 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	/**
 	 * set defaults on an object
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Event $event
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
 	 */
 	public function setDefaults($event)
 	{
 		$event->setTimezone(date('e'));
 //		if (isset($this->settings['overrides']['categories'])) {
 //			$categories = $this->getObjectManager()->
-//				get('Tx_CzSimpleCal_Domain_Repository_CategoryRepository')->
+//				get('\Tx\CzSimpleCal\Domain\Repository\CategoryRepository')->
 //				findAllByUids(t3lib_div::trimExplode(',', $this->settings['overrides']['categories']));
 //			if (is_null($event->getCategories())) {
-//				$event->setCategories($this->getObjectManager()->get('Tx_Extbase_Persistence_ObjectStorage'));
+//				$event->setCategories($this->getObjectManager()->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage'));
 //			}
 //
 //			foreach ($categories as $category) {
@@ -317,13 +326,13 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	 * using extbase's built-in validation, we would not be able to show *any* event
 	 * in the past.
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Event $event
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
 	 * @return bool|array
 	 */
 	protected function isEventValid($event)
 	{
 
-		$validator = $this->getObjectManager()->get('Tx_CzSimpleCal_Domain_Validator_UserEventValidator');
+		$validator = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Domain\\Validator\\UserEventValidator');
 
 		if (!$validator->isValid($event)) {
 			$this->request->setErrors($validator->getErrors());
@@ -331,9 +340,11 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 		}
 
 		$cats = array();
-        foreach(t3lib_div::intExplode(',', $this->settings['feEditableCategories']) as $id){
+        foreach(GeneralUtility::intExplode(',', $this->settings['feEditableCategories']) as $id){
             $cats[] = intval($id);
         }
+
+		/** @var \TYPO3\CMS\Extbase\Domain\Model\Category $cat */
         foreach($event->getCategories() as $cat){
             if(!in_array($cat->getUid(), $cats))  {
 	            return false;
@@ -350,28 +361,29 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	protected function clearCache()
 	{
 		if (!$this->settings['clearCachePages']) {
-			return false;
+			return;
 		}
 
 		$pids = $this->settings['clearCachePages'];
-		$pids = t3lib_div::trimExplode(',', $pids, true);
+		$pids = GeneralUtility::trimExplode(',', $pids, true);
 
 		if (empty($pids)) {
 			return;
 		}
 
 		// init TCEmain object
-		$tce = t3lib_div::makeInstance('t3lib_TCEmain');
+		/** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
+		$tce = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\DataHandling\\DataHandler');
 		if (!$tce->BE_USER) {
 			/* that's a little ugly here:
 			 * We need some BE_USER as the cleanCache event will be logged to syslog.
 			 * We could use an empty "t3lib_beUserAuth", but this would flood the
 			 * syslog with entries of cleared caches.
 			 *
-			 * So we use this dummy class "Tx_CzSimpleCal_Utility_Null" that just
+			 * So we use this dummy class "\Tx\CzSimpleCal\Utility\Null" that just
 			 * ignores everything.
 			 */
-			$tce->BE_USER = t3lib_div::makeInstance('Tx_CzSimpleCal_Utility_Null');
+			$tce->BE_USER = GeneralUtility::makeInstance('Tx\\CzSimpleCal\\Utility\\Null');
 		}
 		foreach ($pids as $pid) {
 			$pid = intval($pid);
@@ -386,12 +398,13 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	/**
 	 * log if an event was created/updated/deleted to make this transparent in the backend
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Event $event
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
 	 * @param string $action the action (one of 1->'new', 2->'updated', 3->'delete')
 	 */
 	protected function logEventLifecycle($event, $action)
 	{
-		$user = t3lib_div::makeInstance('t3lib_userAuthGroup');
+		/** @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication $user */
+		$user = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Authentication\\BackendUserAuthentication');
 		$actions = array(
 			1 => 'added',
 			2 => 'edited',
@@ -409,7 +422,7 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 				$event->getTitle(),
 				$event->getUid(),
 			), // data
-			'tx_czsimplecal_domain_model_event', //table
+			'\Tx\CzSimpleCal\Domain\Model\Event', //table
 			$event->getUid(), // uid
 			null, //---obsolete---
 			$event->getPid() // pid
@@ -419,14 +432,12 @@ class Tx_CzSimpleCal_Controller_EventAdministrationController extends Tx_Extbase
 	/**
 	 * Gets the allowed Categories
 	 *
-	 * @return array of Tx_CzSimpleCal_Domain_Model_Category
+	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 **/
 	protected function getCategories()
 	{
 		return $this->categoryRepository->findAllByUids(
-			t3lib_div::intExplode(',', $this->settings['feEditableCategories'])
+			GeneralUtility::intExplode(',', $this->settings['feEditableCategories'])
 		);
 	}
 }
-
-?>

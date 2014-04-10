@@ -1,9 +1,10 @@
 <?php
+namespace Tx\CzSimpleCal\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
- *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -14,6 +15,7 @@
  *
  *  The GNU General Public License can be found at
  *  http://www.gnu.org/copyleft/gpl.html.
+ *
  *
  *  This script is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -29,7 +31,7 @@
  *
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_Utility_FlexConfig {
+class FlexConfig {
 
 	/**
 	 * Initializes the available action configurations in the given

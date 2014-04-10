@@ -1,26 +1,36 @@
 <?php
+namespace Tx\CzSimpleCal\ViewHelpers\Condition;
 
-/*           DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
- *                  Version 2, December 2004
+/***************************************************************
+ *  Copyright notice
  *
- * Copyright (C) 2010 Christian Zenker <christian.zenker@599media.de>
- * Everyone is permitted to copy and distribute verbatim or modified
- * copies of this license document, and changing it is allowed as long
- * as the name is changed.
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
  *
- *         DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
- * TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * 0. You just DO WHAT THE FUCK YOU WANT TO.
- */
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * A view helper to return true if one of the values is not empty
- *
- * @license WTFPL
- * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_ViewHelpers_Condition_OneNotEmptyViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class OneNotEmptyViewHelper extends AbstractViewHelper {
 
 	/**
 	 * @param array $values the values
@@ -36,4 +46,3 @@ class Tx_CzSimpleCal_ViewHelpers_Condition_OneNotEmptyViewHelper extends Tx_Flui
 		return false;
 	}
 }
-?>

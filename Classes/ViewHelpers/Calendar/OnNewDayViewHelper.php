@@ -1,22 +1,31 @@
 <?php
-/*
- * It is free software; you can redistribute it and/or modify it under    *
- * the terms of the GNU Lesser General Public License as published by the *
- * Free Software Foundation, either version 3 of the License, or (at your *
- * option) any later version.                                             *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser       *
- * General Public License for more details.                               *
- *                                                                        *
- * You should have received a copy of the GNU Lesser General Public       *
- * License along with the script.                                         *
- * If not, see http://www.gnu.org/licenses/lgpl.html                      *
- *                                                                        *
- * The TYPO3 project - inspiring people to share!                         *
- *                                                                        */
+namespace Tx\CzSimpleCal\ViewHelpers\Calendar;
 
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * renders its content if the submitted event is on a different date then the previous one
@@ -29,15 +38,12 @@
  *   {event.title}
  * </f:for>
  * </example>
- *
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_ViewHelpers_Calendar_OnNewDayViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class OnNewDayViewHelper extends AbstractViewHelper {
 
 	/**
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_EventIndexer $event the event to compare to the previously submitted one
+	 * @param \Tx\CzSimpleCal\Domain\Model\EventIndex $event the event to compare to the previously submitted one
 	 * @param string $label if you need multiple irrelated instances set this to something unique
 	 * @return string
 	 */
@@ -46,19 +52,18 @@ class Tx_CzSimpleCal_ViewHelpers_Calendar_OnNewDayViewHelper extends Tx_Fluid_Co
 		$className = get_class($this);
 
 		$name = 'last_day_wrapper_date';
-		if($label) {
-			$name.='_'.$label;
+		if ($label) {
+			$name .= '_' . $label;
 		}
 
+		$lastDay = NULL;
 		if ($this->viewHelperVariableContainer->exists($className, $name)) {
 			$lastDay = $this->viewHelperVariableContainer->get($className, $name);
-		} else {
-
 		}
 
 		$thisDay = strtotime('midnight', $event->getStart());
 
-		if($thisDay == $lastDay) {
+		if ($thisDay == $lastDay) {
 			return '';
 		} else {
 			$this->viewHelperVariableContainer->addOrUpdate($className, $name, $thisDay);
@@ -66,4 +71,3 @@ class Tx_CzSimpleCal_ViewHelpers_Calendar_OnNewDayViewHelper extends Tx_Fluid_Co
 		}
 	}
 }
-?>

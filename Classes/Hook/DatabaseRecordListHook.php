@@ -5,7 +5,6 @@ namespace Tx\CzSimpleCal\Hook;
  *  Copyright notice
  *
  *  (c) 2013 Alexander Stehlik <astehlik.deleteme@intera.de>
- *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -16,6 +15,7 @@ namespace Tx\CzSimpleCal\Hook;
  *
  *  The GNU General Public License can be found at
  *  http://www.gnu.org/copyleft/gpl.html.
+ *
  *
  *  This script is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of

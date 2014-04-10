@@ -1,16 +1,43 @@
 <?php
+namespace Tx\CzSimpleCal\Recurrance\Type;
+
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use Tx\CzSimpleCal\Recurrance\BuildException;
+use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 
 /**
  * monthly recurrance
- *
- * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_Recurrance_Type_Monthly extends Tx_CzSimpleCal_Recurrance_Type_Base {
+class Monthly extends Base {
 
 	/**
 	 * the main method building the recurrance
 	 *
 	 * @return void
+	 * @throws \InvalidArgumentException
 	 */
 	protected function doBuild() {
 
@@ -30,15 +57,20 @@ class Tx_CzSimpleCal_Recurrance_Type_Monthly extends Tx_CzSimpleCal_Recurrance_T
 				$param = 3;
 			} elseif($type === 'penultimateweekdayofmonth') {
 				$param = -2;
+			} else {
+				throw new \InvalidArgumentException('Subtype is invalid: ' . $type);
 			}
 
 			$this->buildByWeekday($param);
 			return;
 		}
 
+		/** @var CzSimpleCalDateTime $start */
 		$start = clone $this->event->getDateTimeObjectStart();
 		$day = $start->format('d');
-		$daysInMonth = $start->modify('last day of this month');
+
+		$start->modify('last day of this month');
+		$daysInMonth = $start->format('d');
 
 		if($day <= 7) {
 			$param = 1;
@@ -74,11 +106,15 @@ class Tx_CzSimpleCal_Recurrance_Type_Monthly extends Tx_CzSimpleCal_Recurrance_T
 		}
 	}
 
+	/**
+	 * @param CzSimpleCalDateTime $date
+	 * @param int $pos
+	 */
 	protected function advanceOneMonthByWeekday($date, $pos) {
-		if($pos > 0) {
-			$date->modify('first day of next month|'.$date->format('l H:i:s'));
-			if($pos > 1) {
-				$date->modify(sprintf('+%d weeks', $pos-1));
+		if ($pos > 0) {
+			$date->modify('first day of next month|' . $date->format('l H:i:s'));
+			if ($pos > 1) {
+				$date->modify(sprintf('+%d weeks', $pos - 1));
 			}
 		} else {
 			$date->modify(sprintf('last day of next month|next %s| %d weeks', $date->format('l H:i:s'), $pos));
@@ -91,7 +127,7 @@ class Tx_CzSimpleCal_Recurrance_Type_Monthly extends Tx_CzSimpleCal_Recurrance_T
 		$until = $this->event->getDateTimeObjectRecurranceUntil();
 
 		if($start->format('j') > 28 || $end->format('j') > 28 ) {
-			throw new Tx_CzSimpleCal_Recurrance_BuildException('The day of month of the start or the end was larger than 28. Abortion as this might lead to unexpected results.');
+			throw new BuildException('The day of month of the start or the end was larger than 28. Abortion as this might lead to unexpected results.');
 		}
 
 		while($until >= $start) {
@@ -114,5 +150,4 @@ class Tx_CzSimpleCal_Recurrance_Type_Monthly extends Tx_CzSimpleCal_Recurrance_T
 	public static function getSubtypes() {
 		return self::addLL(array('auto', 'bydayofmonth', 'firstweekdayofmonth', 'secondweekdayofmonth', 'thirdweekdayofmonth', 'lastweekdayofmonth', 'penultimateweekdayofmonth'));
 	}
-
 }

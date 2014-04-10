@@ -1,35 +1,37 @@
 <?php
+namespace Tx\CzSimpleCal\Domain\Repository;
+
 /***************************************************************
-*  Copyright notice
-*
-*  (c)  TODO - INSERT COPYRIGHT
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Extbase\Persistence\Repository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Repository for Tx_CzSimpleCal_Domain_Model_EventIndex
- *
- * @version $Id$
- * @copyright Copyright belongs to the respective authors
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * Repository for EventIndex domain models.
  */
-class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_Persistence_Repository {
+class EventIndexRepository extends Repository {
 
 	/**
 	 * find all records and return them ordered by the start date ascending
@@ -46,7 +48,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 	 * Finds all event index entries for the given event without
 	 * respecting storage pages or enable fields.
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Event $event
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
 	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findAllByEventEverywhere($event) {
@@ -116,8 +118,8 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 				$step = null;
 			}
 
-			$startDate = new Tx_CzSimpleCal_Utility_DateTime('@'.$settings['startDate']);
-			$startDate->setTimezone(new DateTimeZone(date_default_timezone_get()));
+			$startDate = new \Tx\CzSimpleCal\Utility\DateTime('@'.$settings['startDate']);
+			$startDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 			$endDate = $settings['endDate'];
 			while ($startDate->getTimestamp() < $endDate) {
@@ -171,7 +173,8 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 	 * @param array $settings
 	 * @param $query
 	 * @ugly extbase query needs a better fluent interface for query creation
-	 * @return Tx_Extbase_Persistence_Query
+	 * @return \TYPO3\CMS\Extbase\Persistence\QueryInterface
+	 * @throws \InvalidArgumentException
 	 */
 	protected function setupSettings($settings = array(), $query = null) {
 		if(is_null($query)) {
@@ -197,6 +200,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 		if(isset($settings['filter'])) {
 			foreach($settings['filter'] as $name => $filter) {
 				if(is_array($filter['value'])) {
+					/** @var \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $temp_constraint */
 					$temp_constraint = $query->in('event.'.$name, $filter['value']);
 
 					if(isset($filter['negate']) && $filter['negate']) {
@@ -234,17 +238,17 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			} elseif($settings['orderBy'] === 'end' || $settings['orderBy'] === 'endDate') {
 				$orderBy = 'end';
 			} else {
-				throw new InvalidArgumentException('"orderBy" should be one of "start" or "end".');
+				throw new \InvalidArgumentException('"orderBy" should be one of "start" or "end".');
 			}
 
 			if(!isset($settings['order'])) {
-				$order = Tx_Extbase_Persistence_Query::ORDER_ASCENDING;
+				$order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
 			} elseif(strtolower($settings['order']) === 'asc') {
-				$order = Tx_Extbase_Persistence_Query::ORDER_ASCENDING;
+				$order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
 			} elseif(strtolower($settings['order']) === 'desc') {
-				$order = Tx_Extbase_Persistence_Query::ORDER_DESCENDING;
+				$order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING;
 			} else {
-				throw new InvalidArgumentException('"order" should be one of "asc" or "desc".');
+				throw new \InvalidArgumentException('"order" should be one of "asc" or "desc".');
 			}
 
 			$query->setOrderings(array($orderBy => $order));
@@ -343,6 +347,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 	 * (only ASCII letters, numbers, ".", "_" and "-")
 	 *
 	 * @param $value
+	 * @return string
 	 */
 	protected static function sanitizeString($value) {
 		$value = trim($value);
@@ -362,13 +367,13 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 	 * If multiple values are given return an array
 	 *
 	 * @param $filter
+	 * @return array
 	 */
 	protected static function sanitizeFilter($filter) {
-		$out = array();
 
 		if(!is_array($filter)) {
 			$filter = array(
-				'value' => t3lib_div::trimExplode(',', $filter, true)
+				'value' => GeneralUtility::trimExplode(',', $filter, true)
 			);
 		} elseif(!empty($filter['_typoScriptNodeValue']) && !is_array($filter['_typoScriptNodeValue'])) {
 			/* this field is set if something like
@@ -380,13 +385,11 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			 *
 			 * This is processed prior to the value field, so
 			 * that a flexform is able to override it.
-			 *
-			 * @see Tx_Extbase_Utility_TypoScript
 			 */
-			$filter['value'] = t3lib_div::trimExplode(',', $filter['_typoScriptNodeValue'], true);
+			$filter['value'] = GeneralUtility::trimExplode(',', $filter['_typoScriptNodeValue'], true);
 			unset($filter['_typoScriptNodeValue']);
 		} elseif(!empty($filter['value']) && !is_array($filter['value'])) {
-			$filter['value'] = t3lib_div::trimExplode(',', $filter['value'], true);
+			$filter['value'] = GeneralUtility::trimExplode(',', $filter['value'], true);
 		}
 
 		foreach($filter['value'] as &$value) {
@@ -433,6 +436,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 	 * check if a given value is a filter
 	 *
 	 * @param mixed $filter
+	 * @return bool
 	 */
 	protected function isFilter($filter) {
 		return !is_array($filter) || array_key_exists('negate', $filter) || array_key_exists('value', $filter);
@@ -471,7 +475,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 				$query->logicalNot($query->equals('uid', $uid))
 			));
 			$query->setOrderings(array(
-				'slug' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
+				'slug' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
 			));
 			$query->setLimit(1);
 			$result = $query->execute();
@@ -487,8 +491,6 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 
 	/**
 	 * call an event before adding an event to the repo
-	 *
-	 * @see Classes/Persistence/Tx_Extbase_Persistence_Repository::add()
 	 */
 	public function add($object) {
 		$object->preCreate();
@@ -500,6 +502,7 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 	 *
 	 * @param integer $eventUid
 	 * @param integer $limit
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findNextAppointmentsByEventUid($eventUid, $limit = 3) {
 		$query = $this->createQuery();
@@ -508,9 +511,8 @@ class Tx_CzSimpleCal_Domain_Repository_EventIndexRepository extends Tx_Extbase_P
 			$query->equals('event.uid', $eventUid),
 			$query->greaterThanOrEqual('start', time())
 		));
-		$query->setOrderings(array('start' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
+		$query->setOrderings(array('start' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
 
 		return $query->execute();
 	}
 }
-?>

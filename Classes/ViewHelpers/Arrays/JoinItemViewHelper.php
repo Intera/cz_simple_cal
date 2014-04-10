@@ -1,5 +1,5 @@
 <?php
-namespace Tx\CzSimpleCal\Recurrance\Type;
+namespace Tx\CzSimpleCal\ViewHelpers\Arrays;
 
 /***************************************************************
  *  Copyright notice
@@ -25,20 +25,27 @@ namespace Tx\CzSimpleCal\Recurrance\Type;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
- * no recurrance at all - only this single event
+ * Join item view helper.
  */
-class None extends Base {
+class JoinItemViewHelper extends AbstractViewHelper {
 
 	/**
-	 * the main method building the recurrance
-	 *
+	 * @throws \LogicException
 	 * @return void
 	 */
-	protected function doBuild() {
-		$this->timeline->add(array(
-			'start' => $this->event->getDateTimeObjectStart()->getTimestamp(),
-			'end'   => $this->event->getDateTimeObjectEnd()->getTimestamp(),
-		));
+	public function render() {
+		$viewHelperName = str_replace('_JoinItemViewHelper', '_JoinViewHelper', get_class($this));
+		$key = 'items';
+		if(!$this->viewHelperVariableContainer->exists($viewHelperName, $key)) {
+			throw new \LogicException(sprintf('%s must be used as child of %s.', get_class($this), $viewHelperName));
+		}
+
+		$values = $this->viewHelperVariableContainer->get($viewHelperName, $key);
+		$values[] = $this->renderChildren();
+
+		$this->viewHelperVariableContainer->addOrUpdate($viewHelperName, $key, $values);
 	}
 }

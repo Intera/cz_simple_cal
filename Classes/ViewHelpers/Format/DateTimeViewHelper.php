@@ -1,22 +1,31 @@
 <?php
+namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
-/*
- * It is free software; you can redistribute it and/or modify it under    *
- * the terms of the GNU Lesser General Public License as published by the *
- * Free Software Foundation, either version 3 of the License, or (at your *
- * option) any later version.                                             *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser       *
- * General Public License for more details.                               *
- *                                                                        *
- * You should have received a copy of the GNU Lesser General Public       *
- * License along with the script.                                         *
- * If not, see http://www.gnu.org/licenses/lgpl.html                      *
- *                                                                        *
- * The TYPO3 project - inspiring people to share!                         *
- *                                                                        */
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Formats a unix timestamp to a human-readable, localized string
@@ -71,18 +80,16 @@
  * Output:
  * 2009-02-01
  *
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @see http://www.php.net/manual/en/function.strftime.php
  * @see http://www.php.net/manual/en/function.strtotime.php
  * @see http://www.php.net/manual/en/datetime.formats.relative.php
- * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_ViewHelpers_Format_DateTimeViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class DateTimeViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Render the supplied unix timestamp in a localized human-readable string.
 	 *
-	 * @param integer|string|DateTime $timestamp unix timestamp, a DateTime object or type "date"
+	 * @param integer|string|\DateTime $timestamp unix timestamp, a DateTime object or type "date"
 	 * @param string $format Formatting string to be parsed by strftime
 	 * @param string $get get some related date (see class doc)
 	 * @return string Formatted date
@@ -102,6 +109,7 @@ class Tx_CzSimpleCal_ViewHelpers_Format_DateTimeViewHelper extends Tx_Fluid_Core
 	 *
 	 * @param $timestamp
 	 * @return integer
+	 * @throws \InvalidArgumentException
 	 */
 	protected function normalizeTimestamp($timestamp) {
 		if(is_null($timestamp)) {
@@ -109,11 +117,11 @@ class Tx_CzSimpleCal_ViewHelpers_Format_DateTimeViewHelper extends Tx_Fluid_Core
 		} elseif(is_numeric($timestamp)) {
 			$timestamp = intval($timestamp);
 		} elseif(is_string($timestamp)) {
-			$timestamp = Tx_CzSimpleCal_Utility_StrToTime::strtotime($timestamp);
-		} elseif($timestamp instanceof DateTime) {
+			$timestamp = \Tx\CzSimpleCal\Utility\StrToTime::strtotime($timestamp);
+		} elseif($timestamp instanceof \DateTime) {
 			$timestamp = $timestamp->format('U');
 		} else {
-			throw new InvalidArgumentException(sprintf('timestamp might be an integer, a string or a DateTimeObject only.'));
+			throw new \InvalidArgumentException(sprintf('timestamp might be an integer, a string or a DateTimeObject only.'));
 		}
 		return $timestamp;
 	}
@@ -126,7 +134,6 @@ class Tx_CzSimpleCal_ViewHelpers_Format_DateTimeViewHelper extends Tx_Fluid_Core
 	 * @return string
 	 */
 	protected function modifyDate($timestamp, $get) {
-		return Tx_CzSimpleCal_Utility_StrToTime::strtotime($get, $timestamp);
+		return \Tx\CzSimpleCal\Utility\StrToTime::strtotime($get, $timestamp);
 	}
 }
-?>

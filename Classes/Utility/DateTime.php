@@ -1,18 +1,43 @@
 <?php
+namespace Tx\CzSimpleCal\Utility;
+
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * an extension of the DateTime object
- *
- * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_Utility_DateTime extends DateTime {
+class DateTime extends \DateTime {
 
 	public function __construct($dateTime = null, $timezone = null) {
-		$time = Tx_CzSimpleCal_Utility_StrToTime::doSubstitutions($dateTime);
+		$time = StrToTime::doSubstitutions($dateTime);
 
-		$time = t3lib_div::trimExplode('|', $time, true);
+		$time = GeneralUtility::trimExplode('|', $time, true);
 
-		$thisTime = Tx_CzSimpleCal_Utility_StrToTime::strftime(array_shift($time));
+		$thisTime = StrToTime::strftime(array_shift($time));
 
 		if(is_null($timezone)) {
 			parent::__construct($thisTime);
@@ -34,7 +59,8 @@ class Tx_CzSimpleCal_Utility_DateTime extends DateTime {
 
 	/**
 	 * apply modifications on the date
-	 * @param array $dateTime
+	 *
+	 * @param array $time
 	 */
 	protected function doModify($time) {
 		$timezone = date_default_timezone_get();
@@ -63,8 +89,8 @@ class Tx_CzSimpleCal_Utility_DateTime extends DateTime {
 	}
 
 	public function modify($dateTime) {
-		$time = Tx_CzSimpleCal_Utility_StrToTime::doSubstitutions($dateTime);
-		$time = t3lib_div::trimExplode('|', $time, true);
+		$time = StrToTime::doSubstitutions($dateTime);
+		$time = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $time, true);
 		$this->doModify($time);
 	}
 //

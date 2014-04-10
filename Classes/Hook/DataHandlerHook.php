@@ -4,8 +4,7 @@ namespace Tx\CzSimpleCal\Hook;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2013 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
- *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -16,6 +15,7 @@ namespace Tx\CzSimpleCal\Hook;
  *
  *  The GNU General Public License can be found at
  *  http://www.gnu.org/copyleft/gpl.html.
+ *
  *
  *  This script is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -40,12 +40,12 @@ use TYPO3\CMS\Core\Messaging\FlashMessage;
 class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var \Tx_CzSimpleCal_Indexer_Event
+	 * @var \Tx\CzSimpleCal\Indexer\Event
 	 */
 	protected $eventIndexer;
 
 	/**
-	 * @var \Tx_CzSimpleCal_Domain_Repository_EventRepository
+	 * @var \Tx\CzSimpleCal\Domain\Repository\EventRepository
 	 */
 	protected $eventRepository;
 
@@ -102,9 +102,9 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 			return;
 		}
 		/** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
-		$objectManager = GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
-		$this->eventIndexer = $objectManager->get('Tx_CzSimpleCal_Indexer_Event');
-		$this->eventRepository = $objectManager->get('Tx_CzSimpleCal_Domain_Repository_EventRepository');
+		$objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		$this->eventIndexer = $objectManager->get('Tx\\CzSimpleCal\\Indexer\\Event');
+		$this->eventRepository = $objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventRepository');
 		$this->persistenceManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\PersistenceManagerInterface');
 	}
 
@@ -146,7 +146,10 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
 	 * @return void
 	 */
-	public function processCmdmap_postProcess($command, $table, $id, $value, $dataHandler) {
+	public function processCmdmap_postProcess(
+		/** @noinspection PhpUnusedParameterInspection */
+		$command, $table, $id, $value, $dataHandler
+	) {
 		if ($table !== 'tx_czsimplecal_domain_model_event') {
 			return;
 		}
@@ -182,7 +185,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		if ($status === 'update') {
-			$fieldsHaveChanged = $this->haveFieldsChanged(\Tx_CzSimpleCal_Domain_Model_Event::getFieldsRequiringReindexing(), $fieldArray);
+			$fieldsHaveChanged = $this->haveFieldsChanged(\Tx\CzSimpleCal\Domain\Model\Event::getFieldsRequiringReindexing(), $fieldArray);
 			if (!$fieldsHaveChanged) {
 				$this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.updateNoIndex', \TYPO3\CMS\Core\Messaging\FlashMessage::INFO);
 				return;
@@ -207,7 +210,10 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
 	 * @return void
 	 */
-	public function processDatamap_postProcessFieldArray($status, $table, $id, &$fieldArray, $dataHandler) {
+	public function processDatamap_postProcessFieldArray(
+		/** @noinspection PhpUnusedParameterInspection */
+		$status, $table, $id, &$fieldArray, $dataHandler
+	) {
 
 		if ($table == 'tx_czsimplecal_domain_model_event' || $table == 'tx_czsimplecal_domain_model_exception') {
 			// store the timezone to the database
@@ -247,7 +253,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 * @param integer $id
 	 * @throws \InvalidArgumentException
-	 * @return \Tx_CzSimpleCal_Domain_Model_Event
+	 * @return \Tx\CzSimpleCal\Domain\Model\Event
 	 */
 	protected function fetchEventObject($id) {
 		$event = $this->eventRepository->findOneByUidEverywhere($id);
@@ -260,7 +266,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Generates the slug for the given event.
 	 *
-	 * @param \Tx_CzSimpleCal_Domain_Model_Event $event
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
 	 * @return void
 	 */
 	protected function generateEventSlug($event) {

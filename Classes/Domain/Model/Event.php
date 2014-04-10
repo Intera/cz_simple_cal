@@ -1,37 +1,40 @@
 <?php
+namespace Tx\CzSimpleCal\Domain\Model;
 
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
-*
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Tx\CzSimpleCal\Utility\FileArrayBuilder;
+use Tx\CzSimpleCal\Utility\Inflector;
+use Tx\CzSimpleCal\Recurrance\RecurranceFactory;
 
 /**
- * an event in an calendar
- *
- * @version $Id$
- * @copyright Copyright belongs to the respective authors
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * An event in an calendar
  */
-class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_BaseEvent {
+class Event extends BaseEvent {
 
 	/**
 	 * an array of fields that if changed require a reindexing of all the events
@@ -86,7 +89,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * This setting has precedence before $locationInline.
 	 *
 	 * @lazy
-	 * @var Tx_CzSimpleCal_Domain_Model_Location
+	 * @var \Tx\CzSimpleCal\Domain\Model\Location
 	 */
 	protected $location;
 
@@ -95,7 +98,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * current event (inline element).
 	 *
 	 * @lazy
-	 * @var Tx_CzSimpleCal_Domain_Model_Location
+	 * @var \Tx\CzSimpleCal\Domain\Model\Location
 	 */
 	protected $locationInline;
 
@@ -106,7 +109,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * This setting has precedence before $organizerInline.
 	 *
 	 * @lazy
-	 * @var Tx_CzSimpleCal_Domain_Model_Organizer
+	 * @var \Tx\CzSimpleCal\Domain\Model\Organizer
 	 */
 	protected $organizer;
 
@@ -115,20 +118,20 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * current event (inline element).
 	 *
 	 * @lazy
-	 * @var Tx_CzSimpleCal_Domain_Model_Organizer
+	 * @var \Tx\CzSimpleCal\Domain\Model\Organizer
 	 */
 	protected $organizerInline;
 
 	/**
 	 * categories
-	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_CzSimpleCal_Domain_Model_Category>
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Category>
 	 */
 	protected $categories;
 
 	/**
 	 * exceptions for this event
 	 *
-	 * @var array<Tx_CzSimpleCal_Domain_Model_Exception>
+	 * @var array<\Tx\CzSimpleCal\Domain\Model\Exception>
 	 */
 	protected $exceptions_ = null;
 
@@ -170,7 +173,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * Status of the event.
 	 *
-	 * @var Tx_CzSimpleCal_Domain_Model_EventStatus
+	 * @var \Tx\CzSimpleCal\Domain\Model\EventStatus
 	 */
 	protected $status;
 
@@ -179,6 +182,11 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @inject
 	 */
 	protected $objectManager;
+
+	/**
+	 * @var \DateTime
+	 */
+	protected $tstamp;
 
 	/**
 	 * Setter for title
@@ -355,7 +363,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 */
 	public function getStatus() {
 		if (!isset($this->status)) {
-			$this->status = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_EventStatus');
+			$this->status = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\EventStatus');
 		}
 		return (string)$this->status;
 	}
@@ -475,17 +483,17 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * Setter for category
 	 *
-	 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_CzSimpleCal_Domain_Model_Category> $categories categories
+	 * @param ObjectStorage $categories
 	 * @return void
 	 */
-	public function setCategories(Tx_Extbase_Persistence_ObjectStorage $categories = NULL) {
+	public function setCategories(ObjectStorage $categories = NULL) {
 		$this->categories = $categories;
 	}
 
 	/**
 	 * Getter for category
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_CzSimpleCal_Domain_Model_Category> categories
+	 * @return ObjectStorage<Category> categories
 	 */
 	public function getCategories() {
 		return $this->categories;
@@ -494,7 +502,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * getter for the first category
 	 *
-	 * @return Tx_CzSimpleCal_Domain_Model_Category
+	 * @return Category
 	 */
 	public function getCategory() {
 		if(is_null($this->categories) || $this->categories->count() === 0) {
@@ -507,12 +515,12 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * Adds a Category
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Category $category The Category to be added
+	 * @param Category $category The Category to be added
 	 * @return void
 	 */
-	public function addCategory(Tx_CzSimpleCal_Domain_Model_Category $category) {
+	public function addCategory(Category $category) {
 		if(!is_object($this->categories)) {
-			$this->categories = $this->objectManager->get('Tx_Extbase_Persistence_ObjectStorage');
+			$this->categories = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
 		}
 		$this->categories->attach($category);
 	}
@@ -520,10 +528,10 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * Removes a Category
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Category $category The Category to be removed
+	 * @param Category $category The Category to be removed
 	 * @return void
 	 */
-	public function removeCategory(Tx_CzSimpleCal_Domain_Model_Category $category) {
+	public function removeCategory(Category $category) {
 		$this->categories->detach($category);
 	}
 
@@ -533,7 +541,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * Extbase internal functionality can't be used here as
 	 * the records need to be fetched from two different tables
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_CzSimpleCal_Domain_Model_Exception> exception
+	 * @return ObjectStorage<Exception> exception
 	 */
 	public function getExceptions() {
 		if(is_null($this->exceptions_)) {
@@ -541,7 +549,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 			 * in domain model objects
 			 */
 
-			$exceptionRepository = $this->objectManager->get('Tx_CzSimpleCal_Domain_Repository_ExceptionRepository');
+			$exceptionRepository = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\ExceptionRepository');
 			$this->exceptions_ = $exceptionRepository->findAllForEventId($this->uid);
 		}
 
@@ -554,7 +562,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @return array
 	 */
 	public function getRecurrances() {
-		$factory = new Tx_CzSimpleCal_Recurrance_Factory();
+		$factory = new RecurranceFactory();
 		return $factory->buildRecurranceForEvent($this);
 	}
 
@@ -615,15 +623,15 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @param boolean $persistDummyOrganizer Internal use only! If this
 	 * is TRUE the dummy organizer will be set to the class variable so
 	 * that is will be persisted. For use with setter methods.
-	 * @return Tx_CzSimpleCal_Domain_Model_Organizer
+	 * @return Organizer
 	 */
 	public function getOrganizerInline($createDummyOrganizer = FALSE, $persistDummyOrganizer = FALSE) {
 
 		$organizer = $this->organizerInline;
 
 		if (!isset($organizer) && $createDummyOrganizer) {
-			/** @var Tx_CzSimpleCal_Domain_Model_Organizer $organizer */
-			$organizer = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_Organizer');
+			/** @var Organizer $organizer */
+			$organizer = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Organizer');
 			if ($persistDummyOrganizer) {
 				$this->organizerInline = $organizer;
 			}
@@ -634,7 +642,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * Setter for the inline organizer record.
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Organizer $organizerInline
+	 * @param Organizer $organizerInline
 	 */
 	public function setOrganizerInline($organizerInline) {
 		$this->organizerInline = $organizerInline;
@@ -643,7 +651,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * get the organizer of the event
 	 *
-	 * @return Tx_CzSimpleCal_Domain_Model_Organizer
+	 * @return Organizer
 	 */
 	public function getOrganizer() {
 		return $this->organizer;
@@ -652,8 +660,8 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * setter for organizer
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Organizer $organizer
-	 * @return Tx_CzSimpleCal_Domain_Model_Event
+	 * @param Organizer $organizer
+	 * @return Event
 	 */
 	public function setOrganizer($organizer) {
 		$this->organizer = $organizer;
@@ -664,7 +672,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * If a common organizer was set it will be returned. Otherwise
 	 * the inline organizer will be returned.
 	 *
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return Location
 	 */
 	public function getActiveOrganizer() {
 
@@ -689,15 +697,15 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @param boolean $persistDummyLocation Internal use only! If this
 	 * is TRUE the dummy location will be set to the class variable so
 	 * that is will be persisted. For use with setter methods.
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return Location
 	 */
 	public function getLocationInline($createDummyLocation = FALSE, $persistDummyLocation = FALSE) {
 
 		$location = $this->locationInline;
 
 		if (!isset($location) && $createDummyLocation) {
-			/** @var Tx_CzSimpleCal_Domain_Model_Location $location */
-			$location = $this->objectManager->get('Tx_CzSimpleCal_Domain_Model_Location');
+			/** @var Location $location */
+			$location = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Location');
 			if ($persistDummyLocation) {
 				$this->locationInline = $location;
 			}
@@ -708,7 +716,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * Setter for the inline location record.
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Location $locationInline
+	 * @param Location $locationInline
 	 */
 	public function setLocationInline($locationInline) {
 		$this->locationInline = $locationInline;
@@ -717,7 +725,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * getter for location
 	 *
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return Location
 	 */
 	public function getLocation() {
 		return $this->location;
@@ -727,7 +735,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * If a common location was set it will be returned. Otherwise
 	 * the inline location will be returned.
 	 *
-	 * @return Tx_CzSimpleCal_Domain_Model_Location
+	 * @return Location
 	 */
 	public function getActiveLocation() {
 
@@ -743,8 +751,8 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * setter for location
 	 *
-	 * @param Tx_CzSimpleCal_Domain_Model_Location $location
-	 * @return Tx_CzSimpleCal_Domain_Model_Event
+	 * @param Location $location
+	 * @return Event
 	 */
 	public function setLocation($location) {
 		$this->location = $location;
@@ -793,11 +801,12 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * setter for slug
 	 *
 	 * @param string $slug
-	 * @return Tx_CzSimpleCal_Domain_Model_Event
+	 * @return Event
+	 * @throws \InvalidArgumentException
 	 */
 	public function setSlug($slug) {
 		if(preg_match('/^[a-z0-9\-]*$/i', $slug) === false) {
-			throw new InvalidArgumentException(sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.'));
+			throw new \InvalidArgumentException(sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.'));
 		}
 		$this->slug = $slug;
 		return $this;
@@ -810,11 +819,20 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 */
 	public function generateSlug() {
 		$value = $this->generateRawSlug();
-		$value = Tx_CzSimpleCal_Utility_Inflector::urlize($value);
+		$value = Inflector::urlize($value);
 
-		$eventRepository = $this->objectManager->get('Tx_CzSimpleCal_Domain_Repository_EventRepository');
+		/** @var \Tx\CzSimpleCal\Domain\Repository\EventRepository $eventRepository */
+		$eventRepository = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventRepository');
 		$slug = $eventRepository->makeSlugUnique($value, $this->uid);
 		$this->setSlug($slug);
+	}
+
+	/**
+	 *
+	 * @return \DateTime
+	 */
+	public function getTstamp() {
+		return $this->tstamp;
 	}
 
 	/**
@@ -831,14 +849,14 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * the property lastIndexed
 	 *
-	 * @var DateTime lastIndexed
+	 * @var \DateTime lastIndexed
 	 */
 	protected $lastIndexed;
 
 	/**
 	 * getter for lastIndexed
 	 *
-	 * @return DateTime
+	 * @return \DateTime
 	 */
 	public function getLastIndexed() {
 		return $this->lastIndexed;
@@ -847,8 +865,8 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * setter for lastIndexed
 	 *
-	 * @param DateTime $lastIndexed
-	 * @return Tx_CzSimpleCal_Domain_Model_Event
+	 * @param \DateTime $lastIndexed
+	 * @return Event
 	 */
 	public function setLastIndexed($lastIndexed) {
 		$this->lastIndexed = $lastIndexed;
@@ -876,12 +894,12 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * get a list of next appointments
 	 *
 	 * @param $limit
-	 * @return array
+	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function getNextAppointments($limit = 3) {
 		if(is_null($this->nextAppointments) || $this->nextAppointmentsCount < $limit) {
-			/** @var Tx_CzSimpleCal_Domain_Repository_EventIndexRepository $eventIndexRepository */
-			$eventIndexRepository = $this->objectManager->get('Tx_CzSimpleCal_Domain_Repository_EventIndexRepository');
+			/** @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository $eventIndexRepository */
+			$eventIndexRepository = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventIndexRepository');
 			$this->nextAppointments = $eventIndexRepository->
 				findNextAppointmentsByEventUid($this->getUid(), $limit)
 			;
@@ -897,7 +915,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * get the next appointment of this event if any
 	 *
-	 * @return Tx_CzSimpleCal_Domain_Model_EventIndex | null
+	 * @return EventIndex
 	 */
 	public function getNextAppointment() {
 		$appointments = $this->getNextAppointments(1);
@@ -924,7 +942,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * setter for showPageInstead
 	 *
 	 * @param string $showPageInstead
-	 * @return Tx_CzSimpleCal_Domain_Model_Event
+	 * @return Event
 	 */
 	public function setShowPageInstead($showPageInstead) {
 		if(!empty($showPageInstead) && !is_numeric($showPageInstead) && strpos($showPageInstead, '://') === false) {
@@ -944,11 +962,11 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * get all images as an array
 	 *
-	 * @return array<Tx_CzEwlSponsor_Domain_Model_File>
+	 * @return File[]
 	 */
 	public function getImages() {
 		if(is_null($this->_cache_images)) {
-			$this->_cache_images = Tx_CzSimpleCal_Utility_FileArrayBuilder::buildFromReferences($this->files, TRUE);
+			$this->_cache_images = FileArrayBuilder::buildFromReferences($this->files, TRUE);
 		}
 		return $this->_cache_images;
 	}
@@ -963,11 +981,11 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	/**
 	 * get all files as an array
 	 *
-	 * @return array<Tx_CzEwlSponsor_Domain_Model_File>
+	 * @return File[]
 	 */
 	public function getFiles() {
 		if (is_null($this->_cache_files)) {
-			$this->_cache_files = Tx_CzSimpleCal_Utility_FileArrayBuilder::buildFromReferences($this->files);
+			$this->_cache_files = FileArrayBuilder::buildFromReferences($this->files);
 		}
 		return $this->_cache_files;
 	}
@@ -1027,7 +1045,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @return null
 	 */
 	protected function buildTwitterHashtags() {
-		$this->twitterHashtags_ = t3lib_div::trimExplode(',', $this->twitterHashtags, true);
+		$this->twitterHashtags_ = GeneralUtility::trimExplode(',', $this->twitterHashtags, true);
 
 		// make sure each tag starts with a hash ("#")
 		foreach($this->twitterHashtags_ as &$hashtag) {
@@ -1069,7 +1087,7 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	 * @return null
 	 */
 	protected function buildFlickrTags() {
-		$this->flickrTags_ = t3lib_div::trimExplode(',', $this->flickrTags, true);
+		$this->flickrTags_ = GeneralUtility::trimExplode(',', $this->flickrTags, true);
 	}
 
 
@@ -1091,7 +1109,4 @@ class Tx_CzSimpleCal_Domain_Model_Event extends Tx_CzSimpleCal_Domain_Model_Base
 	public function getCruserFe() {
 		return $this->cruserFe;
 	}
-
-
 }
-?>

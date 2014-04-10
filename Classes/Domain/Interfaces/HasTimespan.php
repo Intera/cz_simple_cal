@@ -1,5 +1,5 @@
 <?php
-namespace Tx\CzSimpleCal\Recurrance\Type;
+namespace Tx\CzSimpleCal\Domain\Interfaces;
 
 /***************************************************************
  *  Copyright notice
@@ -25,20 +25,24 @@ namespace Tx\CzSimpleCal\Recurrance\Type;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
+
 /**
- * no recurrance at all - only this single event
+ * This interface meens this domain model has a start and an end time.
  */
-class None extends Base {
+interface HasTimespan {
 
 	/**
-	 * the main method building the recurrance
+	 * get the start of this domain model
 	 *
-	 * @return void
+	 * @return CzSimpleCalDateTime
 	 */
-	protected function doBuild() {
-		$this->timeline->add(array(
-			'start' => $this->event->getDateTimeObjectStart()->getTimestamp(),
-			'end'   => $this->event->getDateTimeObjectEnd()->getTimestamp(),
-		));
-	}
+	public function getDateTimeObjectStart();
+
+	/**
+	 * get the end of this domain model
+	 *
+	 * @return CzSimpleCalDateTime
+	 */
+	public function getDateTimeObjectEnd();
 }

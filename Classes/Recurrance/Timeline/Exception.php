@@ -1,21 +1,44 @@
 <?php
+namespace Tx\CzSimpleCal\Recurrance\Timeline;
+
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 /**
- *
- * @author Christian Zenker <christian.zenker@599media.de>
+ * Exception in the timeline.
  */
-class Tx_CzSimpleCal_Recurrance_Timeline_Exception extends Tx_CzSimpleCal_Recurrance_Timeline_Base {
+class Exception extends Base {
 
 	/**
-	 * (non-PHPdoc)
-	 * @see Classes/Recurrance/Timeline/Tx_CzSimpleCal_Recurrance_Timeline_Base#add($data)
-	 * @return Tx_CzSimpleCal_Recurrance_Timeline_Exception
+	 * @param array $data
+	 * @return Exception
 	 */
 	public function add($data) {
 		try {
 			parent::add($data);
 		}
-		catch(UnexpectedValueException $e) {
+		catch(\UnexpectedValueException $e) {
 			// catched if an exception with this start-date already exists
 			$key = $data['start'];
 			if($this->data[$key]['end'] < $data['end']) {

@@ -1,11 +1,34 @@
 <?php
+namespace Tx\CzSimpleCal\Utility;
+
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 /**
  * A class holding configuration from the extensions configuration in TYPO3_CONF
- *
- * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_Utility_Config {
+class Config {
 
 	/**
 	 * the configuration
@@ -16,13 +39,13 @@ class Tx_CzSimpleCal_Utility_Config {
 	/**
 	 * get a value
 	 * @param string $name
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public static function get($name) {
 		self::init();
 
 		if(!self::exists($name)) {
-			throw new InvalidArgumentException(sprintf('The value "%s" was not set. Did you update the Extensions settings?', $name));
+			throw new \InvalidArgumentException(sprintf('The value "%s" was not set. Did you update the Extensions settings?', $name));
 		}
 
 		return self::$data[$name];
@@ -44,7 +67,7 @@ class Tx_CzSimpleCal_Utility_Config {
 	 *
 	 * @param string|array $name
 	 * @param string $value
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public static function set($name, $value = null) {
 		self::init();
@@ -56,7 +79,7 @@ class Tx_CzSimpleCal_Utility_Config {
 				$name
 			);
 		} else {
-			throw new InvalidArgumentException('The value "name" must be a string or array.');
+			throw new \InvalidArgumentException('The value "name" must be a string or array.');
 		}
 	}
 
@@ -68,5 +91,4 @@ class Tx_CzSimpleCal_Utility_Config {
 			self::$data = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cz_simple_cal']);
 		}
 	}
-
 }

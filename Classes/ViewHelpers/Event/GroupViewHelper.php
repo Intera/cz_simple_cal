@@ -1,28 +1,38 @@
 <?php
-/*
- * It is free software; you can redistribute it and/or modify it under    *
- * the terms of the GNU Lesser General Public License as published by the *
- * Free Software Foundation, either version 3 of the License, or (at your *
- * option) any later version.                                             *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser       *
- * General Public License for more details.                               *
- *                                                                        *
- * You should have received a copy of the GNU Lesser General Public       *
- * License along with the script.                                         *
- * If not, see http://www.gnu.org/licenses/lgpl.html                      *
- *                                                                        *
- * The TYPO3 project - inspiring people to share!                         *
- *                                                                        */
+namespace Tx\CzSimpleCal\ViewHelpers\Event;
 
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class GroupViewHelper extends AbstractViewHelper {
 
 	/**
 	 *
@@ -32,8 +42,12 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 	 * @param string $orderBy
 	 * @param string $order
 	 * @return string
+	 * @throws \InvalidArgumentException
 	 */
-	public function render($events, $as, $by = 'day', $orderBy = '', $order='') {
+	public function render(
+		/** @noinspection PhpUnusedParameterInspection */
+		$events, $as, $by = 'day', $orderBy = '', $order=''
+	) {
 		$by = strtolower($by);
 		if($by === 'day') {
 			$events = $this->groupByTime($events, 'midnight');
@@ -46,7 +60,7 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 		} elseif($by === 'organizer') {
 			$events = $this->groupByOrganizer($events);
 		} else {
-			throw new InvalidArgumentException(sprintf('%s can\'t group by "%s". Maybe a misspelling?', get_class($this), $by));
+			throw new \InvalidArgumentException(sprintf('%s can\'t group by "%s". Maybe a misspelling?', get_class($this), $by));
 		}
 
 		$this->templateVariableContainer->add($as, $events);
@@ -59,14 +73,15 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 	/**
 	 * do grouping by some time related constraint
 	 *
-	 * @param Tx_Extbase_Persistence_QueryResultInterface $events
+	 * @param array $events
 	 * @param string $string
 	 * @return array
 	 */
 	protected function groupByTime($events, $string) {
 		$result = array();
+		/** @var \Tx\CzSimpleCal\Domain\Model\EventIndex $event */
 		foreach($events as $event) {
-			$key = Tx_CzSimpleCal_Utility_StrToTime::strtotime($string, $event->getStart());
+			$key = \Tx\CzSimpleCal\Utility\StrToTime::strtotime($string, $event->getStart());
 			if(!array_key_exists($key, $result)) {
 				$result[$key] = array(
 					'info' => $key,
@@ -86,7 +101,7 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 	 */
 	protected function groupByLocation($events) {
 		$result = array();
-		/** @var Tx_CzSimpleCal_Domain_Model_Event $event */
+		/** @var \Tx\CzSimpleCal\Domain\Model\Event $event */
 		foreach($events as $event) {
 			$locationKey = $event->getActiveLocation() ? $event->getActiveLocation()->getUid() : 0;
 			if(!array_key_exists($locationKey, $result)) {
@@ -108,7 +123,7 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 	 */
 	protected function groupByOrganizer($events) {
 		$result = array();
-		/** @var Tx_CzSimpleCal_Domain_Model_Event $event */
+		/** @var \Tx\CzSimpleCal\Domain\Model\Event $event */
 		foreach($events as $event) {
 			$organizerKey = $event->getActiveOrganizer() ? $event->getActiveOrganizer()->getUid() : 0;
 			if(!array_key_exists($organizerKey, $result)) {
@@ -124,15 +139,16 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 	}
 
 	protected function order($events) {
-		if(!$this->arguments['orderBy'] && !$this->arguments['order']) {
+
+		if(!$this->arguments['orderBy']) {
 			return $events;
-		} elseif($this->arguments['orderBy']) {
-			$this->orderGetMethodName = 'get'.t3lib_div::underscoredToUpperCamelCase($this->arguments['orderBy']);
-			if(usort($events, array($this, "orderByObjectMethod"))) {
-				return $events;
-			} else {
-				throw new RuntimeException(sprintf('%s could not sort the events.', get_class($this)));
-			}
+		}
+
+		$this->orderGetMethodName = 'get' . GeneralUtility::underscoredToUpperCamelCase($this->arguments['orderBy']);
+		if(usort($events, array($this, "orderByObjectMethod"))) {
+			return $events;
+		} else {
+			throw new \RuntimeException(sprintf('%s could not sort the events.', get_class($this)));
 		}
 	}
 
@@ -140,7 +156,7 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 
 	protected function orderByObjectMethod($a, $b) {
 		if(strlen($this->orderGetMethodName) < 5) {
-			throw new UnexpectedValueException(sprintf('%s was called without setting a getMethodName', __FUNCTION__, $code));
+			throw new \UnexpectedValueException(sprintf('%s was called without setting a getMethodName', __FUNCTION__));
 		}
 
 		$aValue = call_user_func(array($a['info'], $this->orderGetMethodName));
@@ -149,4 +165,3 @@ class Tx_CzSimpleCal_ViewHelpers_Event_GroupViewHelper extends Tx_Fluid_Core_Vie
 		return $aValue < $bValue ? -1 : ($aValue > $bValue ? 1 : 0);
 	}
 }
-?>

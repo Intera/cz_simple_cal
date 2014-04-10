@@ -1,4 +1,5 @@
 <?php
+namespace Tx\CzSimpleCal\Utility;
 /* *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,7 +34,7 @@
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author      Jonathan H. Wage <jonwage@gmail.com>
  */
-class Tx_CzSimpleCal_Utility_Inflector
+class Inflector
 {
     /**
      * Convert word in to the format for a Doctrine table name. Converts 'ModelName' to 'model_name'

@@ -1,31 +1,37 @@
 <?php
+namespace Tx\CzSimpleCal\ViewHelpers\Arrays;
 
-/*                                                                        *
- * This script belongs to the FLOW3 package "Fluid".                      *
- *                                                                        *
- * It is free software; you can redistribute it and/or modify it under    *
- * the terms of the GNU Lesser General Public License as published by the *
- * Free Software Foundation, either version 3 of the License, or (at your *
- * option) any later version.                                             *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser       *
- * General Public License for more details.                               *
- *                                                                        *
- * You should have received a copy of the GNU Lesser General Public       *
- * License along with the script.                                         *
- * If not, see http://www.gnu.org/licenses/lgpl.html                      *
- *                                                                        *
- * The TYPO3 project - inspiring people to share!                         *
- *                                                                        */
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * join multiple values from an array into a string
  * (kind of PHP's implode())
  *
- * you might use the item property as well as the
- * Tx_CzSimpleCal_ViewHelpers_Array_JoinItemViewHelper
+ * you might use the item property as well as the JoinItemViewHelper
  * to give the items to be joined
  *
  * <example>
@@ -47,15 +53,8 @@
  *
  *   "foo, bar, baz"
  * </example>
- *
- * @version $Id: JoinViewHelper.php$
- * @package Fluid
- * @subpackage ViewHelpers
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- * @api
- * @scope prototype
  */
-class Tx_CzSimpleCal_ViewHelpers_Array_JoinViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class JoinViewHelper extends AbstractViewHelper {
 
 	/**
 	 * @param array $items an array of strings that need to be joined
@@ -115,7 +114,4 @@ class Tx_CzSimpleCal_ViewHelpers_Array_JoinViewHelper extends Tx_Fluid_Core_View
 		}
 		return $items;
 	}
-
 }
-
-?>

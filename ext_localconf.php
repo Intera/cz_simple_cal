@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	$_EXTKEY,
+	'Tx.CzSimpleCal',
 	'Pi1',
 	array(
 		'EventIndex' => 'list,countEvents,show',
@@ -15,7 +15,7 @@ if (!defined('TYPO3_MODE')) {
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	$_EXTKEY,
+	'Tx.CzSimpleCal',
 	'Pi2',
 	array(
 		'EventAdministration' => 'list,new,create,edit,update,delete',
@@ -25,11 +25,11 @@ if (!defined('TYPO3_MODE')) {
 	)
 );
 
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_CzSimpleCal_Scheduler_Index'] = array(
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx\\CzSimpleCal\\Scheduler\\IndexTask'] = array(
 	'extension' => $_EXTKEY,
 	'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xml:tx_czsimplecal_scheduler_index.label',
 	'description' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xml:tx_czsimplecal_scheduler_index.description',
-	'additionalFields' => 'tx_czsimplecal_scheduler_index'
+	'additionalFields' => 'Tx\\CzSimpleCal\\Scheduler\\IndexTask'
 );
 
 // add default pageTSConfig

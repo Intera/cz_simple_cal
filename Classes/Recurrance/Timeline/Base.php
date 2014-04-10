@@ -1,13 +1,36 @@
 <?php
+namespace Tx\CzSimpleCal\Recurrance\Timeline;
+
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 /**
  * a class representing a timeline of events
  *
  * so that's basically a collection of events with a start and an end, that are sorted by their start dates
- *
- * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_CzSimpleCal_Recurrance_Timeline_Base implements Iterator, Countable {
+class Base implements \Iterator, \Countable {
 
 	/**
 	 * holds all timespans
@@ -36,18 +59,16 @@ class Tx_CzSimpleCal_Recurrance_Timeline_Base implements Iterator, Countable {
 	/**
 	 * don't output the next but the current value of data if the next is requested
 	 * @ugly
-	 * @see Tx_CzSimpleCal_Recurrance_Timeline_Base::next()
+	 * @see \Tx\CzSimpleCal\Recurrance\Timeline\Base::next()
 	 * @var boolean
 	 */
 	protected $nextAsCurrent = false;
 
-
-
 	/**
 	 * add an EventIndex to the collection
 	 *
-	 * @param $data
-	 * @return Tx_CzSimpleCal_Recurrance_Timeline_Base
+	 * @param array $data
+	 * @return Base
 	 */
 	public function add($data) {
 		$data = $this->cleanData($data);
@@ -76,30 +97,30 @@ class Tx_CzSimpleCal_Recurrance_Timeline_Base implements Iterator, Countable {
 	 * check if the given data is valid
 	 *
 	 * @param $data
-	 * @throws UnexpectedValueException
-	 * @return true
+	 * @return bool
+	 * @throws \UnexpectedValueException
 	 */
 	protected function isDataValid($data) {
 		if(!array_key_exists('start', $data)) {
-			throw new UnexpectedValueException('"start" is required.');
+			throw new \UnexpectedValueException('"start" is required.');
 		}
 		if(!array_key_exists('end', $data)) {
-			throw new UnexpectedValueException('"end" is required.');
+			throw new \UnexpectedValueException('"end" is required.');
 		}
 
 		if($data['start'] == 0) {
-			throw new UnexpectedValueException('"start" should not be "0".');
+			throw new \UnexpectedValueException('"start" should not be "0".');
 		}
 		if($data['end'] == 0) {
-			throw new UnexpectedValueException('"end" should not be "0".');
+			throw new \UnexpectedValueException('"end" should not be "0".');
 		}
 
 		if ($data['start'] > $data['end']) {
-			throw new UnexpectedValueException(sprintf('"start" should not be later than "end". (%d, %d)', $data['start'], $data['end']), 1392817280);
+			throw new \UnexpectedValueException(sprintf('"start" should not be later than "end". (%d, %d)', $data['start'], $data['end']), 1392817280);
 		}
 
 		if(array_key_exists($data['start'], $this->data)) {
-			throw new UnexpectedValueException(sprintf('A timespan with start %d already exists.', $data['start']));
+			throw new \UnexpectedValueException(sprintf('A timespan with start %d already exists.', $data['start']));
 		}
 
 		return true;
@@ -198,5 +219,4 @@ class Tx_CzSimpleCal_Recurrance_Timeline_Base implements Iterator, Countable {
 		$this->initOutput();
 		return NULL !== key($this->data);
 	}
-
 }

@@ -1,25 +1,51 @@
 <?php
+namespace Tx\CzSimpleCal\Utility;
+
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * @author Christian Zenker <christian.zenker@599media.de>
+ * Event config utility.
  */
-class Tx_CzSimpleCal_Utility_EventConfig {
+class EventConfig {
 
 	public function getRecurranceSubtype($config) {
 		$type = trim($config['row']['recurrance_type']);
 
-		if(empty($type)) {
+		if (empty($type)) {
 			return;
 		}
 
-		$className = 'Tx_CzSimpleCal_Recurrance_Type_'.t3lib_div::underscoredToUpperCamelCase($type);
+		$className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
 		$callback = array($className, 'getSubtypes');
 
-		if(!class_exists($className) || !is_callable($callback)) {
+		if (!class_exists($className) || !is_callable($callback)) {
 			return;
 		}
 
 		$config['items'] = call_user_func($callback);
 	}
-
 }
