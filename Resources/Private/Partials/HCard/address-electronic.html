@@ -1,4 +1,4 @@
-{namespace cal=Tx_CzSimpleCal_ViewHelpers}
+{namespace cal=Tx\CzSimpleCal\ViewHelpers}
 <f:if condition="{cal:condition.oneNotEmpty(values: {0: address.email, 1: address.phone, 2:address.fax, 3:address.mobile, 4: address.www})}">
 <p>
 <f:if condition="{address.phone}"><span class="tel"><abbr class="type" title="voice"><f:translate key="phone" /></abbr>: <span class="value">{address.phone}</span></span><br/></f:if>

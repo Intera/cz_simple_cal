@@ -1,4 +1,4 @@
-{namespace cal=Tx_CzSimpleCal_ViewHelpers}
+{namespace cal=Tx\CzSimpleCal\ViewHelpers}
 <f:if condition="{event.hasEndTime}">
 	<span class="dtend" title="{cal:format.dateTime (format: '%Y-%m-%dT%H:%M%z', timestamp: event.end)}"><f:translate key="time.end" />
 	<f:if condition="{event.isAlldayEvent}">

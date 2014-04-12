@@ -1,4 +1,4 @@
-{namespace cal=Tx_CzSimpleCal_ViewHelpers}
+{namespace cal=Tx\CzSimpleCal\ViewHelpers}
 BEGIN:VEVENT
 UID:{event.hash}
 SUMMARY:{event.title}
