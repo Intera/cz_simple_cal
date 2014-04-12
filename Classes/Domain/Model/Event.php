@@ -963,12 +963,22 @@ class Event extends BaseEvent {
 	 * get all images as an array
 	 *
 	 * @return File[]
+	 * @deprecated Use getImageReferences()
 	 */
 	public function getImages() {
 		if(is_null($this->_cache_images)) {
 			$this->_cache_images = FileArrayBuilder::buildFromReferences($this->files, TRUE);
 		}
 		return $this->_cache_images;
+	}
+
+	/**
+	 * Returns the image file references.
+	 *
+	 * @return ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+	 */
+	public function getImageReferences() {
+		return $this->images;
 	}
 
 	/**
@@ -982,6 +992,7 @@ class Event extends BaseEvent {
 	 * get all files as an array
 	 *
 	 * @return File[]
+	 * @deprecated Use getFileReferences()
 	 */
 	public function getFiles() {
 		if (is_null($this->_cache_files)) {
@@ -990,6 +1001,15 @@ class Event extends BaseEvent {
 		return $this->_cache_files;
 	}
 
+	/**
+	 * Returns all related file references.
+	 *
+	 * @return ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+	 * @deprecated Use getFileReferences()
+	 */
+	public function getFileReferences() {
+		return $this->files;
+	}
 
 	/**
 	 * @var string
