@@ -17,7 +17,7 @@
               <config>
                 <type>select</type>
                 <items></items>
-                <itemsProcFunc>EXT:cz_simple_cal/Legacy/class.tx_czsimplecal_dynFlexform.php:tx_czsimplecal_dynFlexform->getAllowedActions</itemsProcFunc>
+                <itemsProcFunc>Tx\CzSimpleCal\Utility\FlexConfig->getAllowedActions</itemsProcFunc>
                 <minitems>0</minitems>
 				<maxitems>500</maxitems>
 				<size>6</size>
