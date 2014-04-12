@@ -27,7 +27,9 @@
 	<p class="align-right"><f:link.page pageUid="{event.category.showPageInstead}"><f:format.printf arguments="{0:event.category.title}"><f:translate key="msg.toCategory" /></f:format.printf></f:link.page></p>
 </f:if>
 
-<f:render partial="EventDetails" arguments="{settings: settings, event: event, renderData: renderData}"/>
+<cal:renderData object="{event}">
+	<f:render partial="EventDetails" arguments="{_all}"/>
+</cal:renderData>
 
 <f:link.action controller="EventIndex" action="list"><f:translate key="msg.backToList"/></f:link.action>
 </div>

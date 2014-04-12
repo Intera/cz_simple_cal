@@ -86,12 +86,11 @@ plugin.tx_czsimplecal {
 		custom {
 		}
 
-		rendering {
+		renderData {
 
 			descriptionAndImages {
 
-
-				mapEventProperties {
+				mapObjectProperties {
 					uid = uid
 					bodytext = description
 				}
@@ -111,22 +110,11 @@ plugin.tx_czsimplecal {
 					// we do not want the header to be rendered
 					header =
 				}
-
-				renderObject =< tt_content.textpic
-				renderObject {
-					20 {
-						imgList.cObject.references {
-							table = tx_czsimplecal_domain_model_event
-							fieldName = images
-						}
-						preRenderRegisters.allImageCaptions.cObject.references < .imgList.cObject.references
-					}
-				}
 			}
 
 			files {
 
-				mapEventProperties {
+				mapObjectProperties {
 					uid = uid
 				}
 
@@ -134,17 +122,31 @@ plugin.tx_czsimplecal {
 					// we do not want the header to be rendered
 					header =
 				}
+			}
+		}
+	}
 
-				renderObject =< tt_content.uploads
-				renderObject {
-					15 = TEXT
-					15.data = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang.xml:tx_czsimplecal_domain_model_event_files
-					15.wrap = <h3>|</h3>
-					20.references {
-						table = tx_czsimplecal_domain_model_event
-						fieldName = files
-					}
+	rendering {
+
+		descriptionAndImages =< tt_content.textpic
+		descriptionAndImages {
+			20 {
+				imgList.cObject.references {
+					table = tx_czsimplecal_domain_model_event
+					fieldName = images
 				}
+				preRenderRegisters.allImageCaptions.cObject.references < .imgList.cObject.references
+			}
+		}
+
+		files =< tt_content.uploads
+		files {
+			15 = TEXT
+			15.data = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang.xml:tx_czsimplecal_domain_model_event_files
+			15.wrap = <h3>|</h3>
+			20.references {
+				table = tx_czsimplecal_domain_model_event
+				fieldName = files
 			}
 		}
 	}

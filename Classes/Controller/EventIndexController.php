@@ -104,7 +104,6 @@ class EventIndexController extends BaseExtendableController {
 		}
 
 		$this->view->assign('event', $eventIndexObject);
-		$this->view->assign('renderData', $this->generateRenderData($eventIndexObject->getEvent()));
 	}
 
 

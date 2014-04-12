@@ -57,6 +57,5 @@ class EventController extends BaseExtendableController {
 		}
 
 		$this->view->assign('event', $eventObject);
-		$this->view->assign('renderData', $this->generateRenderData($eventObject));
 	}
 }
