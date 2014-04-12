@@ -89,6 +89,11 @@ return array(
 				'maxitems' => 1
 			)
 		),
+		'tstamp' => array(
+			'config' => array(
+				'type' => 'passthrough',
+			)
+		),
 		'title' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.title',

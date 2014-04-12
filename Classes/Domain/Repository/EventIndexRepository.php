@@ -95,6 +95,21 @@ class EventIndexRepository extends Repository {
 	}
 
 	/**
+	 * Finds all events ordered by the event timestamp so that events that were changed most recently are returned first.
+	 *
+	 * @param int $maxEvents
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+	 */
+	public function findLatest($maxEvents) {
+		$query = $this->createQuery();
+		$query->setOrderings(array('event.tstamp' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
+		if ($maxEvents > 0) {
+			$query->setLimit((int)$maxEvents);
+		}
+		return $query->execute();
+	}
+
+	/**
 	 * find all events matching some settings and count them
 	 *
 	 * @param $settings
