@@ -55,6 +55,13 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	protected $eventRepository;
 
 	/**
+	 * This is set to TRUE if an event was updated in the Backend.
+	 *
+	 * @var bool
+	 */
+	protected $eventWasUpdated = FALSE;
+
+	/**
 	 * @var \TYPO3\CMS\Core\Messaging\FlashMessageService
 	 */
 	protected $flashMessageService;
@@ -86,6 +93,11 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	protected $updatedEvents = array();
 
 	/**
+	 * @var array
+	 */
+	protected $updatedExceptions = array();
+
+	/**
 	 * the extbase framework is not initialized in the constructor anymore
 	 * because initializing the framework is costy
 	 * and this class is *always* instanciated when *any* record
@@ -113,46 +125,6 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * Implements the hook processCmdmap_postProcess.
-	 *
-	 * @param string $command
-	 * @param string $table
-	 * @param integer $id
-	 * @param mixed $value
-	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
-	 * @return void
-	 */
-	public function processCmdmap_postProcess(
-		/** @noinspection PhpUnusedParameterInspection */
-		$command, $table, $id, $value, $dataHandler
-	) {
-		if ($table !== 'tx_czsimplecal_domain_model_event') {
-			return;
-		}
-
-		$eventChanged = TRUE;
-		switch ($command) {
-			case 'move':
-			case 'undelete':
-				$this->registerUpdatedEvent($id);
-				break;
-			case 'delete':
-				if (!isset($this->eventCache[$id])) {
-
-				}
-				$this->registerUpdatedEvent($id, 'delete');
-				break;
-			default:
-				$eventChanged = FALSE;
-				break;
-		}
-
-		if ($eventChanged) {
-			$this->loadEventInCache($id);
-		}
-	}
-
-	/**
 	 * Implements the hook processCmdmap_preProcess.
 	 *
 	 * @param string $command
@@ -168,24 +140,33 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 		$command, $table, $id, $value, $dataHandler, $pasteUpdate
 	) {
 
-		if ($table !== 'tx_czsimplecal_domain_model_event') {
-			return;
-		}
+		if ($table === 'tx_czsimplecal_domain_model_event') {
 
-		if ($command !== 'delete') {
-			return;
-		}
+			switch ($command) {
+				case 'move':
+				case 'undelete':
+					$this->registerUpdatedEvent($id, 'update');
+					break;
+				case 'delete':
+					$this->registerUpdatedEvent($id, 'delete', TRUE);
+					break;
+			}
 
-		// When the event is deleted we need to load it in the cache before it is
-		// processed because otherwise will will have no access to it any more.
-		$this->loadEventInCache($id);
+		} elseif ($table === 'tx_czsimplecal_domain_model_exception') {
+
+			switch ($command) {
+				case 'move':
+				case 'undelete':
+				case 'delete':
+					$exception = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('tx_czsimplecal_domain_model_exception', $id);
+					$this->registerUpdatedException($id, $exception);
+					break;
+			}
+		}
 	}
 
 	/**
-	 * implements the hook processDatamap_afterDatabaseOperations that gets invoked
-	 * when a form in the backend was saved and written to the database.
-	 *
-	 * Here we will do the caching of recurring events
+	 * We register new events after database operations because we need the id.
 	 *
 	 * @param string $status
 	 * @param string $table
@@ -196,24 +177,17 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $dataHandler) {
 
-		if ($table !== 'tx_czsimplecal_domain_model_event') {
+		if ($status !== 'new') {
 			return;
 		}
 
-		if ($status === 'update') {
-			$fieldsHaveChanged = $this->haveFieldsChanged(\Tx\CzSimpleCal\Domain\Model\Event::getFieldsRequiringReindexing(), $fieldArray);
-			if (!$fieldsHaveChanged) {
-				$this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.updateNoIndex', \TYPO3\CMS\Core\Messaging\FlashMessage::INFO);
-				return;
-			}
-		}
+		$id = $dataHandler->substNEWwithIDs[$id];
 
-		if ($status === 'new') {
-			$id = $dataHandler->substNEWwithIDs[$id];
+		if ($table === 'tx_czsimplecal_domain_model_event') {
+			$this->registerUpdatedEvent($id, 'new');
+		} elseif ($table === 'tx_czsimplecal_domain_model_exception') {
+			$this->registerUpdatedException($id, NULL);
 		}
-
-		$this->loadEventInCache($id);
-		$this->registerUpdatedEvent($id, $status);
 	}
 
 	/**
@@ -232,9 +206,30 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 		$status, $table, $id, &$fieldArray, $dataHandler
 	) {
 
-		if ($table == 'tx_czsimplecal_domain_model_event' || $table == 'tx_czsimplecal_domain_model_exception') {
-			// store the timezone to the database
+		// If new exception or event is created initialize the timezone.
+		if (
+			$status === 'new'
+			&& (
+				$table == 'tx_czsimplecal_domain_model_event'
+				|| $table == 'tx_czsimplecal_domain_model_exception'
+			)
+		) {
 			$fieldArray['timezone'] = date('T');
+		}
+
+		if ($status !== 'update') {
+			return;
+		}
+
+		if ($table === 'tx_czsimplecal_domain_model_event') {
+			$this->eventWasUpdated = TRUE;
+			if ($this->haveFieldsChanged(\Tx\CzSimpleCal\Domain\Model\Event::getFieldsRequiringReindexing(), $fieldArray)) {
+				$this->registerUpdatedEvent($id, 'update');
+			}
+		} elseif ($table === 'tx_czsimplecal_domain_model_exception') {
+			if (!empty($fieldArray)) {
+				$this->registerUpdatedException($id, NULL);
+			}
 		}
 	}
 
@@ -319,7 +314,11 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	protected function indexUpdatedEvent($eventUid, $changeType) {
 
-		$event = $this->eventCache[$eventUid];
+		if (isset($this->eventCache[$eventUid])) {
+			$event = $this->eventCache[$eventUid];
+		} else {
+			$event = $eventUid;
+		}
 
 		switch ($changeType) {
 			case 'update':
@@ -345,7 +344,13 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	protected function indexUpdatedEvents() {
 
+		$this->loadUpdatedEventsFromExceptions();
+
 		if (count($this->updatedEvents) === 0) {
+			if ($this->eventWasUpdated) {
+				$this->initializeFashMessageClasses();
+				$this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.updateNoIndex', \TYPO3\CMS\Core\Messaging\FlashMessage::INFO);
+			}
 			return;
 		}
 
@@ -418,13 +423,59 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
+	 * Loops over all registered Exceptions and loads the related events in the cache.
+	 */
+	protected function loadUpdatedEventsFromExceptions() {
+
+		foreach ($this->updatedExceptions as $exceptionUid => $exception) {
+
+			if (!isset($exception)) {
+				$exception = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('tx_czsimplecal_domain_model_exception', $exceptionUid);
+			}
+
+			if (!is_array($exception)) {
+				continue;
+			}
+			if ($exception['parent_table'] !== 'tx_czsimplecal_domain_model_event') {
+				continue;
+			}
+
+			$this->registerUpdatedEvent($exception['parent_uid']);
+		}
+	}
+
+	/**
 	 * Registers an updated event in the updatedEvents array.
 	 *
 	 * @param integer $eventUid The UID of the changed event.
-	 * @param string $changeType The change type, can be new, update or delete.
+	 * @param mixed $changeType The change type, can be new, update or delete.
+	 * @param bool $preload
 	 * @return void
 	 */
-	protected function registerUpdatedEvent($eventUid, $changeType = 'update') {
+	protected function registerUpdatedEvent($eventUid, $changeType = FALSE, $preload = FALSE) {
+
+		if (
+			isset($this->updatedEvents[$eventUid])
+			&& !isset($changeType)
+		) {
+			return;
+		}
+
+		if ($preload) {
+			$this->loadEventInCache($eventUid);
+		}
+
+		$changeType = $changeType ? : 'update';
 		$this->updatedEvents[$eventUid] = $changeType;
+	}
+
+	/**
+	 * Registers the given uid as an updated exception.
+	 *
+	 * @param int $id
+	 * @param array|null $exeptionData
+	 */
+	protected function registerUpdatedException($id, $exeptionData) {
+		$this->updatedExceptions[$id] = $exeptionData;
 	}
 }
