@@ -1,19 +1,32 @@
 <?php
+$languagePrefix = 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:';
+$languagePrefixColumn = $languagePrefix . 'tx_czsimplecal_domain_model_exception.';
+$commonFields = 'type, title, status, start_day, start_time, end_day, end_time,
+	--div--;' . $languagePrefixColumn . 'tab_recurrance,
+	recurrance_type, recurrance_subtype, recurrance_until';
 return array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception',
 		'label' => 'title',
 		'delete' => 'deleted',
+		'hideTable' => TRUE,
+		'type' => 'type',
 		'enablecolumns' => array(
 			'disabled' => 'hidden'
 		),
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal') . 'Resources/Public/Icons/tx_czsimplecal_domain_model_exception.gif'
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal') . 'Resources/Public/Icons/tx_czsimplecal_domain_model_exception.gif',
+		'dividers2tabs' => 1,
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'title,start_day,start_time,end_day,end_time,recurrance_type,recurrance_subtype,recurrance_until'
+		'showRecordFieldList' => 'title,status,start_day,start_time,end_day,end_time,recurrance_type,recurrance_subtype,recurrance_until'
 	),
 	'types' => array(
-		'1' => array('showitem' => 'title,start_day,start_time,end_day,end_time,recurrance_type,recurrance_subtype,recurrance_until')
+		'0' => array('showitem' => 'type'),
+		\Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::HIDE_EVENT => array('showitem' => $commonFields),
+		\Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::UPDATE_EVENT => array('showitem' => $commonFields . '
+			,--div--;' . $languagePrefixColumn . 'tab_update_event_properties,
+			status,teaser
+		'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => '')
@@ -63,6 +76,7 @@ return array(
 				'size' => 12,
 				'max' => 20,
 				'eval' => 'null,time',
+				'default' => NULL,
 			)
 		),
 		'end_day' => array(
@@ -73,6 +87,7 @@ return array(
 				'size' => 12,
 				'max' => 20,
 				'eval' => 'null,date',
+				'default' => NULL,
 			)
 		),
 		'end_time' => array(
@@ -83,6 +98,7 @@ return array(
 				'size' => 12,
 				'max' => 20,
 				'eval' => 'null,time',
+				'default' => NULL,
 			)
 		),
 		'timezone' => array(
@@ -142,33 +158,63 @@ return array(
 				'size' => 12,
 				'max' => 20,
 				'eval' => 'null,date',
+				'default' => NULL,
 			)
 		),
-		'events' => array(
-			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception.events',
+		'status' => array(
+			'exclude' => 1,
+			'label' => $languagePrefixColumn . 'status',
 			'config' => array(
 				'type' => 'select',
-				'foreign_table' => 'tx_czsimplecal_domain_model_event',
-				'MM' => 'tx_czsimplecal_event_exception_mm',
-				'MM_opposite_field' => 'exceptions',
-				'maxitems' => 99999,
-				'size' => 5,
-				'autoSizeMax' => 20
+				'items' => array(
+					array(
+						$languagePrefixColumn . 'status.I.undefined',
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::UNDEFINED
+					),
+					array(
+						$languagePrefixColumn . 'status.I.tentative',
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::TENTATIVE
+					),
+					array(
+						$languagePrefixColumn . 'status.I.confirmed',
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::CONFIRMED
+					),
+					array(
+						$languagePrefixColumn . 'status.I.cancelled',
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::CANCELLED
+					),
+				),
+				'default' => \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::CONFIRMED,
+			),
+		),
+		'teaser' => array(
+			'exclude' => 1,
+			'label' => $languagePrefixColumn . 'teaser',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 6,
+				'eval' => 'null,trim',
+				'default' => NULL
 			)
 		),
-
-		'exception_groups' => array(
+		'type' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception.exception_events',
+			'label' => $languagePrefixColumn . 'type',
 			'config' => array(
 				'type' => 'select',
-				'foreign_table' => 'tx_czsimplecal_domain_model_exceptiongroup',
-				'MM' => 'tx_czsimplecal_exceptiongroup_exception_mm',
-				'MM_opposite_field' => 'exceptions',
-				'maxitems' => 99999,
-				'size' => 5,
-				'autoSizeMax' => 20
-			)
+				'items' => array(
+					array(
+						$languagePrefixColumn . 'type.I.hide_event',
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::HIDE_EVENT
+					),
+					array(
+						$languagePrefixColumn . 'type.I.update_event',
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::UPDATE_EVENT
+					),
+				),
+				'default' => \Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::HIDE_EVENT,
+			),
 		),
 	),
 );

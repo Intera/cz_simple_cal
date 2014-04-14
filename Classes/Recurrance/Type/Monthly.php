@@ -43,19 +43,19 @@ class Monthly extends Base {
 
 		$type = $this->event->getRecurranceSubtype();
 
-		if(($type === 'bydayofmonth')) {
+		if (($type === 'bydayofmonth')) {
 			$this->buildByDay();
 			return;
-		} elseif(strpos($type, 'weekdayofmonth') !== false) {
-			if($type === 'firstweekdayofmonth') {
+		} elseif (strpos($type, 'weekdayofmonth') !== FALSE) {
+			if ($type === 'firstweekdayofmonth') {
 				$param = 1;
-			} elseif($type === 'lastweekdayofmonth') {
+			} elseif ($type === 'lastweekdayofmonth') {
 				$param = -1;
-			} elseif($type === 'secondweekdayofmonth') {
+			} elseif ($type === 'secondweekdayofmonth') {
 				$param = 2;
-			} elseif($type === 'thirdweekdayofmonth') {
+			} elseif ($type === 'thirdweekdayofmonth') {
 				$param = 3;
-			} elseif($type === 'penultimateweekdayofmonth') {
+			} elseif ($type === 'penultimateweekdayofmonth') {
 				$param = -2;
 			} else {
 				throw new \InvalidArgumentException('Subtype is invalid: ' . $type);
@@ -72,13 +72,13 @@ class Monthly extends Base {
 		$start->modify('last day of this month');
 		$daysInMonth = $start->format('d');
 
-		if($day <= 7) {
+		if ($day <= 7) {
 			$param = 1;
-		} elseif($day <= 14) {
+		} elseif ($day <= 14) {
 			$param = 2;
-		} elseif($daysInMonth - $day < 7) {
+		} elseif ($daysInMonth - $day < 7) {
 			$param = -1;
-		} elseif($daysInMonth - $day < 14) {
+		} elseif ($daysInMonth - $day < 14) {
 			$param = -2;
 		} else {
 			$param = 3;
@@ -93,12 +93,15 @@ class Monthly extends Base {
 
 		$diff = $end->getTimestamp() - $start->getTimestamp();
 
-		while($until >= $start) {
+		while ($until >= $start) {
 
-			$this->timeline->add(array(
-				'start' => $start->getTimestamp(),
-				'end'   => $end->getTimestamp()
-			));
+			$this->timeline->add(
+				array(
+					'start' => $start->getTimestamp(),
+					'end' => $end->getTimestamp()
+				),
+				$this->event
+			);
 
 			$this->advanceOneMonthByWeekday($start, $pos);
 			$end = clone $start;
@@ -126,16 +129,19 @@ class Monthly extends Base {
 		$end = clone $this->event->getDateTimeObjectEnd();
 		$until = $this->event->getDateTimeObjectRecurranceUntil();
 
-		if($start->format('j') > 28 || $end->format('j') > 28 ) {
+		if ($start->format('j') > 28 || $end->format('j') > 28) {
 			throw new BuildException('The day of month of the start or the end was larger than 28. Abortion as this might lead to unexpected results.');
 		}
 
-		while($until >= $start) {
+		while ($until >= $start) {
 
-			$this->timeline->add(array(
-				'start' => $start->getTimestamp(),
-				'end'   => $end->getTimestamp()
-			));
+			$this->timeline->add(
+				array(
+					'start' => $start->getTimestamp(),
+					'end' => $end->getTimestamp()
+				),
+				$this->event
+			);
 
 			$start->modify('+1 month');
 			$end->modify('+1 month');
@@ -147,7 +153,7 @@ class Monthly extends Base {
 	 *
 	 * @return array
 	 */
-	public static function getSubtypes() {
+	public function getSubtypes() {
 		return self::addLL(array('auto', 'bydayofmonth', 'firstweekdayofmonth', 'secondweekdayofmonth', 'thirdweekdayofmonth', 'lastweekdayofmonth', 'penultimateweekdayofmonth'));
 	}
 }

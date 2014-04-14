@@ -41,17 +41,18 @@ class Daily extends Base {
 		$end = clone $this->event->getDateTimeObjectEnd();
 		$until = $this->event->getDateTimeObjectRecurranceUntil();
 
-		while(true) {
+		while (TRUE) {
 
-			if($until < $start) {
+			if ($until < $start) {
 				break;
 			}
 
 			$this->timeline->add(
 				array(
 					'start' => $start->getTimestamp(),
-					'end'   => $end->getTimestamp()
-				)
+					'end' => $end->getTimestamp()
+				),
+				$this->event
 			);
 
 			$start->modify('+1 day');

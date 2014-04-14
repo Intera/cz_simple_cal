@@ -46,38 +46,42 @@ class Base implements \Iterator, \Countable {
 	 *
 	 * @var boolean
 	 */
-	protected $sortNeeded = false;
+	protected $sortNeeded = FALSE;
 
 	/**
 	 * used in conjunction with $sortNeeded.
 	 * This value stores the start of the last known event. This way it can check
 	 * if all entries were submittet in ascending order
+	 *
 	 * @var integer
 	 */
 	protected $lastValue = 0;
 
 	/**
 	 * don't output the next but the current value of data if the next is requested
+	 *
 	 * @ugly
 	 * @see \Tx\CzSimpleCal\Recurrance\Timeline\Base::next()
 	 * @var boolean
 	 */
-	protected $nextAsCurrent = false;
+	protected $nextAsCurrent = FALSE;
 
 	/**
 	 * add an EventIndex to the collection
 	 *
 	 * @param array $data
+	 * @param \Tx\CzSimpleCal\Domain\Interfaces\IsRecurring $event
 	 * @return Base
 	 */
-	public function add($data) {
+	public function add($data, $event) {
 		$data = $this->cleanData($data);
 		$this->isDataValid($data);
 		$this->data[$data['start']] = $data;
-		if($data['start'] < $this->lastValue) {
-			$this->sortNeeded = true;
+		if ($data['start'] < $this->lastValue) {
+			$this->sortNeeded = TRUE;
 		}
 		$this->lastValue = $data['start'];
+		$this->initAdditionalEventData($event);
 		return $this;
 	}
 
@@ -101,17 +105,17 @@ class Base implements \Iterator, \Countable {
 	 * @throws \UnexpectedValueException
 	 */
 	protected function isDataValid($data) {
-		if(!array_key_exists('start', $data)) {
+		if (!array_key_exists('start', $data)) {
 			throw new \UnexpectedValueException('"start" is required.');
 		}
-		if(!array_key_exists('end', $data)) {
+		if (!array_key_exists('end', $data)) {
 			throw new \UnexpectedValueException('"end" is required.');
 		}
 
-		if($data['start'] == 0) {
+		if ($data['start'] == 0) {
 			throw new \UnexpectedValueException('"start" should not be "0".');
 		}
-		if($data['end'] == 0) {
+		if ($data['end'] == 0) {
 			throw new \UnexpectedValueException('"end" should not be "0".');
 		}
 
@@ -119,11 +123,21 @@ class Base implements \Iterator, \Countable {
 			throw new \UnexpectedValueException(sprintf('"start" should not be later than "end". (%d, %d)', $data['start'], $data['end']), 1392817280);
 		}
 
-		if(array_key_exists($data['start'], $this->data)) {
+		if (array_key_exists($data['start'], $this->data)) {
 			throw new \UnexpectedValueException(sprintf('A timespan with start %d already exists.', $data['start']));
 		}
 
-		return true;
+		return TRUE;
+	}
+
+	/**
+	 * This method currently does nothing and should be overwritten by subclasses if required.
+	 *
+	 * It can be used to load additional event data in the data array.
+	 *
+	 * @param \Tx\CzSimpleCal\Domain\Model\BaseEvent $event
+	 */
+	protected function initAdditionalEventData($event) {
 	}
 
 	/**
@@ -132,11 +146,11 @@ class Base implements \Iterator, \Countable {
 	 * @return null
 	 */
 	protected function initOutput() {
-		if(!$this->sortNeeded) {
+		if (!$this->sortNeeded) {
 			return;
 		}
 		ksort($this->data);
-		$this->sortNeeded = false;
+		$this->sortNeeded = FALSE;
 	}
 
 	/**
@@ -167,7 +181,16 @@ class Base implements \Iterator, \Countable {
 	public function unsetCurrent() {
 		unset($this->data[key($this->data)]);
 		// see description for next() on why this property is set
-		$this->nextAsCurrent = true;
+		$this->nextAsCurrent = TRUE;
+	}
+
+	/**
+	 * Merges the given additional data in the current entry.
+	 *
+	 * @param array $additionalData
+	 */
+	public function mergeAdditionalDataToCurrent(array $additionalData) {
+		$this->data[key($this->data)] = array_merge($this->data[key($this->data)], $additionalData);
 	}
 
 	/* implement Countable */
@@ -208,8 +231,8 @@ class Base implements \Iterator, \Countable {
 		 *
 		 * In PHP5.3 this procedure is not needed if you use SplDoublyLinkedList
 		 */
-		if($this->nextAsCurrent) {
-			$this->nextAsCurrent = false;
+		if ($this->nextAsCurrent) {
+			$this->nextAsCurrent = FALSE;
 			return current($this->data);
 		}
 		return next($this->data);

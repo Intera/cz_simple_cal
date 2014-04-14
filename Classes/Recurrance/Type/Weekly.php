@@ -44,27 +44,30 @@ class Weekly extends Base {
 		$until = $this->event->getDateTimeObjectRecurranceUntil();
 
 		$interval = $this->event->getRecurranceSubtype();
-		if($interval === 'weekly') {
+		if ($interval === 'weekly') {
 			$step = '+1 week';
-		} elseif($interval === 'oddeven') {
+		} elseif ($interval === 'oddeven') {
 			$this->buildOddEven($start, $end, $until);
 			return;
-		} elseif($interval === '2week') {
+		} elseif ($interval === '2week') {
 			$step = '+2 week';
-		} elseif($interval === '3week') {
+		} elseif ($interval === '3week') {
 			$step = '+3 week';
-		} elseif($interval === '4week') {
+		} elseif ($interval === '4week') {
 			$step = '+4 week';
 		} else {
 			$step = '+1 week';
 		}
 
-		while($until >= $start) {
+		while ($until >= $start) {
 
-			$this->timeline->add(array(
-				'start' => $start->getTimestamp(),
-				'end'   => $end->getTimestamp()
-			));
+			$this->timeline->add(
+				array(
+					'start' => $start->getTimestamp(),
+					'end' => $end->getTimestamp()
+				),
+				$this->event
+			);
 
 			$start->modify($step);
 			$end->modify($step);
@@ -82,18 +85,21 @@ class Weekly extends Base {
 	protected function buildOddEven($start, $end, $until) {
 
 		$week = $start->format('W') % 2;
-		while($until >= $start) {
+		while ($until >= $start) {
 
-			$this->timeline->add(array(
-				'start' => $start->getTimestamp(),
-				'end'   => $end->getTimestamp()
-			));
+			$this->timeline->add(
+				array(
+					'start' => $start->getTimestamp(),
+					'end' => $end->getTimestamp()
+				),
+				$this->event
+			);
 
 			$start->modify('+2 week');
 			$end->modify('+2 week');
 
 			// take care of year switches
-			if($start->format('W') % 2 !== $week) {
+			if ($start->format('W') % 2 !== $week) {
 				$start->modify('-1 week');
 				$end->modify('-1 week');
 			}

@@ -42,7 +42,7 @@ class RecurranceFactory {
 	 *
 	 * @var EventModel
 	 */
-	protected $event = null;
+	protected $event = NULL;
 
 	/**
 	 * build the recurrance for an event
@@ -52,7 +52,7 @@ class RecurranceFactory {
 	 * @throws \InvalidArgumentException
 	 */
 	public function buildRecurranceForEvent($event) {
-		if(!$event instanceof \Tx\CzSimpleCal\Domain\Model\BaseEvent) {
+		if (!$event instanceof \Tx\CzSimpleCal\Domain\Model\BaseEvent) {
 			// no type hinting to make it more reusable
 			throw new \InvalidArgumentException(sprintf('$event must be of class \Tx\CzSimpleCal\Domain\Model\BaseEvent in %s::%s', get_class($this), __METHOD__));
 		}
@@ -84,19 +84,19 @@ class RecurranceFactory {
 	protected function buildEventTimeline() {
 
 		$type = $this->event->getRecurranceType();
-		if(empty($type)) {
+		if (empty($type)) {
 			throw new \RuntimeException('The recurrance_type should not be empty.');
 		}
 
 		$className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
 
-		if(!class_exists($className)) {
+		if (!class_exists($className)) {
 			throw new \BadMethodCallException(sprintf('The class %s does not exist for creating recurring events.', $className));
 		}
 
 		$class = GeneralUtility::makeInstance($className);
 
-		if(!$class instanceof RecurranceTypeBase) {
+		if (!$class instanceof RecurranceTypeBase) {
 			throw new \BadMethodCallException(sprintf('The class %s does not implement \\Tx\\CzSimpleCal\\Recurrance\\Type\\Base.', get_class($class)));
 		}
 
@@ -117,22 +117,22 @@ class RecurranceFactory {
 		$exceptionTimeline = new TimelineException();
 
 		/** @var ExceptionModel $exception */
-		foreach($this->event->getExceptions() as $exception) {
+		foreach ($this->event->getExceptions() as $exception) {
 
 			$type = $exception->getRecurranceType();
-			if(empty($type)) {
+			if (empty($type)) {
 				throw new \RuntimeException('The recurrance_type should not be empty.');
 			}
 
 			$className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
 
-			if(!class_exists($className)) {
+			if (!class_exists($className)) {
 				throw new \BadMethodCallException(sprintf('The class %s does not exist for creating recurring events.', $className));
 			}
 
 			$class = GeneralUtility::makeInstance($className);
 
-			if(!$class instanceof RecurranceTypeBase) {
+			if (!$class instanceof RecurranceTypeBase) {
 				throw new \BadMethodCallException(sprintf('The class %s does not implement \\Tx\\CzSimpleCal\\Recurrance\\Type\\Base.', get_class($class)));
 			}
 
@@ -162,33 +162,37 @@ class RecurranceFactory {
 	 */
 	protected function dropExceptionalEvents($events, $exceptions) {
 
-		foreach($events as $eventKey=>$event) {
+		if (!$exceptions->hasData()) {
+			return $events;
+		}
 
-			if(!$exceptions->hasData()) {
-				break;
-			}
+		foreach ($events as $eventKey => $event) {
 
-//			$exceptions->rewind();
-			foreach($exceptions as $exceptionKey=>$exception) {
+			foreach ($exceptions as $exceptionKey => $exception) {
 
-				if($exception['end'] <= $eventKey /*eventKey = $event['start']*/) {
+				if ($exception['end'] <= $eventKey /*eventKey = $event['start']*/) {
 					//if: end of exception is before start of event -> delete it as it won't affect any more of the events
 					$exceptions->unsetCurrent();
-				} elseif($event['end'] < $exceptionKey /*exceptionKey = $exception['start']*/ ||
-						($event['end'] == $exceptionKey && $event['start'] != $event['end'] )) {
+				} elseif ($event['end'] < $exceptionKey /*exceptionKey = $exception['start']*/ ||
+					($event['end'] == $exceptionKey && $event['start'] != $event['end'])
+				) {
 					//if: end of event is before start of exception or
 					//    end of event matches start of exception and the event is not zero length
 					//    -> none of the following exception will affect this event
 					break;
 				} else {
 					// else: match -> delete this event
-					$events->unsetCurrent();
+					if (isset($exception['additionalEventData'])) {
+						$events->mergeAdditionalDataToCurrent($exception['additionalEventData']);
+					} else {
+						$events->unsetCurrent();
+					}
+
 					break;
 				}
 			}
 		}
+
 		return $events;
-
 	}
-
 }

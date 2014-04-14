@@ -33,16 +33,22 @@ use \Tx\CzSimpleCal\Domain\Model\EventIndex;
 class Event {
 
 	/**
-	 * @var \Tx\CzSimpleCal\Domain\Repository\EventRepository
 	 * @inject
+	 * @var \Tx\CzSimpleCal\Domain\Repository\EventRepository
 	 */
-	protected $eventRepository = null;
+	protected $eventRepository = NULL;
 
 	/**
-	 * @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository
 	 * @inject
+	 * @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository
 	 */
-	protected $eventIndexRepository = null;
+	protected $eventIndexRepository = NULL;
+
+	/**
+	 * @inject
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+	 */
+	protected $objectManager;
 
 	/**
 	 * create an eventIndex
@@ -50,7 +56,7 @@ class Event {
 	 * @param integer|\Tx\CzSimpleCal\Domain\Model\Event $event
 	 */
 	public function create($event) {
-		if(is_integer($event)) {
+		if (is_integer($event)) {
 			$event = $this->fetchEventObject($event);
 		}
 
@@ -63,7 +69,7 @@ class Event {
 	 * @param integer|\Tx\CzSimpleCal\Domain\Model\Event $event
 	 */
 	public function update($event) {
-		if(is_integer($event)) {
+		if (is_integer($event)) {
 			$event = $this->fetchEventObject($event);
 		}
 
@@ -78,7 +84,7 @@ class Event {
 	 * @param integer|\Tx\CzSimpleCal\Domain\Model\Event $event
 	 */
 	public function delete($event) {
-		if(is_integer($event)) {
+		if (is_integer($event)) {
 			$event = $this->fetchEventObject($event);
 		}
 
@@ -106,13 +112,17 @@ class Event {
 		$event->setLastIndexed(new \DateTime());
 		$this->eventRepository->update($event);
 
-		if(!$event->isEnabled()) {
+		if (!$event->isEnabled()) {
 			return;
 		}
 		// get all recurrances...
-		foreach($event->getRecurrances() as $recurrance) {
+		foreach ($event->getRecurrances() as $recurrance) {
+
 			// ...and store them to the repository
+			/** @var EventIndex $eventIndex */
+			$eventIndex = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\EventIndex');
 			$instance = EventIndex::fromArray(
+				$eventIndex,
 				$recurrance
 			);
 
@@ -131,7 +141,7 @@ class Event {
 	 */
 	protected function fetchEventObject($id) {
 		$event = $this->eventRepository->findOneByUidEverywhere($id);
-		if(empty($event)) {
+		if (empty($event)) {
 			throw new \InvalidArgumentException(sprintf('An event with uid %d could not be found.', $id));
 		}
 		return $event;

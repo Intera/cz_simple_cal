@@ -17,13 +17,27 @@ return array(
 			'disabled' => 'hidden'
 		),
 		'dividers2tabs' => 1,
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal') . 'Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif'
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal') . 'Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif',
+		'requestUpdate' => 'recurrance_type',
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'title,start_day,start_time,end_day,end_time,teaser,description,slug,recurrance_type,recurrance_subtype,recurrance_until,location_inline,location,organizer_inline,organizer,categories,show_page_instead,exceptions,flickr_tags,twitter_hashtags'
+		'showRecordFieldList' => 'title,start_day,start_time,end_day,end_time,teaser,description,slug,recurrance_type,recurrance_subtype,recurrance_until,location_inline,location,organizer_inline,organizer,categories,show_page_instead,exceptions,exception_groups,flickr_tags,twitter_hashtags'
 	),
 	'types' => array(
-		'1' => array('showitem' => '--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_general,title,start_day,start_time,end_day,end_time,status,categories,show_page_instead,teaser,description;;;richtext:rte_transform[flag=rte_enabled|mode=ts_css],--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_resources,images,files,slug,--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_recurrance,recurrance_type,recurrance_subtype,recurrance_until,exceptions,--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_location,location_inline,location,--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_organizer,organizer_inline,organizer,--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_socialmedia,twitter_hashtags,flickr_tags')
+		'1' => array('showitem' => '
+			--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_general,
+			title,start_day,start_time,end_day,end_time,status,categories,show_page_instead,teaser,description;;;richtext:rte_transform[flag=rte_enabled|mode=ts_css],
+			--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_resources,
+			images,files,slug,
+			--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_recurrance,
+			recurrance_type,recurrance_subtype,recurrance_until,exceptions,exception_groups,
+			--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_location,
+			location_inline,location,
+			--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_organizer,
+			organizer_inline,organizer,
+			--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_socialmedia,
+			twitter_hashtags,flickr_tags'
+		)
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -419,11 +433,25 @@ return array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.exceptions',
 			'config' => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_czsimplecal_domain_model_exception',
+				'foreign_field' => 'parent_uid',
+				'foreign_table_field' => 'parent_table',
+				'foreign_match_fields' => array(
+					'parent_field' => 'exceptions',
+				),
+			),
+		),
+		'exception_groups' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.exception_groups',
+			'config' => array(
 				'type' => 'group',
 				'internal_type' => 'db',
-				'allowed' => 'tx_czsimplecal_domain_model_exception,tx_czsimplecal_domain_model_exceptiongroup',
-				//				'foreign_table' => 'tx_czsimplecal_domain_model_exception',
-				'MM' => 'tx_czsimplecal_event_exception_mm',
+				'allowed' => 'tx_czsimplecal_domain_model_exceptiongroup',
+				'MM' => 'tx_czsimplecal_event_exceptiongroup_mm',
+				// foreign_table is required for Extbase.
+				'foreign_table' => 'tx_czsimplecal_domain_model_exceptiongroup',
 				'maxitems' => 99999,
 				'size' => 5,
 				'autoSizeMax' => 20

@@ -129,11 +129,28 @@ class Event extends BaseEvent {
 	protected $categories;
 
 	/**
-	 * exceptions for this event
+	 * Exceptions for this event
 	 *
-	 * @var array<\Tx\CzSimpleCal\Domain\Model\Exception>
+	 * @lazy
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
 	 */
-	protected $exceptions_ = null;
+	protected $exceptions;
+
+	/**
+	 * Cache for all exceptions retrieved from exceptions and exeption groups.
+	 *
+	 * @transient
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
+	 */
+	protected $exceptionCache;
+
+	/**
+	 * Exception groups for this event
+	 *
+	 * @lazy
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\ExceptionGroup>
+	 */
+	protected $exceptionGroups;
 
 	/**
 	 * is this record hidden
@@ -178,8 +195,9 @@ class Event extends BaseEvent {
 	protected $status;
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 * @inject
+	 * @transient
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -544,16 +562,30 @@ class Event extends BaseEvent {
 	 * @return ObjectStorage<Exception> exception
 	 */
 	public function getExceptions() {
-		if(is_null($this->exceptions_)) {
-			/* @ugly: an object manager can't be fetched using dependency injection
-			 * in domain model objects
-			 */
 
-			$exceptionRepository = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\ExceptionRepository');
-			$this->exceptions_ = $exceptionRepository->findAllForEventId($this->uid);
+		if (isset($this->exceptionCache)) {
+			return $this->exceptionCache;
 		}
 
-		return $this->exceptions_;
+		/** @var ObjectStorage $exceptionCache */
+		$exceptionCache = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+
+		if (isset($this->exceptions)) {
+			$exceptionCache->addAll($this->exceptions);
+		}
+
+		if (isset($this->exceptionGroups)) {
+			/** @var ExceptionGroup $exceptionGroup */
+			foreach ($this->exceptionGroups as $exceptionGroup) {
+				$exceptions = $exceptionGroup->getExceptions();
+				if (isset($exceptions)) {
+					$exceptionCache->addAll($exceptions);
+				}
+			}
+		}
+
+		$this->exceptionCache = $exceptionCache;
+		return $this->exceptionCache;
 	}
 
 	/**

@@ -3,7 +3,7 @@
 // but this table should not be displayed in the Frontent.
 return array(
 	'ctrl' => array(
-		'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event_index',
+		'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_eventindex',
 		'label' => '',
 		'hideTable' => TRUE,
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal') . 'Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif'
@@ -58,7 +58,21 @@ return array(
 			'exclude' => 0,
 			'label' => '',
 			'config' => array(
-				'type' => 'none', // just show the value - don't make it editable
+				'type' => 'none',
+			)
+		),
+		'status' => array(
+			'exclude' => 0,
+			'label' => '',
+			'config' => array(
+				'type' => 'none',
+			)
+		),
+		'teaser' => array(
+			'exclude' => 0,
+			'label' => '',
+			'config' => array(
+				'type' => 'none',
 			)
 		),
 	),

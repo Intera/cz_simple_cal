@@ -1,10 +1,10 @@
 <?php
-namespace Tx\CzSimpleCal\Recurrance\Type;
+namespace Tx\CzSimpleCal\Domain\Model\Enumeration;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2010 Christian Zenker <christian.zenker@599media.de>, 599media GmbH
+ *  (c) 2013 Alexander Stehlik <astehlik.deleteme@intera.de>, Intera GmbH
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -25,23 +25,29 @@ namespace Tx\CzSimpleCal\Recurrance\Type;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Type\Enumeration;
+
 /**
- * no recurrance at all - only this single event
+ * The type of an event exception.
  */
-class None extends Base {
+class ExceptionType extends Enumeration {
 
 	/**
-	 * the main method building the recurrance
+	 * This exception type will remove the event from the index for the configured date(s).
 	 *
-	 * @return void
+	 * @const
 	 */
-	protected function doBuild() {
-		$this->timeline->add(
-			array(
-				'start' => $this->event->getDateTimeObjectStart()->getTimestamp(),
-				'end' => $this->event->getDateTimeObjectEnd()->getTimestamp(),
-			),
-			$this->event
-		);
-	}
+	const HIDE_EVENT = 'HideEvent';
+
+	/**
+	 * This exception type will overwrite some event properties for the configured date(s).
+	 */
+	const UPDATE_EVENT = 'UpdateEvent';
+
+	/**
+	 * Default is "HideEvent"
+	 *
+	 * @const
+	 */
+	const __default = 'HideEvent';
 }

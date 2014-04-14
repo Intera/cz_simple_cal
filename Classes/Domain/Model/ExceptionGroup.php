@@ -31,7 +31,15 @@ namespace Tx\CzSimpleCal\Domain\Model;
 class ExceptionGroup extends Base {
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Event>
+	 * @lazy
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
 	 */
-	protected $events;
+	protected $exceptions;
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
+	 */
+	public function getExceptions() {
+		return $this->exceptions;
+	}
 }

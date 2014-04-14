@@ -72,10 +72,21 @@
 			<label index="tx_czsimplecal_domain_model_event.tab_organizer">Organizer</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_socialmedia">Social Media</label>
 
-			<label index="tx_czsimplecal_domain_model_event_index">Event index</label>
+			<label index="tx_czsimplecal_domain_model_eventindex">Event index</label>
 
 			<label index="tx_czsimplecal_domain_model_exception">Exception</label>
+			<label index="tx_czsimplecal_domain_model_exception.type">Type</label>
+			<label index="tx_czsimplecal_domain_model_exception.type.I.hide_event">Hide event</label>
+			<label index="tx_czsimplecal_domain_model_exception.type.I.update_event">Update event properties</label>
 			<label index="tx_czsimplecal_domain_model_exception.title">Title</label>
+			<label index="tx_czsimplecal_domain_model_exception.tab_recurrance">Recurrance</label>
+			<label index="tx_czsimplecal_domain_model_exception.tab_update_event_properties">Update event properties</label>
+			<label index="tx_czsimplecal_domain_model_exception.status">Status</label>
+			<label index="tx_czsimplecal_domain_model_exception.status.I.undefined">Do not overwrite</label>
+			<label index="tx_czsimplecal_domain_model_exception.status.I.tentative">Tentative</label>
+			<label index="tx_czsimplecal_domain_model_exception.status.I.confirmed">Confirmed</label>
+			<label index="tx_czsimplecal_domain_model_exception.status.I.cancelled">Cancelled</label>
+			<label index="tx_czsimplecal_domain_model_exception.teaser">Overwrite teaser</label>
 
 			<label index="tx_czsimplecal_domain_model_exception.recurrance_until">Repeat until</label>
 			<label index="tx_czsimplecal_domain_model_exception.recurrance_times">Repeat times</label>
@@ -158,7 +169,7 @@
 			<label index="tx_czsimplecal_domain_model_event.status.confirmed">Bestätigt</label>
 			<label index="tx_czsimplecal_domain_model_event.status.cancelled">Abgesagt</label>
 
-			<label index="tx_czsimplecal_domain_model_event_index">Event Index</label>
+			<label index="tx_czsimplecal_domain_model_eventindex">Event Index</label>
 
 			<label index="tx_czsimplecal_domain_model_event.tab_general">Event</label>
 			<label index="tx_czsimplecal_domain_model_event.tab_recurrance">Wiederholung</label>
@@ -168,7 +179,18 @@
 			<label index="tx_czsimplecal_domain_model_event.tab_socialmedia">Social Media</label>
 
 			<label index="tx_czsimplecal_domain_model_exception">Ausnahme</label>
+			<label index="tx_czsimplecal_domain_model_exception.type">Typ</label>
+			<label index="tx_czsimplecal_domain_model_exception.type.I.hide_event">Termin verbergen</label>
+			<label index="tx_czsimplecal_domain_model_exception.type.I.update_event">Termineigenschaften verändern</label>
 			<label index="tx_czsimplecal_domain_model_exception.title">Titel</label>
+			<label index="tx_czsimplecal_domain_model_exception.tab_recurrance">Wiederholung</label>
+			<label index="tx_czsimplecal_domain_model_exception.tab_update_event_properties">Termineigenschaften verändern</label>
+			<label index="tx_czsimplecal_domain_model_exception.status">Status</label>
+			<label index="tx_czsimplecal_domain_model_exception.status.I.undefined">Nicht überschreiben</label>
+			<label index="tx_czsimplecal_domain_model_exception.status.I.tentative">Vorläufig</label>
+			<label index="tx_czsimplecal_domain_model_exception.status.I.confirmed">Bestätigt</label>
+			<label index="tx_czsimplecal_domain_model_exception.status.I.cancelled">Abgesagt</label>
+			<label index="tx_czsimplecal_domain_model_exception.teaser">Kurzbeschreibung überschreiben</label>
 
 			<label index="tx_czsimplecal_domain_model_exception.recurrance_until">Wiederholung bis</label>
 			<label index="tx_czsimplecal_domain_model_exception.recurrance_times">Anzahl der Widerholungen</label>

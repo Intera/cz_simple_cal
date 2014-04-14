@@ -28,6 +28,7 @@ namespace Tx\CzSimpleCal\Domain\Model;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Tx\CzSimpleCal\Utility\Inflector;
 use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
+use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
 
 /**
  * Event index entry.
@@ -55,14 +56,21 @@ class EventIndex extends Base {
 	 *
 	 * @var \Tx\CzSimpleCal\Utility\DateTime
 	 */
-	protected $dateTimeObjectStart = null;
+	protected $dateTimeObjectStart = NULL;
 
 	/**
 	 * the end date as DateTime object
 	 *
 	 * @var \Tx\CzSimpleCal\Utility\DateTime
 	 */
-	protected $dateTimeObjectEnd = null;
+	protected $dateTimeObjectEnd = NULL;
+
+	/**
+	 * @inject
+	 * @transient
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+	 */
+	protected $objectManager;
 
 	/**
 	 * the pid of the record
@@ -77,6 +85,16 @@ class EventIndex extends Base {
 	protected $event;
 
 	/**
+	 * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus
+	 */
+	protected $status;
+
+	/**
+	 * @var string
+	 */
+	protected $teaser;
+
+	/**
 	 * set the timestamp from the beginning of that event
 	 *
 	 * @param integer $start
@@ -84,11 +102,12 @@ class EventIndex extends Base {
 	 */
 	public function setStart($start) {
 		$this->start = $start;
-		$this->dateTimeObjectStart = null;
+		$this->dateTimeObjectStart = NULL;
 	}
 
 	/**
 	 * get the timestamp from the beginning of that event
+	 *
 	 * @return integer
 	 */
 	public function getStart() {
@@ -101,9 +120,9 @@ class EventIndex extends Base {
 	 * @return CzSimpleCalDateTime
 	 */
 	public function getDateTimeObjectStart() {
-		if(is_null($this->dateTimeObjectStart)) {
+		if (is_null($this->dateTimeObjectStart)) {
 			$this->dateTimeObjectStart = new CzSimpleCalDateTime(
-				'@'.$this->start
+				'@' . $this->start
 			);
 			$this->dateTimeObjectStart->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		}
@@ -112,16 +131,18 @@ class EventIndex extends Base {
 
 	/**
 	 * set the timestamp from the end of that event
+	 *
 	 * @param integer $end
 	 * @return null
 	 */
 	public function setEnd($end) {
 		$this->end = $end;
-		$this->dateTimeObjectEnd = null;
+		$this->dateTimeObjectEnd = NULL;
 	}
 
 	/**
 	 * get the timestamp from the end of that event
+	 *
 	 * @return integer
 	 */
 	public function getEnd() {
@@ -134,9 +155,9 @@ class EventIndex extends Base {
 	 * @return CzSimpleCalDateTime
 	 */
 	public function getDateTimeObjectEnd() {
-		if(is_null($this->dateTimeObjectEnd)) {
+		if (is_null($this->dateTimeObjectEnd)) {
 			$this->dateTimeObjectEnd = new CzSimpleCalDateTime(
-				'@'.$this->end
+				'@' . $this->end
 			);
 			$this->dateTimeObjectEnd->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		}
@@ -151,22 +172,52 @@ class EventIndex extends Base {
 		return $this->event;
 	}
 
+	/**
+	 * If a status was set in this event index entry, return this status,
+	 * otherwise return the status of the event.
+	 *
+	 * @return string
+	 */
+	public function getStatus() {
+
+		if (!isset($this->status)) {
+			$this->status = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Enumeration\\EventStatus', EventStatus::UNDEFINED);
+		}
+
+		if ($this->status->equals(EventStatus::UNDEFINED)) {
+			$status = $this->event->getStatus();
+		} else {
+			$status = (string)$this->status;
+		}
+
+		return $status;
+	}
+
+	/**
+	 * Setter for the status
+	 *
+	 * @param string $status
+	 */
+	public function setStatus($status) {
+		$this->status = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Enumeration\\EventStatus', $status);
+	}
+
 
 	/**
 	 * create a new instance with data from a given array
 	 *
+	 * @param EventIndex $obj
 	 * @param $data
-	 * @return EventIndex
 	 * @throws \InvalidArgumentException
+	 * @return EventIndex
 	 */
-	public static function fromArray($data) {
-		$obj = new EventIndex();
+	public static function fromArray($obj, $data) {
 
-		foreach($data as $name => $value) {
+		foreach ($data as $name => $value) {
 			$methodName = 'set' . GeneralUtility::underscoredToUpperCamelCase($name);
 
 			// check if there is a setter defined (use of is_callable to check if the scope is public)
-			if(!is_callable(array($obj,	$methodName))) {
+			if (!is_callable(array($obj, $methodName))) {
 				throw new \InvalidArgumentException(sprintf('Could not find the %s method to set %s in %s.', $methodName, $name, get_class($obj)));
 			}
 
@@ -183,9 +234,9 @@ class EventIndex extends Base {
 	 */
 	public function getHash() {
 		return md5(
-			'eventindex-'.
-			$this->getEvent()->getHash().'-'.
-			$this->getStart().'-'.
+			'eventindex-' .
+			$this->getEvent()->getHash() . '-' .
+			$this->getStart() . '-' .
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']
 		);
 	}
@@ -199,11 +250,11 @@ class EventIndex extends Base {
 	 * @throws \BadMethodCallException
 	 */
 	public function __call($method, $args) {
-		if(!$this->event) {
+		if (!$this->event) {
 			throw new \BadMethodCallException(sprintf('The method %s was not found in %s.', $method, get_class($this)));
 		}
 		$callback = array($this->event, $method);
-		if(!is_callable($callback)) {
+		if (!is_callable($callback)) {
 			throw new \BadMethodCallException(sprintf('The method %s was neither found in %s nor in %s.', $method, get_class($this), get_class($this->event)));
 		}
 
@@ -234,7 +285,7 @@ class EventIndex extends Base {
 	 * @throws \InvalidArgumentException
 	 */
 	public function setSlug($slug) {
-		if(preg_match('/^[a-z0-9\-]*$/i', $slug) === false) {
+		if (preg_match('/^[a-z0-9\-]*$/i', $slug) === FALSE) {
 			throw new \InvalidArgumentException(sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.'));
 		}
 		$this->slug = $slug;
@@ -250,10 +301,8 @@ class EventIndex extends Base {
 		$value = $this->generateRawSlug();
 		$value = Inflector::urlize($value);
 
-		/** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
-		$objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 		/** @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository $eventIndexRepository */
-		$eventIndexRepository = $objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventIndexRepository');
+		$eventIndexRepository = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventIndexRepository');
 
 		$slug = $eventIndexRepository->makeSlugUnique($value, $this->uid);
 		$this->setSlug($slug);
@@ -268,10 +317,20 @@ class EventIndex extends Base {
 	 */
 	protected function generateRawSlug() {
 		$value = $this->getEvent()->getSlug();
-		if($this->getEvent()->isRecurrant()) {
-			$value .= ' '.$this->getDateTimeObjectStart()->format('Y-m-d');
+		if ($this->getEvent()->isRecurrant()) {
+			$value .= ' ' . $this->getDateTimeObjectStart()->format('Y-m-d');
 		}
 		return $value;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTeaser() {
+		if (isset($this->teaser)) {
+			return $this->teaser;
+		}
+		return $this->event->getTeaser();
 	}
 
 	/**
@@ -281,5 +340,12 @@ class EventIndex extends Base {
 	 */
 	public function preCreate() {
 		$this->generateSlug();
+	}
+
+	/**
+	 * @param string $teaser
+	 */
+	public function setTeaser($teaser) {
+		$this->teaser = $teaser;
 	}
 }

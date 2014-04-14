@@ -44,19 +44,22 @@ class Yearly extends Base {
 		$until = $this->event->getDateTimeObjectRecurranceUntil();
 
 		$interval = $this->event->getRecurranceSubtype();
-		if($interval === 'relativetoeaster') {
+		if ($interval === 'relativetoeaster') {
 			$this->buildEaster($start, $end, $until);
 			return;
 		} else {
 			$step = '+1 year';
 		}
 
-		while($until >= $start) {
+		while ($until >= $start) {
 
-			$this->timeline->add(array(
-				'start' => $start->getTimestamp(),
-				'end'   => $end->getTimestamp()
-			));
+			$this->timeline->add(
+				array(
+					'start' => $start->getTimestamp(),
+					'end' => $end->getTimestamp()
+				),
+				$this->event
+			);
 
 			$start->modify($step);
 			$end->modify($step);
@@ -75,7 +78,7 @@ class Yearly extends Base {
 	 */
 	protected function buildEaster($start, $end, $until) {
 
-		if(!function_exists('easter_days') || !function_exists('easter_date')) {
+		if (!function_exists('easter_days') || !function_exists('easter_date')) {
 			throw new \RuntimeException(
 				'The function easter_days() or easter_date() is not available in your PHP installation.
 				The binaries were probably not compiled using --enable-calendar. Contact your
@@ -118,27 +121,31 @@ class Yearly extends Base {
 		$diffDaysEnd = date('z', $end->getTimestamp()) - $dayOfYearEaster;
 		$diffDaysEnd = sprintf('%+d days', $diffDaysEnd);
 
-		while($until >= $start) {
-			$this->timeline->add(array(
-				'start' => $start->getTimestamp(),
-				'end'   => $end->getTimestamp()
-			));
+		while ($until >= $start) {
+			$this->timeline->add(
+				array(
+					'start' => $start->getTimestamp(),
+					'end' => $end->getTimestamp()
+				),
+				$this->event
+			);
 
 			// calculate dates for the next year
 			$year = $year + 1;
 			/**
 			 * timestamp for easter sunday of a given year
+			 *
 			 * @var integer
 			 */
 			$easter = easter_date($year);
 
 			$start->setDate($year, date('n', $easter), date('j', $easter));
-			if(!is_null($diffDaysStart)) {
+			if (!is_null($diffDaysStart)) {
 				$start->modify($diffDaysStart);
 			}
 
 			$end->setDate($year, date('n', $easter), date('j', $easter));
-			if(!is_null($diffDaysEnd)) {
+			if (!is_null($diffDaysEnd)) {
 				$end->modify($diffDaysEnd);
 			}
 		}
@@ -152,7 +159,7 @@ class Yearly extends Base {
 	 * @param integer $year
 	 * @return integer
 	 */
-	protected function getDayOfYearForEasterSunday($year = null) {
+	protected function getDayOfYearForEasterSunday($year = NULL) {
 		/**
 		 * the day of the year of the equinox in March
 		 *
@@ -161,7 +168,7 @@ class Yearly extends Base {
 		 * @var integer
 		 * @see http://en.wikipedia.org/wiki/Equinox
 		 */
-		$equinox = intval(date('z', mktime(0,0,0,3,21,$year)));
+		$equinox = intval(date('z', mktime(0, 0, 0, 3, 21, $year)));
 		return $equinox + easter_days($year);
 	}
 

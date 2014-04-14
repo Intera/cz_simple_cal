@@ -31,30 +31,49 @@ namespace Tx\CzSimpleCal\Domain\Model;
 class Exception extends BaseEvent {
 
 	/**
+	 * @inject
+	 * @transient
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+	 */
+	protected $objectManager;
+
+	/**
+	 * Status of the event.
+	 *
+	 * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus
+	 */
+	protected $status;
+
+	/**
+	 * @var string
+	 */
+	protected $teaser;
+
+	/**
 	 * The title of this exception
+	 *
 	 * @var string
 	 * @validate NotEmpty
 	 */
 	protected $title;
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Event>
+	 * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType
 	 */
-	protected $events;
+	protected $type;
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\ExceptionGroup>
+	 * @return string
 	 */
-	protected $exceptionGroups;
+	public function getStatus() {
+		return (string)$this->status;
+	}
 
 	/**
-	 * Setter for title
-	 *
-	 * @param string $title The title of this exception
-	 * @return void
+	 * @return string
 	 */
-	public function setTitle($title) {
-		$this->title = $title;
+	public function getTeaser() {
+		return $this->teaser;
 	}
 
 	/**
@@ -64,5 +83,25 @@ class Exception extends BaseEvent {
 	 */
 	public function getTitle() {
 		return $this->title;
+	}
+
+	/**
+	 * @return Enumeration\ExceptionType
+	 */
+	public function getType() {
+		if (!isset($this->type)) {
+			$this->type = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Enumeration\\ExceptionType');
+		}
+		return $this->type;
+	}
+
+	/**
+	 * Setter for title
+	 *
+	 * @param string $title The title of this exception
+	 * @return void
+	 */
+	public function setTitle($title) {
+		$this->title = $title;
 	}
 }
