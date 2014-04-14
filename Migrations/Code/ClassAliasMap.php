@@ -13,7 +13,7 @@ return array(
 	'Tx_CzSimpleCal_Domain_Model_Category' => 'Tx\\CzSimpleCal\\Domain\\Model\\Category',
 	'Tx_CzSimpleCal_Domain_Model_Event' => 'Tx\\CzSimpleCal\\Domain\\Model\\Event',
 	'Tx_CzSimpleCal_Domain_Model_EventIndex' => 'Tx\\CzSimpleCal\\Domain\\Model\\EventIndex',
-	'Tx_CzSimpleCal_Domain_Model_EventStatus' => 'Tx\\CzSimpleCal\\Domain\\Model\\EventStatus',
+	'Tx_CzSimpleCal_Domain_Model_EventStatus' => 'Tx\\CzSimpleCal\\Domain\\Model\\Enumeration\\EventStatus',
 	'Tx_CzSimpleCal_Domain_Model_Exception' => 'Tx\\CzSimpleCal\\Domain\\Model\\Exception',
 	'Tx_CzSimpleCal_Domain_Model_ExceptionGroup' => 'Tx\\CzSimpleCal\\Domain\\Model\\ExceptionGroup',
 	'Tx_CzSimpleCal_Domain_Model_File' => 'Tx\\CzSimpleCal\\Domain\\Model\\File',

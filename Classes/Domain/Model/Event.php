@@ -173,7 +173,7 @@ class Event extends BaseEvent {
 	/**
 	 * Status of the event.
 	 *
-	 * @var \Tx\CzSimpleCal\Domain\Model\EventStatus
+	 * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus
 	 */
 	protected $status;
 
@@ -363,7 +363,7 @@ class Event extends BaseEvent {
 	 */
 	public function getStatus() {
 		if (!isset($this->status)) {
-			$this->status = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\EventStatus');
+			$this->status = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Enumeration\\EventStatus');
 		}
 		return (string)$this->status;
 	}

@@ -69,7 +69,7 @@ class Tx_CzSimpleCal_Domain_Model_EventIndex extends \Tx\CzSimpleCal\Domain\Mode
 /**
  * @deprecated
  */
-class Tx_CzSimpleCal_Domain_Model_EventStatus extends \Tx\CzSimpleCal\Domain\Model\EventStatus {}
+class Tx_CzSimpleCal_Domain_Model_EventStatus extends \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus {}
 
 /**
  * @deprecated

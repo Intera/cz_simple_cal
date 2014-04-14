@@ -1,5 +1,5 @@
 <?php
-namespace Tx\CzSimpleCal\Domain\Model;
+namespace Tx\CzSimpleCal\Domain\Model\Enumeration;
 
 /***************************************************************
  *  Copyright notice
@@ -33,4 +33,5 @@ class EventStatus extends \TYPO3\CMS\Core\Type\Enumeration {
 	const TENTATIVE = 'TENTATIVE';
 	const CONFIRMED = 'CONFIRMED';
 	const CANCELLED = 'CANCELLED';
+	const UNDEFINED = 'UNDEFINED';
 }
