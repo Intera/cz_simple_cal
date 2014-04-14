@@ -274,7 +274,7 @@ return array(
 			'displayCond' => 'FIELD:recurrance_type:!IN:0,,none,daily',
 			'config' => array(
 				'type' => 'select',
-				'itemsProcFunc' => 'EXT:cz_simple_cal/Legacy/class.tx_czsimplecal_dynEventForm.php:tx_czsimplecal_dynEventForm->getRecurranceSubtype'
+				'itemsProcFunc' => 'Tx\\CzSimpleCal\\Utility\\EventConfig->getRecurranceSubtype'
 			)
 		),
 		'recurrance_until' => array(

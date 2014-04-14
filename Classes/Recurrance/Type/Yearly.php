@@ -170,7 +170,7 @@ class Yearly extends Base {
 	 *
 	 * @return array
 	 */
-	public static function getSubtypes() {
+	public function getSubtypes() {
 		return self::addLL(array('auto', 'relativetoeaster'));
 	}
 

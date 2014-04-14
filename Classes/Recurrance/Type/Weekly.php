@@ -105,7 +105,7 @@ class Weekly extends Base {
 	 *
 	 * @return array
 	 */
-	public static function getSubtypes() {
+	public function getSubtypes() {
 		return self::addLL(array('weekly', 'oddeven', '2week', '3week', '4week'));
 	}
 }

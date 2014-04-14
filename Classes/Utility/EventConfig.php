@@ -33,6 +33,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class EventConfig {
 
 	public function getRecurranceSubtype($config) {
+
 		$type = trim($config['row']['recurrance_type']);
 
 		if (empty($type)) {
@@ -40,12 +41,16 @@ class EventConfig {
 		}
 
 		$className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
-		$callback = array($className, 'getSubtypes');
 
-		if (!class_exists($className) || !is_callable($callback)) {
+		if (!class_exists($className)) {
 			return;
 		}
 
-		$config['items'] = call_user_func($callback);
+		$recurranceType = GeneralUtility::makeInstance($className);
+		if (!method_exists($recurranceType, 'getSubtypes')) {
+			return;
+		}
+
+		$config['items'] = $recurranceType->getSubtypes();
 	}
 }
