@@ -314,11 +314,10 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	protected function indexUpdatedEvent($eventUid, $changeType) {
 
-		if (isset($this->eventCache[$eventUid])) {
-			$event = $this->eventCache[$eventUid];
-		} else {
-			$event = $eventUid;
+		if (!isset($this->eventCache[$eventUid])) {
+			$this->loadEventInCache($eventUid);
 		}
+		$event = $this->eventCache[$eventUid];
 
 		switch ($changeType) {
 			case 'update':
