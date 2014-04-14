@@ -99,6 +99,20 @@ class IndexTask extends Task implements AdditionalFieldProviderInterface {
 	protected $minIndexAgeAbsolute = null;
 
 	/**
+	 * Unset some properties we do not want to be persisted.
+	 *
+	 * @return array
+	 */
+	public function __sleep() {
+		$properties = parent::__sleep();
+		unset($properties['flashMessageService']);
+		unset($properties['indexer']);
+		unset($properties['persistenceManager']);
+		unset($properties['eventRepository']);
+		return $properties;
+	}
+
+	/**
 	 * init some needed objects and variables
 	 */
 	protected function init() {
@@ -108,7 +122,7 @@ class IndexTask extends Task implements AdditionalFieldProviderInterface {
 		$this->flashMessageService = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessageService');
 		$this->eventRepository = $objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventRepository');
 		$this->indexer = $objectManager->get('Tx\\CzSimpleCal\\Indexer\\Event');
-		$this->persistenceManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\PersistenceManager');
+		$this->persistenceManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
 
 
 		try {
