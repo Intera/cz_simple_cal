@@ -1,7 +1,7 @@
 <?php
 $languagePrefix = 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:';
 $languagePrefixColumn = $languagePrefix . 'tx_czsimplecal_domain_model_exception.';
-$commonFields = 'type, title, status, start_day, start_time, end_day, end_time,
+$commonFields = 'type, title, start_day, start_time, end_day, end_time,
 	--div--;' . $languagePrefixColumn . 'tab_recurrance,
 	recurrance_type, recurrance_subtype, recurrance_until';
 return array(
@@ -18,14 +18,14 @@ return array(
 		'dividers2tabs' => 1,
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'title,status,start_day,start_time,end_day,end_time,recurrance_type,recurrance_subtype,recurrance_until'
+		'showRecordFieldList' => 'type,title,start_day,start_time,end_day,end_time,recurrance_type,recurrance_subtype,recurrance_until,status,teaser'
 	),
 	'types' => array(
 		'0' => array('showitem' => 'type'),
 		\Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::HIDE_EVENT => array('showitem' => $commonFields),
 		\Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::UPDATE_EVENT => array('showitem' => $commonFields . '
 			,--div--;' . $languagePrefixColumn . 'tab_update_event_properties,
-			status,teaser
+			status, teaser
 		'),
 	),
 	'palettes' => array(
