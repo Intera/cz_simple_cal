@@ -73,7 +73,7 @@ CREATE TABLE tx_czsimplecal_domain_model_eventindex (
 	event int(11) NOT NULL DEFAULT '0',
 	slug varchar(250) DEFAULT '',
 	status varchar(255) DEFAULT NULL,
-	teaser text NULL DEFAULT NULL,
+	teaser text,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
@@ -93,7 +93,7 @@ CREATE TABLE tx_czsimplecal_domain_model_exception (
 	type varchar(30) DEFAULT 'hide_event',
 	title text,
 	status varchar(255) DEFAULT NULL,
-	teaser text NULL DEFAULT NULL,
+	teaser text,
 	start_day int(11) DEFAULT '0',
 	start_time int(11) DEFAULT NULL,
 	end_day int(11) DEFAULT NULL,
