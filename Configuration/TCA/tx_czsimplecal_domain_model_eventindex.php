@@ -48,10 +48,7 @@ return array(
 			'exclude' => 0,
 			'label' => '',
 			'config' => array(
-				'type' => 'select',
-				'foreign_table' => 'tx_czsimplecal_domain_model_event',
-				'minitems' => 1,
-				'maxitems' => 1
+				'type' => 'passthrough',
 			)
 		),
 		'slug' => array(
