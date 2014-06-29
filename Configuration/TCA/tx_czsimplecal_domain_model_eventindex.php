@@ -49,6 +49,7 @@ return array(
 			'label' => '',
 			'config' => array(
 				'type' => 'passthrough',
+				'foreign_table' => 'tx_czsimplecal_domain_model_event',
 			)
 		),
 		'slug' => array(
