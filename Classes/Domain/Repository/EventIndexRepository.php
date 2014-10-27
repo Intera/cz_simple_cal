@@ -58,7 +58,7 @@ class EventIndexRepository extends Repository {
 			->setRespectSysLanguage(FALSE)
 			->setIgnoreEnableFields(TRUE);
 		$query->matching(
-			$query->equals('event', $event)
+			$query->equals('event', $event->getUidLocalized())
 		);
 		return $query->execute();
 	}

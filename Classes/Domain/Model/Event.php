@@ -808,7 +808,7 @@ class Event extends BaseEvent {
 	public function getHash() {
 		return md5(
 			'event-'.
-			$this->getUid().
+			$this->getUidLocalized().
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']
 		);
 	}
@@ -1160,5 +1160,23 @@ class Event extends BaseEvent {
 	 */
 	public function getCruserFe() {
 		return $this->cruserFe;
+	}
+
+	/**
+	 * Returns the sys_language_uid of this event.
+	 *
+	 * @return int
+	 */
+	public function getSysLanguageUid() {
+		return (int)$this->_languageUid;
+	}
+
+	/**
+	 * Returns the localized UID of this event.
+	 *
+	 * @return int
+	 */
+	public function getUidLocalized() {
+		return (int)$this->_localizedUid;
 	}
 }

@@ -164,10 +164,21 @@ class EventIndex extends Base {
 		return $this->dateTimeObjectEnd;
 	}
 
+	/**
+	 * Sets the event and the sys_language.
+	 *
+	 * @param Event $event
+	 */
 	public function setEvent($event) {
 		$this->event = $event;
+		$this->_languageUid = $event->getSysLanguageUid();
 	}
 
+	/**
+	 * Returns the related event object.
+	 *
+	 * @return Event
+	 */
 	public function getEvent() {
 		return $this->event;
 	}

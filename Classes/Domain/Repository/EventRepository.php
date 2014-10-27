@@ -39,14 +39,15 @@ class EventRepository extends Repository {
 	 * @return \Tx\CzSimpleCal\Domain\Model\Event
 	 */
 	public function findOneByUidEverywhere($uid) {
+
 		$query = $this->createQuery();
-		$query->getQuerySettings()->
-			setRespectStoragePage(false)->
-			setIgnoreEnableFields(TRUE)->
-			setRespectSysLanguage(false)
-		;
+		$query->getQuerySettings()
+			->setRespectStoragePage(FALSE)
+			->setIgnoreEnableFields(TRUE)
+			->setRespectSysLanguage(FALSE);
+
 		$query->setLimit(1);
-		$query->matching($query->equals('uid',$uid));
+		$query->matching($query->equals('uid', $uid));
 
 		$result = $query->execute();
 		if(count($result) < 1) {
@@ -83,12 +84,13 @@ class EventRepository extends Repository {
 	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findRecordsForReindexing($limit = null, $maxAge = null) {
+
 		$query = $this->createQuery();
-		$query->getQuerySettings()->
-			setRespectStoragePage(false)->
-			setIgnoreEnableFields(TRUE)->
-			setRespectSysLanguage(false)
-		;
+		$query->getQuerySettings()
+			->setRespectStoragePage(FALSE)
+			->setIgnoreEnableFields(TRUE)
+			->setRespectSysLanguage(TRUE);
+
 		if(!is_null($limit)) {
 			$query->
 				setLimit($limit)

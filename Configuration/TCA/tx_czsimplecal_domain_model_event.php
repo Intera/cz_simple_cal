@@ -118,6 +118,8 @@ return array(
 			)
 		),
 		'start_day' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_day',
 			'config' => array(
@@ -128,6 +130,8 @@ return array(
 			)
 		),
 		'start_time' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_time',
 			'config' => array(
@@ -139,6 +143,8 @@ return array(
 			)
 		),
 		'end_day' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_day',
 			'config' => array(
@@ -150,6 +156,8 @@ return array(
 			)
 		),
 		'end_time' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_time',
 			'config' => array(
@@ -254,6 +262,8 @@ return array(
 				))
 		),
 		'recurrance_type' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type',
 			'config' => array(
@@ -283,6 +293,8 @@ return array(
 			)
 		),
 		'recurrance_subtype' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_subtype',
 			'displayCond' => 'FIELD:recurrance_type:!IN:0,,none,daily',
@@ -292,6 +304,8 @@ return array(
 			)
 		),
 		'recurrance_until' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_until',
 			'config' => array(
@@ -396,6 +410,7 @@ return array(
 			)
 		),
 		'categories' => array(
+			'l10n_mode' => 'exclude',
 			'exclude' => 0,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.categories',
 			'config' => array(
@@ -440,6 +455,12 @@ return array(
 				'foreign_match_fields' => array(
 					'parent_field' => 'exceptions',
 				),
+				'appearance' => array(
+					'showPossibleLocalizationRecords' => TRUE,
+					'showRemovedLocalizationRecords' => TRUE,
+					'showAllLocalizationLink' => TRUE,
+					'showSynchronizationLink' => TRUE,
+				),
 			),
 		),
 		'exception_groups' => array(
@@ -478,6 +499,8 @@ return array(
 			)
 		),
 		'status' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.status',
 			'config' => array(

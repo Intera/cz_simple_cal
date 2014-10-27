@@ -1,7 +1,7 @@
 <?php
 $languagePrefix = 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:';
 $languagePrefixColumn = $languagePrefix . 'tx_czsimplecal_domain_model_exception.';
-$commonFields = 'type, title, start_day, start_time, end_day, end_time,
+$commonFields = 'type, title, start_day, start_time, end_day, end_time, --palette--;;system,
 	--div--;' . $languagePrefixColumn . 'tab_recurrance,
 	recurrance_type, recurrance_subtype, recurrance_until';
 return array(
@@ -16,6 +16,9 @@ return array(
 		),
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal') . 'Resources/Public/Icons/tx_czsimplecal_domain_model_exception.gif',
 		'dividers2tabs' => 1,
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l10n_parent',
+		'transOrigDiffSourceField' => 'l10n_diffsource',
 	),
 	'interface' => array(
 		'showRecordFieldList' => 'type,title,start_day,start_time,end_day,end_time,recurrance_type,recurrance_subtype,recurrance_until,status,teaser'
@@ -29,7 +32,10 @@ return array(
 		'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => '')
+		'system' => array(
+			'showitem' => 'hidden, sys_language_uid, l10n_parent',
+			'isHiddenPalette' => TRUE
+		)
 	),
 	'columns' => array(
 		'hidden' => array(
@@ -59,6 +65,8 @@ return array(
 			)
 		),
 		'start_day' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_day',
 			'config' => array(
@@ -69,6 +77,8 @@ return array(
 			)
 		),
 		'start_time' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_time',
 			'config' => array(
@@ -80,6 +90,8 @@ return array(
 			)
 		),
 		'end_day' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_day',
 			'config' => array(
@@ -91,6 +103,8 @@ return array(
 			)
 		),
 		'end_time' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_time',
 			'config' => array(
@@ -101,7 +115,27 @@ return array(
 				'default' => NULL,
 			)
 		),
+		'l10n_diffsource' => array(
+			'config' => array(
+				'type' => 'passthrough'
+			),
+		),
+		'l10n_parent' => array(
+			'displayCond' => 'FIELD:sys_language_uid:>:0',
+			'exclude' => 0,
+			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', 0)
+				),
+				'foreign_table' => 'tx_czsimplecal_domain_model_exception',
+				'foreign_table_where' => 'AND tx_czsimplecal_domain_model_exception.uid=###REC_FIELD_l10n_parent### AND tx_czsimplecal_domain_model_exception.sys_language_uid IN (-1,0)'
+			)
+		),
 		'timezone' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.timezone',
 			'config' => array(
@@ -113,6 +147,8 @@ return array(
 			)
 		),
 		'recurrance_type' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type',
 			'config' => array(
@@ -142,6 +178,8 @@ return array(
 			)
 		),
 		'recurrance_subtype' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_subtype',
 			'displayCond' => 'FIELD:recurrance_type:!IN:0,,none,daily',
@@ -151,6 +189,8 @@ return array(
 			)
 		),
 		'recurrance_until' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_until',
 			'config' => array(
@@ -162,6 +202,8 @@ return array(
 			)
 		),
 		'status' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 1,
 			'label' => $languagePrefixColumn . 'status',
 			'config' => array(
@@ -187,6 +229,19 @@ return array(
 				'default' => \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::CONFIRMED,
 			),
 		),
+		'sys_language_uid' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'sys_language',
+				'foreign_table_where' => 'ORDER BY sys_language.title',
+				'items' => array(
+					array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0)
+				)
+			)
+		),
 		'teaser' => array(
 			'exclude' => 1,
 			'label' => $languagePrefixColumn . 'teaser',
@@ -199,6 +254,8 @@ return array(
 			)
 		),
 		'type' => array(
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly',
 			'exclude' => 0,
 			'label' => $languagePrefixColumn . 'type',
 			'config' => array(

@@ -159,14 +159,33 @@ class IndexTask extends Task implements AdditionalFieldProviderInterface {
 	public function execute() {
 
 		$this->init();
+		$eventsFound = FALSE;
 
 		while($this->shouldAnotherChunkBeProcessed()) {
-			$events = $this->eventRepository->findRecordsForReindexing($this->chunkSize, $this->minIndexAgeAbsolute);
-			if(!$events->count() > 0) {
-				// if: there is nothing more to do
-				return true;
+
+			$recordsProcessed = FALSE;
+
+			foreach ($this->getLanguages() as $language) {
+				$this->persistenceManager->clearState();
+				$_GET['L'] = $language['uid'];
+				$events = $this->eventRepository->findRecordsForReindexing($this->chunkSize, $this->minIndexAgeAbsolute);
+				if (!$events->count() > 0) {
+					continue;
+				}
+				$eventsFound = TRUE;
+				$recordsProcessed = TRUE;
+				$this->indexEvents($events);
+				$this->persistenceManager->persistAll();
 			}
-			$this->indexEvents($events);
+
+			// If no records were processed for any language we stop the loop.
+			if (!$recordsProcessed) {
+				break;
+			}
+		}
+
+		if (!$eventsFound) {
+			return TRUE;
 		}
 
 		// if: the script stopped, but not all data could be processed
@@ -189,7 +208,19 @@ class IndexTask extends Task implements AdditionalFieldProviderInterface {
 			$this->flashMessageService->getMessageQueueByIdentifier()->enqueue($message);
 		}
 
-		return true;
+		return TRUE;
+	}
+
+	/**
+	 * Returns an array containing rows with uids of all available languages including default (0).
+	 *
+	 * @return array
+	 */
+	protected function getLanguages() {
+		/** @var \TYPO3\CMS\Core\Database\DatabaseConnection $typo3Db */
+		$typo3Db = $GLOBALS['TYPO3_DB'];
+		$configuredLanguages = (array)$typo3Db->exec_SELECTgetRows('uid', 'sys_language', '1=1');
+		return array_merge(array(array('uid' => 0)), $configuredLanguages);
 	}
 
 	/**
@@ -303,8 +334,6 @@ class IndexTask extends Task implements AdditionalFieldProviderInterface {
 		foreach($events as $event) {
 			$this->indexer->update($event);
 		}
-
-		$this->persistenceManager->persistAll();
 	}
 
 	/**

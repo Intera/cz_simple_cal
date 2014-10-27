@@ -31,7 +31,7 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 	twitter_hashtags varchar(255) DEFAULT '',
 	status varchar(255) DEFAULT NULL,
 	flickr_tags varchar(255) DEFAULT '',
-	slug varchar(250) DEFAULT '',
+	slug varchar(250) DEFAULT '' NOT NULL,
 	last_indexed int(11) DEFAULT '0',
 
 	cruser_fe int(11) DEFAULT '0',
@@ -75,6 +75,9 @@ CREATE TABLE tx_czsimplecal_domain_model_eventindex (
 	status varchar(255) DEFAULT NULL,
 	teaser text,
 
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY slug (slug)
@@ -105,6 +108,10 @@ CREATE TABLE tx_czsimplecal_domain_model_exception (
 
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parentpage (pid),

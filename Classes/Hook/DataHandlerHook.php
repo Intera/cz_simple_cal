@@ -25,8 +25,8 @@ namespace Tx\CzSimpleCal\Hook;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This hook will be called by the TYPO3 DataHandler when a record
@@ -122,6 +122,9 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		$this->indexUpdatedEvents();
+
+		// Make sure any dummy instances of TSFE are cleared.
+		unset($GLOBALS['TSFE']);
 	}
 
 	/**
@@ -175,7 +178,14 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
 	 * @return void
 	 */
-	public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $dataHandler) {
+	public function processDatamap_afterDatabaseOperations(
+		$status,
+		$table,
+		$id,
+		/** @noinspection PhpUnusedParameterInspection */
+		$fieldArray,
+		$dataHandler
+	) {
 
 		if ($status !== 'new') {
 			return;
@@ -255,24 +265,114 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return void
 	 */
 	protected function addTranslatedFlashMessage($translationKey, $severity = FlashMessage::OK) {
+		static $displayedTranslationKeys;
+		if (isset($displayedTranslationKeys[$translationKey])) {
+			return;
+		}
 		$this->initializeFashMessageClasses();
 		$message = $this->languageService->sl('LLL:' . $this->languageFile . ':' . $translationKey);
 		$this->addFlashmessage($message, $severity);
+		$displayedTranslationKeys[$translationKey] = TRUE;
+	}
+
+	/**
+	 * Fetches the language of the given event from the database.
+	 *
+	 * @param int $uid
+	 * @return int
+	 */
+	protected function fetchEventLanguage($uid) {
+		$rows = $this->getDatabaseConnection()->exec_SELECTgetRows(
+			'sys_language_uid',
+			'tx_czsimplecal_domain_model_event',
+			'deleted=0 AND uid=' . (int)$uid
+		);
+		if (empty($rows)) {
+			throw new \RuntimeException(sprintf('sys_language_uid of Event with uid %d could not be determined.', $uid));
+		}
+		return (int)$rows[0]['sys_language_uid'];
 	}
 
 	/**
 	 * Get an event object by its uid.
 	 *
-	 * @param integer $id
+	 * @param int $id
+	 * @param int $languageUid
 	 * @throws \InvalidArgumentException
 	 * @return \Tx\CzSimpleCal\Domain\Model\Event
 	 */
-	protected function fetchEventObject($id) {
+	protected function fetchEventObject($id, $languageUid) {
+
+		$id = (int)$id;
+		$languageUid = (int)$languageUid;
+
+		// Initialize a dummy TSFE with a configured sys_language_content
+		// to fetch the correct language versions of the objects.
+		// Will be cleared in processCmdmap_afterFinish().
+		$GLOBALS['TSFE'] = new \stdClass();
+		$GLOBALS['TSFE']->sys_language_content = $languageUid;
 		$event = $this->eventRepository->findOneByUidEverywhere($id);
+
+		// If language does not match, retry after clearing identity map.
+		if (!empty($event) && $event->getSysLanguageUid() !== $languageUid) {
+			$this->persistenceManager->clearState();
+			$this->eventCache = array();
+			$event = $this->eventRepository->findOneByUidEverywhere($id);
+		}
+
 		if (empty($event)) {
 			throw new \InvalidArgumentException(sprintf('An event with uid %d could not be found.', $id));
 		}
+
+		if ($event->getUidLocalized() !== $id) {
+			throw new \RuntimeException(sprintf('The UID of the event returned by the repository (%d) does not match the requested ID (%d).', $event->getUidLocalized(), $id));
+		}
+
 		return $event;
+	}
+
+	/**
+	 * Fetches the UID of the event in the default language.
+	 * If l18n_parent is 0 the current UID is returned, otherwise the parent UID is returned.
+	 *
+	 * @param int $uid
+	 * @return int
+	 */
+	protected function fetchEventUidForDefaultLanguage($uid) {
+
+		$uid = (int)$uid;
+		$rows = $this->getDatabaseConnection()->exec_SELECTgetRows(
+			'l18n_parent',
+			'tx_czsimplecal_domain_model_event',
+			'deleted=0 AND uid=' . $uid
+		);
+
+		if (empty($rows)) {
+			throw new \RuntimeException(sprintf('l18n_parent of Event with uid %d could not be determined.', $uid));
+		}
+
+		$parentUid = (int)$rows[0]['l18n_parent'];
+		if ($parentUid !== 0) {
+			return $parentUid;
+		} else {
+			return $uid;
+		}
+	}
+
+	/**
+	 * Fetches all translations of the given UID.
+	 * Returns an array containing the uid and sys_language_uid.
+	 *
+	 * @param $uid
+	 * @return array
+	 */
+	protected function findEventTranslations($uid) {
+
+		return (array)$this->getDatabaseConnection()->exec_SELECTgetRows(
+			'uid,sys_language_uid',
+			'tx_czsimplecal_domain_model_event',
+			'deleted=0 AND l18n_parent=' . (int)$uid
+		);
 	}
 
 	/**
@@ -282,8 +382,19 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return void
 	 */
 	protected function generateEventSlug($event) {
+		$slug = $event->getSlug();
+		if (isset($slug) && $slug !== '') {
+			return;
+		}
 		$event->generateSlug();
 		$this->eventRepository->update($event);
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 
 	/**
@@ -302,25 +413,19 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * Updated the index for the given event depending on the change type:
+	 * Indexes a single event (one language!).
+	 * The event needs to be loaded to the event cache before this method is called.
 	 *
-	 * new: Index will be updated and event slug will be generated.
-	 * update: Index will be updated.
-	 * delete: Index will be deleted.
-	 *
-	 * @param integer $eventUid The UID of the changed event.
-	 * @param string $changeType The change type (new, update, delete)
-	 * @return void
+	 * @param int $eventUid
+	 * @param string $changeType
 	 */
-	protected function indexUpdatedEvent($eventUid, $changeType) {
+	protected function indexSingleEvent($eventUid, $changeType) {
 
-		if (!isset($this->eventCache[$eventUid])) {
-			$this->loadEventInCache($eventUid);
-		}
 		$event = $this->eventCache[$eventUid];
 
 		switch ($changeType) {
 			case 'update':
+				$this->generateEventSlug($event);
 				$this->eventIndexer->update($event);
 				$this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.updateAndIndex');
 				break;
@@ -332,6 +437,38 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 			case 'delete':
 				$this->eventIndexer->delete($event);
 				break;
+		}
+
+		$this->persistenceManager->persistAll();
+	}
+
+	/**
+	 * Updates the index for the given event in all languages depending on the change type:
+	 *
+	 * new: Index will be updated and event slug will be generated.
+	 * update: Index will be updated and event slug will be generated if it is empty.
+	 * delete: Index will be deleted.
+	 *
+	 * @param integer $eventUid The UID of the changed event.
+	 * @param string $changeType The change type (new, update, delete)
+	 * @return void
+	 */
+	protected function indexUpdatedEvent($eventUid, $changeType) {
+
+		// Skip deleted events because they are processed directly.
+		if ($changeType === 'delete') {
+			return;
+		}
+
+		$eventUid = $this->fetchEventUidForDefaultLanguage($eventUid);
+
+		$this->loadEventInCache($eventUid, 0);
+		$this->indexSingleEvent($eventUid, $changeType);
+
+		$translatedEvents = $this->findEventTranslations($eventUid);
+		foreach ($translatedEvents as $translatedEvent) {
+			$this->loadEventInCache($translatedEvent['uid'], $translatedEvent['sys_language_uid']);
+			$this->indexSingleEvent($translatedEvent['uid'], $changeType);
 		}
 	}
 
@@ -413,11 +550,12 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 * be processed when the data handler has finished its work.
 	 *
 	 * @param int $eventId
+	 * @param int $languageUid
 	 */
-	protected function loadEventInCache($eventId) {
+	protected function loadEventInCache($eventId, $languageUid) {
 		if (!isset($this->eventCache[$eventId])) {
 			$this->initializeEventIndexClasses();
-			$this->eventCache[$eventId] = $this->fetchEventObject($eventId);
+			$this->eventCache[$eventId] = $this->fetchEventObject($eventId, $languageUid);
 		}
 	}
 
@@ -448,10 +586,12 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 * @param integer $eventUid The UID of the changed event.
 	 * @param mixed $changeType The change type, can be new, update or delete.
-	 * @param bool $preload
+	 * @param bool $eventDeleted If TRUE the event will directly be removed
+	 * from the Index because it will not be available any more after the
+	 * DataHandler has finished processing.
 	 * @return void
 	 */
-	protected function registerUpdatedEvent($eventUid, $changeType = FALSE, $preload = FALSE) {
+	protected function registerUpdatedEvent($eventUid, $changeType = FALSE, $eventDeleted = FALSE) {
 
 		if (
 			isset($this->updatedEvents[$eventUid])
@@ -460,11 +600,13 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 			return;
 		}
 
-		if ($preload) {
-			$this->loadEventInCache($eventUid);
+		if ($eventDeleted) {
+			$languageUid = $this->fetchEventLanguage($eventUid);
+			$this->loadEventInCache($eventUid, $languageUid);
+			$this->indexSingleEvent($eventUid, 'delete');
 		}
 
-		$changeType = $changeType ? : 'update';
+		$changeType = $changeType ?: 'update';
 		$this->updatedEvents[$eventUid] = $changeType;
 	}
 
