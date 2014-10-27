@@ -113,6 +113,15 @@ class IndexTask extends Task implements AdditionalFieldProviderInterface {
 	}
 
 	/**
+	 * Return a text representation of the selected command and arguments
+	 *
+	 * @return string Information to display
+	 */
+	public function getAdditionalInformation() {
+		return $this->getLanguageService()->sL('LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_mod.xml:tx_czsimplecal_scheduler_index.minindexage.label') . ': ' . $this->minIndexAge;
+	}
+
+	/**
 	 * init some needed objects and variables
 	 */
 	protected function init() {
