@@ -76,7 +76,6 @@ CREATE TABLE tx_czsimplecal_domain_model_eventindex (
 	teaser text,
 
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
