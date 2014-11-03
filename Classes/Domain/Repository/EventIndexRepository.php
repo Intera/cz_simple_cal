@@ -466,11 +466,11 @@ class EventIndexRepository extends Repository {
 	 */
 	public function makeSlugUnique($slug, $uid) {
 		$query = $this->createQuery();
-		$query->getQuerySettings()->
-			setRespectStoragePage(false)->
-			setIgnoreEnableFields(TRUE)->
-			setRespectSysLanguage(false)
-		;
+		$query->getQuerySettings()
+			->setRespectStoragePage(FALSE)
+			->setIgnoreEnableFields(TRUE)
+			->setRespectSysLanguage(TRUE);
+
 		$query->matching($query->logicalAnd(
 			$query->equals('slug', $slug),
 			$query->logicalNot($query->equals('uid', $uid))

@@ -826,7 +826,7 @@ class Event extends BaseEvent {
 	 * @return string
 	 */
 	public function getSlug() {
-		return $this->slug;
+		return trim($this->slug);
 	}
 
 	/**
@@ -850,6 +850,13 @@ class Event extends BaseEvent {
 	 * @return string
 	 */
 	public function generateSlug() {
+
+		// Only generate a new slug when none exists yet.
+		$currentSlug = $this->getSlug();
+		if ($currentSlug !== '') {
+			return;
+		}
+
 		$value = $this->generateRawSlug();
 		$value = Inflector::urlize($value);
 

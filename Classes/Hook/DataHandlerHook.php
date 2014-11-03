@@ -376,21 +376,6 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * Generates the slug for the given event.
-	 *
-	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
-	 * @return void
-	 */
-	protected function generateEventSlug($event) {
-		$slug = $event->getSlug();
-		if (isset($slug) && $slug !== '') {
-			return;
-		}
-		$event->generateSlug();
-		$this->eventRepository->update($event);
-	}
-
-	/**
 	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
 	 */
 	protected function getDatabaseConnection() {
@@ -425,12 +410,10 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 
 		switch ($changeType) {
 			case 'update':
-				$this->generateEventSlug($event);
 				$this->eventIndexer->update($event);
 				$this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.updateAndIndex');
 				break;
 			case 'new':
-				$this->generateEventSlug($event);
 				$this->eventIndexer->update($event);
 				$this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.create');
 				break;
