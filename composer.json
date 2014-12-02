@@ -1,0 +1,14 @@
+{
+	"name": "intera-typo3-extension/cz-simple-cal",
+	"description": "A simple calendar.",
+	"type": "typo3-cms-extension",
+	"version": "1.0.0",
+	"replace": {
+		"typo3-ter/cz-simple-cal": "self.version"
+	},
+	"autoload": {
+		"psr-4": {
+			"Tx\\CzSimpleCal\\": "Classes/"
+		}
+	}
+}
