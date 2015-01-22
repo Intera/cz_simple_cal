@@ -74,6 +74,10 @@ class Event {
 		}
 
 		$this->doDelete($event);
+
+		// We need to persist the deleted index entries, otherwise the event index SLUGs are invalid.
+		$this->persistenceManager->persistAll();
+
 		$this->doCreate($event);
 
 	}
