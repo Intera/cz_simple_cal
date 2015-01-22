@@ -100,7 +100,7 @@ class EventIndexController extends BaseExtendableController {
 		$eventIndexObject = $this->eventIndexRepository->findByUid($event);
 
 		if(empty($eventIndexObject)) {
-			$this->throwStatus(404, 'Not found', 'The requested event could not be found.');
+			$this->throwStatus(404, NULL, $this->translateById('error-404-event-index-not-found'));
 		}
 
 		$this->view->assign('event', $eventIndexObject);
@@ -144,5 +144,16 @@ class EventIndexController extends BaseExtendableController {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Returns the translation for the given key from the cz_simple_cal Extension.
+	 *
+	 * @param string $key
+	 * @param string $extensionName
+	 * @return string
+	 */
+	protected function translateById($key, $extensionName = 'CzSimpleCal') {
+		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, $extensionName);
 	}
 }

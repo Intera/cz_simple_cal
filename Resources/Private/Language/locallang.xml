@@ -68,6 +68,7 @@
 
 			<label index="action.EventIndex.next.title">Upcomming event</label>
 
+			<label index="error-404-event-index-not-found">The requested event could not be found.</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -132,7 +133,8 @@
 			<label index="title.gender.female">Frau</label>
 
 			<label index="action.EventIndex.next.title">Nächste Veranstaltung</label>
-		</languageKey>
 
+			<label index="error-404-event-index-not-found">Der gewünschte Termin wurde leider nicht gefunden.</label>
+		</languageKey>
 	</data>
 </T3locallang>
