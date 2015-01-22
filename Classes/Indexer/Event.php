@@ -51,6 +51,22 @@ class Event {
 	protected $objectManager;
 
 	/**
+	 * @inject
+	 * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
+	 */
+	protected $persistenceManager;
+
+	/**
+	 * A collection of all changed events during an index run.
+	 * Only one event per storage page is registered.
+	 * This information can be used for effective cache clearing.
+	 * The array key is the page ID, the value is the event UID.
+	 *
+	 * @var array
+	 */
+	protected $processedEventIdsWithUniquePageIds = array();
+
+	/**
 	 * create an eventIndex
 	 *
 	 * @param integer|\Tx\CzSimpleCal\Domain\Model\Event $event
@@ -61,6 +77,13 @@ class Event {
 		}
 
 		$this->doCreate($event);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getProcessedEventIdsWithUniquePageIds() {
+		return $this->processedEventIdsWithUniquePageIds;
 	}
 
 	/**
@@ -100,7 +123,8 @@ class Event {
 	 *
 	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
 	 */
-	protected function doDelete($event) {
+	protected function doDelete($event, $persistChanges = FALSE) {
+		$this->registerProcessedEvent($event);
 		$eventIndexEntries = $this->eventIndexRepository->findAllByEventEverywhere($event);
 		foreach ($eventIndexEntries as $eventIndexEntry) {
 			$this->eventIndexRepository->remove($eventIndexEntry);
@@ -113,6 +137,7 @@ class Event {
 	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
 	 */
 	protected function doCreate($event) {
+		$this->registerProcessedEvent($event);
 		$event->setLastIndexed(new \DateTime());
 		$event->generateSlug();
 		$this->eventRepository->update($event);
@@ -150,5 +175,19 @@ class Event {
 			throw new \InvalidArgumentException(sprintf('An event with uid %d could not be found.', $id));
 		}
 		return $event;
+	}
+
+	/**
+	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
+	 */
+	protected function registerProcessedEvent($event) {
+
+		$pageId = $event->getPid();
+
+		if (isset($this->processedEventIdsWithUniquePageIds[$pageId])) {
+			return;
+		}
+
+		$this->processedEventIdsWithUniquePageIds[$pageId] = $event->getUid();
 	}
 }

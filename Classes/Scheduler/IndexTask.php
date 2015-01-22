@@ -217,6 +217,8 @@ class IndexTask extends Task implements AdditionalFieldProviderInterface {
 			$this->flashMessageService->getMessageQueueByIdentifier()->enqueue($message);
 		}
 
+		$this->clearCacheForProcessedEvents();
+
 		return TRUE;
 	}
 
@@ -423,6 +425,22 @@ class IndexTask extends Task implements AdditionalFieldProviderInterface {
 	public function saveAdditionalFields(array $submittedData, AbstractSchedulerTask $task){
 		/** @var IndexTask $task */
 		$task->minIndexAge = $submittedData['tx_czsimplecal_minindexage'];
+	}
+
+	/**
+	 * Uses the cacheopt Extension (if loaded) to clear all related caches for the processed events.
+	 */
+	protected function clearCacheForProcessedEvents() {
+
+		if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('cacheopt')) {
+			return;
+		}
+
+		/** @var \Tx\Cacheopt\CacheApi $cacheApi */
+		$cacheApi = GeneralUtility::makeInstance('Tx\\Cacheopt\\CacheApi');
+		foreach($this->indexer->getProcessedEventIdsWithUniquePageIds() as $eventUid) {
+			$cacheApi->flushCacheForRecordWithDataHandler('tx_czsimplecal_domain_model_event', $eventUid);
+		}
 	}
 
 	/**
