@@ -313,6 +313,7 @@ return array(
 				'size' => 12,
 				'max' => 20,
 				'eval' => 'null,date',
+				'default' => NULL,
 			)
 		),
 		'location_inline' => array(
