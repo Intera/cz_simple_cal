@@ -48,32 +48,35 @@ abstract class BaseExtendableController extends ActionController {
 	 * @return void
 	 */
 	protected function initializeActionSettings() {
-		$this->actionSettings = &$this->settings[$this->request->getControllerName()]['actions'][$this->request->getControllerActionName()];
 
-		// Since an action does not need any settings any more we need
-		// to make sure that the actionSettings array is initalized.
-		if (!is_array($this->actionSettings)) {
-			$this->actionSettings = array();
-		}
+		// Fetch default settings.
+		$actionSettings = (array)$this->settings['defaultActionSettings'];
+
+		// Merge the current action settings.
+		ArrayUtility::mergeRecursiveWithOverrule($actionSettings, (array)$this->settings[$this->request->getControllerName()]['actions'][$this->request->getControllerActionName()]);
+
 
 		// merge the settings from the flexform
 		if(isset($this->settings['override']['action'])) {
 			// this will override values if they are not empty
-			ArrayUtility::mergeRecursiveWithOverrule($this->actionSettings, $this->settings['override']['action'], false, false);
+			ArrayUtility::mergeRecursiveWithOverrule($actionSettings, $this->settings['override']['action'], false, false);
 		}
 
 		// merge settings from getPost-values
-		if(isset($this->actionSettings['getPostAllowed'])) {
-			$allowed = GeneralUtility::trimExplode(',', $this->actionSettings['getPostAllowed'], true);
+		if(isset($actionSettings['getPostAllowed'])) {
+			$allowed = GeneralUtility::trimExplode(',', $actionSettings['getPostAllowed'], true);
 
-			$this->actionSettings = array_merge(
-				$this->actionSettings,
+			$actionSettings = array_merge(
+				$actionSettings,
 				array_intersect_key(
 					$this->request->getArguments(),
 					array_flip($allowed)
 				)
 			);
 		}
+
+		$this->actionSettings = &$actionSettings;
+		$this->settings[$this->request->getControllerName()]['actions'][$this->request->getControllerActionName()] = &$actionSettings;
 	}
 
 	/**

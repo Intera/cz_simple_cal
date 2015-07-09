@@ -30,6 +30,10 @@ plugin.tx_czsimplecal {
 
 	settings {
 
+		// These settings will be used for all actions and are overwritten with the action settings below.
+		defaultActionSettings {
+		}
+
 		EventIndex {
 			actions {
 				list {
