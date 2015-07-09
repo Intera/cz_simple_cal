@@ -123,12 +123,9 @@ class Event {
 	 *
 	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
 	 */
-	protected function doDelete($event, $persistChanges = FALSE) {
+	protected function doDelete($event) {
 		$this->registerProcessedEvent($event);
-		$eventIndexEntries = $this->eventIndexRepository->findAllByEventEverywhere($event);
-		foreach ($eventIndexEntries as $eventIndexEntry) {
-			$this->eventIndexRepository->remove($eventIndexEntry);
-		}
+		$this->eventIndexRepository->removeAllNative($event->getUid());
 	}
 
 	/**

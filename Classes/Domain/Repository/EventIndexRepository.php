@@ -110,6 +110,16 @@ class EventIndexRepository extends Repository {
 	}
 
 	/**
+	 * Deletes all entries from the eventindex for a given event UID using a native database query.
+	 *
+	 * @param int $eventUid
+	 */
+	public function removeAllNative($eventUid) {
+		// We use a normal database query to improve the performance.
+		$this->getDatabaseConnection()->exec_DELETEquery('tx_czsimplecal_domain_model_eventindex', 'event=' . (int)$eventUid);
+	}
+
+	/**
 	 * find all events matching some settings and count them
 	 *
 	 * @param $settings
@@ -529,5 +539,12 @@ class EventIndexRepository extends Repository {
 		$query->setOrderings(array('start' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
 
 		return $query->execute();
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }
