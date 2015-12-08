@@ -126,26 +126,6 @@ class EventIndex extends Base {
 	}
 
 	/**
-	 * tunnel all methods that were not found to the Event
-	 *
-	 * @param $method
-	 * @param $args
-	 * @return mixed
-	 * @throws \BadMethodCallException
-	 */
-	public function __call($method, $args) {
-		if (!$this->event) {
-			throw new \BadMethodCallException(sprintf('The method %s was not found in %s.', $method, get_class($this)));
-		}
-		$callback = array($this->event, $method);
-		if (!is_callable($callback)) {
-			throw new \BadMethodCallException(sprintf('The method %s was neither found in %s nor in %s.', $method, get_class($this), get_class($this->event)));
-		}
-
-		return call_user_func_array($callback, $args);
-	}
-
-	/**
 	 * generate a slug for this record
 	 *
 	 * @return string
@@ -345,6 +325,300 @@ class EventIndex extends Base {
 	public function setTeaser($teaser) {
 		$this->teaser = $teaser;
 	}
+
+	/* Begin event methods, TODO: mark deprecated and remove! */
+
+	/**
+	 * @return Location
+	 */
+	public function getActiveLocation() {
+		return $this->getEvent()->getActiveLocation();
+	}
+
+	/**
+	 * @return Location
+	 */
+	public function getActiveOrganizer() {
+		return $this->getEvent()->getActiveOrganizer();
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Category> categories
+	 */
+	public function getCategories() {
+		return $this->getEvent()->getCategories();
+	}
+
+	/**
+	 * @return Category
+	 */
+	public function getCategory() {
+		return $this->getEvent()->getCategory();
+	}
+
+	/**
+	 * @return int $cruserFe
+	 */
+	public function getCruserFe() {
+		return $this->getEvent()->getCruserFe();
+	}
+
+	/**
+	 * @return string a long description for this event
+	 */
+	public function getDescription() {
+		return $this->getEvent()->getDescription();
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Exception> exception
+	 */
+	public function getExceptions() {
+		return $this->getEvent()->getExceptions();
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+	 */
+	public function getFileReferences() {
+		return $this->getEvent()->getFileReferences();
+	}
+
+	/**
+	 * @return File[]
+	 * @deprecated Use getFileReferences()
+	 */
+	public function getFiles() {
+		return $this->getEvent()->getFiles();
+	}
+
+	/**
+	 * @return string|false
+	 */
+	public function getFlickrTags() {
+		return $this->getEvent()->getFlickrTags();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getFlickrTagsArray() {
+		return $this->getEvent()->getFlickrTagsArray();
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+	 */
+	public function getImageReferences() {
+		return $this->getEvent()->getImageReferences();
+	}
+
+	/**
+	 * @return File[]
+	 * @deprecated Use getImageReferences()
+	 */
+	public function getImages() {
+		return $this->getEvent()->getImages();
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getLastIndexed() {
+		return $this->getEvent()->getLastIndexed();
+	}
+
+	/**
+	 * @return Location
+	 */
+	public function getLocation() {
+		return $this->getEvent()->getLocation();
+	}
+
+	/**
+	 * @return string the address of the location this event takes place in
+	 * @deprecated Please get the property directly from the inline location.
+	 */
+	public function getLocationAddress() {
+		return $this->getEvent()->getLocationAddress();
+	}
+
+	/**
+	 * @return string $locationCity
+	 * @deprecated Please get the property directly from the inline location.
+	 */
+	public function getLocationCity() {
+		return $this->getEvent()->getLocationCity();
+	}
+
+	/**
+	 * @return string $locationCountry
+	 * @deprecated Please get the property directly from the inline location.
+	 */
+	public function getLocationCountry() {
+		return $this->getEvent()->getLocationCountry();
+	}
+
+	/**
+	 * @param boolean $createDummyLocation
+	 * @param boolean $persistDummyLocation
+	 * @return Location
+	 */
+	public function getLocationInline($createDummyLocation = FALSE, $persistDummyLocation = FALSE) {
+		return $this->getEvent()->getLocationInline($createDummyLocation, $persistDummyLocation);
+	}
+
+	/**
+	 * @return string the name of the location this event takes place in
+	 * @deprecated Please get the property directly from the inline location.
+	 */
+	public function getLocationName() {
+		return $this->getEvent()->getLocationName();
+	}
+
+	/**
+	 * @return string $locationZip
+	 * @deprecated Please get the property directly from the inline location.
+	 */
+	public function getLocationZip() {
+		return $this->getEvent()->getLocationZip();
+	}
+
+	/**
+	 * @return EventIndex
+	 */
+	public function getNextAppointment() {
+		return $this->getEvent()->getNextAppointment();
+	}
+
+	/**
+	 * @param $limit
+	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+	 */
+	public function getNextAppointments($limit = 3) {
+		return $this->getEvent()->getNextAppointments($limit);
+	}
+
+	/**
+	 * @return Organizer
+	 */
+	public function getOrganizer() {
+		return $this->getEvent()->getOrganizer();
+	}
+
+	/**
+	 * @return string $organizerAddress
+	 * @deprecated Please get the property directly from the inline organizer.
+	 */
+	public function getOrganizerAddress() {
+		return $this->getEvent()->getOrganizerAddress();
+	}
+
+	/**
+	 * @return string $organizerCity
+	 * @deprecated Please get the property directly from the inline organizer.
+	 */
+	public function getOrganizerCity() {
+		return $this->getEvent()->getOrganizerCity();
+	}
+
+	/**
+	 * @return string $organizerCountry
+	 * @deprecated Please get the property directly from the inline organizer.
+	 */
+	public function getOrganizerCountry() {
+		return $this->getEvent()->getOrganizerCountry();
+	}
+
+	/**
+	 * @param boolean $createDummyOrganizer
+	 * @param boolean $persistDummyOrganizer
+	 * @return Organizer
+	 */
+	public function getOrganizerInline($createDummyOrganizer = FALSE, $persistDummyOrganizer = FALSE) {
+		return $this->getEvent()->getOrganizerInline($createDummyOrganizer, $persistDummyOrganizer);
+	}
+
+	/**
+	 * @return string the name of the institution or person the event is organized by
+	 * @deprecated Please get the property directly from the inline organizer.
+	 */
+	public function getOrganizerName() {
+		return $this->getEvent()->getOrganizerName();
+	}
+
+	/**
+	 * @return string $organizerZip
+	 * @deprecated Please get the property directly from the inline organizer.
+	 */
+	public function getOrganizerZip() {
+		return $this->getEvent()->getOrganizerZip();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getRecurrances() {
+		return $this->getEvent()->getRecurrances();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getShowPageInstead() {
+		return $this->getEvent()->getShowPageInstead();
+	}
+
+	/**
+	 * @return string The title of this event
+	 */
+	public function getTitle() {
+		return $this->getEvent()->getTitle();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTwitterHashtags() {
+		return $this->getEvent()->getTwitterHashtags();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getTwitterHashtagsArray() {
+		return $this->getEvent()->getTwitterHashtagsArray();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isAlldayEvent() {
+		return $this->getEvent()->isAlldayEvent();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isEndTimePresent() {
+		return $this->getEvent()->isEndTimePresent();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isOneDayEvent() {
+		return $this->getEvent()->isOneDayEvent();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isRecurrant() {
+		return $this->getEvent()->isRecurrant();
+	}
+
+	/* End event methods */
 
 	/**
 	 * generate a raw slug that might have invalid characters

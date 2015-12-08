@@ -1,6 +1,6 @@
 {namespace cal=Tx\CzSimpleCal\ViewHelpers}
 <span class="dtstart" title="{cal:format.dateTime(format: '%Y-%m-%dT%H:%M%z', timestamp: event.start)}">
-<f:if condition="{event.isAlldayEvent}">
+<f:if condition="{event.alldayEvent}">
 	<f:then><cal:format.dateTime format="{f:translate(key: 'format.show.allday')}" timestamp="{event.dateTimeObjectStart}"/></f:then>
 	<f:else><cal:format.dateTime format="{f:translate(key: 'format.show.dayTime')}" timestamp="{event.dateTimeObjectStart}"/></f:else>
 </f:if>

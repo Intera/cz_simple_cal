@@ -1,12 +1,12 @@
 {namespace cal=Tx\CzSimpleCal\ViewHelpers}
-<f:if condition="{event.hasEndTime}">
+<f:if condition="{event.endTimePresent}">
 	<span class="dtend" title="{cal:format.dateTime(format: '%Y-%m-%dT%H:%M%z', timestamp: event.end)}"><f:translate key="time.end" />
-	<f:if condition="{event.isAlldayEvent}">
+	<f:if condition="{event.alldayEvent}">
 		<f:then>
 			<f:then><cal:format.dateTime format="{f:translate(key: 'format.show.allday')}" timestamp="{event.end}"/></f:then>
 		</f:then>
 		<f:else>
-			<f:if condition="{event.isOneDayEvent}">
+			<f:if condition="{event.oneDayEvent}">
 				<f:then><cal:format.dateTime format="{f:translate(key: 'format.show.time')}" timestamp="{event.end}"/></f:then>
 				<f:else><cal:format.dateTime format="{f:translate(key: 'format.show.dayTime')}" timestamp="{event.end}"/></f:else>
 			</f:if>

@@ -612,8 +612,16 @@ class Event extends BaseEvent {
 	 *
 	 * @return boolean
 	 */
-	public function hasEndTime() {
+	public function isEndTimePresent() {
 		return $this->endTime !== NULL;
+	}
+
+	/**
+	 * @return boolean
+	 * @deprecated Use isEndTimePresent() instead.
+	 */
+	public function hasEndTime() {
+		return $this->isEndTimePresent();
 	}
 
 	/**

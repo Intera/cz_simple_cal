@@ -5,7 +5,7 @@
 		<ul class="contentlist">
 		<f:for each="{events}" as="event">
 			<li class="vevent contentlist-item" id="{event.hash}">
-				<f:if condition="{event.isAlldayEvent}">
+				<f:if condition="{event.alldayEvent}">
 					<f:then>
 						<div class="minilist-item-head">
 							<span class="prehead"><cal:format.dateTime format="%d. %B" timestamp="{event.start}"/></span>
