@@ -28,6 +28,7 @@ namespace Tx\CzSimpleCal\Controller;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchActionException;
 
 /**
  * Base controller for all cz_simple_cal controllers. Initializes
@@ -100,5 +101,32 @@ abstract class BaseExtendableController extends ActionController {
 	protected function initializeAction() {
 		$this->initializeSettings();
 		$this->initializeActionSettings();
+	}
+
+	/**
+	 * Tries to resolve the active controller action metheod.
+	 *
+	 * If the current method does not exists and a fallback method is configured for
+	 * the current action this method will be used instead, e.g. this configuration
+	 * will use the list method for displaying the week action.
+	 *
+	 * settings.EventIndex.actions.week.useAction = list
+	 *
+	 * @return string
+	 * @throws NoSuchActionException
+	 */
+	protected function resolveActionMethodName() {
+		try {
+			$methodName = parent::resolveActionMethodName();
+		} catch(NoSuchActionException $e) {
+			$controllerName = $this->request->getControllerName();
+			$actionName = $this->request->getControllerActionName();
+			if (!empty($this->settings[$controllerName]['actions'][$actionName]['useAction'])) {
+				$methodName = $this->settings[$controllerName]['actions'][$actionName]['useAction'] . 'Action';
+			} else {
+				throw $e;
+			}
+		}
+		return $methodName;
 	}
 }
