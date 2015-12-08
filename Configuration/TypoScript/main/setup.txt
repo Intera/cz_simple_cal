@@ -5,14 +5,12 @@ config.tx_extbase {
 	persistence.classes {
 		Tx\CzSimpleCal\Domain\Model\Organizer {
 			mapping {
-				// Replace with tt_address if needed
 				tableName = tx_czsimplecal_domain_model_address
 			}
 		}
 
 		Tx\CzSimpleCal\Domain\Model\Location {
 			mapping {
-				// Replace with tt_address if needed
 				tableName = tx_czsimplecal_domain_model_address
 			}
 		}
@@ -21,7 +19,6 @@ config.tx_extbase {
 
 plugin.tx_czsimplecal {
 
-	#@description: the pid the records are stored in
 	persistence.storagePid = {$plugin.tx_czsimplecal.pidList}
 
 	mvc.callDefaultActionIfActionCantBeResolved = 1
@@ -94,7 +91,7 @@ plugin.tx_czsimplecal {
 			}
 		}
 
-		# this is where you can put your customized options
+		// this is where you can put your customized options
 		custom {
 		}
 
