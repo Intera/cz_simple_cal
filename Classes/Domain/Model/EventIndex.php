@@ -330,6 +330,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return Location
+	 * @deprecated Use ->getEvent()->getActiveLocation() instead.
 	 */
 	public function getActiveLocation() {
 		return $this->getEvent()->getActiveLocation();
@@ -337,6 +338,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return Location
+	 * @deprecated Use ->getEvent()->getActiveOrganizer() instead.
 	 */
 	public function getActiveOrganizer() {
 		return $this->getEvent()->getActiveOrganizer();
@@ -344,6 +346,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Category> categories
+	 * @deprecated Use ->getEvent()->getCategories() instead.
 	 */
 	public function getCategories() {
 		return $this->getEvent()->getCategories();
@@ -351,6 +354,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return Category
+	 * @deprecated Use ->getEvent()->getCategory() instead.
 	 */
 	public function getCategory() {
 		return $this->getEvent()->getCategory();
@@ -358,6 +362,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return int $cruserFe
+	 * @deprecated Use ->getEvent()->getCruserFe() instead.
 	 */
 	public function getCruserFe() {
 		return $this->getEvent()->getCruserFe();
@@ -365,6 +370,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return string a long description for this event
+	 * @deprecated Use ->getEvent()->getDescription() instead.
 	 */
 	public function getDescription() {
 		return $this->getEvent()->getDescription();
@@ -372,6 +378,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Exception> exception
+	 * @deprecated Use ->getEvent()->getExceptions() instead.
 	 */
 	public function getExceptions() {
 		return $this->getEvent()->getExceptions();
@@ -379,6 +386,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+	 * @deprecated Use ->getEvent()->getFileReferences() instead.
 	 */
 	public function getFileReferences() {
 		return $this->getEvent()->getFileReferences();
@@ -386,7 +394,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return File[]
-	 * @deprecated Use getFileReferences()
+	 * @deprecated Use ->getEvent()->getFileReferences()
 	 */
 	public function getFiles() {
 		return $this->getEvent()->getFiles();
@@ -394,6 +402,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return string|false
+	 * @deprecated Use ->getEvent()->getFlickrTags() instead.
 	 */
 	public function getFlickrTags() {
 		return $this->getEvent()->getFlickrTags();
@@ -401,6 +410,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return array
+	 * @deprecated Use ->getEvent()->getFlickrTagsArray() instead.
 	 */
 	public function getFlickrTagsArray() {
 		return $this->getEvent()->getFlickrTagsArray();
@@ -408,6 +418,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+	 * @deprecated Use ->getEvent()->getImageReferences() instead.
 	 */
 	public function getImageReferences() {
 		return $this->getEvent()->getImageReferences();
@@ -415,7 +426,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return File[]
-	 * @deprecated Use getImageReferences()
+	 * @deprecated Use ->getEvent()->getImageReferences()
 	 */
 	public function getImages() {
 		return $this->getEvent()->getImages();
@@ -423,6 +434,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return \DateTime
+	 * @deprecated Use ->getEvent()->getLastIndexed() instead.
 	 */
 	public function getLastIndexed() {
 		return $this->getEvent()->getLastIndexed();
@@ -430,6 +442,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return Location
+	 * @deprecated Use ->getEvent()->getLocation() instead.
 	 */
 	public function getLocation() {
 		return $this->getEvent()->getLocation();
@@ -463,6 +476,7 @@ class EventIndex extends Base {
 	 * @param boolean $createDummyLocation
 	 * @param boolean $persistDummyLocation
 	 * @return Location
+	 * @deprecated Use ->getEvent()->getLocationInline() instead.
 	 */
 	public function getLocationInline($createDummyLocation = FALSE, $persistDummyLocation = FALSE) {
 		return $this->getEvent()->getLocationInline($createDummyLocation, $persistDummyLocation);
@@ -486,6 +500,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return EventIndex
+	 * @deprecated Use ->getEvent()->getNextAppointment() instead.
 	 */
 	public function getNextAppointment() {
 		return $this->getEvent()->getNextAppointment();
@@ -494,6 +509,7 @@ class EventIndex extends Base {
 	/**
 	 * @param $limit
 	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+	 * @deprecated Use ->getEvent()->getNextAppointments() instead.
 	 */
 	public function getNextAppointments($limit = 3) {
 		return $this->getEvent()->getNextAppointments($limit);
@@ -501,6 +517,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return Organizer
+	 * @deprecated Use ->getEvent()->getOrganizer() instead.
 	 */
 	public function getOrganizer() {
 		return $this->getEvent()->getOrganizer();
@@ -534,6 +551,7 @@ class EventIndex extends Base {
 	 * @param boolean $createDummyOrganizer
 	 * @param boolean $persistDummyOrganizer
 	 * @return Organizer
+	 * @deprecated Use ->getEvent()->getOrganizerInline() instead.
 	 */
 	public function getOrganizerInline($createDummyOrganizer = FALSE, $persistDummyOrganizer = FALSE) {
 		return $this->getEvent()->getOrganizerInline($createDummyOrganizer, $persistDummyOrganizer);
@@ -557,6 +575,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return array
+	 * @deprecated Use ->getEvent()->getRecurrances() instead.
 	 */
 	public function getRecurrances() {
 		return $this->getEvent()->getRecurrances();
@@ -564,6 +583,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return string
+	 * @deprecated Use ->getEvent()->getShowPageInstead() instead.
 	 */
 	public function getShowPageInstead() {
 		return $this->getEvent()->getShowPageInstead();
@@ -571,6 +591,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return string The title of this event
+	 * @deprecated Use ->getEvent()->getTitle() instead.
 	 */
 	public function getTitle() {
 		return $this->getEvent()->getTitle();
@@ -578,6 +599,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return string
+	 * @deprecated Use ->getEvent()->getTwitterHashtags() instead.
 	 */
 	public function getTwitterHashtags() {
 		return $this->getEvent()->getTwitterHashtags();
@@ -585,6 +607,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return array
+	 * @deprecated Use ->getEvent()->getTwitterHashtagsArray() instead.
 	 */
 	public function getTwitterHashtagsArray() {
 		return $this->getEvent()->getTwitterHashtagsArray();
@@ -592,6 +615,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return boolean
+	 * @deprecated Use ->getEvent()->isAlldayEvent() instead.
 	 */
 	public function isAlldayEvent() {
 		return $this->getEvent()->isAlldayEvent();
@@ -599,6 +623,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return boolean
+	 * @deprecated Use ->getEvent()->isEndTimePresent() instead.
 	 */
 	public function isEndTimePresent() {
 		return $this->getEvent()->isEndTimePresent();
@@ -606,6 +631,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return boolean
+	 * @deprecated Use ->getEvent()->isOneDayEvent() instead.
 	 */
 	public function isOneDayEvent() {
 		return $this->getEvent()->isOneDayEvent();
@@ -613,6 +639,7 @@ class EventIndex extends Base {
 
 	/**
 	 * @return boolean
+	 * @deprecated Use ->getEvent()->isRecurrant() instead.
 	 */
 	public function isRecurrant() {
 		return $this->getEvent()->isRecurrant();
