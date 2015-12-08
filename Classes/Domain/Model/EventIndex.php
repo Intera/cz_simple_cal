@@ -36,12 +36,18 @@ use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
 class EventIndex extends Base {
 
 	/**
-	 * the timestamp from the beginning of that event
+	 * the end date as DateTime object
 	 *
-	 * @ugly integer is used as we'd like an instance of the Utility_DayTime, but extbase would only return a DateTime Object in the extbase version shipped with TYPO3 4.4
-	 * @var integer
+	 * @var \Tx\CzSimpleCal\Utility\DateTime
 	 */
-	protected $start;
+	protected $dateTimeObjectEnd = NULL;
+
+	/**
+	 * the start date as DateTime object
+	 *
+	 * @var \Tx\CzSimpleCal\Utility\DateTime
+	 */
+	protected $dateTimeObjectStart = NULL;
 
 	/**
 	 * the timestamp from the end of that event
@@ -52,18 +58,9 @@ class EventIndex extends Base {
 	protected $end;
 
 	/**
-	 * the start date as DateTime object
-	 *
-	 * @var \Tx\CzSimpleCal\Utility\DateTime
+	 * @var \Tx\CzSimpleCal\Domain\Model\Event
 	 */
-	protected $dateTimeObjectStart = NULL;
-
-	/**
-	 * the end date as DateTime object
-	 *
-	 * @var \Tx\CzSimpleCal\Utility\DateTime
-	 */
-	protected $dateTimeObjectEnd = NULL;
+	protected $event;
 
 	/**
 	 * @inject
@@ -80,9 +77,19 @@ class EventIndex extends Base {
 	protected $pid;
 
 	/**
-	 * @var \Tx\CzSimpleCal\Domain\Model\Event
+	 * the property slug
+	 *
+	 * @var string slug
 	 */
-	protected $event;
+	protected $slug;
+
+	/**
+	 * the timestamp from the beginning of that event
+	 *
+	 * @ugly integer is used as we'd like an instance of the Utility_DayTime, but extbase would only return a DateTime Object in the extbase version shipped with TYPO3 4.4
+	 * @var integer
+	 */
+	protected $start;
 
 	/**
 	 * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus
@@ -93,126 +100,6 @@ class EventIndex extends Base {
 	 * @var string
 	 */
 	protected $teaser;
-
-	/**
-	 * set the timestamp from the beginning of that event
-	 *
-	 * @param integer $start
-	 * @return null
-	 */
-	public function setStart($start) {
-		$this->start = $start;
-		$this->dateTimeObjectStart = NULL;
-	}
-
-	/**
-	 * get the timestamp from the beginning of that event
-	 *
-	 * @return integer
-	 */
-	public function getStart() {
-		return $this->start;
-	}
-
-	/**
-	 * get the start of this event as a dateTimeObject
-	 *
-	 * @return CzSimpleCalDateTime
-	 */
-	public function getDateTimeObjectStart() {
-		if (is_null($this->dateTimeObjectStart)) {
-			$this->dateTimeObjectStart = new CzSimpleCalDateTime(
-				'@' . $this->start
-			);
-			$this->dateTimeObjectStart->setTimezone(new \DateTimeZone(date_default_timezone_get()));
-		}
-		return $this->dateTimeObjectStart;
-	}
-
-	/**
-	 * set the timestamp from the end of that event
-	 *
-	 * @param integer $end
-	 * @return null
-	 */
-	public function setEnd($end) {
-		$this->end = $end;
-		$this->dateTimeObjectEnd = NULL;
-	}
-
-	/**
-	 * get the timestamp from the end of that event
-	 *
-	 * @return integer
-	 */
-	public function getEnd() {
-		return $this->end;
-	}
-
-	/**
-	 * get the end of this event as a dateTimeObject
-	 *
-	 * @return CzSimpleCalDateTime
-	 */
-	public function getDateTimeObjectEnd() {
-		if (is_null($this->dateTimeObjectEnd)) {
-			$this->dateTimeObjectEnd = new CzSimpleCalDateTime(
-				'@' . $this->end
-			);
-			$this->dateTimeObjectEnd->setTimezone(new \DateTimeZone(date_default_timezone_get()));
-		}
-		return $this->dateTimeObjectEnd;
-	}
-
-	/**
-	 * Sets the event and the sys_language.
-	 *
-	 * @param Event $event
-	 */
-	public function setEvent($event) {
-		$this->event = $event;
-		$this->_languageUid = $event->getSysLanguageUid();
-	}
-
-	/**
-	 * Returns the related event object.
-	 *
-	 * @return Event
-	 */
-	public function getEvent() {
-		return $this->event;
-	}
-
-	/**
-	 * If a status was set in this event index entry, return this status,
-	 * otherwise return the status of the event.
-	 *
-	 * @return string
-	 */
-	public function getStatus() {
-
-		if (!isset($this->status)) {
-			$this->status = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Enumeration\\EventStatus', EventStatus::UNDEFINED);
-		}
-
-		if ($this->status->equals(EventStatus::UNDEFINED)) {
-			$status = $this->event->getStatus();
-		} else {
-			$status = (string)$this->status;
-		}
-
-		return $status;
-	}
-
-	/**
-	 * Setter for the status
-	 *
-	 * @param string $status
-	 */
-	public function setStatus($status) {
-		$this->status = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Enumeration\\EventStatus', $status);
-	}
-
 
 	/**
 	 * create a new instance with data from a given array
@@ -239,20 +126,6 @@ class EventIndex extends Base {
 	}
 
 	/**
-	 * get a hash for this recurrance of the event
-	 *
-	 * @return string
-	 */
-	public function getHash() {
-		return md5(
-			'eventindex-' .
-			$this->getEvent()->getHash() . '-' .
-			$this->getStart() . '-' .
-			$GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']
-		);
-	}
-
-	/**
 	 * tunnel all methods that were not found to the Event
 	 *
 	 * @param $method
@@ -273,37 +146,6 @@ class EventIndex extends Base {
 	}
 
 	/**
-	 * the property slug
-	 *
-	 * @var string slug
-	 */
-	protected $slug;
-
-	/**
-	 * getter for slug
-	 *
-	 * @return string
-	 */
-	public function getSlug() {
-		return $this->slug;
-	}
-
-	/**
-	 * setter for slug
-	 *
-	 * @param string $slug
-	 * @return EventIndex
-	 * @throws \InvalidArgumentException
-	 */
-	public function setSlug($slug) {
-		if (preg_match('/^[a-z0-9\-]*$/i', $slug) === FALSE) {
-			throw new \InvalidArgumentException(sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.'));
-		}
-		$this->slug = $slug;
-		return $this;
-	}
-
-	/**
 	 * generate a slug for this record
 	 *
 	 * @return string
@@ -320,18 +162,105 @@ class EventIndex extends Base {
 	}
 
 	/**
-	 * generate a raw slug that might have invalid characters
+	 * get the end of this event as a dateTimeObject
 	 *
-	 * you could overwrite this if you want a different slug
+	 * @return CzSimpleCalDateTime
+	 */
+	public function getDateTimeObjectEnd() {
+		if (is_null($this->dateTimeObjectEnd)) {
+			$this->dateTimeObjectEnd = new CzSimpleCalDateTime(
+				'@' . $this->end
+			);
+			$this->dateTimeObjectEnd->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+		}
+		return $this->dateTimeObjectEnd;
+	}
+
+	/**
+	 * get the start of this event as a dateTimeObject
+	 *
+	 * @return CzSimpleCalDateTime
+	 */
+	public function getDateTimeObjectStart() {
+		if (is_null($this->dateTimeObjectStart)) {
+			$this->dateTimeObjectStart = new CzSimpleCalDateTime(
+				'@' . $this->start
+			);
+			$this->dateTimeObjectStart->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+		}
+		return $this->dateTimeObjectStart;
+	}
+
+	/**
+	 * get the timestamp from the end of that event
+	 *
+	 * @return integer
+	 */
+	public function getEnd() {
+		return $this->end;
+	}
+
+	/**
+	 * Returns the related event object.
+	 *
+	 * @return Event
+	 */
+	public function getEvent() {
+		return $this->event;
+	}
+
+	/**
+	 * get a hash for this recurrance of the event
 	 *
 	 * @return string
 	 */
-	protected function generateRawSlug() {
-		$value = $this->getEvent()->getSlug();
-		if ($this->getEvent()->isRecurrant()) {
-			$value .= ' ' . $this->getDateTimeObjectStart()->format('Y-m-d');
+	public function getHash() {
+		return md5(
+			'eventindex-' .
+			$this->getEvent()->getHash() . '-' .
+			$this->getStart() . '-' .
+			$GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']
+		);
+	}
+
+	/**
+	 * getter for slug
+	 *
+	 * @return string
+	 */
+	public function getSlug() {
+		return $this->slug;
+	}
+
+	/**
+	 * get the timestamp from the beginning of that event
+	 *
+	 * @return integer
+	 */
+	public function getStart() {
+		return $this->start;
+	}
+
+	/**
+	 * If a status was set in this event index entry, return this status,
+	 * otherwise return the status of the event.
+	 *
+	 * @return string
+	 */
+	public function getStatus() {
+
+		if (!isset($this->status)) {
+			/** @noinspection PhpMethodParametersCountMismatchInspection */
+			$this->status = $this->objectManager->get(EventStatus::class, EventStatus::UNDEFINED);
 		}
-		return $value;
+
+		if ($this->status->equals(EventStatus::UNDEFINED)) {
+			$status = $this->event->getStatus();
+		} else {
+			$status = (string)$this->status;
+		}
+
+		return $status;
 	}
 
 	/**
@@ -354,9 +283,81 @@ class EventIndex extends Base {
 	}
 
 	/**
+	 * set the timestamp from the end of that event
+	 *
+	 * @param integer $end
+	 * @return null
+	 */
+	public function setEnd($end) {
+		$this->end = $end;
+		$this->dateTimeObjectEnd = NULL;
+	}
+
+	/**
+	 * Sets the event and the sys_language.
+	 *
+	 * @param Event $event
+	 */
+	public function setEvent($event) {
+		$this->event = $event;
+		$this->_languageUid = $event->getSysLanguageUid();
+	}
+
+	/**
+	 * setter for slug
+	 *
+	 * @param string $slug
+	 * @return EventIndex
+	 * @throws \InvalidArgumentException
+	 */
+	public function setSlug($slug) {
+		if (preg_match('/^[a-z0-9\-]*$/i', $slug) === FALSE) {
+			throw new \InvalidArgumentException(sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.'));
+		}
+		$this->slug = $slug;
+		return $this;
+	}
+
+	/**
+	 * set the timestamp from the beginning of that event
+	 *
+	 * @param integer $start
+	 * @return null
+	 */
+	public function setStart($start) {
+		$this->start = $start;
+		$this->dateTimeObjectStart = NULL;
+	}
+
+	/**
+	 * Setter for the status
+	 *
+	 * @param string $status
+	 */
+	public function setStatus($status) {
+		/** @noinspection PhpMethodParametersCountMismatchInspection */
+		$this->status = $this->objectManager->get(EventStatus::class, $status);
+	}
+
+	/**
 	 * @param string $teaser
 	 */
 	public function setTeaser($teaser) {
 		$this->teaser = $teaser;
+	}
+
+	/**
+	 * generate a raw slug that might have invalid characters
+	 *
+	 * you could overwrite this if you want a different slug
+	 *
+	 * @return string
+	 */
+	protected function generateRawSlug() {
+		$value = $this->getEvent()->getSlug();
+		if ($this->getEvent()->isRecurrant()) {
+			$value .= ' ' . $this->getDateTimeObjectStart()->format('Y-m-d');
+		}
+		return $value;
 	}
 }
