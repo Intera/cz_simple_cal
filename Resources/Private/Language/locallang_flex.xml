@@ -10,12 +10,12 @@
 
 			<label index="field.useView">selected view</label>
 			<label index="field.view.defaultPid">Default target page</label>
-			<label index="field.useView.list">List some events (LIST)</label>
-			<label index="field.useView.show">Show single event (SINGLE)</label>
-			<label index="field.useView.day">day view (DAY)</label>
-			<label index="field.useView.week">week view (WEEK)</label>
-			<label index="field.useView.next">next event view (NEXT)</label>
-			<label index="field.useView.minimonth">minimonth view (MINIMONTH)</label>
+			<label index="field.useView.list">List some events</label>
+			<label index="field.useView.show">Show single event</label>
+			<label index="field.useView.day">Day view</label>
+			<label index="field.useView.week">Week view</label>
+			<label index="field.useView.next">Next event view</label>
+			<label index="field.useView.minimonth">Minimonth view</label>
 
 			<label index="field.action.startDate">Start Date</label>
 			<label index="field.action.startDate.default">(use default)</label>
@@ -60,12 +60,12 @@
 
 			<label index="field.useView">Ansicht</label>
 			<label index="field.view.defaultPid">Standard Zielseite</label>
-			<label index="field.useView.list">zeige einige Events (LIST)</label>
-			<label index="field.useView.show">zeige einzelnes Event (SINGLE)</label>
-			<label index="field.useView.day">Tagesansicht (DAY)</label>
-			<label index="field.useView.week">Wochenansicht (WEEK)</label>
-			<label index="field.useView.next">nächstes Event (NEXT)</label>
-			<label index="field.useView.minimonth">Mini-Monatsansicht (MINIMONTH)</label>
+			<label index="field.useView.list">Zeige einige Events</label>
+			<label index="field.useView.show">Zeige einzelnes Event</label>
+			<label index="field.useView.day">Tagesansicht </label>
+			<label index="field.useView.week">Wochenansicht</label>
+			<label index="field.useView.next">Nächstes Event</label>
+			<label index="field.useView.minimonth">Mini-Monatsansicht</label>
 
 			<label index="field.action.startDate">Anfangsdatum</label>
 			<label index="field.action.startDate.default">(standard)</label>
