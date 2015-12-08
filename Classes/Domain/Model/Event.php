@@ -25,6 +25,9 @@ namespace Tx\CzSimpleCal\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
+use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
+use Tx\CzSimpleCal\Domain\Repository\EventRepository;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Tx\CzSimpleCal\Utility\FileArrayBuilder;
@@ -381,7 +384,7 @@ class Event extends BaseEvent {
 	 */
 	public function getStatus() {
 		if (!isset($this->status)) {
-			$this->status = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Enumeration\\EventStatus');
+			$this->status = $this->objectManager->get(EventStatus::class);
 		}
 		return (string)$this->status;
 	}
@@ -538,7 +541,7 @@ class Event extends BaseEvent {
 	 */
 	public function addCategory(Category $category) {
 		if(!is_object($this->categories)) {
-			$this->categories = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+			$this->categories = $this->objectManager->get(ObjectStorage::class);
 		}
 		$this->categories->attach($category);
 	}
@@ -567,8 +570,7 @@ class Event extends BaseEvent {
 			return $this->exceptionCache;
 		}
 
-		/** @var ObjectStorage $exceptionCache */
-		$exceptionCache = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+		$exceptionCache = $this->objectManager->get(ObjectStorage::class);
 
 		if (isset($this->exceptions)) {
 			$exceptionCache->addAll($this->exceptions);
@@ -671,7 +673,7 @@ class Event extends BaseEvent {
 
 		if (!isset($organizer) && $createDummyOrganizer) {
 			/** @var Organizer $organizer */
-			$organizer = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Organizer');
+			$organizer = $this->objectManager->get(Organizer::class);
 			if ($persistDummyOrganizer) {
 				$this->organizerInline = $organizer;
 			}
@@ -745,7 +747,7 @@ class Event extends BaseEvent {
 
 		if (!isset($location) && $createDummyLocation) {
 			/** @var Location $location */
-			$location = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Location');
+			$location = $this->objectManager->get(Location::class);
 			if ($persistDummyLocation) {
 				$this->locationInline = $location;
 			}
@@ -868,8 +870,7 @@ class Event extends BaseEvent {
 		$value = $this->generateRawSlug();
 		$value = Inflector::urlize($value);
 
-		/** @var \Tx\CzSimpleCal\Domain\Repository\EventRepository $eventRepository */
-		$eventRepository = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventRepository');
+		$eventRepository = $this->objectManager->get(EventRepository::class);
 		$slug = $eventRepository->makeSlugUnique($value, $this->uid);
 		$this->setSlug($slug);
 	}
@@ -945,8 +946,7 @@ class Event extends BaseEvent {
 	 */
 	public function getNextAppointments($limit = 3) {
 		if(is_null($this->nextAppointments) || $this->nextAppointmentsCount < $limit) {
-			/** @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository $eventIndexRepository */
-			$eventIndexRepository = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventIndexRepository');
+			$eventIndexRepository = $this->objectManager->get(EventIndexRepository::class);
 			$this->nextAppointments = $eventIndexRepository->
 				findNextAppointmentsByEventUid($this->getUid(), $limit)
 			;
@@ -1014,7 +1014,7 @@ class Event extends BaseEvent {
 	 */
 	public function getImages() {
 		if(is_null($this->_cache_images)) {
-			$this->_cache_images = FileArrayBuilder::buildFromReferences($this->files, TRUE);
+			$this->_cache_images = FileArrayBuilder::buildFromReferences($this->files);
 		}
 		return $this->_cache_images;
 	}
@@ -1052,7 +1052,6 @@ class Event extends BaseEvent {
 	 * Returns all related file references.
 	 *
 	 * @return ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
-	 * @deprecated Use getFileReferences()
 	 */
 	public function getFileReferences() {
 		return $this->files;
@@ -1156,7 +1155,6 @@ class Event extends BaseEvent {
 	protected function buildFlickrTags() {
 		$this->flickrTags_ = GeneralUtility::trimExplode(',', $this->flickrTags, true);
 	}
-
 
 	/**
 	 * Setter for cruserFe
