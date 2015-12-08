@@ -21,8 +21,6 @@
 								<minitems>0</minitems>
 								<maxitems>500</maxitems>
 								<size>6</size>
-								<selectedListStyle>min-width:150px</selectedListStyle>
-								<itemListStyle>min-width:150px</itemListStyle>
 							</config>
 						</TCEforms>
 					</switchableControllerActions>
@@ -56,8 +54,6 @@
 								<minitems>0</minitems>
 								<maxitems>500</maxitems>
 								<size>6</size>
-								<selectedListStyle>min-width:150px</selectedListStyle>
-								<itemListStyle>min-width:150px</itemListStyle>
 							</config>
 						</TCEforms>
 					</settings.override.action.filter.categories.uid>
@@ -72,8 +68,6 @@
 								<minitems>0</minitems>
 								<maxitems>500</maxitems>
 								<size>6</size>
-								<selectedListStyle>min-width:150px</selectedListStyle>
-								<itemListStyle>min-width:150px</itemListStyle>
 							</config>
 						</TCEforms>
 					</settings.override.action.filter.organizer>
@@ -88,8 +82,6 @@
 								<minitems>0</minitems>
 								<maxitems>500</maxitems>
 								<size>6</size>
-								<selectedListStyle>min-width:150px</selectedListStyle>
-								<itemListStyle>min-width:150px</itemListStyle>
 							</config>
 						</TCEforms>
 					</settings.override.action.filter.location>
