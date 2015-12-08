@@ -8,17 +8,17 @@
 	<f:else><span class="fn n"><f:render partial="HCard/address-name.html" arguments="{settings: settings, address: organizer}" /></span></f:else>
 </f:if>
 <f:if condition="{cal:condition.oneNotEmpty(values: {0: organizer.email, 1:organizer.www, 2:organizer.phone, 3:organizer.mobile})}" >
-(<cal:array.join by=", " removeEmpty="1">
+(<cal:arrays.join by=", " removeEmpty="1">
 	<f:if condition="{cal:condition.oneNotEmpty(values: {0: organizer.phone, 1:organizer.mobile})}">
-		<cal:array.joinItem><span class="tel"><f:if condition="{organizer.mobile}" then="{organizer.mobile}" else="{organizer.phone}" /></span></cal:array.joinItem>
+		<cal:arrays.joinItem><span class="tel"><f:if condition="{organizer.mobile}" then="{organizer.mobile}" else="{organizer.phone}" /></span></cal:arrays.joinItem>
 	</f:if>
 	<f:if condition="{organizer.email}">
-		<cal:array.joinItem><f:link.email email="{organizer.email}" /></cal:array.joinItem>
+		<cal:arrays.joinItem><f:link.email email="{organizer.email}" /></cal:arrays.joinItem>
 	</f:if>
 	<f:if condition="{organizer.www}">
-		<cal:array.joinItem><span class="url"><f:link.external class="www" uri="{organizer.www}" /></span></cal:array.joinItem>
+		<cal:arrays.joinItem><span class="url"><f:link.external class="www" uri="{organizer.www}" /></span></cal:arrays.joinItem>
 	</f:if>
-</cal:array.join>)
+</cal:arrays.join>)
 </f:if>
 </span>
 </p>
