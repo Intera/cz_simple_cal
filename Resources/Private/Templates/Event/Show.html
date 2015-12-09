@@ -1,35 +1,43 @@
 {namespace cal=Tx\CzSimpleCal\ViewHelpers}
-<cal:useMicroformat format="hcalendar" />
+
 <cal:setGlobalData field="title">{event.title}</cal:setGlobalData>
+
 <div class="vevent vcalendar-event">
 
-<h2>{event.title}</h2>
+	<f:render partial="EventHeader" arguments="{_all}" />
 
-<f:if condition="{event.recurrant}">
-	<f:then>
-		<f:if condition="{event.nextAppointments}">
-			<f:then>
-				<h6><f:translate key="nextAppointments" /></h6>
-				<ul>
-					<f:for each="{event.nextAppointments}" as="appointment">
-						<li><f:render partial="EventIndex/show/startdate.html" arguments="{event:appointment, settings:settings}" /></li>
-					</f:for>
-				</ul>
-			</f:then>
-		</f:if>
-	</f:then>
-	<f:else>
-		<p><em><f:render partial="Event/show/startdate.html" arguments="{event:event.nextAppointment, settings:settings}" /></em></p>
-	</f:else>
-</f:if>
+	<h3><f:translate key="event_show_upcoming_events_header" /></h3>
 
-<f:if condition="{event.category.showPageInstead}">
-	<p class="align-right"><f:link.page pageUid="{event.category.showPageInstead}"><f:format.printf arguments="{0:event.category.title}"><f:translate key="msg.toCategory" /></f:format.printf></f:link.page></p>
-</f:if>
+	<f:if condition="{event.nextAppointments}">
+		<f:then>
+			<f:for each="{event.nextAppointments}" as="eventIndex">
+				<p class="tx-czsimplecal-event-show-date">
+					<f:render partial="StartAndEndDate" arguments="{event: eventIndex, linkEventTimeToIndex: 'true'}" />
+				</p>
+			</f:for>
+		</f:then>
+		<f:else>
+			<div class="infobox">
+				<f:translate key="event_show_no_upcoming_events_message" />
+			</div>
+		</f:else>
+	</f:if>
 
-<cal:renderData object="{event}">
-	<f:render partial="EventDetails" arguments="{_all}"/>
-</cal:renderData>
+	<f:if condition="{event.categories}">
+		<h3><f:translate key="categories" /></h3>
+		<ul>
+			<f:for each="{event.categories}" as="category" iteration="iteration">
+				<li>{category.title}</li>
+			</f:for>
+		</ul>
+	</f:if>
 
-<f:link.action controller="EventIndex" action="list"><f:translate key="msg.backToList"/></f:link.action>
+	<h3><f:translate key="event_show_details_header" /></h3>
+
+	<cal:renderData object="{event}">
+		<f:render partial="EventDetails" arguments="{settings: settings, event: event, renderData: renderData}"/>
+	</cal:renderData>
+
+	<f:link.action controller="EventIndex" action="list" addQueryString="true"><f:translate key="msg.backToList"/></f:link.action>
+
 </div>

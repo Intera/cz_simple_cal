@@ -1,0 +1,16 @@
+
+<f:if condition="{event.categories}">
+	<p>
+		<em><f:translate key="categories" />:</em>
+		<f:for each="{event.categories}" as="category" iteration="iteration">
+			<f:if condition="{iteration.cycle}=={iteration.total}">
+				<f:then>
+					{category.title}
+				</f:then>
+				<f:else>
+					{category.title},
+				</f:else>
+			</f:if>
+		</f:for>
+	</p>
+</f:if>

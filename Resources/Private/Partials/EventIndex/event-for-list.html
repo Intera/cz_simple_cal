@@ -1,23 +1,22 @@
 {namespace cal=Tx\CzSimpleCal\ViewHelpers}
-<div class="vevent" id="{event.hash}">
-	<f:if condition="{event.alldayEvent}" then="">
-	<f:else>
-		<div class="dtstart" title="{cal:format.dateTime(format: '%Y-%m-%dT%H:%M%z', timestamp: event.start)}">
-			<cal:format.dateTime format="%H:%M" timestamp="{event.start}"/>
-		</div>
-	</f:else>
-	</f:if>
-	<h5 class="summary"><f:if condition="{event.showPageInstead}">
-		<f:then><f:link.page pageUid="{event.showPageInstead}">{event.title}</f:link.page></f:then>
-		<f:else><f:link.action action="show" arguments="{event: event}" class="url" addQueryString="true">{event.title}</f:link.action></f:else>
-	</f:if></h5>
-	<f:if condition="{event.teaser}">
-	<f:then>
-		<div class="description">{event.teaser}</div>
-	</f:then>
-	<f:else><f:if condition="{event.description}">
-		<div class="description"><f:format.html>{event.description}</f:format.html></div>
-		</f:if>
-	</f:else>
-	</f:if>
+
+<div class="vevent tx-czsimplecal-event-list-item" id="{event.hash}">
+
+	<h3 class="tx-czsimplecal-event-list-header summary">
+		<f:link.action action="show" arguments="{event: event}" class="url" addQueryString="true">{event.title}</f:link.action>
+	</h3>
+
+	<p class="tx-czsimplecal-event-list-date">
+		<cal:format.trim>
+			<f:render partial="StartAndEndDate" arguments="{_all}" />
+		</cal:format.trim><f:if condition="{event.activeLocation.name}">, {event.activeLocation.name}</f:if>
+	</p>
+
+	<f:render partial="Categories" arguments="{_all}" />
+
+	<f:render partial="EventIndex/Teaser" arguments="{_all}"/>
+
+	<div class="tx-czsimplecal-event-list-more">
+		<f:link.action action="show" arguments="{event: event}" class="url" addQueryString="true">[...]</f:link.action>
+	</div>
 </div>

@@ -1,0 +1,62 @@
+{namespace cal=Tx\CzSimpleCal\ViewHelpers}
+
+<f:section name="displayTime"><cal:format.trim>
+	<f:if condition="{timestampEnd}">
+		<f:then>
+			<f:translate key="display_time" arguments="{0: '{f:format.date(format:\'%H:%M\', date: timestamp)} - {f:format.date(format:\'%H:%M\', date: timestampEnd)}'}" />
+		</f:then>
+		<f:else>
+			<f:translate key="display_time" arguments="{0: '{f:format.date(format:\'%H:%M\', date: timestamp)}'}" />
+		</f:else>
+	</f:if>
+</cal:format.trim></f:section>
+
+<f:section name="timeElement">
+	<f:switch expression="{cal:eventTimeType(event: event.event)}">
+
+		<f:case value="startDate">
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /></time>
+		</f:case>
+
+		<f:case value="startDateTime">
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start}" /></time>
+		</f:case>
+
+		<f:case value="startDateTimeAndEndTime">
+			<!-- Both times need to be in one line to prevent unwanted space after the first tag -->
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start, timestampEnd: event.end}" /></time><time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"></time>
+		</f:case>
+
+		<f:case value="allDates">
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /></time> -
+			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:format.date format="%x" date="{event.end}" /></time>
+		</f:case>
+
+		<f:case value="allDateTimes">
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start}" /></time> -
+			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:format.date format="%x" date="{event.end}" /> <f:render section="displayTime" arguments="{timestamp: event.end}" /></time>
+		</f:case>
+
+		<f:case default="TRUE">
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date({format: 'c', date: event.start})}"><f:format.date format="%x" date="{event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start}" /></time> -
+			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:format.date format="%x" date="{event.end}" /> <f:render section="displayTime" arguments="{timestamp: event.end}" /></time>
+		</f:case>
+
+	</f:switch>
+</f:section>
+
+<span class="status">
+	<span class="value" title="{event.status}"></span>
+	<span class="tx-czsimplecal-event-status tx-czsimplecal-event-status-{event.status -> cal:format.strToLower()}" title="{f:translate(key: 'event_status_title_{event.status -> cal:format.strToLower()}')}">•</span>
+</span>
+
+<f:if condition="{linkEventTimeToIndex}">
+	<f:then>
+		<f:link.action action="show" controller="eventIndex" arguments="{event: event}">
+			<f:render section="timeElement" arguments="{_all}" />
+		</f:link.action>
+	</f:then>
+	<f:else>
+		<f:render section="timeElement" arguments="{_all}" />
+	</f:else>
+</f:if>
