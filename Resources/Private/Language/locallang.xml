@@ -24,11 +24,19 @@
 			<label index="event">Event</label>
 			<label index="events">Events</label>
 			<label index="nextAppointments">next Appointments</label>
+			<label index="categories">Categories</label>
+			<label index="display_time">%s</label>
+			<label index="event_show_upcoming_events_header">Upcoming events (up to three)</label>
+			<label index="event_show_no_upcoming_events_message">No upcoming events found. This event has taken place in the past.</label>
+			<label index="event_show_details_header">Details</label>
+
+			<label index="event_status_title_tentative">This event is tentative.</label>
+			<label index="event_status_title_confirmed">This event has been confirmed.</label>
+			<label index="event_status_title_cancelled">This event has been cancelled!</label>
 
 			<label index="msg.noEvents">No events have been found.</label>
 			<label index="msg.backToList">to the list view</label>
 			<label index="msg.toCategory">more on category "%s"</label>
-
 
 			<label index="format.monthAndYear">%B %Y</label>
 			<label index="format.dayWrapper">%a, %B %e, %Y</label>
@@ -90,6 +98,15 @@
 			<label index="event">Veranstaltung</label>
 			<label index="events">Veranstaltungen</label>
 			<label index="nextAppointments">nächste Termine</label>
+			<label index="categories">Kategorien</label>
+			<label index="display_time">%s Uhr</label>
+			<label index="event_show_upcoming_events_header">Kommende Termine (bis zu drei)</label>
+			<label index="event_show_no_upcoming_events_message">Keine zukünftigen Termine gefunden. Dieser Termin hat in der Vergangenheit stattgefunden.</label>
+			<label index="event_show_details_header">Details</label>
+
+			<label index="event_status_title_tentative">Diese Veranstaltung ist vorläufig.</label>
+			<label index="event_status_title_confirmed">Diese Veranstaltung wurde bestätigt.</label>
+			<label index="event_status_title_cancelled">Diese Veranstaltung wurde abgesagt!</label>
 
 			<label index="msg.noEvents">Es wurden keine passenden Veranstaltungen gefunden.</label>
 			<label index="msg.backToList">zur Übersicht</label>
@@ -113,7 +130,6 @@
 			<label index="timespan.to">bis</label>
 			<label index="timespan.on">am</label>
 
-
 			<label index="time.end">Ende gegen</label>
 
 			<label index="numEvents">[0]keine Veranstaltungen|[1] eine Veranstaltung|[2,+Inf] ###number### Veranstaltungen</label>
@@ -122,8 +138,8 @@
 			<label index="nextWeek">nächste Woche</label>
 
 			<!-- labels for organizers and location -->
-			<label index="organizer">Veranstalter</label>
-			<label index="location">Ort</label>
+			<label index="organizer">Organisator</label>
+			<label index="location">Veranstaltungsort</label>
 			<label index="phone">Telefon</label>
 			<label index="fax">Fax</label>
 			<label index="mobile">Handy</label>

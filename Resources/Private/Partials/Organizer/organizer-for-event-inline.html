@@ -1,24 +1,5 @@
-{namespace cal=Tx\CzSimpleCal\ViewHelpers}
-<cal:useMicroformat format="hcard" />
-<p>
-<f:translate key="organizer" />:
-<span class="vcard">
-<f:if condition="{organizer.company}">
-	<f:then><span class="fn org">{organizer.company}</span></f:then>
-	<f:else><span class="fn n"><f:render partial="HCard/address-name.html" arguments="{settings: settings, address: organizer}" /></span></f:else>
-</f:if>
-<f:if condition="{cal:condition.oneNotEmpty(values: {0: organizer.email, 1:organizer.www, 2:organizer.phone, 3:organizer.mobile})}" >
-(<cal:arrays.join by=", " removeEmpty="1">
-	<f:if condition="{cal:condition.oneNotEmpty(values: {0: organizer.phone, 1:organizer.mobile})}">
-		<cal:arrays.joinItem><span class="tel"><f:if condition="{organizer.mobile}" then="{organizer.mobile}" else="{organizer.phone}" /></span></cal:arrays.joinItem>
-	</f:if>
-	<f:if condition="{organizer.email}">
-		<cal:arrays.joinItem><f:link.email email="{organizer.email}" /></cal:arrays.joinItem>
-	</f:if>
-	<f:if condition="{organizer.www}">
-		<cal:arrays.joinItem><span class="url"><f:link.external class="www" uri="{organizer.www}" /></span></cal:arrays.joinItem>
-	</f:if>
-</cal:arrays.join>)
-</f:if>
-</span>
-</p>
+{namespace calMods=Tx\CzSimpleCalMods\ViewHelpers}
+
+<h3><f:translate key="organizer" /></h3>
+
+<f:render partial="Address" arguments="{address: organizer}" />
