@@ -25,11 +25,14 @@ namespace Tx\CzSimpleCal\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Domain\Model\EventIndex;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Repository for EventIndex domain models.
+ *
+ * @method EventIndex findByUid($uid)
  */
 class EventIndexRepository extends Repository {
 
@@ -70,7 +73,7 @@ class EventIndexRepository extends Repository {
 	 *
 	 * @see setupSettings()
 	 * @param $settings
-	 * @return array
+	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findAllWithSettings($settings = array()) {
 		$settings = $this->cleanSettings($settings);

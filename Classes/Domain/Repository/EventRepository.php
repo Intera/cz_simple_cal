@@ -25,10 +25,13 @@ namespace Tx\CzSimpleCal\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Domain\Model\Event;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for Event domain models.
+ *
+ * @method Event findByUid($uid)
  */
 class EventRepository extends Repository {
 
