@@ -136,13 +136,55 @@ class Address extends AbstractEntity {
 	}
 
 	/**
+	 * @param string $address
+	 */
+	public function setAddress($address) {
+		$this->address = $address;
+	}
+
+	/**
+	 * @param string $city
+	 */
+	public function setCity($city) {
+		$this->city = $city;
+	}
+
+	/**
+	 * @param string $country
+	 */
+	public function setCountry($country) {
+		$this->country = $country;
+	}
+
+	/**
 	 * setter for hidden
 	 *
 	 * @param boolean $hidden
-	 * @return BaseAddress
+	 * @return Address
 	 */
 	public function setHidden($hidden) {
 		$this->hidden = $hidden;
 		return $this;
+	}
+
+	/**
+	 * @param string $name
+	 */
+	public function setName($name) {
+		$this->name = $name;
+	}
+
+	/**
+	 * @param int $pid
+	 */
+	public function setPid($pid) {
+		$this->pid = $pid;
+	}
+
+	/**
+	 * @param string $zip
+	 */
+	public function setZip($zip) {
+		$this->zip = $zip;
 	}
 }
