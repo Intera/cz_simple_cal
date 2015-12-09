@@ -28,5 +28,5 @@ namespace Tx\CzSimpleCal\Domain\Model;
 /**
  * A location of an event
  */
-class Location extends BaseAddress {
+class Location extends Address {
 }

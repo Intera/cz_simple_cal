@@ -34,17 +34,12 @@ interface Tx_CzSimpleCal_Domain_Interface_IsRecurring extends \Tx\CzSimpleCal\Do
 /**
  * @deprecated
  */
-class Tx_CzSimpleCal_Domain_Model_AddressDummy extends \Tx\CzSimpleCal\Domain\Model\AddressDummy {}
-
-/**
- * @deprecated
- */
 class Tx_CzSimpleCal_Domain_Model_Base extends \Tx\CzSimpleCal\Domain\Model\Base {}
 
 /**
  * @deprecated
  */
-class Tx_CzSimpleCal_Domain_Model_BaseAddress extends \Tx\CzSimpleCal\Domain\Model\BaseAddress {}
+class Tx_CzSimpleCal_Domain_Model_BaseAddress extends \Tx\CzSimpleCal\Domain\Model\Address {}
 
 /**
  * @deprecated

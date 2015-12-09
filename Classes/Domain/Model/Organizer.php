@@ -28,5 +28,5 @@ namespace Tx\CzSimpleCal\Domain\Model;
 /**
  * An organizer of an event
  */
-class Organizer extends BaseAddress {
+class Organizer extends Address {
 }
