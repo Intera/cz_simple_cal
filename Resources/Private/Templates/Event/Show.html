@@ -38,6 +38,6 @@
 		<f:render partial="EventDetails" arguments="{settings: settings, event: event, renderData: renderData}"/>
 	</cal:renderData>
 
-	<f:link.action controller="EventIndex" action="list" addQueryString="true"><f:translate key="msg.backToList"/></f:link.action>
+	<f:render partial="BackToListLink" arguments="{_all}" />
 
 </div>
