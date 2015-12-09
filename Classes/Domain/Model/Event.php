@@ -132,6 +132,13 @@ class Event extends BaseEvent {
 	protected $categories;
 
 	/**
+	 * The time when the event will be hidden in the Frontend.
+	 *
+	 * @var \DateTime
+	 */
+	protected $enableEndtime;
+
+	/**
 	 * Exceptions for this event
 	 *
 	 * @lazy
@@ -154,7 +161,6 @@ class Event extends BaseEvent {
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\ExceptionGroup>
 	 */
 	protected $exceptionGroups;
-
 	/**
 	 * is this record hidden
 	 *
@@ -208,6 +214,20 @@ class Event extends BaseEvent {
 	 * @var \DateTime
 	 */
 	protected $tstamp;
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getEnableEndtime() {
+		return $this->enableEndtime;
+	}
+
+	/**
+	 * @param \DateTime $enableEndtime
+	 */
+	public function setEnableEndtime($enableEndtime) {
+		$this->enableEndtime = $enableEndtime;
+	}
 
 	/**
 	 * Setter for title

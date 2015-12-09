@@ -14,7 +14,8 @@ return array(
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'delete' => 'deleted',
 		'enablecolumns' => array(
-			'disabled' => 'hidden'
+			'disabled' => 'hidden',
+			'endtime' => 'enable_endtime',
 		),
 		'dividers2tabs' => 1,
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal') . 'Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif',
@@ -36,8 +37,16 @@ return array(
 			--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_organizer,
 			organizer_inline,organizer,
 			--div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_socialmedia,
-			twitter_hashtags,flickr_tags'
+			twitter_hashtags,flickr_tags,
+			--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,
+				--palette--;LLL:EXT:cms/locallang_ttc.xlf:palette.access;access'
 		)
+	),
+	'palettes' => array(
+		'access' => array(
+			'showitem' => 'hidden, enable_endtime',
+			'canNotCollapse' => 1
+		),
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -141,6 +150,19 @@ return array(
 				'eval' => 'null,time',
 				'default' => NULL,
 			)
+		),
+		'enable_endtime' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
+			'config' => array(
+				'type' => 'input',
+				'size' => '13',
+				'max' => '20',
+				'eval' => 'datetime',
+				'default' => '0',
+			),
+			'l10n_mode' => 'exclude',
+			'l10n_display' => 'defaultAsReadonly'
 		),
 		'end_day' => array(
 			'l10n_mode' => 'exclude',
