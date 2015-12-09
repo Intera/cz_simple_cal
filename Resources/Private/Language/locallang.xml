@@ -66,13 +66,9 @@
 			<!-- labels for organizers and location -->
 			<label index="organizer">Organizer</label>
 			<label index="location">Location</label>
-			<label index="phone">Phone</label>
-			<label index="fax">Fax</label>
-			<label index="mobile">Mobile</label>
-			<label index="email">Email</label>
-			<label index="www">WWW</label>
-			<label index="title.gender.male">Mr.</label>
-			<label index="title.gender.female">Mrs.</label>
+			<label index="address_name">Name</label>
+			<label index="address">Address</label>
+			<label index="zip_and_city">ZIP / City</label>
 
 			<label index="action.EventIndex.next.title">Upcomming event</label>
 
@@ -140,13 +136,9 @@
 			<!-- labels for organizers and location -->
 			<label index="organizer">Organisator</label>
 			<label index="location">Veranstaltungsort</label>
-			<label index="phone">Telefon</label>
-			<label index="fax">Fax</label>
-			<label index="mobile">Handy</label>
-			<label index="email">E-Mail</label>
-			<label index="www">Webseite</label>
-			<label index="title.gender.male">Herr</label>
-			<label index="title.gender.female">Frau</label>
+			<label index="address_name">Name</label>
+			<label index="address">Adresse</label>
+			<label index="zip_and_city">PLZ / Stadt</label>
 
 			<label index="action.EventIndex.next.title">Nächste Veranstaltung</label>
 
