@@ -35,6 +35,7 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 	last_indexed int(11) DEFAULT '0',
 
 	cruser_fe int(11) DEFAULT '0',
+	crgroup_fe int(11) DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

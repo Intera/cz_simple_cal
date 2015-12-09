@@ -546,5 +546,11 @@ return array(
 				'type' => 'none',
 			),
 		),
+		'crgroup_fe' => array(
+			'exclude' => 1,
+			'config' => array(
+				'type' => 'none',
+			),
+		),
 	),
 );
