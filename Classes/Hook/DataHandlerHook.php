@@ -306,11 +306,12 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 		$id = (int)$id;
 		$languageUid = (int)$languageUid;
 
-		// Initialize a dummy TSFE with a configured sys_language_content
-		// to fetch the correct language versions of the objects.
+		// Initialize a dummy TSFE with a configured sys_language_content to fetch the correct language versions of the objects.
+		// Additionally we set showHiddenRecords to make translated hidden records available.
 		// Will be cleared in processCmdmap_afterFinish().
 		$GLOBALS['TSFE'] = new \stdClass();
 		$GLOBALS['TSFE']->sys_language_content = $languageUid;
+		$GLOBALS['TSFE']->showHiddenRecords = TRUE;
 		$event = $this->eventRepository->findOneByUidEverywhere($id);
 
 		// If language does not match, retry after clearing identity map.
