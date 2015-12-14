@@ -661,6 +661,7 @@ class Event extends BaseEvent {
 	 * @return boolean
 	 */
 	public function isEnabled() {
+		// TODO: add check for enableEndtime!
 		return !$this->hidden && !$this->deleted;
 	}
 

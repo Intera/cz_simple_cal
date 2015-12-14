@@ -224,7 +224,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface {
 				|| $table == 'tx_czsimplecal_domain_model_exception'
 			)
 		) {
-			$fieldArray['timezone'] = date('T');
+			$fieldArray['timezone'] = date('e');
 		}
 
 		if ($status !== 'update') {
