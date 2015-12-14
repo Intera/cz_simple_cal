@@ -1213,4 +1213,18 @@ class Event extends BaseEvent {
 	public function getUidLocalized() {
 		return (int)$this->_localizedUid;
 	}
+
+	/**
+	 * Returns the localized UID if it is available. Otherwise the current UID is returned.
+	 *
+	 * @return int
+	 */
+	public function getUidLocalizedOrDefault() {
+		$uidLocalized = (int)$this->getUidLocalized();
+		if ($uidLocalized !== 0) {
+			return $uidLocalized;
+		} else {
+			return $this->getUid();
+		}
+	}
 }

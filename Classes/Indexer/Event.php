@@ -125,7 +125,7 @@ class Event {
 	 */
 	protected function doDelete($event) {
 		$this->registerProcessedEvent($event);
-		$this->eventIndexRepository->removeAllNative($event->getUid());
+		$this->eventIndexRepository->removeAllNative($event->getUidLocalizedOrDefault());
 	}
 
 	/**
