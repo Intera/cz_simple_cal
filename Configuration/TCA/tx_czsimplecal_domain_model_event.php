@@ -329,6 +329,12 @@ return array(
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
+				'appearance' => array(
+					'showPossibleLocalizationRecords' => TRUE,
+					'showRemovedLocalizationRecords' => TRUE,
+					'showAllLocalizationLink' => TRUE,
+					'showSynchronizationLink' => TRUE,
+				),
 			)
 		),
 		'location' => array(
@@ -376,6 +382,12 @@ return array(
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
+				'appearance' => array(
+					'showPossibleLocalizationRecords' => TRUE,
+					'showRemovedLocalizationRecords' => TRUE,
+					'showAllLocalizationLink' => TRUE,
+					'showSynchronizationLink' => TRUE,
+				),
 			)
 		),
 		'organizer' => array(
