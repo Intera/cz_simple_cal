@@ -223,6 +223,23 @@ class Event extends BaseEvent {
 	}
 
 	/**
+	 * Returns TRUE if an enable endtime is set and it is expired (meaning the event is not active any more).
+	 *
+	 * @return \DateTime
+	 */
+	public function getEnableEndtimeExpired() {
+		$enableEndtime = $this->getEnableEndtime();
+		if (!isset($enableEndtime)) {
+			return FALSE;
+		}
+		$enableEndtime = $enableEndtime->getTimestamp();
+		if ($enableEndtime < 1) {
+			return FALSE;
+		}
+		return ($GLOBALS['EXEC_TIME'] > $enableEndtime);
+	}
+
+	/**
 	 * @param \DateTime $enableEndtime
 	 */
 	public function setEnableEndtime($enableEndtime) {
@@ -661,8 +678,7 @@ class Event extends BaseEvent {
 	 * @return boolean
 	 */
 	public function isEnabled() {
-		// TODO: add check for enableEndtime!
-		return !$this->hidden && !$this->deleted;
+		return !$this->hidden && !$this->deleted && !$this->getEnableEndtimeExpired();
 	}
 
 	/**
