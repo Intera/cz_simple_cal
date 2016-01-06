@@ -127,11 +127,7 @@ abstract class BaseEvent extends Base implements IsRecurring {
 	 * @return void
 	 */
 	public function setStartTime($startTime) {
-		$this->startTime =
-			(empty($startTime) && $startTime !== 0) || $startTime < 0 ?
-			NULL :
-			$startTime
-		;
+		$this->startTime = is_null($startTime) ? NULL : (int)$startTime;
 	}
 
 	/**
@@ -191,10 +187,7 @@ abstract class BaseEvent extends Base implements IsRecurring {
 	 * @return void
 	 */
 	public function setEndTime($endTime) {
-		$this->endTime = (empty($endTime) && $endTime !== 0) || $endTime < 0 ?
-			NULL :
-			$endTime
-		;
+		$this->endTime = is_null($endTime) ? NULL : (int)$endTime;
 	}
 
 	/**
