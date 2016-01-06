@@ -5,6 +5,7 @@ return array(
 		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
 		'default_sortby' => 'ORDER BY start_day DESC, start_time DESC',
 		'versioningWS' => 2,
 		'versioning_followPages' => TRUE,
