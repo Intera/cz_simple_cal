@@ -32,6 +32,9 @@ use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
  */
 class Yearly extends Base {
 
+	const SUBTYPE_AUTO = 'auto';
+	const SUBTYPE_RELATIVE_TO_EASTER = '';
+
 	/**
 	 * the main method building the recurrance
 	 *
@@ -178,7 +181,10 @@ class Yearly extends Base {
 	 * @return array
 	 */
 	public function getSubtypes() {
-		return self::addLL(array('auto', 'relativetoeaster'));
+		return self::addLL(array(
+			static::SUBTYPE_AUTO,
+			static::SUBTYPE_RELATIVE_TO_EASTER
+		));
 	}
 
 }

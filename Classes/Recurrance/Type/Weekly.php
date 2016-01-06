@@ -32,6 +32,12 @@ use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
  */
 class Weekly extends Base {
 
+	const SUBTYPE_WEEKLY = 'weekly';
+	const SUBTYPE_ODDEVEN = 'oddeven';
+	const SUBTYPE_2WEEK = '2week';
+	const SUBTYPE_3WEEK = '3week';
+	const SUBTYPE_4WEEK = '4week';
+
 	/**
 	 * the main method building the recurrance
 	 *
@@ -112,6 +118,12 @@ class Weekly extends Base {
 	 * @return array
 	 */
 	public function getSubtypes() {
-		return self::addLL(array('weekly', 'oddeven', '2week', '3week', '4week'));
+		return self::addLL(array(
+			static::SUBTYPE_WEEKLY,
+			static::SUBTYPE_ODDEVEN,
+			static::SUBTYPE_2WEEK,
+			static::SUBTYPE_3WEEK,
+			static::SUBTYPE_4WEEK,
+		));
 	}
 }

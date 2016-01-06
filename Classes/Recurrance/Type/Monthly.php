@@ -33,6 +33,14 @@ use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
  */
 class Monthly extends Base {
 
+	const SUBTYPE_AUTO = 'auto';
+	const SUBTYPE_BY_DAY_OF_MONTH = 'bydayofmonth';
+	const SUBTYPE_1ST_WEEKDAY_OF_MONTH = 'firstweekdayofmonth';
+	const SUBTYPE_2ND_WEEKDAY_OF_MONTH = 'secondweekdayofmonth';
+	const SUBTYPE_3RD_WEEKDAY_OF_MONTH = 'thirdweekdayofmonth';
+	const SUBTYPE_LAST_WEEKDAY_OF_MONTH = 'lastweekdayofmonth';
+	const SUBTYPE_PENULTIMATE_WEEKDAY_OF_MONTH = 'penultimateweekdayofmonth';
+
 	/**
 	 * the main method building the recurrance
 	 *
@@ -154,6 +162,14 @@ class Monthly extends Base {
 	 * @return array
 	 */
 	public function getSubtypes() {
-		return self::addLL(array('auto', 'bydayofmonth', 'firstweekdayofmonth', 'secondweekdayofmonth', 'thirdweekdayofmonth', 'lastweekdayofmonth', 'penultimateweekdayofmonth'));
+		return self::addLL(array(
+			static::SUBTYPE_AUTO,
+			static::SUBTYPE_BY_DAY_OF_MONTH,
+			static::SUBTYPE_1ST_WEEKDAY_OF_MONTH,
+			static::SUBTYPE_2ND_WEEKDAY_OF_MONTH,
+			static::SUBTYPE_3RD_WEEKDAY_OF_MONTH,
+			static::SUBTYPE_LAST_WEEKDAY_OF_MONTH,
+			static::SUBTYPE_PENULTIMATE_WEEKDAY_OF_MONTH,
+		));
 	}
 }
