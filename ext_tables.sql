@@ -204,6 +204,7 @@ CREATE TABLE tx_czsimplecal_domain_model_address (
 	zip varchar(10) DEFAULT '' NOT NULL,
 	city varchar(255) DEFAULT '' NOT NULL,
 	country varchar(3) DEFAULT '' NOT NULL,
+	homepage varchar(255) DEFAULT '' NOT NULL,
 	event_uid int(11) unsigned DEFAULT '0' NOT NULL,
 	event_field varchar(255) DEFAULT '' NOT NULL,
 

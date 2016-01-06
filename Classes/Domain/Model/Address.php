@@ -61,6 +61,13 @@ class Address extends AbstractEntity {
 	protected $hidden;
 
 	/**
+	 * The homepage for this address (typolink parameter).
+	 *
+	 * @var string
+	 */
+	protected $homepage;
+
+	/**
 	 * the property name
 	 *
 	 * @var string name
@@ -118,6 +125,13 @@ class Address extends AbstractEntity {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getHomepage() {
+		return $this->homepage;
+	}
+
+	/**
 	 * getter for name
 	 *
 	 * @return string
@@ -165,6 +179,13 @@ class Address extends AbstractEntity {
 	public function setHidden($hidden) {
 		$this->hidden = $hidden;
 		return $this;
+	}
+
+	/**
+	 * @param string $homepage
+	 */
+	public function setHomepage($homepage) {
+		$this->homepage = $homepage;
 	}
 
 	/**

@@ -21,7 +21,7 @@ return array(
 		'showRecordFieldList' => 'name,address,zip,city,country'
 	),
 	'types' => array(
-		'1' => array('showitem' => 'name,address,zip,city,country')
+		'1' => array('showitem' => 'name,address,zip,city,country,homepage')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => '')
@@ -70,6 +70,27 @@ return array(
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
 			'config' => array(
 				'type' => 'check',
+			)
+		),
+		'homepage' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address.homepage',
+			'config' => array(
+				'eval' => 'trim',
+				'max' => 256,
+				'size' => 25,
+				'softref' => 'typolink',
+				'type' => 'input',
+				'wizards' => array(
+					'_PADDING' => 2,
+					'link' => array(
+						'icon' => 'link_popup.gif',
+						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
+						'script' => 'browse_links.php?mode=wizard',
+						'title' => 'LLL:EXT:cms/locallang_ttc.xml:header_link_formlabel',
+						'type' => 'popup',
+					),
+				),
 			)
 		),
 		'name' => array(
