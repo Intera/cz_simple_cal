@@ -293,23 +293,23 @@ return array(
 				'items' => array(
 					array(
 						'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.none',
-						'none'
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType::NONE
 					),
 					array(
 						'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.daily',
-						'daily'
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType::DAILY
 					),
 					array(
 						'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.weekly',
-						'weekly'
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType::WEEKLY
 					),
 					array(
 						'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.monthly',
-						'monthly'
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType::MONTHLY
 					),
 					array(
 						'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.yearly',
-						'yearly'
+						\Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType::YEARLY
 					),
 				),
 			)
