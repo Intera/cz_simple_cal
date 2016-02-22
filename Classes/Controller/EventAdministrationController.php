@@ -105,7 +105,7 @@ class EventAdministrationController extends ActionController {
 	 *
 	 * @param \Tx\CzSimpleCal\Domain\Model\Event $fromEvent
 	 * @return void
-	 * @dontvalidate $fromEvent
+	 * @ignorevalidation $fromEvent
 	 */
 	public function newAction(\Tx\CzSimpleCal\Domain\Model\Event $fromEvent = NULL)
 	{
@@ -154,7 +154,7 @@ class EventAdministrationController extends ActionController {
 	 *
 	 * @param \Tx\CzSimpleCal\Domain\Model\Event $newEvent
 	 * @return void
-	 * @dontvalidate $newEvent
+	 * @ignorevalidation $newEvent
 	 */
 	public function createAction(\Tx\CzSimpleCal\Domain\Model\Event $newEvent)
 	{
@@ -191,7 +191,7 @@ class EventAdministrationController extends ActionController {
 	 *
 	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
 	 * @return void
-	 * @dontvalidate $event
+	 * @ignorevalidation $event
 	 */
 	public function editAction(\Tx\CzSimpleCal\Domain\Model\Event $event)
 	{
@@ -207,7 +207,7 @@ class EventAdministrationController extends ActionController {
 	 *
 	 * @param $event \Tx\CzSimpleCal\Domain\Model\Event
 	 * @return void
-	 * @dontvalidate $event
+	 * @ignorevalidation $event
 	 */
 	public function updateAction(\Tx\CzSimpleCal\Domain\Model\Event $event)
 	{
@@ -239,7 +239,7 @@ class EventAdministrationController extends ActionController {
 	 *
 	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event The event to delete
 	 * @return void
-	 * @dontvalidate $event
+	 * @ignorevalidation $event
 	 */
 	public function deleteAction(\Tx\CzSimpleCal\Domain\Model\Event $event)
 	{
