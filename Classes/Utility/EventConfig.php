@@ -34,7 +34,15 @@ class EventConfig {
 
 	public function getRecurranceSubtype($config) {
 
-		$type = trim($config['row']['recurrance_type']);
+		if (is_array($config['row']['recurrance_type'])) {
+			$type = reset($config['row']['recurrance_type']);
+		} elseif (is_string($config['row']['recurrance_type'])) {
+			$type = $config['row']['recurrance_type'];
+		} else {
+			return;
+		}
+
+		$type = trim($type);
 
 		if (empty($type)) {
 			return;
