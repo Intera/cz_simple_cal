@@ -220,14 +220,15 @@ return array(
 				'cols' => 40,
 				'rows' => 6,
 				'wizards' => array(
-					'_PADDING' => 4,
 					'RTE' => array(
 						'notNewRecords' => 1,
 						'RTEonly' => 1,
 						'type' => 'script',
-						'title' => 'LLL:EXT:cms/locallang_ttc.php:bodytext.W.RTE',
-						'icon' => 'wizard_rte2.gif',
-						'script' => 'wizard_rte.php',
+						'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext.W.RTE',
+						'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_rte.gif',
+						'module' => array(
+							'name' => 'wizard_rte'
+						)
 					),
 				)
 			)
@@ -469,13 +470,16 @@ return array(
 				'type' => 'input',
 
 				'wizards' => array(
-					'_PADDING' => 2,
 					'link' => array(
-						'icon' => 'link_popup.gif',
-						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
-						'script' => 'browse_links.php?mode=wizard',
-						'title' => 'LLL:EXT:cms/locallang_ttc.xml:header_link_formlabel',
-						'type' => 'popup',
+						'link' => array(
+							'type' => 'popup',
+							'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:header_link_formlabel',
+							'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
+							'module' => array(
+								'name' => 'wizard_link',
+							),
+							'JSopenParams' => 'width=800,height=600,status=0,menubar=0,scrollbars=1'
+						)
 					),
 				),
 			)
