@@ -25,6 +25,8 @@ namespace Tx\CzSimpleCal\Recurrance\Timeline;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
+
 /**
  * a class representing a timeline of events
  *
@@ -70,7 +72,7 @@ class Base implements \Iterator, \Countable {
 	 * add an EventIndex to the collection
 	 *
 	 * @param array $data
-	 * @param \Tx\CzSimpleCal\Domain\Interfaces\IsRecurring $event
+	 * @param \Tx\CzSimpleCal\Domain\Interfaces\IsRecurring|\Tx\CzSimpleCal\Domain\Model\Event $event
 	 * @return Base
 	 */
 	public function add($data, $event) {
@@ -142,8 +144,6 @@ class Base implements \Iterator, \Countable {
 
 	/**
 	 * initializes output by sorting the array
-	 *
-	 * @return null
 	 */
 	protected function initOutput() {
 		if (!$this->sortNeeded) {
@@ -175,8 +175,6 @@ class Base implements \Iterator, \Countable {
 
 	/**
 	 * unset the entry that the array-pointer points at
-	 *
-	 * @return null
 	 */
 	public function unsetCurrent() {
 		unset($this->data[key($this->data)]);

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Model;
 
 /***************************************************************
@@ -25,10 +26,12 @@ namespace Tx\CzSimpleCal\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Tx\CzSimpleCal\Utility\Inflector;
-use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
+use Tx\CzSimpleCal\Recurrance\Timeline\Event as TimelineEvent;
+use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
+use Tx\CzSimpleCal\Utility\Inflector;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**
  * Event index entry.
@@ -63,9 +66,8 @@ class EventIndex extends Base {
 	protected $event;
 
 	/**
-	 * @inject
 	 * @transient
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+	 * @var ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -115,11 +117,13 @@ class EventIndex extends Base {
 			$methodName = 'set' . GeneralUtility::underscoredToUpperCamelCase($name);
 
 			// check if there is a setter defined (use of is_callable to check if the scope is public)
-			if (!is_callable(array($obj, $methodName))) {
-				throw new \InvalidArgumentException(sprintf('Could not find the %s method to set %s in %s.', $methodName, $name, get_class($obj)));
+			if (!is_callable([$obj, $methodName])) {
+				throw new \InvalidArgumentException(
+					sprintf('Could not find the %s method to set %s in %s.', $methodName, $name, get_class($obj))
+				);
 			}
 
-			call_user_func(array($obj, $methodName), $value);
+			call_user_func([$obj, $methodName], $value);
 		}
 
 		return $obj;
@@ -127,8 +131,6 @@ class EventIndex extends Base {
 
 	/**
 	 * generate a slug for this record
-	 *
-	 * @return string
 	 */
 	public function generateSlug() {
 		$value = $this->generateRawSlug();
@@ -255,8 +257,6 @@ class EventIndex extends Base {
 
 	/**
 	 * will be called before instance is added to the repository
-	 *
-	 * @return null
 	 */
 	public function preCreate() {
 		$this->generateSlug();
@@ -266,7 +266,6 @@ class EventIndex extends Base {
 	 * set the timestamp from the end of that event
 	 *
 	 * @param integer $end
-	 * @return null
 	 */
 	public function setEnd($end) {
 		$this->end = $end;
@@ -292,7 +291,9 @@ class EventIndex extends Base {
 	 */
 	public function setSlug($slug) {
 		if (preg_match('/^[a-z0-9\-]*$/i', $slug) === FALSE) {
-			throw new \InvalidArgumentException(sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.'));
+			throw new \InvalidArgumentException(
+				sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.')
+			);
 		}
 		$this->slug = $slug;
 		return $this;
@@ -302,7 +303,6 @@ class EventIndex extends Base {
 	 * set the timestamp from the beginning of that event
 	 *
 	 * @param integer $start
-	 * @return null
 	 */
 	public function setStart($start) {
 		$this->start = $start;
@@ -337,7 +337,7 @@ class EventIndex extends Base {
 	}
 
 	/**
-	 * @return Location
+	 * @return Organizer
 	 * @deprecated Use ->getEvent()->getActiveOrganizer() instead.
 	 */
 	public function getActiveOrganizer() {
@@ -574,7 +574,7 @@ class EventIndex extends Base {
 	}
 
 	/**
-	 * @return array
+	 * @return TimelineEvent
 	 * @deprecated Use ->getEvent()->getRecurrances() instead.
 	 */
 	public function getRecurrances() {
@@ -611,6 +611,10 @@ class EventIndex extends Base {
 	 */
 	public function getTwitterHashtagsArray() {
 		return $this->getEvent()->getTwitterHashtagsArray();
+	}
+
+	public function injectObjectManager(ObjectManagerInterface $objectManager) {
+		$this->objectManager = $objectManager;
 	}
 
 	/**

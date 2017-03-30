@@ -48,7 +48,7 @@ class RecurranceFactory {
 	 * build the recurrance for an event
 	 *
 	 * @param \Tx\CzSimpleCal\Domain\Model\BaseEvent $event
-	 * @return \Tx\CzSimpleCal\Domain\Model\Event
+	 * @return TimelineEvent
 	 * @throws \InvalidArgumentException
 	 */
 	public function buildRecurranceForEvent($event) {
@@ -59,16 +59,10 @@ class RecurranceFactory {
 
 		$this->event = $event;
 
-		/**
-		 * a class holding all possible events ordered by their starttime ascending
-		 *
-		 * @var TimelineEvent
-		 */
+		// A class holding all possible events ordered by their starttime ascending
 		$events = $this->buildEventTimeline();
 
-		/**
-		 * a class holding all exceptions
-		 */
+		// A class holding all exceptions
 		$exceptions = $this->buildExceptionTimeline();
 
 		return $this->dropExceptionalEvents($events, $exceptions);

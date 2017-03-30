@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Indexer;
 
 /***************************************************************
@@ -25,7 +26,11 @@ namespace Tx\CzSimpleCal\Indexer;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \Tx\CzSimpleCal\Domain\Model\EventIndex;
+use Tx\CzSimpleCal\Domain\Model\EventIndex;
+use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
+use Tx\CzSimpleCal\Domain\Repository\EventRepository;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 /**
  * a class that handles indexing of events
@@ -33,25 +38,21 @@ use \Tx\CzSimpleCal\Domain\Model\EventIndex;
 class Event {
 
 	/**
-	 * @inject
 	 * @var \Tx\CzSimpleCal\Domain\Repository\EventRepository
 	 */
-	protected $eventRepository = NULL;
+	protected $eventRepository;
 
 	/**
-	 * @inject
 	 * @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository
 	 */
-	protected $eventIndexRepository = NULL;
+	protected $eventIndexRepository;
 
 	/**
-	 * @inject
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
 	 */
 	protected $objectManager;
 
 	/**
-	 * @inject
 	 * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
 	 */
 	protected $persistenceManager;
@@ -64,7 +65,23 @@ class Event {
 	 *
 	 * @var array
 	 */
-	protected $processedEventIdsWithUniquePageIds = array();
+	protected $processedEventIdsWithUniquePageIds = [];
+
+	public function injectEventIndexRepository(EventIndexRepository $eventIndexRepository) {
+		$this->eventIndexRepository = $eventIndexRepository;
+	}
+
+	public function injectEventRepository(EventRepository $eventRepository) {
+		$this->eventRepository = $eventRepository;
+	}
+
+	public function injectObjectManager(ObjectManagerInterface $objectManager) {
+		$this->objectManager = $objectManager;
+	}
+
+	public function injectPersistenceManager(PersistenceManagerInterface $persistenceManager) {
+		$this->persistenceManager = $persistenceManager;
+	}
 
 	/**
 	 * create an eventIndex

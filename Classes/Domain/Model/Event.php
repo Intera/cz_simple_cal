@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Model;
 
 /***************************************************************
@@ -28,11 +29,13 @@ namespace Tx\CzSimpleCal\Domain\Model;
 use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
 use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Domain\Repository\EventRepository;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Tx\CzSimpleCal\Recurrance\RecurranceFactory;
+use Tx\CzSimpleCal\Recurrance\Timeline\Event as TimelineEvent;
 use Tx\CzSimpleCal\Utility\FileArrayBuilder;
 use Tx\CzSimpleCal\Utility\Inflector;
-use Tx\CzSimpleCal\Recurrance\RecurranceFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * An event in an calendar
@@ -44,7 +47,7 @@ class Event extends BaseEvent {
 	 *
 	 * @var array
 	 */
-	protected static $fieldsRequiringReindexing = array(
+	protected static $fieldsRequiringReindexing = [
 		'recurrance_type',
 		'recurrance_subtype',
 		'recurrance_until',
@@ -54,11 +57,12 @@ class Event extends BaseEvent {
 		'end_time',
 		'pid',
 		'hidden',
-		'deleted'
-	);
+		'deleted',
+	];
 
 	/**
 	 * the page-id this domain model resides on
+	 *
 	 * @var integer
 	 */
 	protected $pid;
@@ -66,6 +70,7 @@ class Event extends BaseEvent {
 
 	/**
 	 * The title of this event
+	 *
 	 * @var string
 	 * @validate NotEmpty, StringLength(minimum=3,maximum=255)
 	 */
@@ -73,6 +78,7 @@ class Event extends BaseEvent {
 
 	/**
 	 * a short teaser for this event
+	 *
 	 * @var string
 	 * @validate String
 	 */
@@ -80,6 +86,7 @@ class Event extends BaseEvent {
 
 	/**
 	 * a long description for this event
+	 *
 	 * @var string
 	 * @validate String
 	 */
@@ -127,6 +134,7 @@ class Event extends BaseEvent {
 
 	/**
 	 * categories
+	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Category>
 	 */
 	protected $categories;
@@ -161,6 +169,7 @@ class Event extends BaseEvent {
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\ExceptionGroup>
 	 */
 	protected $exceptionGroups;
+
 	/**
 	 * is this record hidden
 	 *
@@ -204,9 +213,9 @@ class Event extends BaseEvent {
 	protected $status;
 
 	/**
-	 * @inject
+	 *
 	 * @transient
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+	 * @var ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -225,7 +234,7 @@ class Event extends BaseEvent {
 	/**
 	 * Returns TRUE if an enable endtime is set and it is expired (meaning the event is not active any more).
 	 *
-	 * @return \DateTime
+	 * @return bool
 	 */
 	public function getEnableEndtimeExpired() {
 		$enableEndtime = $this->getEnableEndtime();
@@ -427,7 +436,6 @@ class Event extends BaseEvent {
 	}
 
 
-
 	/**
 	 * Setter for organizerName
 	 *
@@ -470,7 +478,7 @@ class Event extends BaseEvent {
 	 * @deprecated Please set the property directly in the inline organizer.
 	 */
 	public function setOrganizerZip($organizerZip) {
-		$this->getOrganizerInline(TRUE,TRUE)->setZip($organizerZip);
+		$this->getOrganizerInline(TRUE, TRUE)->setZip($organizerZip);
 	}
 
 	/**
@@ -563,7 +571,7 @@ class Event extends BaseEvent {
 	 * @return Category
 	 */
 	public function getCategory() {
-		if(is_null($this->categories) || $this->categories->count() === 0) {
+		if (is_null($this->categories) || $this->categories->count() === 0) {
 			return null;
 		}
 		$this->categories->rewind();
@@ -577,7 +585,7 @@ class Event extends BaseEvent {
 	 * @return void
 	 */
 	public function addCategory(Category $category) {
-		if(!is_object($this->categories)) {
+		if (!is_object($this->categories)) {
 			$this->categories = $this->objectManager->get(ObjectStorage::class);
 		}
 		$this->categories->attach($category);
@@ -630,7 +638,7 @@ class Event extends BaseEvent {
 	/**
 	 * get all recurrances of this event
 	 *
-	 * @return array
+	 * @return TimelineEvent
 	 */
 	public function getRecurrances() {
 		$factory = new RecurranceFactory();
@@ -661,6 +669,10 @@ class Event extends BaseEvent {
 	 */
 	public function hasEndTime() {
 		return $this->isEndTimePresent();
+	}
+
+	public function injectObjectManager(ObjectManagerInterface $objectManager) {
+		$this->objectManager = $objectManager;
 	}
 
 	/**
@@ -751,7 +763,7 @@ class Event extends BaseEvent {
 	 * If a common organizer was set it will be returned. Otherwise
 	 * the inline organizer will be returned.
 	 *
-	 * @return Location
+	 * @return Organizer
 	 */
 	public function getActiveOrganizer() {
 
@@ -854,8 +866,8 @@ class Event extends BaseEvent {
 	 */
 	public function getHash() {
 		return md5(
-			'event-'.
-			$this->getUidLocalized().
+			'event-' .
+			$this->getUidLocalized() .
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']
 		);
 	}
@@ -884,8 +896,10 @@ class Event extends BaseEvent {
 	 * @throws \InvalidArgumentException
 	 */
 	public function setSlug($slug) {
-		if(preg_match('/^[a-z0-9\-]*$/i', $slug) === false) {
-			throw new \InvalidArgumentException(sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.'));
+		if (preg_match('/^[a-z0-9\-]*$/i', $slug) === false) {
+			throw new \InvalidArgumentException(
+				sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.')
+			);
 		}
 		$this->slug = $slug;
 		return $this;
@@ -893,8 +907,6 @@ class Event extends BaseEvent {
 
 	/**
 	 * generate a slug for this record
-	 *
-	 * @return string
 	 */
 	public function generateSlug() {
 
@@ -982,14 +994,13 @@ class Event extends BaseEvent {
 	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function getNextAppointments($limit = 3) {
-		if(is_null($this->nextAppointments) || $this->nextAppointmentsCount < $limit) {
+		if (is_null($this->nextAppointments) || $this->nextAppointmentsCount < $limit) {
 			$eventIndexRepository = $this->objectManager->get(EventIndexRepository::class);
 			$this->nextAppointments = $eventIndexRepository->
-				findNextAppointmentsByEventUid($this->getUid(), $limit)
-			;
+			findNextAppointmentsByEventUid($this->getUid(), $limit);
 			$this->nextAppointmentsCount = $limit;
 		}
-		if($this->nextAppointmentsCount === $limit) {
+		if ($this->nextAppointmentsCount === $limit) {
 			return $this->nextAppointments;
 		} else {
 			return array_slice($this->nextAppointments, 0, $limit);
@@ -1029,8 +1040,8 @@ class Event extends BaseEvent {
 	 * @return Event
 	 */
 	public function setShowPageInstead($showPageInstead) {
-		if(!empty($showPageInstead) && !is_numeric($showPageInstead) && strpos($showPageInstead, '://') === false) {
-			$showPageInstead = 'http://'.$showPageInstead;
+		if (!empty($showPageInstead) && !is_numeric($showPageInstead) && strpos($showPageInstead, '://') === false) {
+			$showPageInstead = 'http://' . $showPageInstead;
 		}
 		$this->showPageInstead = $showPageInstead;
 		return $this;
@@ -1050,7 +1061,7 @@ class Event extends BaseEvent {
 	 * @deprecated Use getImageReferences()
 	 */
 	public function getImages() {
-		if(is_null($this->_cache_images)) {
+		if (is_null($this->_cache_images)) {
 			$this->_cache_images = FileArrayBuilder::buildFromReferences($this->files);
 		}
 		return $this->_cache_images;
@@ -1101,6 +1112,7 @@ class Event extends BaseEvent {
 
 	/**
 	 * a cached array of twitter hashtags
+	 *
 	 * @var array
 	 */
 	protected $twitterHashtags_ = null;
@@ -1112,6 +1124,7 @@ class Event extends BaseEvent {
 
 	/**
 	 * a cached array of flickr hashtags
+	 *
 	 * @var array
 	 */
 	protected $flickrTags_ = null;
@@ -1122,7 +1135,7 @@ class Event extends BaseEvent {
 	 * @return array
 	 */
 	public function getTwitterHashtagsArray() {
-		if(is_null($this->twitterHashtags_)) {
+		if (is_null($this->twitterHashtags_)) {
 			$this->buildTwitterHashtags();
 		}
 		return $this->twitterHashtags_;
@@ -1144,16 +1157,14 @@ class Event extends BaseEvent {
 
 	/**
 	 * build the array of twitter hashtags
-	 *
-	 * @return null
 	 */
 	protected function buildTwitterHashtags() {
 		$this->twitterHashtags_ = GeneralUtility::trimExplode(',', $this->twitterHashtags, true);
 
 		// make sure each tag starts with a hash ("#")
-		foreach($this->twitterHashtags_ as &$hashtag) {
-			if(strncmp($hashtag, '#', 1) !== 0) {
-				$hashtag = '#'.$hashtag;
+		foreach ($this->twitterHashtags_ as &$hashtag) {
+			if (strncmp($hashtag, '#', 1) !== 0) {
+				$hashtag = '#' . $hashtag;
 			}
 		}
 	}
@@ -1164,7 +1175,7 @@ class Event extends BaseEvent {
 	 * @return array
 	 */
 	public function getFlickrTagsArray() {
-		if(is_null($this->flickrTags_)) {
+		if (is_null($this->flickrTags_)) {
 			$this->buildFlickrTags();
 		}
 		return $this->flickrTags_;
@@ -1187,7 +1198,6 @@ class Event extends BaseEvent {
 
 	/**
 	 * build the array of flickr tags
-	 * @return null
 	 */
 	protected function buildFlickrTags() {
 		$this->flickrTags_ = GeneralUtility::trimExplode(',', $this->flickrTags, true);
