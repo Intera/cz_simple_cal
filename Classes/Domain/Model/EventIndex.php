@@ -94,7 +94,7 @@ class EventIndex extends Base {
 	protected $start;
 
 	/**
-	 * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus
+	 * @var string
 	 */
 	protected $status;
 

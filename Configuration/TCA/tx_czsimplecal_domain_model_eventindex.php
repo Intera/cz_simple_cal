@@ -64,7 +64,9 @@ return array(
 			'exclude' => 0,
 			'label' => '',
 			'config' => array(
-				'type' => 'none',
+				'type' => 'input',
+				'eval' => 'null',
+				'default' => null,
 			)
 		),
 		'sys_language_uid' => array(
