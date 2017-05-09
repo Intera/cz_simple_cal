@@ -102,4 +102,3 @@ class TimespanToWordsViewHelper extends AbstractViewHelper {
 		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, $this->extensionName);
 	}
 }
-?>

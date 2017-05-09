@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers;
 
 /*                                                                        *
@@ -11,6 +12,7 @@ namespace Tx\CzSimpleCal\ViewHelpers;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
+use Int\CzSimpleCal\Utility\EventTimeUtility;
 use Tx\CzSimpleCal\Domain\Model\Event;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -20,17 +22,20 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 class EventTimeTypeViewHelper extends AbstractViewHelper {
 
 	/**
-	 * @inject
-	 * @var \Int\CzSimpleCal\Utility\EventTimeUtility
+	 * @var EventTimeUtility
 	 */
 	protected $eventTimeTypeUtility;
+
+	public function injectEventTimeTypeUtility(EventTimeUtility $eventTimeTypeUtility) {
+		$this->eventTimeTypeUtility = $eventTimeTypeUtility;
+	}
 
 	/**
 	 * Returns the event time type for the given event (can be used in
 	 * the switch view helper).
 	 *
 	 * @param Event $event
-	 * @return \Int\CzSimpleCal\Domain\Model\Enumeration\EventTimeType
+	 * @return string
 	 */
 	public function render(Event $event) {
 		return $this->eventTimeTypeUtility->getEventTimeType($event);

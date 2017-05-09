@@ -25,6 +25,7 @@ namespace Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller\CountController;
 use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper;
 
 /**
@@ -48,18 +49,17 @@ use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper;
 class CountViewHelper extends AbstractWidgetViewHelper {
 
 	/**
-	 * @var \Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller\CountController
+	 * @var CountController
 	 */
 	protected $controller;
 
 	/**
-	 * @param \Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller\CountController $controller
+	 * @param CountController $controller
 	 * @return void
 	 */
-	public function injectController(\Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller\CountController $controller) {
+	public function injectController(CountController $controller) {
 		$this->controller = $controller;
 	}
-
 
 	/**
 	 * Initialize all arguments. You need to override this method and call

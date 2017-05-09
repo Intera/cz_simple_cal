@@ -76,7 +76,6 @@ class SetGlobalDataViewHelper extends AbstractViewHelper {
 	/**
 	 * @param string $field the field name to override or create
 	 * @param string $data the data to add to the field
-	 * @return null
 	 */
 	public function render($field, $data = null) {
 		if(is_null($data)) {
@@ -85,5 +84,3 @@ class SetGlobalDataViewHelper extends AbstractViewHelper {
 		$GLOBALS['TSFE']->cObj->data[$field] = $data;
 	}
 }
-
-?>

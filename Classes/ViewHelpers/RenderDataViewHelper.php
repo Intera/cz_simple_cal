@@ -25,8 +25,8 @@ namespace Tx\CzSimpleCal\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * This view helper loops over all configurations defined within settings.renderData and builds
@@ -78,7 +78,7 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 class RenderDataViewHelper extends AbstractViewHelper {
 
 	/**
-	 * @inject
+	 *
 	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
 	 */
 	protected $configurationManager;
@@ -102,6 +102,10 @@ class RenderDataViewHelper extends AbstractViewHelper {
 	public function initializeArguments() {
 		$this->registerArgument('extensionName', 'string', 'The extension name that is used to fetch the settings.');
 		$this->registerArgument('pluginName', 'string', 'The plugin name that is used to fetch the settings.');
+	}
+
+	public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager) {
+		$this->configurationManager = $configurationManager;
 	}
 
 	/**

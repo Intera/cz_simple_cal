@@ -63,8 +63,6 @@ class CountryNameViewHelper extends AbstractViewHelper {
 
 	/**
 	 * init static info tables to use with this view helper
-	 *
-	 * @return null
 	 */
 	protected static function init() {
 		// check if class was already initialized
@@ -86,7 +84,7 @@ class CountryNameViewHelper extends AbstractViewHelper {
 		self::$staticInfoObject = &GeneralUtility::getUserObj('&tx_staticinfotables_pi1');
 		if(!self::$staticInfoObject) {
 			self::$staticInfoObject = false;
-			return null;
+			return;
 		}
 		if (self::$staticInfoObject->needsInit()) {
 			self::$staticInfoObject->init();

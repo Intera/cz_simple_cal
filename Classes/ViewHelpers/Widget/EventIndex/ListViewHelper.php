@@ -25,6 +25,7 @@ namespace Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller\ListController;
 use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper;
 
 /**
@@ -48,18 +49,17 @@ use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper;
 class ListViewHelper extends AbstractWidgetViewHelper {
 
 	/**
-	 * @var \Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller\ListController
+	 * @var ListController
 	 */
 	protected $controller;
 
 	/**
-	 * @param \Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller\ListController $controller
+	 * @param ListController $controller
 	 * @return void
 	 */
-	public function injectController(\Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller\ListController $controller) {
+	public function injectController(ListController $controller) {
 		$this->controller = $controller;
 	}
-
 
 	/**
 	 * Initialize all arguments. You need to override this method and call

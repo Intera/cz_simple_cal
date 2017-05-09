@@ -25,6 +25,7 @@ namespace Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController;
 
 /**
@@ -33,8 +34,7 @@ use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController;
 class CountController extends AbstractWidgetController {
 
 	/**
-	 * @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository
-	 * @inject
+	 * @var EventIndexRepository
 	 */
 	protected $eventIndexRepository;
 
@@ -59,6 +59,10 @@ class CountController extends AbstractWidgetController {
 				$this->actionSettings[$argumentName] = $this->normalizeArgumentToTimestamp($this->widgetConfiguration[$argumentName]);
 			}
 		}
+	}
+
+	public function injectEventIndexRepository(EventIndexRepository $eventIndexRepository) {
+		$this->eventIndexRepository = $eventIndexRepository;
 	}
 
 	/**
