@@ -15,4 +15,8 @@
 		<dt><f:translate key="zip_and_city" /></dt>
 		<dd><span class="postal-code">{address.zip}</span> <span class="locality">{address.city}</span></dd>
 	</f:if>
+	<f:if condition="{address.homepage}">
+		<dt><f:translate key="address_homepage"/></dt>
+		<dd><span class="homepage"><f:link.typolink parameter="{address.homepage}"/></span></dd>
+	</f:if>
 </dl>

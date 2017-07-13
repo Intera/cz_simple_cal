@@ -69,6 +69,7 @@
 			<label index="address_name">Name</label>
 			<label index="address">Address</label>
 			<label index="zip_and_city">ZIP / City</label>
+			<label index="address_homepage">Homepage</label>
 
 			<label index="action.EventIndex.next.title">Upcomming event</label>
 
@@ -139,6 +140,7 @@
 			<label index="address_name">Name</label>
 			<label index="address">Adresse</label>
 			<label index="zip_and_city">PLZ / Stadt</label>
+			<label index="address_homepage">Homepage</label>
 
 			<label index="action.EventIndex.next.title">Nächste Veranstaltung</label>
 
