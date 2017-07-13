@@ -110,6 +110,7 @@
 			<label index="tx_czsimplecal_domain_model_address.zip">Zip</label>
 			<label index="tx_czsimplecal_domain_model_address.city">City</label>
 			<label index="tx_czsimplecal_domain_model_address.country">Country</label>
+			<label index="tx_czsimplecal_domain_model_address.homepage">Homepage</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -213,6 +214,7 @@
 			<label index="tx_czsimplecal_domain_model_address.zip">PLZ</label>
 			<label index="tx_czsimplecal_domain_model_address.city">Ort</label>
 			<label index="tx_czsimplecal_domain_model_address.country">Land</label>
+			<label index="tx_czsimplecal_domain_model_address.homepage">Homepage</label>
 		</languageKey>
 	</data>
 </T3locallang>
