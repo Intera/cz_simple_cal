@@ -206,6 +206,13 @@
 
 			<label index="tt_address.is_organizer">ist Veranstalter für Kalender</label>
 			<label index="tt_address.is_location">ist Veranstaltungsort für Kalender</label>
+
+			<label index="tx_czsimplecal_domain_model_address">Addresse</label>
+			<label index="tx_czsimplecal_domain_model_address.name">Name</label>
+			<label index="tx_czsimplecal_domain_model_address.address">Addresse</label>
+			<label index="tx_czsimplecal_domain_model_address.zip">PLZ</label>
+			<label index="tx_czsimplecal_domain_model_address.city">Ort</label>
+			<label index="tx_czsimplecal_domain_model_address.country">Land</label>
 		</languageKey>
 	</data>
 </T3locallang>
