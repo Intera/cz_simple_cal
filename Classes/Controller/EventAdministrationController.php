@@ -26,6 +26,7 @@ namespace Tx\CzSimpleCal\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Utility\NullReturningDummyClass;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -333,7 +334,7 @@ class EventAdministrationController extends ActionController
              * So we use this dummy class "\Tx\CzSimpleCal\Utility\Null" that just
              * ignores everything.
              */
-            $tce->BE_USER = GeneralUtility::makeInstance('Tx\\CzSimpleCal\\Utility\\Null');
+            $tce->BE_USER = GeneralUtility::makeInstance(NullReturningDummyClass::class);
         }
         foreach ($pids as $pid) {
             $pid = intval($pid);
