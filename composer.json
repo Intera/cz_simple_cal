@@ -2,7 +2,6 @@
 	"name": "intera-typo3-extension/cz-simple-cal",
 	"description": "A simple calendar.",
 	"type": "typo3-cms-extension",
-	"version": "1.0.0",
 	"replace": {
 		"cz_simple_cal": "self.version",
 		"typo3-ter/cz-simple-cal": "self.version"
