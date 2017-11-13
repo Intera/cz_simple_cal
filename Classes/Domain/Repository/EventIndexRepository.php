@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Repository;
 
 /***************************************************************
@@ -26,528 +27,570 @@ namespace Tx\CzSimpleCal\Domain\Repository;
  ***************************************************************/
 
 use Tx\CzSimpleCal\Domain\Model\EventIndex;
-use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for EventIndex domain models.
  *
  * @method EventIndex findByUid($uid)
  */
-class EventIndexRepository extends Repository {
+class EventIndexRepository extends Repository
+{
+    /**
+     * filter settings for all allowed properties for setupSettings()
+     *
+     * @var array
+     */
+    protected static $filterSettings = [
+        'startDate' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => [
+                'min_range' => 0,
+                'default' => null,
+            ],
+        ],
+        'endDate' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => [
+                'min_range' => 0,
+                'default' => null,
+            ],
+        ],
+        'maxEvents' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => [
+                'min_range' => 1,
+                'default' => null,
+            ],
+        ],
+        'order' => [
+            'filter' => FILTER_CALLBACK,
+            'options' => [
+                self,
+                'sanitizeOrder',
+            ],
+        ],
+        'orderBy' => [
+            'filter' => FILTER_CALLBACK,
+            'options' => [
+                self,
+                'sanitizeString',
+            ],
+        ],
+        'groupBy' => [
+            'filter' => FILTER_CALLBACK,
+            'options' => [
+                self,
+                'sanitizeString',
+            ],
+        ],
+        'includeStartedEvents' => ['filter' => FILTER_VALIDATE_BOOLEAN],
+        'excludeOverlongEvents' => ['filter' => FILTER_VALIDATE_BOOLEAN],
+        'filter' => [
+            'filter' => FILTER_UNSAFE_RAW, // This is treated seperately
+            'flags' => FILTER_FORCE_ARRAY,
+        ],
+    ];
 
-	/**
-	 * find all records and return them ordered by the start date ascending
-	 *
-	 * @return array
-	 */
-	public function findAll() {
-		$query = $this->createQuery();
-		$query->setOrderings(array('start' => 'ASC'));
-		return $query->execute();
-	}
+    /**
+     * sanitizing the value for the "filter" setting.
+     * If multiple values are given return an array
+     *
+     * @param $filter
+     * @return array
+     */
+    protected static function sanitizeFilter($filter)
+    {
+        if (!is_array($filter)) {
+            $filter = [
+                'value' => GeneralUtility::trimExplode(',', $filter, true),
+            ];
+        } elseif (!empty($filter['_typoScriptNodeValue']) && !is_array($filter['_typoScriptNodeValue'])) {
+            /* this field is set if something like
+             *     filter {
+             *         foo = bar
+             *         foo.negate = 1
+             *     }
+             * was set in the frontend
+             *
+             * This is processed prior to the value field, so
+             * that a flexform is able to override it.
+             */
+            $filter['value'] = GeneralUtility::trimExplode(',', $filter['_typoScriptNodeValue'], true);
+            unset($filter['_typoScriptNodeValue']);
+        } elseif (!empty($filter['value']) && !is_array($filter['value'])) {
+            $filter['value'] = GeneralUtility::trimExplode(',', $filter['value'], true);
+        }
 
-	/**
-	 * Finds all event index entries for the given event without
-	 * respecting storage pages or enable fields.
-	 *
-	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
-	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findAllByEventEverywhere($event) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()
-			->setRespectStoragePage(FALSE)
-			->setRespectSysLanguage(FALSE)
-			->setIgnoreEnableFields(TRUE);
-		$query->matching(
-			$query->equals('event', $event->getUidLocalized())
-		);
-		return $query->execute();
-	}
+        foreach ($filter['value'] as &$value) {
+            if (is_numeric($value)) {
+                $value = intval($value);
+            }
+        }
+        return empty($filter['value']) ? null : $filter;
+    }
 
-	/**
-	 * find all events matching some settings
-	 *
-	 * for all options for the settings see setupSettings()
-	 *
-	 * @see setupSettings()
-	 * @param $settings
-	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findAllWithSettings($settings = array()) {
-		$settings = $this->cleanSettings($settings);
-		$query = $this->setupSettings($settings);
+    /**
+     * sanitize the "order" setting
+     *
+     * @param $value
+     * @return string|null
+     */
+    protected static function sanitizeOrder($value)
+    {
+        if (!is_string($value)) {
+            return null;
+        }
+        $value = strtolower($value);
+        if ($value === 'desc') {
+            return 'desc';
+        } elseif ($value === 'asc') {
+            return 'asc';
+        }
+        return null;
+    }
 
-		return $query->execute();
-	}
+    /**
+     * sanitize something to be a valid string
+     * (only ASCII letters, numbers, ".", "_" and "-")
+     *
+     * @param $value
+     * @return string
+     */
+    protected static function sanitizeString($value)
+    {
+        $value = trim($value);
+        if (!is_string($value) || empty($value)) {
+            return null;
+        }
+        if (preg_match('/[^a-z0-9\._\-]/i', trim($value))) {
+            // If: there is anything not a letter, number, dot, underscore or hyphen
+            return null;
+        } else {
+            return $value;
+        }
+    }
 
-	/**
-	 * find all events matching some settings and count them
-	 *
-	 * for all options for the settings see setupSettings()
-	 *
-	 * @see setupSettings()
-	 * @see doCountAllWithSettings()
-	 * @param $settings
-	 * @return array
-	 */
-	public function countAllWithSettings($settings = array()) {
-		$settings = $this->cleanSettings($settings);
-		return $this->doCountAllWithSettings($settings);
-	}
+    /**
+     * call an event before adding an event to the repo
+     */
+    public function add($object)
+    {
+        $object->preCreate();
+        parent::add($object);
+    }
 
-	/**
-	 * Finds all events ordered by the event timestamp so that events that were changed most recently are returned first.
-	 *
-	 * @param int $maxEvents
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findLatest($maxEvents) {
-		$query = $this->createQuery();
-		$query->setOrderings(array('event.tstamp' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
-		if ($maxEvents > 0) {
-			$query->setLimit((int)$maxEvents);
-		}
-		return $query->execute();
-	}
+    /**
+     * find all events matching some settings and count them
+     *
+     * for all options for the settings see setupSettings()
+     *
+     * @see setupSettings()
+     * @see doCountAllWithSettings()
+     * @param $settings
+     * @return array
+     */
+    public function countAllWithSettings($settings = [])
+    {
+        $settings = $this->cleanSettings($settings);
+        return $this->doCountAllWithSettings($settings);
+    }
 
-	/**
-	 * Deletes all entries from the eventindex for a given event UID using a native database query.
-	 *
-	 * @param int $eventUid
-	 */
-	public function removeAllNative($eventUid) {
-		// We use a normal database query to improve the performance.
-		$this->getDatabaseConnection()->exec_DELETEquery('tx_czsimplecal_domain_model_eventindex', 'event=' . (int)$eventUid);
-	}
+    /**
+     * find all records and return them ordered by the start date ascending
+     *
+     * @return array
+     */
+    public function findAll()
+    {
+        $query = $this->createQuery();
+        $query->setOrderings(['start' => 'ASC']);
+        return $query->execute();
+    }
 
-	/**
-	 * find all events matching some settings and count them
-	 *
-	 * @param $settings
-	 * @ugly doing dozens of database requests
-	 * @return array
-	 */
-	protected function doCountAllWithSettings($settings = array()) {
-		if(!isset($settings['groupBy'])) {
-			return $this->setupSettings($settings)->count();
-		} else {
-			$output = array();
-			if($settings['groupBy'] === 'day') {
-				$step = '+1 day';
-			} elseif($settings['groupBy'] === 'week') {
-				$step = '+1 week';
-			} elseif($settings['groupBy'] === 'month') {
-				$step = '+1 month';
-			} elseif($settings['groupBy'] === 'year') {
-				$step = '+1 year';
-			} else {
-				$step = null;
-			}
+    /**
+     * Finds all event index entries for the given event without
+     * respecting storage pages or enable fields.
+     *
+     * @param \Tx\CzSimpleCal\Domain\Model\Event $event
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAllByEventEverywhere($event)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()
+            ->setRespectStoragePage(false)
+            ->setRespectSysLanguage(false)
+            ->setIgnoreEnableFields(true);
+        $query->matching(
+            $query->equals('event', $event->getUidLocalized())
+        );
+        return $query->execute();
+    }
 
-			$startDate = new \Tx\CzSimpleCal\Utility\DateTime('@'.$settings['startDate']);
-			$startDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+    /**
+     * find all events matching some settings
+     *
+     * for all options for the settings see setupSettings()
+     *
+     * @see setupSettings()
+     * @param $settings
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAllWithSettings($settings = [])
+    {
+        $settings = $this->cleanSettings($settings);
+        $query = $this->setupSettings($settings);
 
-			$endDate = $settings['endDate'];
-			while ($startDate->getTimestamp() < $endDate) {
-				if($step === null) {
-					$tempEndDate = null;
-				} else {
-					$tempEndDate = clone $startDate;
-					$tempEndDate->modify($step.' -1 second');
-				}
+        return $query->execute();
+    }
 
-				$output[] = array(
-					'date' => $startDate->format('c'),
-					'count' => $this->doCountAllWithSettings(array_merge(
-						$settings,
-						array(
-							'startDate' => $startDate->format('U'),
-							'endDate' => $tempEndDate ? $tempEndDate->format('U') : null,
-							'groupBy' => null
-						)
-					))
-				);
+    /**
+     * Finds all events ordered by the event timestamp so that events that were changed most recently are returned
+     * first.
+     *
+     * @param int $maxEvents
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findLatest($maxEvents)
+    {
+        $query = $this->createQuery();
+        $query->setOrderings(['event.tstamp' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
+        if ($maxEvents > 0) {
+            $query->setLimit((int)$maxEvents);
+        }
+        return $query->execute();
+    }
 
-				if($step === null) {
-					break;
-				} else {
-					$startDate->modify($step);
-				}
-			}
+    /**
+     * get a list of upcomming appointments by an event uid
+     *
+     * @param integer $eventUid
+     * @param integer $limit
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findNextAppointmentsByEventUid($eventUid, $limit = 3)
+    {
+        $query = $this->createQuery();
+        $query->setLimit($limit);
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('event.uid', $eventUid),
+                $query->greaterThanOrEqual('start', time())
+            )
+        );
+        $query->setOrderings(['start' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING]);
 
-			return $output;
-		}
+        return $query->execute();
+    }
 
-	}
+    /**
+     * make a given slug unique among all records
+     *
+     * @param $slug
+     * @param $uid
+     * @return string the unique slug
+     */
+    public function makeSlugUnique($slug, $uid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()
+            ->setRespectStoragePage(false)
+            ->setIgnoreEnableFields(true)
+            ->setRespectSysLanguage(true);
 
-	/**
-	 * setup settings for an query
-	 *
-	 * possible restrictions are:
-	 *
-	 *  * startDate             integer timestamp of the start
-	 *  * endDate               integer timestamp of the end
-	 *  * order                 string  the mode to sort by (could be 'asc' or 'desc')
-	 *  * orderBy               string  the field to sort by (could be 'start' or 'end')
-	 *  * maxEvents             integer the maximum of events to return
-	 *  * includeStartedEvents  boolean if events that were in progress on the startDate should be shown
-	 *  * excludeOverlongEvents boolean if events that were not yet finished on the endDate should be excluded
-	 *  * filter                array   key is field name and value the desired value, multiple filters are concated with "AND"
-	 *
-	 * all given values must be sanitized
-	 *
-	 * @param array $settings
-	 * @param $query
-	 * @ugly extbase query needs a better fluent interface for query creation
-	 * @return \TYPO3\CMS\Extbase\Persistence\QueryInterface
-	 * @throws \InvalidArgumentException
-	 */
-	protected function setupSettings($settings = array(), $query = null) {
-		if(is_null($query)) {
-			$query = $this->createQuery();
-		}
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('slug', $slug),
+                $query->logicalNot($query->equals('uid', $uid))
+            )
+        );
+        $count = $query->count();
+        if ($count !== false && $count == 0) {
+            return $slug;
+        } else {
+            $query = $this->createQuery();
+            $query->getQuerySettings()->
+            setRespectStoragePage(false)->
+            setIgnoreEnableFields(true)->
+            setRespectSysLanguage(false);
+            $query->matching(
+                $query->logicalAnd(
+                    $query->like('slug', $slug . '-%'),
+                    $query->logicalNot($query->equals('uid', $uid))
+                )
+            );
+            $query->setOrderings(
+                [
+                    'slug' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
+                ]
+            );
+            $query->setLimit(1);
+            $result = $query->execute();
 
-		// startDate
-		if(isset($settings['startDate'])) {
-			$constraint = $query->greaterThanOrEqual($settings['includeStartedEvents'] ? 'end' : 'start', $settings['startDate']);
-		}
-		// endDate
-		if(isset($settings['endDate'])) {
-			$temp_constraint = $query->lessThanOrEqual($settings['excludeOverlongEvents'] ? 'end' : 'start', $settings['endDate']);
+            if ($result->count() === 0) {
+                return $slug . '-1';
+            } else {
+                $number = intval(substr($result->getFirst()->getSlug(), strlen($slug) + 1)) + 1;
+                return $slug . '-' . $number;
+            }
+        }
+    }
 
-			if(isset($constraint)) {
-				$constraint = $query->logicalAnd($constraint, $temp_constraint);
-			} else {
-				$constraint = $temp_constraint;
-			}
-		}
+    /**
+     * Deletes all entries from the eventindex for a given event UID using a native database query.
+     *
+     * @param int $eventUid
+     */
+    public function removeAllNative($eventUid)
+    {
+        // We use a normal database query to improve the performance.
+        $this->getDatabaseConnection()->exec_DELETEquery(
+            'tx_czsimplecal_domain_model_eventindex',
+            'event=' . (int)$eventUid
+        );
+    }
 
-		// filterCategories
-		if(isset($settings['filter'])) {
-			foreach($settings['filter'] as $name => $filter) {
-				if(is_array($filter['value'])) {
-					/** @var \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $temp_constraint */
-					$temp_constraint = $query->in('event.'.$name, $filter['value']);
+    /**
+     * do the cleaning of the values so that no wrong variable type or value will be used
+     *
+     * @param $settings
+     * @return array
+     */
+    protected function cleanSettings($settings)
+    {
+        // Unset unknown fields
+        $settings = array_intersect_key($settings, self::$filterSettings);
 
-					if(isset($filter['negate']) && $filter['negate']) {
-						$temp_constraint = $query->logicalNot($temp_constraint);
-					}
+        $settings = filter_var_array($settings, self::$filterSettings);
 
-					if(isset($constraint)) {
-						$constraint = $query->logicalAnd($constraint, $temp_constraint);
-					} else {
-						$constraint = $temp_constraint;
-					}
-				}
-				// @todo: support for atomic values
-			}
-		}
+        if (isset($settings['filter'])) {
+            $settings['filter'] = $this->setupFilters($settings['filter']);
+        }
 
-		// all constraints should be gathered here
+        return $settings;
+    }
 
-		// set the WHERE part
-		if(isset($constraint)) {
-			$query->matching($constraint);
-		}
+    /**
+     * find all events matching some settings and count them
+     *
+     * @param $settings
+     * @ugly doing dozens of database requests
+     * @return array
+     */
+    protected function doCountAllWithSettings($settings = [])
+    {
+        if (!isset($settings['groupBy'])) {
+            return $this->setupSettings($settings)->count();
+        } else {
+            $output = [];
+            if ($settings['groupBy'] === 'day') {
+                $step = '+1 day';
+            } elseif ($settings['groupBy'] === 'week') {
+                $step = '+1 week';
+            } elseif ($settings['groupBy'] === 'month') {
+                $step = '+1 month';
+            } elseif ($settings['groupBy'] === 'year') {
+                $step = '+1 year';
+            } else {
+                $step = null;
+            }
 
-		// limit
-		if(isset($settings['maxEvents'])) {
-			$query->setLimit(intval($settings['maxEvents']));
-		}
+            $startDate = new \Tx\CzSimpleCal\Utility\DateTime('@' . $settings['startDate']);
+            $startDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
-		// order and orderBy
-		if(isset($settings['order']) || isset($settings['orderBy'])) {
-			if(!isset($settings['orderBy'])) {
-				$orderBy = 'start';
-			} elseif($settings['orderBy'] === 'start' || $settings['orderBy'] === 'startDate') {
-				$orderBy = 'start';
-			} elseif($settings['orderBy'] === 'end' || $settings['orderBy'] === 'endDate') {
-				$orderBy = 'end';
-			} else {
-				throw new \InvalidArgumentException('"orderBy" should be one of "start" or "end".');
-			}
+            $endDate = $settings['endDate'];
+            while ($startDate->getTimestamp() < $endDate) {
+                if ($step === null) {
+                    $tempEndDate = null;
+                } else {
+                    $tempEndDate = clone $startDate;
+                    $tempEndDate->modify($step . ' -1 second');
+                }
 
-			if(!isset($settings['order'])) {
-				$order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
-			} elseif(strtolower($settings['order']) === 'asc') {
-				$order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
-			} elseif(strtolower($settings['order']) === 'desc') {
-				$order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING;
-			} else {
-				throw new \InvalidArgumentException('"order" should be one of "asc" or "desc".');
-			}
+                $output[] = [
+                    'date' => $startDate->format('c'),
+                    'count' => $this->doCountAllWithSettings(
+                        array_merge(
+                            $settings,
+                            [
+                                'startDate' => $startDate->format('U'),
+                                'endDate' => $tempEndDate ? $tempEndDate->format('U') : null,
+                                'groupBy' => null,
+                            ]
+                        )
+                    ),
+                ];
 
-			$query->setOrderings(array($orderBy => $order));
-		}
+                if ($step === null) {
+                    break;
+                } else {
+                    $startDate->modify($step);
+                }
+            }
 
-		return $query;
-	}
+            return $output;
+        }
+    }
 
-	/**
-	 * filter settings for all allowed properties for setupSettings()
-	 *
-	 * @var array
-	 */
-	protected static $filterSettings = array(
-		'startDate' => array(
-			'filter' => FILTER_VALIDATE_INT,
-			'options' => array('min_range' => 0, 'default' => null)
-		),
-		'endDate' => array(
-			'filter' => FILTER_VALIDATE_INT,
-			'options' => array('min_range' => 0, 'default' => null)
-		),
-		'maxEvents'     => array(
-			'filter' => FILTER_VALIDATE_INT,
-			'options' => array(
-				'min_range' => 1,
-				'default' => null
-			),
-		),
-		'order'     =>  array(
-			'filter' => FILTER_CALLBACK,
-			'options' => array(self, 'sanitizeOrder')
-		),
-		'orderBy'   => array(
-			'filter' => FILTER_CALLBACK,
-			'options' => array(self, 'sanitizeString'),
-		),
-		'groupBy'   => array(
-			'filter' => FILTER_CALLBACK,
-			'options' => array(self, 'sanitizeString'),
-		),
-		'includeStartedEvents' => array(
-			'filter' => FILTER_VALIDATE_BOOLEAN
-		),
-		'excludeOverlongEvents' => array(
-			'filter' => FILTER_VALIDATE_BOOLEAN,
-		),
-		'filter' => array(
-			'filter' => FILTER_UNSAFE_RAW, // this is treated seperately
-			'flags' => FILTER_FORCE_ARRAY
-		),
-	);
+    /**
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 
-	/**
-	 * do the cleaning of the values so that no wrong variable type or value will be used
-	 *
-	 * @param $settings
-	 * @return array
-	 */
-	protected function cleanSettings($settings) {
+    /**
+     * check if a given value is a filter
+     *
+     * @param mixed $filter
+     * @return bool
+     */
+    protected function isFilter($filter)
+    {
+        return !is_array($filter) || array_key_exists('negate', $filter) || array_key_exists('value', $filter);
+    }
 
-		// unset unknown fields
-		$settings = array_intersect_key($settings, self::$filterSettings);
+    /**
+     * sanitizing the given filters
+     *
+     * @param $filters
+     * @param $prefix
+     * @return array
+     */
+    protected function setupFilters($filters, $prefix = '')
+    {
+        if (!is_array($filters)) {
+            return null;
+        }
 
-		$settings = filter_var_array($settings, self::$filterSettings);
+        $return = [];
 
+        foreach ($filters as $name => $filter) {
+            if ($this->isFilter($filter)) {
+                $cleanedFilter = self::sanitizeFilter($filter);
+                if (!is_null($cleanedFilter)) {
+                    $return[$prefix . $name] = $cleanedFilter;
+                }
+            } else {
+                if (is_array($filter)) {
+                    $return = array_merge(
+                        $return,
+                        $this->setupFilters($filter, $prefix . $name . '.')
+                    );
+                }
+            }
+        }
+        return $return;
+    }
 
-		if(isset($settings['filter'])) {
-			$settings['filter'] = $this->setupFilters($settings['filter']);
-		}
+    /**
+     * setup settings for an query
+     *
+     * possible restrictions are:
+     *
+     *  * startDate             integer timestamp of the start
+     *  * endDate               integer timestamp of the end
+     *  * order                 string  the mode to sort by (could be 'asc' or 'desc')
+     *  * orderBy               string  the field to sort by (could be 'start' or 'end')
+     *  * maxEvents             integer the maximum of events to return
+     *  * includeStartedEvents  boolean if events that were in progress on the startDate should be shown
+     *  * excludeOverlongEvents boolean if events that were not yet finished on the endDate should be excluded
+     *  * filter                array   key is field name and value the desired value, multiple filters are concated
+     * with "AND"
+     *
+     * all given values must be sanitized
+     *
+     * @param array $settings
+     * @param $query
+     * @ugly extbase query needs a better fluent interface for query creation
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryInterface
+     * @throws \InvalidArgumentException
+     */
+    protected function setupSettings($settings = [], $query = null)
+    {
+        if (is_null($query)) {
+            $query = $this->createQuery();
+        }
 
-		return $settings;
-	}
+        if (isset($settings['startDate'])) {
+            $constraint = $query->greaterThanOrEqual(
+                $settings['includeStartedEvents'] ? 'end' : 'start',
+                $settings['startDate']
+            );
+        }
 
-	/**
-	 * sanitize the "order" setting
-	 *
-	 * @param $value
-	 * @return string|null
-	 */
-	protected static function sanitizeOrder($value) {
-		if(!is_string($value)) {
-			return null;
-		}
-		$value = strtolower($value);
-		if($value === 'desc') {
-			return 'desc';
-		} elseif($value === 'asc') {
-			return 'asc';
-		}
-		return null;
-	}
+        if (isset($settings['endDate'])) {
+            $temp_constraint = $query->lessThanOrEqual(
+                $settings['excludeOverlongEvents'] ? 'end' : 'start',
+                $settings['endDate']
+            );
 
-	/**
-	 * sanitize something to be a valid string
-	 * (only ASCII letters, numbers, ".", "_" and "-")
-	 *
-	 * @param $value
-	 * @return string
-	 */
-	protected static function sanitizeString($value) {
-		$value = trim($value);
-		if(!is_string($value) || empty($value)) {
-			return null;
-		}
-		if(preg_match('/[^a-z0-9\._\-]/i', trim($value))) {
-			// if: there is anything not a letter, number, dot, underscore or hyphen
-			return null;
-		} else {
-			return $value;
-		}
-	}
+            if (isset($constraint)) {
+                $constraint = $query->logicalAnd($constraint, $temp_constraint);
+            } else {
+                $constraint = $temp_constraint;
+            }
+        }
 
-	/**
-	 * sanitizing the value for the "filter" setting.
-	 * If multiple values are given return an array
-	 *
-	 * @param $filter
-	 * @return array
-	 */
-	protected static function sanitizeFilter($filter) {
+        // Filter categories
+        if (isset($settings['filter'])) {
+            foreach ($settings['filter'] as $name => $filter) {
+                if (is_array($filter['value'])) {
+                    /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $temp_constraint */
+                    $temp_constraint = $query->in('event.' . $name, $filter['value']);
 
-		if(!is_array($filter)) {
-			$filter = array(
-				'value' => GeneralUtility::trimExplode(',', $filter, true)
-			);
-		} elseif(!empty($filter['_typoScriptNodeValue']) && !is_array($filter['_typoScriptNodeValue'])) {
-			/* this field is set if something like
-			 *     filter {
-			 *         foo = bar
-			 *         foo.negate = 1
-			 *     }
-			 * was set in the frontend
-			 *
-			 * This is processed prior to the value field, so
-			 * that a flexform is able to override it.
-			 */
-			$filter['value'] = GeneralUtility::trimExplode(',', $filter['_typoScriptNodeValue'], true);
-			unset($filter['_typoScriptNodeValue']);
-		} elseif(!empty($filter['value']) && !is_array($filter['value'])) {
-			$filter['value'] = GeneralUtility::trimExplode(',', $filter['value'], true);
-		}
+                    if (isset($filter['negate']) && $filter['negate']) {
+                        $temp_constraint = $query->logicalNot($temp_constraint);
+                    }
 
-		foreach($filter['value'] as &$value) {
-			if(is_numeric($value)) {
-				$value = intval($value);
-			}
-		}
-		return empty($filter['value']) ? null : $filter;
-	}
+                    if (isset($constraint)) {
+                        $constraint = $query->logicalAnd($constraint, $temp_constraint);
+                    } else {
+                        $constraint = $temp_constraint;
+                    }
+                }
+                // @todo: support for atomic values
+            }
+        }
 
-	/**
-	 * sanitizing the given filters
-	 *
-	 * @param $filters
-	 * @param $prefix
-	 * @return array
-	 */
-	protected function setupFilters($filters, $prefix = '') {
-		if(!is_array($filters)) {
-			return null;
-		}
+        // All constraints should be gathered here
+        // Set the WHERE part
+        if (isset($constraint)) {
+            $query->matching($constraint);
+        }
 
-		$return = array();
+        if (isset($settings['maxEvents'])) {
+            $query->setLimit(intval($settings['maxEvents']));
+        }
 
-		foreach($filters as $name => $filter) {
-			if($this->isFilter($filter)) {
-				$cleanedFilter = self::sanitizeFilter($filter);
-				if(!is_null($cleanedFilter)) {
-					$return[$prefix.$name] = $cleanedFilter;
-				}
-			} else {
-				if(is_array($filter)) {
-					$return = array_merge(
-						$return,
-						$this->setupFilters($filter, $prefix.$name.'.')
-					);
-				}
-			}
-		}
-		return $return;
-	}
+        // Order and orderBy
+        if (isset($settings['order']) || isset($settings['orderBy'])) {
+            if (!isset($settings['orderBy'])) {
+                $orderBy = 'start';
+            } elseif ($settings['orderBy'] === 'start' || $settings['orderBy'] === 'startDate') {
+                $orderBy = 'start';
+            } elseif ($settings['orderBy'] === 'end' || $settings['orderBy'] === 'endDate') {
+                $orderBy = 'end';
+            } else {
+                throw new \InvalidArgumentException('"orderBy" should be one of "start" or "end".');
+            }
 
-	/**
-	 * check if a given value is a filter
-	 *
-	 * @param mixed $filter
-	 * @return bool
-	 */
-	protected function isFilter($filter) {
-		return !is_array($filter) || array_key_exists('negate', $filter) || array_key_exists('value', $filter);
-	}
+            if (!isset($settings['order'])) {
+                $order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
+            } elseif (strtolower($settings['order']) === 'asc') {
+                $order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
+            } elseif (strtolower($settings['order']) === 'desc') {
+                $order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING;
+            } else {
+                throw new \InvalidArgumentException('"order" should be one of "asc" or "desc".');
+            }
 
-	/**
-	 * make a given slug unique among all records
-	 *
-	 * @param $slug
-	 * @param $uid
-	 * @return string the unique slug
-	 */
-	public function makeSlugUnique($slug, $uid) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()
-			->setRespectStoragePage(FALSE)
-			->setIgnoreEnableFields(TRUE)
-			->setRespectSysLanguage(TRUE);
+            $query->setOrderings([$orderBy => $order]);
+        }
 
-		$query->matching($query->logicalAnd(
-			$query->equals('slug', $slug),
-			$query->logicalNot($query->equals('uid', $uid))
-		));
-		$count = $query->count();
-		if($count !== false && $count == 0) {
-			return $slug;
-		} else {
-			$query = $this->createQuery();
-			$query->getQuerySettings()->
-				setRespectStoragePage(false)->
-				setIgnoreEnableFields(TRUE)->
-				setRespectSysLanguage(false)
-			;
-			$query->matching($query->logicalAnd(
-				$query->like('slug', $slug.'-%'),
-				$query->logicalNot($query->equals('uid', $uid))
-			));
-			$query->setOrderings(array(
-				'slug' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
-			));
-			$query->setLimit(1);
-			$result = $query->execute();
-
-			if($result->count() === 0) {
-				return $slug.'-1';
-			} else {
-				$number = intval(substr($result->getFirst()->getSlug(), strlen($slug) + 1)) + 1;
-				return $slug.'-'.$number;
-			}
-		}
-	}
-
-	/**
-	 * call an event before adding an event to the repo
-	 */
-	public function add($object) {
-		$object->preCreate();
-		parent::add($object);
-	}
-
-	/**
-	 * get a list of upcomming appointments by an event uid
-	 *
-	 * @param integer $eventUid
-	 * @param integer $limit
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findNextAppointmentsByEventUid($eventUid, $limit = 3) {
-		$query = $this->createQuery();
-		$query->setLimit($limit);
-		$query->matching($query->logicalAnd(
-			$query->equals('event.uid', $eventUid),
-			$query->greaterThanOrEqual('start', time())
-		));
-		$query->setOrderings(array('start' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
-
-		return $query->execute();
-	}
-
-	/**
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
-	}
+        return $query;
+    }
 }

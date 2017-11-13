@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Utility;
 
 /***************************************************************
@@ -31,64 +32,72 @@ namespace Tx\CzSimpleCal\Utility;
  *
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class FlexConfig {
+class FlexConfig
+{
+    /**
+     * Initializes the available action configurations in the given
+     * $config['items'] array.
+     *
+     * @param array $config The current configuration of the FlexForm select field.
+     * @return void
+     */
+    public function getAllowedActions($config)
+    {
+        $pid = \TYPO3\CMS\Backend\Utility\BackendUtility::getTSCpid(
+            'tt_content',
+            $config['row']['uid'],
+            $config['row']['pid']
+        );
+        $tsConfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($pid[1]);
 
-	/**
-	 * Initializes the available action configurations in the given
-	 * $config['items'] array.
-	 *
-	 * @param array $config The current configuration of the FlexForm select field.
-	 * @return void
-	 */
-	public function getAllowedActions($config) {
+        $flexConfig = &$tsConfig['options.']['cz_simple_cal_pi1.']['flexform.'];
+        if (empty($flexConfig) || !is_array($flexConfig['allowedActions.'])) {
+            return;
+        }
 
-		$pid = \TYPO3\CMS\Backend\Utility\BackendUtility::getTSCpid('tt_content', $config['row']['uid'], $config['row']['pid']);
-		$tsConfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($pid[1]);
+        $availableActions = $flexConfig['allowedActions.']['availableActions.'];
+        if (!is_array($availableActions)) {
+            return;
+        }
 
-		$flexConfig = & $tsConfig['options.']['cz_simple_cal_pi1.']['flexform.'];
-		if (empty($flexConfig) || !is_array($flexConfig['allowedActions.'])) {
-			return;
-		}
+        if (isset($flexConfig['allowedActions.']['enabledActions'])) {
+            $enabled = [];
+            foreach (\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
+                ',',
+                $flexConfig['allowedActions.']['enabledActions'],
+                true
+            ) as $i) {
+                $enabled[$i . '.'] = '';
+            }
+            $allowedActions = array_intersect_key($availableActions, $enabled);
+        } else {
+            $allowedActions = $availableActions;
+        }
 
-		$availableActions = $flexConfig['allowedActions.']['availableActions.'];
-		if (!is_array($availableActions)) {
-			return;
-		}
+        foreach ($allowedActions as $name => $actionConfiguration) {
+            $value = $actionConfiguration['value'];
+            $label = $this->getLanguageService()->sL($actionConfiguration['label']);
 
-		if (isset($flexConfig['allowedActions.']['enabledActions'])) {
-			$enabled = array();
-			foreach (\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $flexConfig['allowedActions.']['enabledActions'], TRUE) as $i) {
-				$enabled[$i . '.'] = '';
-			}
-			$allowedActions = array_intersect_key($availableActions, $enabled);
-		} else {
-			$allowedActions = $availableActions;
-		}
+            if (empty($label)) {
+                $label = $value;
+            }
 
-		foreach ($allowedActions as $name => $actionConfiguration) {
+            $config['items'][$name] = [
+                $label,
+                $value,
+            ];
+        }
+    }
 
-			$value = $actionConfiguration['value'];
-			$label = $this->getLanguageService()->sL($actionConfiguration['label']);
-
-			if (empty($label)) {
-				$label = $value;
-			}
-
-			$config['items'][$name] = array(
-				$label,
-				$value
-			);
-		}
-	}
-
-	/**
-	 * Getter for the language service.
-	 *
-	 * Introduced for easier Unit testing and IDE support.
-	 *
-	 * @return \TYPO3\CMS\Lang\LanguageService
-	 */
-	protected function getLanguageService() {
-		return $GLOBALS['LANG'];
-	}
+    /**
+     * Getter for the language service.
+     *
+     * Introduced for easier Unit testing and IDE support.
+     *
+     * @return \TYPO3\CMS\Lang\LanguageService
+     */
+    protected function getLanguageService()
+    {
+        return $GLOBALS['LANG'];
+    }
 }

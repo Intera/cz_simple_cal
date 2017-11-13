@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
 /***************************************************************
@@ -40,65 +41,62 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class TimespanToWordsViewHelper extends AbstractViewHelper {
+class TimespanToWordsViewHelper extends AbstractViewHelper
+{
+    /**
+     * the name of the extension that uses this ViewHelper
+     * (used to determine the correct translation file)
+     *
+     * @var string
+     */
+    protected $extensionName = null;
 
-	/**
-	 * Render the supplied unix \Tx\CzSimpleCal\Utility\DateTime in a localized human-readable string.
-	 *
-	 * @param \Tx\CzSimpleCal\Utility\DateTime $start
-	 * @param \Tx\CzSimpleCal\Utility\DateTime $end
-	 * @return string formatted output
-	 * @author Christian Zenker <christian.zenker@599media.de>
-	 */
-	public function render($start, $end) {
+    /**
+     * Render the supplied unix \Tx\CzSimpleCal\Utility\DateTime in a localized human-readable string.
+     *
+     * @param \Tx\CzSimpleCal\Utility\DateTime $start
+     * @param \Tx\CzSimpleCal\Utility\DateTime $end
+     * @return string formatted output
+     * @author Christian Zenker <christian.zenker@599media.de>
+     */
+    public function render($start, $end)
+    {
+        if ($start->format('Y') != $end->format('Y')) {
+            return
+                $this->getLL('timespan.from') . ' ' .
+                strftime($this->getLL('timespan.format.else.start'), $start->getTimestamp()) . ' ' .
+                $this->getLL('timespan.to') . ' ' .
+                strftime($this->getLL('timespan.format.else.end'), $end->getTimestamp());
+        } elseif ($start->format('m') != $end->format('m')) {
+            return
+                $this->getLL('timespan.from') . ' ' .
+                strftime($this->getLL('timespan.format.sameYear.start'), $start->getTimestamp()) . ' ' .
+                $this->getLL('timespan.to') . ' ' .
+                strftime($this->getLL('timespan.format.sameYear.end'), $end->getTimestamp());
+        } elseif ($start->format('d') != $end->format('d')) {
+            return
+                $this->getLL('timespan.from') . ' ' .
+                strftime($this->getLL('timespan.format.sameMonth.start'), $start->getTimestamp()) . ' ' .
+                $this->getLL('timespan.to') . ' ' .
+                strftime($this->getLL('timespan.format.sameMonth.end'), $end->getTimestamp());
+        } else {
+            return
+                $this->getLL('timespan.on') . ' ' .
+                strftime($this->getLL('timespan.format.sameDay'), $start->getTimestamp());
+        }
+    }
 
-		if($start->format('Y') != $end->format('Y')) {
-			return
-				$this->getLL('timespan.from').' '.
-				strftime($this->getLL('timespan.format.else.start'), $start->getTimestamp()).' '.
-				$this->getLL('timespan.to').' '.
-				strftime($this->getLL('timespan.format.else.end'), $end->getTimestamp())
-			;
-		} elseif($start->format('m') != $end->format('m')) {
-			return
-				$this->getLL('timespan.from').' '.
-				strftime($this->getLL('timespan.format.sameYear.start'), $start->getTimestamp()).' '.
-				$this->getLL('timespan.to').' '.
-				strftime($this->getLL('timespan.format.sameYear.end'), $end->getTimestamp())
-			;
-		} elseif($start->format('d') != $end->format('d')) {
-			return
-				$this->getLL('timespan.from').' '.
-				strftime($this->getLL('timespan.format.sameMonth.start'), $start->getTimestamp()).' '.
-				$this->getLL('timespan.to').' '.
-				strftime($this->getLL('timespan.format.sameMonth.end'), $end->getTimestamp())
-			;
-		} else {
-			return
-				$this->getLL('timespan.on').' '.
-				strftime($this->getLL('timespan.format.sameDay'), $start->getTimestamp())
-			;
-		}
-	}
-
-	/**
-	 * the name of the extension that uses this ViewHelper
-	 * (used to determine the correct translation file)
-	 *
-	 * @var string
-	 */
-	protected $extensionName = null;
-
-	/**
-	 * helping function to get a translation of a string
-	 *
-	 * @param string $key
-	 * @return string
-	 */
-	protected function getLL($key) {
-		if(is_null($this->extensionName)) {
-			$this->extensionName = $this->controllerContext->getRequest()->getControllerExtensionName();
-		}
-		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, $this->extensionName);
-	}
+    /**
+     * helping function to get a translation of a string
+     *
+     * @param string $key
+     * @return string
+     */
+    protected function getLL($key)
+    {
+        if (is_null($this->extensionName)) {
+            $this->extensionName = $this->controllerContext->getRequest()->getControllerExtensionName();
+        }
+        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, $this->extensionName);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Recurrance\Timeline;
 
 /***************************************************************
@@ -27,52 +28,57 @@ namespace Tx\CzSimpleCal\Recurrance\Timeline;
 
 use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
 use Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType;
+use Tx\CzSimpleCal\Domain\Model\Exception as ExceptionModel;
 
 /**
  * Exception in the timeline.
  */
-class Exception extends Base {
+class Exception extends Base
+{
+    /**
+     * @param array $data
+     * @param \Tx\CzSimpleCal\Domain\Interfaces\IsRecurring $event
+     * @return Exception
+     */
+    public function add($data, $event)
+    {
+        try {
+            parent::add($data, $event);
+        } catch (\UnexpectedValueException $e) {
+            // Catched if an exception with this start-date already exists
+            $key = $data['start'];
+            if ($this->data[$key]['end'] < $data['end']) {
+                // If the set exception is shorter -> override it
+                $this->data[$key] = $data;
+            }
+        }
+        return $this;
+    }
 
-	/**
-	 * @param array $data
-	 * @param \Tx\CzSimpleCal\Domain\Interfaces\IsRecurring $event
-	 * @return Exception
-	 */
-	public function add($data, $event) {
-		try {
-			parent::add($data, $event);
-		} catch (\UnexpectedValueException $e) {
-			// catched if an exception with this start-date already exists
-			$key = $data['start'];
-			if ($this->data[$key]['end'] < $data['end']) {
-				// if the set exception is shorter -> override it
-				$this->data[$key] = $data;
-			}
-		}
-		return $this;
-	}
+    /**
+     * Loads some additional data that should be overwritten in the original event.
+     *
+     * @param \Tx\CzSimpleCal\Domain\Model\BaseEvent $exception
+     */
+    protected function initAdditionalEventData($exception)
+    {
+        if (!$exception instanceof ExceptionModel) {
+            return;
+        }
+        if (!$exception->getType()->equals(ExceptionType::UPDATE_EVENT)) {
+            return;
+        }
 
-	/**
-	 * Loads some additional data that should be overwritten in the original event.
-	 *
-	 * @param \Tx\CzSimpleCal\Domain\Model\Exception $exception
-	 */
-	protected function initAdditionalEventData($exception) {
+        $additionalData = [];
 
-		if (!$exception->getType()->equals(ExceptionType::UPDATE_EVENT)) {
-			return;
-		}
+        if ($exception->getStatus() !== EventStatus::UNDEFINED) {
+            $additionalData['status'] = $exception->getStatus();
+        }
 
-		$additionalData = array();
+        if ($exception->getTeaser() !== null) {
+            $additionalData['teaser'] = $exception->getTeaser();
+        }
 
-		if ($exception->getStatus() !== EventStatus::UNDEFINED) {
-			$additionalData['status'] = $exception->getStatus();
-		}
-
-		if ($exception->getTeaser() !== NULL) {
-			$additionalData['teaser'] = $exception->getTeaser();
-		}
-
-		$this->data[$this->lastValue]['additionalEventData'] = $additionalData;
-	}
+        $this->data[$this->lastValue]['additionalEventData'] = $additionalData;
+    }
 }

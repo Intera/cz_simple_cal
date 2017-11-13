@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Repository;
 
 /***************************************************************
@@ -33,184 +34,195 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @method Event findByUid($uid)
  */
-class EventRepository extends Repository {
+class EventRepository extends Repository
+{
+    /**
+     * find all events by a given user id
+     *
+     * @param string $userId
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAllByUserId($userId)
+    {
+        if (!$userId) {
+            return null;
+        }
 
-	/**
-	 * find a record by its uid regardless of its pid
-	 *
-	 * @param $uid
-	 * @return \Tx\CzSimpleCal\Domain\Model\Event
-	 */
-	public function findOneByUidEverywhere($uid) {
+        $query = $this->createQuery();
 
-		$query = $this->createQuery();
-		$query->getQuerySettings()
-			->setRespectStoragePage(FALSE)
-			->setIgnoreEnableFields(TRUE)
-			->setRespectSysLanguage(FALSE);
+        $query->matching($query->equals('cruser_fe', $userId));
 
-		$query->setLimit(1);
-		$query->matching($query->equals('uid', $uid));
+        $query->setOrderings(
+            [
+                'start_day' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
+            ]
+        );
 
-		$result = $query->execute();
-		if(count($result) < 1) {
-			return null;
-		}
+        return $query->execute();
+    }
 
-		$object = $result->getFirst();
+    /**
+     * find all records regardless of their storage page, enable fields or language
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAllEverywhere()
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->
+        setRespectStoragePage(false)->
+        setIgnoreEnableFields(true)->
+        setRespectSysLanguage(false);
 
-		return $object;
-	}
+        return $query->execute();
+    }
 
-	/**
-	 * find all records regardless of their storage page, enable fields or language
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findAllEverywhere() {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->
-			setRespectStoragePage(false)->
-			setIgnoreEnableFields(TRUE)->
-			setRespectSysLanguage(false)
-		;
+    /**
+     * find a record by its uid regardless of its pid
+     *
+     * @param $uid
+     * @return \Tx\CzSimpleCal\Domain\Model\Event
+     */
+    public function findOneByUidEverywhere($uid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()
+            ->setRespectStoragePage(false)
+            ->setIgnoreEnableFields(true)
+            ->setRespectSysLanguage(false);
 
-		return $query->execute();
-	}
+        $query->setLimit(1);
+        $query->matching($query->equals('uid', $uid));
 
-	/**
-	 * find records for the indexing task
-	 * with parameters suitable for the indexer
-	 *
-	 * @param integer $limit
-	 * @param integer $maxAge UNIX timestamp
-	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findRecordsForReindexing($limit = null, $maxAge = null) {
+        $result = $query->execute();
+        if (count($result) < 1) {
+            return null;
+        }
 
-		$query = $this->createQuery();
-		$query->getQuerySettings()
-			->setRespectStoragePage(FALSE)
-			->setIgnoreEnableFields(TRUE)
-			->setRespectSysLanguage(TRUE);
+        $object = $result->getFirst();
 
-		if(!is_null($limit)) {
-			$query->
-				setLimit($limit)
-			;
-		}
-		if(is_null($maxAge)) {
-			// if: no maxAge is set, fetch the oldest events
-			$query->setOrderings(array(
-				'last_indexed' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-			));
-		} else {
-			$query->matching(
-				$query->lessThan('last_indexed', $maxAge)
-			);
-			/* no sorting here:
-			 * - sorting would make the query slower
-			 * - multiple parallel scheduler tasks could do the same work as there is no locking
-			 *    with this "random" sorting, there is at least a chance this won't happen
-			 */
-		}
-		return $query->execute();
-	}
+        return $object;
+    }
 
-	/**
-	 * make a given slug unique
-	 * returns a unique slug
-	 *
-	 * @param $slug
-	 * @param $uid
-	 * @return string
-	 */
-	public function makeSlugUnique($slug, $uid) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->
-			setRespectStoragePage(false)->
-			setIgnoreEnableFields(TRUE)->
-			setRespectSysLanguage(false)
-		;
-		$query->matching($query->logicalAnd(
-			$query->equals('slug', $slug),
-			$query->logicalNot($query->equals('uid', $uid))
-		));
-		$count = $query->count();
-		if($count !== false && $count == 0) {
-			return $slug;
-		} else {
-			$query = $this->createQuery();
-			$query->getQuerySettings()->
-				setRespectStoragePage(false)->
-				setIgnoreEnableFields(TRUE)->
-				setRespectSysLanguage(false)
-			;
-			$query->matching($query->logicalAnd(
-				$query->like('slug', $slug.'-%'),
-				$query->logicalNot($query->equals('uid', $uid))
-			));
-			$query->setOrderings(array(
-				'slug' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
-			));
-			$query->setLimit(1);
-			$result = $query->execute();
+    /**
+     * find records for the indexing task
+     * with parameters suitable for the indexer
+     *
+     * @param integer $limit
+     * @param integer $maxAge UNIX timestamp
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findRecordsForReindexing($limit = null, $maxAge = null)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()
+            ->setRespectStoragePage(false)
+            ->setIgnoreEnableFields(true)
+            ->setRespectSysLanguage(true);
 
-			if($result->count() == 0) {
-				return $slug.'-1';
-			} else {
-				$number = intval(substr($result->getFirst()->getSlug(), strlen($slug) + 1)) + 1;
-				return $slug.'-'.$number;
-			}
-		}
-	}
+        if (!is_null($limit)) {
+            $query->
+            setLimit($limit);
+        }
+        if (is_null($maxAge)) {
+            // If: no maxAge is set, fetch the oldest events
+            $query->setOrderings(
+                [
+                    'last_indexed' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+                ]
+            );
+        } else {
+            $query->matching(
+                $query->lessThan('last_indexed', $maxAge)
+            );
+            /* no sorting here:
+             * - sorting would make the query slower
+             * - multiple parallel scheduler tasks could do the same work as there is no locking
+             *    with this "random" sorting, there is at least a chance this won't happen
+             */
+        }
+        return $query->execute();
+    }
 
-	/**
-	 * get the UNIX timestamp of the indexing of the oldest event that needs indexing
-	 *
-	 * @return integer UNIX timestamp
-	 */
-	public function getMaxIndexAge() {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->
-			setRespectStoragePage(false)->
-			setIgnoreEnableFields(TRUE)->
-			setRespectSysLanguage(false)
-		;
-		$query->setOrderings(array(
-			'last_indexed' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-		));
+    /**
+     * get the UNIX timestamp of the indexing of the oldest event that needs indexing
+     *
+     * @return integer UNIX timestamp
+     */
+    public function getMaxIndexAge()
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->
+        setRespectStoragePage(false)->
+        setIgnoreEnableFields(true)->
+        setRespectSysLanguage(false);
+        $query->setOrderings(
+            [
+                'last_indexed' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+            ]
+        );
 
-		$query->setLimit(1);
+        $query->setLimit(1);
 
-		$result = $query->execute();
+        $result = $query->execute();
 
-		if($result->count() == 0) {
-			return null;
-		} else {
-			return $result->getFirst()->getLastIndexed()->format('U');
-		}
-	}
+        if ($result->count() == 0) {
+            return null;
+        } else {
+            return $result->getFirst()->getLastIndexed()->format('U');
+        }
+    }
 
-	/**
-	 * find all events by a given user id
-	 *
-	 * @param string $userId
-	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findAllByUserId($userId) {
-		if(!$userId) {
-			return null;
-		}
+    /**
+     * make a given slug unique
+     * returns a unique slug
+     *
+     * @param $slug
+     * @param $uid
+     * @return string
+     */
+    public function makeSlugUnique($slug, $uid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->
+        setRespectStoragePage(false)->
+        setIgnoreEnableFields(true)->
+        setRespectSysLanguage(false);
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('slug', $slug),
+                $query->logicalNot($query->equals('uid', $uid))
+            )
+        );
+        $count = $query->count();
+        if ($count !== false && $count == 0) {
+            return $slug;
+        } else {
+            $query = $this->createQuery();
+            $query->getQuerySettings()->
+            setRespectStoragePage(false)->
+            setIgnoreEnableFields(true)->
+            setRespectSysLanguage(false);
+            $query->matching(
+                $query->logicalAnd(
+                    $query->like('slug', $slug . '-%'),
+                    $query->logicalNot($query->equals('uid', $uid))
+                )
+            );
+            $query->setOrderings(
+                [
+                    'slug' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
+                ]
+            );
+            $query->setLimit(1);
+            $result = $query->execute();
 
-		$query = $this->createQuery();
-
-		$query->matching($query->equals('cruser_fe', $userId));
-
-		$query->setOrderings(array(
-			'start_day' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
-		));
-
-		return $query->execute();
-	}
+            if ($result->count() == 0) {
+                return $slug . '-1';
+            } else {
+                $number = intval(substr($result->getFirst()->getSlug(), strlen($slug) + 1)) + 1;
+                return $slug . '-' . $number;
+            }
+        }
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Interfaces;
 
 /***************************************************************
@@ -30,44 +31,43 @@ use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 /**
  * This interface means this domain model could be recurring.
  */
-interface IsRecurring extends HasTimespan {
+interface IsRecurring extends HasTimespan
+{
+    /**
+     * @return CzSimpleCalDateTime
+     */
+    public function getDateTimeObjectRecurranceUntil();
 
-	/**
-	 * @return string
-	 */
-	public function getRecurranceType();
+    /**
+     * @return string
+     */
+    public function getRecurranceSubtype();
 
-	/**
-	 * @param string $recurranceType
-	 * @return void
-	 */
-	public function setRecurranceType($recurranceType);
+    /**
+     * @return string
+     */
+    public function getRecurranceType();
 
-	/**
-	 * @return string
-	 */
-	public function getRecurranceSubtype();
+    /**
+     * @return integer
+     */
+    public function getRecurranceUntil();
 
-	/**
-	 * @param string $recurranceSubtype
-	 * @return void
-	 */
-	public function setRecurranceSubtype($recurranceSubtype);
+    /**
+     * @param string $recurranceSubtype
+     * @return void
+     */
+    public function setRecurranceSubtype($recurranceSubtype);
 
-	/**
-	 * @return integer
-	 */
-	public function getRecurranceUntil();
+    /**
+     * @param string $recurranceType
+     * @return void
+     */
+    public function setRecurranceType($recurranceType);
 
-	/**
-	 * @return CzSimpleCalDateTime
-	 */
-	public function getDateTimeObjectRecurranceUntil();
-
-	/**
-	 * @param CzSimpleCalDateTime $recurranceUntil
-	 * @return void
-	 */
-	public function setRecurranceUntil($recurranceUntil);
-
+    /**
+     * @param CzSimpleCalDateTime $recurranceUntil
+     * @return void
+     */
+    public function setRecurranceUntil($recurranceUntil);
 }

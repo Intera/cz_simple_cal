@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Arrays;
 
 /***************************************************************
@@ -54,64 +55,67 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *   "foo, bar, baz"
  * </example>
  */
-class JoinViewHelper extends AbstractViewHelper {
+class JoinViewHelper extends AbstractViewHelper
+{
+    /**
+     * @param array $items an array of strings that need to be joined
+     * @param string $by the string used to glue the items together
+     * @param boolean $removeEmpty if true, empty items will be removed
+     * @return string Rendered result
+     */
+    public function render($items = null, $by = ', ', $removeEmpty = false)
+    {
+        if (is_null($items)) {
+            $items = $this->getItems();
+        }
 
-	/**
-	 * @param array $items an array of strings that need to be joined
-	 * @param string $by the string used to glue the items together
-	 * @param boolean $removeEmpty if true, empty items will be removed
-	 * @return string Rendered result
-	 */
-	public function render($items=null, $by=', ', $removeEmpty = false) {
-		if(is_null($items)) {
-			$items = $this->getItems();
-		}
+        if ($removeEmpty) {
+            $items = $this->removeEmpty($items);
+        }
 
-		if($removeEmpty) {
-			$items = $this->removeEmpty($items);
-		}
+        return implode($by, $items);
+    }
 
-		return implode($by, $items);
-	}
+    /**
+     * get items from the nodes
+     *
+     * @return array
+     */
+    protected function getItems()
+    {
+        $viewHelperName = get_class($this);
+        $key = 'items';
 
-	/**
-	 * get items from the nodes
-	 *
-	 * @return array
-	 */
-	protected function getItems() {
-		$viewHelperName = get_class($this);
-		$key = 'items';
+        if ($this->viewHelperVariableContainer->exists($viewHelperName, $key)) {
+            $temp = $this->viewHelperVariableContainer->get($viewHelperName, $key);
+        }
+        $this->viewHelperVariableContainer->addOrUpdate($viewHelperName, $key, []);
 
-		if($this->viewHelperVariableContainer->exists($viewHelperName, $key)) {
-			$temp = $this->viewHelperVariableContainer->get($viewHelperName, $key);
-		}
-		$this->viewHelperVariableContainer->addOrUpdate($viewHelperName, $key, array());
+        $this->renderChildren();
 
-		$this->renderChildren();
+        $return = $this->viewHelperVariableContainer->get($viewHelperName, $key);
 
-		$return = $this->viewHelperVariableContainer->get($viewHelperName, $key);
+        $this->viewHelperVariableContainer->remove($viewHelperName, $key);
+        if (isset($temp)) {
+            $this->viewHelperVariableContainer->add($viewHelperName, $key, $temp);
+        }
 
-		$this->viewHelperVariableContainer->remove($viewHelperName, $key);
-		if(isset($temp)) {
-			$this->viewHelperVariableContainer->add($viewHelperName, $key, $temp);
-		}
+        return $return;
+    }
 
-		return $return;
-	}
-
-	/**
-	 * remove empty values from array
-	 *
-	 * @param array $items
-	 * @return array
-	 */
-	protected function removeEmpty($items) {
-		foreach($items as $key=>$value) {
-			if(empty($value)) {
-				unset($items[$key]);
-			}
-		}
-		return $items;
-	}
+    /**
+     * remove empty values from array
+     *
+     * @param array $items
+     * @return array
+     */
+    protected function removeEmpty($items)
+    {
+        foreach ($items as $key => $value) {
+            if (empty($value)) {
+                unset($items[$key]);
+            }
+        }
+        return $items;
+    }
 }

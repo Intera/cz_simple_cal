@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Model;
 
 /***************************************************************
@@ -25,83 +26,90 @@ namespace Tx\CzSimpleCal\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType;
+
 /**
  * An exception for an event in the calendar
  */
-class Exception extends BaseEvent {
+class Exception extends BaseEvent
+{
+    /**
+     * @inject
+     * @transient
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
 
-	/**
-	 * @inject
-	 * @transient
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
+    /**
+     * Status of the event.
+     *
+     * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus
+     */
+    protected $status;
 
-	/**
-	 * Status of the event.
-	 *
-	 * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus
-	 */
-	protected $status;
+    /**
+     * @var string
+     */
+    protected $teaser;
 
-	/**
-	 * @var string
-	 */
-	protected $teaser;
+    /**
+     * The title of this exception
+     *
+     * @var string
+     * @validate NotEmpty
+     */
+    protected $title;
 
-	/**
-	 * The title of this exception
-	 *
-	 * @var string
-	 * @validate NotEmpty
-	 */
-	protected $title;
+    /**
+     * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType
+     */
+    protected $type;
 
-	/**
-	 * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType
-	 */
-	protected $type;
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return (string)$this->status;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getStatus() {
-		return (string)$this->status;
-	}
+    /**
+     * @return string
+     */
+    public function getTeaser()
+    {
+        return $this->teaser;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTeaser() {
-		return $this->teaser;
-	}
+    /**
+     * Getter for title
+     *
+     * @return string The title of this exception
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * Getter for title
-	 *
-	 * @return string The title of this exception
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * @return Enumeration\ExceptionType
+     */
+    public function getType()
+    {
+        if (!isset($this->type)) {
+            $this->type = $this->objectManager->get(ExceptionType::class);
+        }
+        return $this->type;
+    }
 
-	/**
-	 * @return Enumeration\ExceptionType
-	 */
-	public function getType() {
-		if (!isset($this->type)) {
-			$this->type = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\Enumeration\\ExceptionType');
-		}
-		return $this->type;
-	}
-
-	/**
-	 * Setter for title
-	 *
-	 * @param string $title The title of this exception
-	 * @return void
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+    /**
+     * Setter for title
+     *
+     * @param string $title The title of this exception
+     * @return void
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 }

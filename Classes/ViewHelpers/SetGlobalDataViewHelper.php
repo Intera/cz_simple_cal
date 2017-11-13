@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers;
 
 /***************************************************************
@@ -71,16 +72,17 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * @author Christian Zenker <christian.zenker@599media.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class SetGlobalDataViewHelper extends AbstractViewHelper {
-
-	/**
-	 * @param string $field the field name to override or create
-	 * @param string $data the data to add to the field
-	 */
-	public function render($field, $data = null) {
-		if(is_null($data)) {
-			$data = $this->renderChildren();
-		}
-		$GLOBALS['TSFE']->cObj->data[$field] = $data;
-	}
+class SetGlobalDataViewHelper extends AbstractViewHelper
+{
+    /**
+     * @param string $field the field name to override or create
+     * @param string $data the data to add to the field
+     */
+    public function render($field, $data = null)
+    {
+        if (is_null($data)) {
+            $data = $this->renderChildren();
+        }
+        $GLOBALS['TSFE']->cObj->data[$field] = $data;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Model\Enumeration;
 
 /***************************************************************
@@ -28,17 +29,17 @@ namespace Tx\CzSimpleCal\Domain\Model\Enumeration;
 /**
  * The status of an event (according to iCalendar RFC 2445)
  */
-class RecurranceType extends \TYPO3\CMS\Core\Type\Enumeration {
+class RecurranceType extends \TYPO3\CMS\Core\Type\Enumeration
+{
+    const __default = 'none';
 
-	const __default = 'none';
+    const DAILY = 'daily';
 
-	const DAILY = 'daily';
+    const MONTHLY = 'monthly';
 
-	const MONTHLY = 'monthly';
+    const NONE = 'none';
 
-	const NONE = 'none';
+    const WEEKLY = 'weekly';
 
-	const WEEKLY = 'weekly';
-
-	const YEARLY = 'yearly';
+    const YEARLY = 'yearly';
 }

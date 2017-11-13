@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Recurrance\Type;
 
 /***************************************************************
@@ -28,20 +29,21 @@ namespace Tx\CzSimpleCal\Recurrance\Type;
 /**
  * no recurrance at all - only this single event
  */
-class None extends Base {
-
-	/**
-	 * the main method building the recurrance
-	 *
-	 * @return void
-	 */
-	protected function doBuild() {
-		$this->timeline->add(
-			array(
-				'start' => $this->event->getDateTimeObjectStart()->getTimestamp(),
-				'end' => $this->event->getDateTimeObjectEnd()->getTimestamp(),
-			),
-			$this->event
-		);
-	}
+class None extends Base
+{
+    /**
+     * the main method building the recurrance
+     *
+     * @return void
+     */
+    protected function doBuild()
+    {
+        $this->timeline->add(
+            [
+                'start' => $this->event->getDateTimeObjectStart()->getTimestamp(),
+                'end' => $this->event->getDateTimeObjectEnd()->getTimestamp(),
+            ],
+            $this->event
+        );
+    }
 }

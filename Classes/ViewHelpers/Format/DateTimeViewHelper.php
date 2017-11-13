@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
 /***************************************************************
@@ -84,56 +85,60 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * @see http://www.php.net/manual/en/function.strtotime.php
  * @see http://www.php.net/manual/en/datetime.formats.relative.php
  */
-class DateTimeViewHelper extends AbstractViewHelper {
+class DateTimeViewHelper extends AbstractViewHelper
+{
+    /**
+     * Render the supplied unix timestamp in a localized human-readable string.
+     *
+     * @param integer|string|\DateTime $timestamp unix timestamp, a DateTime object or type "date"
+     * @param string $format Formatting string to be parsed by strftime
+     * @param string $get get some related date (see class doc)
+     * @return string Formatted date
+     * @author Christian Zenker <christian.zenker@599media.de>
+     */
+    public function render($timestamp = null, $format = '%Y-%m-%d', $get = '')
+    {
+        $timestamp = $this->normalizeTimestamp($timestamp);
+        if ($get) {
+            $timestamp = $this->modifyDate($timestamp, $get);
+        }
+        return strftime($format, $timestamp);
+    }
 
-	/**
-	 * Render the supplied unix timestamp in a localized human-readable string.
-	 *
-	 * @param integer|string|\DateTime $timestamp unix timestamp, a DateTime object or type "date"
-	 * @param string $format Formatting string to be parsed by strftime
-	 * @param string $get get some related date (see class doc)
-	 * @return string Formatted date
-	 * @author Christian Zenker <christian.zenker@599media.de>
-	 */
-	public function render($timestamp = NULL, $format = '%Y-%m-%d', $get = '') {
+    /**
+     * do the modification to a relative date
+     *
+     * @param $timestamp
+     * @param $get
+     * @return string
+     */
+    protected function modifyDate($timestamp, $get)
+    {
+        return \Tx\CzSimpleCal\Utility\StrToTime::strtotime($get, $timestamp);
+    }
 
-		$timestamp = $this->normalizeTimestamp($timestamp);
-		if($get) {
-			$timestamp = $this->modifyDate($timestamp, $get);
-		}
-		return strftime($format, $timestamp);
-	}
-
-	/**
-	 * handle all the different input formats and return a real timestamp
-	 *
-	 * @param $timestamp
-	 * @return integer
-	 * @throws \InvalidArgumentException
-	 */
-	protected function normalizeTimestamp($timestamp) {
-		if(is_null($timestamp)) {
-			$timestamp = time();
-		} elseif(is_numeric($timestamp)) {
-			$timestamp = intval($timestamp);
-		} elseif(is_string($timestamp)) {
-			$timestamp = \Tx\CzSimpleCal\Utility\StrToTime::strtotime($timestamp);
-		} elseif($timestamp instanceof \DateTime) {
-			$timestamp = $timestamp->format('U');
-		} else {
-			throw new \InvalidArgumentException(sprintf('timestamp might be an integer, a string or a DateTimeObject only.'));
-		}
-		return $timestamp;
-	}
-
-	/**
-	 * do the modification to a relative date
-	 *
-	 * @param $timestamp
-	 * @param $get
-	 * @return string
-	 */
-	protected function modifyDate($timestamp, $get) {
-		return \Tx\CzSimpleCal\Utility\StrToTime::strtotime($get, $timestamp);
-	}
+    /**
+     * handle all the different input formats and return a real timestamp
+     *
+     * @param $timestamp
+     * @return integer
+     * @throws \InvalidArgumentException
+     */
+    protected function normalizeTimestamp($timestamp)
+    {
+        if (is_null($timestamp)) {
+            $timestamp = time();
+        } elseif (is_numeric($timestamp)) {
+            $timestamp = intval($timestamp);
+        } elseif (is_string($timestamp)) {
+            $timestamp = \Tx\CzSimpleCal\Utility\StrToTime::strtotime($timestamp);
+        } elseif ($timestamp instanceof \DateTime) {
+            $timestamp = $timestamp->format('U');
+        } else {
+            throw new \InvalidArgumentException(
+                sprintf('timestamp might be an integer, a string or a DateTimeObject only.')
+            );
+        }
+        return $timestamp;
+    }
 }

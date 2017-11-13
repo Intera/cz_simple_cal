@@ -19,25 +19,27 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * Retrieves the event time type of a given event.
  */
-class EventTimeTypeViewHelper extends AbstractViewHelper {
+class EventTimeTypeViewHelper extends AbstractViewHelper
+{
+    /**
+     * @var EventTimeUtility
+     */
+    protected $eventTimeTypeUtility;
 
-	/**
-	 * @var EventTimeUtility
-	 */
-	protected $eventTimeTypeUtility;
+    public function injectEventTimeTypeUtility(EventTimeUtility $eventTimeTypeUtility)
+    {
+        $this->eventTimeTypeUtility = $eventTimeTypeUtility;
+    }
 
-	public function injectEventTimeTypeUtility(EventTimeUtility $eventTimeTypeUtility) {
-		$this->eventTimeTypeUtility = $eventTimeTypeUtility;
-	}
-
-	/**
-	 * Returns the event time type for the given event (can be used in
-	 * the switch view helper).
-	 *
-	 * @param Event $event
-	 * @return string
-	 */
-	public function render(Event $event) {
-		return $this->eventTimeTypeUtility->getEventTimeType($event);
-	}
+    /**
+     * Returns the event time type for the given event (can be used in
+     * the switch view helper).
+     *
+     * @param Event $event
+     * @return string
+     */
+    public function render(Event $event)
+    {
+        return $this->eventTimeTypeUtility->getEventTimeType($event);
+    }
 }

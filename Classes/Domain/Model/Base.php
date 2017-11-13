@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Model;
 
 /***************************************************************
@@ -30,5 +31,6 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 /**
  * A base class for all domain models of cz_simple_cal
  */
-abstract class Base extends AbstractEntity {
+abstract class Base extends AbstractEntity
+{
 }

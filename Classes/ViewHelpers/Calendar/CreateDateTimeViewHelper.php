@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Calendar;
 
 /***************************************************************
@@ -37,13 +38,14 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *   </f:map>
  * </example>
  */
-class CreateDateTimeViewHelper extends AbstractViewHelper {
-
-	/**
-	 * @param string $dateTime some string of the type date
-	 * @return \Tx\CzSimpleCal\Utility\DateTime
-	 */
-	public function render($dateTime) {
-		return new \Tx\CzSimpleCal\Utility\DateTime($dateTime);
-	}
+class CreateDateTimeViewHelper extends AbstractViewHelper
+{
+    /**
+     * @param string $dateTime some string of the type date
+     * @return \Tx\CzSimpleCal\Utility\DateTime
+     */
+    public function render($dateTime)
+    {
+        return new \Tx\CzSimpleCal\Utility\DateTime($dateTime);
+    }
 }

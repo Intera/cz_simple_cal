@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Recurrance\Type;
 
 /***************************************************************
@@ -25,63 +26,67 @@ namespace Tx\CzSimpleCal\Recurrance\Type;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \Tx\CzSimpleCal\Domain\Interfaces\IsRecurring;
+use Tx\CzSimpleCal\Domain\Interfaces\IsRecurring;
 use Tx\CzSimpleCal\Recurrance\Timeline\Base as TimelineBase;
 
 /**
  * Base class for all recurrance types.
  */
-abstract class Base {
+abstract class Base
+{
+    /**
+     * @var IsRecurring
+     */
+    protected $event = null;
 
-	/**
-	 * @var IsRecurring
-	 */
-	protected $event = null;
+    /**
+     * @var TimelineBase
+     */
+    protected $timeline = null;
 
-	/**
-	 * @var TimelineBase
-	 */
-	protected $timeline = null;
+    abstract protected function doBuild();
 
-	/**
-	 * build all recurrant events from an Event
-	 *
-	 * @param IsRecurring $event
-	 * @param TimelineBase $timeline
-	 * @return TimelineBase
-	 */
-	public function build(IsRecurring $event, $timeline) {
-		$this->event = $event;
-		$this->timeline = $timeline;
+    /**
+     * build all recurrant events from an Event
+     *
+     * @param IsRecurring $event
+     * @param TimelineBase $timeline
+     * @return TimelineBase
+     */
+    public function build(IsRecurring $event, $timeline)
+    {
+        $this->event = $event;
+        $this->timeline = $timeline;
 
-		$this->doBuild();
+        $this->doBuild();
 
-		return $this->timeline;
-	}
+        return $this->timeline;
+    }
 
-	/**
-	 * add locallang labels to an array of subtypes
-	 *
-	 * @param array $values
-	 * @param string $base the locallang base
-	 * @return array
-	 */
-	protected function addLL($values, $base = 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_subtype.') {
-		foreach($values as &$value) {
-			$value = array(
-				$this->getLanguageService()->sL($base . $value),
-				$value,
-			);
-		}
-		return $values;
-	}
+    /**
+     * add locallang labels to an array of subtypes
+     *
+     * @param array $values
+     * @return array
+     */
+    protected function addLL($values)
+    {
+        $base = 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:'
+            . 'tx_czsimplecal_domain_model_event.recurrance_subtype.';
+        foreach ($values as &$value) {
+            $value = [
+                $this->getLanguageService()->sL($base . $value),
+                $value,
+            ];
+        }
+        return $values;
+    }
 
-	/**
-	 * @return \TYPO3\CMS\Lang\LanguageService
-	 */
-	protected function getLanguageService() {
-		return $GLOBALS['LANG'];
-	}
-
-	abstract protected function doBuild();
+    /**
+     * @return \TYPO3\CMS\Lang\LanguageService
+     */
+    protected function getLanguageService()
+    {
+        return $GLOBALS['LANG'];
+    }
 }

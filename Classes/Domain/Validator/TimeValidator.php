@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Validator;
 
 /***************************************************************
@@ -25,61 +26,64 @@ namespace Tx\CzSimpleCal\Domain\Validator;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
  * sanitizes and validates a given date
  */
-class TimeValidator extends AbstractValidator {
+class TimeValidator extends AbstractValidator
+{
+    public function isValid($value)
+    {
+        $setterMethodName = 'set' . $this->options['propertyName'];
+        $getterMethodName = 'get' . $this->options['propertyName'];
+        $object = $this->options['object'];
 
-	public function isValid($value) {
-		$setterMethodName = 'set'.$this->options['propertyName'];
-		$getterMethodName = 'get'.$this->options['propertyName'];
-		$object = $this->options['object'];
+        // Check that value and domain property match
+        if ($value != $object->{$getterMethodName}()) {
+            throw new \RuntimeException(
+                'the given value and the value of the object don\'t match in ' . get_class($this)
+            );
+        }
 
-		// check that value and domain property match
-		if($value != $object->{$getterMethodName}()) {
-			throw new \RuntimeException('the given value and the value of the object don\'t match in '.get_class($this));
-		}
+        // Required
+        if (empty($value)) {
+            if ($this->options['required']) {
+                $this->addError('no value given', 'required');
+                return;
+            } else {
+                return;
+            }
+        }
 
-		// required
-		if(empty($value)) {
-			if($this->options['required']) {
-				$this->addError('no value given', 'required');
-				return;
-			} else {
-				return;
-			}
-		}
+        // Sanitize input
+        if (is_numeric($value) && $value > 0) {
+            $object->{$setterMethodName}(intval($value));
+            return;
+        }
 
-		// sanitize input
-		if(is_numeric($value) && $value > 0) {
-			$object->{$setterMethodName}(intval($value));
-			return;
-		}
+        if (!preg_match('/^\d{1,2}:\d{1,2}$/', $value)) {
+            $this->addError('Please use hh:mm as format.', 'format');
+            return;
+        }
+        list($hour, $min) = GeneralUtility::trimExplode(':', $value);
+        if ($hour < 0 || $hour > 23) {
+            $this->addError('Please use hh:mm as format.', 'format');
+            return;
+        }
+        if ($min < 0 || $min > 59) {
+            $this->addError('Please use hh:mm as format.', 'format');
+            return;
+        }
 
-		if(!preg_match('/^\d{1,2}:\d{1,2}$/', $value)) {
-			$this->addError('Please use hh:mm as format.', 'format');
-			return;
-		}
-		list($hour, $min) = GeneralUtility::trimExplode(':', $value);
-		if($hour < 0 || $hour > 23) {
-			$this->addError('Please use hh:mm as format.', 'format');
-			return;
-		}
-		if($min < 0 || $min > 59) {
-			$this->addError('Please use hh:mm as format.', 'format');
-			return;
-		}
+        $time = 3600 * $hour + $min * 60;
 
-		$time = 3600 * $hour + $min * 60;
+        if ($time < 0 || $time > 3600 * 24) {
+            $this->addError('could not be parsed.', 'parseError');
+            return;
+        }
 
-		if($time < 0 || $time > 3600 * 24) {
-			$this->addError('could not be parsed.', 'parseError');
-			return;
-		}
-
-		$object->{$setterMethodName}($time);
-	}
+        $object->{$setterMethodName}($time);
+    }
 }

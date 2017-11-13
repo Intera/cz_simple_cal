@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Recurrance\Type;
 
 /***************************************************************
@@ -30,100 +31,104 @@ use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 /**
  * weekly recurrance
  */
-class Weekly extends Base {
+class Weekly extends Base
+{
+    const SUBTYPE_2WEEK = '2week';
 
-	const SUBTYPE_WEEKLY = 'weekly';
-	const SUBTYPE_ODDEVEN = 'oddeven';
-	const SUBTYPE_2WEEK = '2week';
-	const SUBTYPE_3WEEK = '3week';
-	const SUBTYPE_4WEEK = '4week';
+    const SUBTYPE_3WEEK = '3week';
 
-	/**
-	 * the main method building the recurrance
-	 *
-	 * @return void
-	 */
-	protected function doBuild() {
+    const SUBTYPE_4WEEK = '4week';
 
-		$start = clone $this->event->getDateTimeObjectStart();
-		$end = clone $this->event->getDateTimeObjectEnd();
-		$until = $this->event->getDateTimeObjectRecurranceUntil();
+    const SUBTYPE_ODDEVEN = 'oddeven';
 
-		$interval = $this->event->getRecurranceSubtype();
-		if ($interval === 'weekly') {
-			$step = '+1 week';
-		} elseif ($interval === 'oddeven') {
-			$this->buildOddEven($start, $end, $until);
-			return;
-		} elseif ($interval === '2week') {
-			$step = '+2 week';
-		} elseif ($interval === '3week') {
-			$step = '+3 week';
-		} elseif ($interval === '4week') {
-			$step = '+4 week';
-		} else {
-			$step = '+1 week';
-		}
+    const SUBTYPE_WEEKLY = 'weekly';
 
-		while ($until >= $start) {
+    /**
+     * get the configured subtypes of this recurrance
+     *
+     * @return array
+     */
+    public function getSubtypes()
+    {
+        return self::addLL(
+            [
+                static::SUBTYPE_WEEKLY,
+                static::SUBTYPE_ODDEVEN,
+                static::SUBTYPE_2WEEK,
+                static::SUBTYPE_3WEEK,
+                static::SUBTYPE_4WEEK,
+            ]
+        );
+    }
 
-			$this->timeline->add(
-				array(
-					'start' => $start->getTimestamp(),
-					'end' => $end->getTimestamp()
-				),
-				$this->event
-			);
+    /**
+     * special method to build events taking place on odd or even weeks
+     *
+     * @param CzSimpleCalDateTime $start
+     * @param CzSimpleCalDateTime $end
+     * @param CzSimpleCalDateTime $until
+     */
+    protected function buildOddEven($start, $end, $until)
+    {
+        $week = $start->format('W') % 2;
+        while ($until >= $start) {
+            $this->timeline->add(
+                [
+                    'start' => $start->getTimestamp(),
+                    'end' => $end->getTimestamp(),
+                ],
+                $this->event
+            );
 
-			$start->modify($step);
-			$end->modify($step);
+            $start->modify('+2 week');
+            $end->modify('+2 week');
 
-		}
-	}
+            // Take care of year switches
+            if ($start->format('W') % 2 !== $week) {
+                $start->modify('-1 week');
+                $end->modify('-1 week');
+            }
+        }
+    }
 
-	/**
-	 * special method to build events taking place on odd or even weeks
-	 *
-	 * @param CzSimpleCalDateTime $start
-	 * @param CzSimpleCalDateTime $end
-	 * @param CzSimpleCalDateTime $until
-	 */
-	protected function buildOddEven($start, $end, $until) {
+    /**
+     * the main method building the recurrance
+     *
+     * @return void
+     */
+    protected function doBuild()
+    {
+        $start = clone $this->event->getDateTimeObjectStart();
+        $end = clone $this->event->getDateTimeObjectEnd();
+        $until = $this->event->getDateTimeObjectRecurranceUntil();
 
-		$week = $start->format('W') % 2;
-		while ($until >= $start) {
+        $interval = $this->event->getRecurranceSubtype();
+        if ($interval === 'weekly') {
+            $step = '+1 week';
+        } elseif ($interval === 'oddeven') {
+            $this->buildOddEven($start, $end, $until);
+            return;
+        } elseif ($interval === '2week') {
+            $step = '+2 week';
+        } elseif ($interval === '3week') {
+            $step = '+3 week';
+        } elseif ($interval === '4week') {
+            $step = '+4 week';
+        } else {
+            $step = '+1 week';
+        }
 
-			$this->timeline->add(
-				array(
-					'start' => $start->getTimestamp(),
-					'end' => $end->getTimestamp()
-				),
-				$this->event
-			);
+        while ($until >= $start) {
+            $this->timeline->add(
+                [
+                    'start' => $start->getTimestamp(),
+                    'end' => $end->getTimestamp(),
+                ],
+                $this->event
+            );
 
-			$start->modify('+2 week');
-			$end->modify('+2 week');
-
-			// take care of year switches
-			if ($start->format('W') % 2 !== $week) {
-				$start->modify('-1 week');
-				$end->modify('-1 week');
-			}
-		}
-	}
-
-	/**
-	 * get the configured subtypes of this recurrance
-	 *
-	 * @return array
-	 */
-	public function getSubtypes() {
-		return self::addLL(array(
-			static::SUBTYPE_WEEKLY,
-			static::SUBTYPE_ODDEVEN,
-			static::SUBTYPE_2WEEK,
-			static::SUBTYPE_3WEEK,
-			static::SUBTYPE_4WEEK,
-		));
-	}
+            $start->modify($step);
+            $end->modify($step);
+        }
+    }
 }

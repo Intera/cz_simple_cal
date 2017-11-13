@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Condition;
 
 /***************************************************************
@@ -30,19 +31,20 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * A view helper to return true if one of the values is not empty
  */
-class OneNotEmptyViewHelper extends AbstractViewHelper {
-
-	/**
-	 * @param array $values the values
-	 * @return boolean if the condition is met
-	 * @author Christian Zenker <christian.zenker@599media.de>
-	 */
-	public function render($values) {
-		foreach($values as $value) {
-			if(!empty($value)) {
-				return true;
-			}
-		}
-		return false;
-	}
+class OneNotEmptyViewHelper extends AbstractViewHelper
+{
+    /**
+     * @param array $values the values
+     * @return boolean if the condition is met
+     * @author Christian Zenker <christian.zenker@599media.de>
+     */
+    public function render($values)
+    {
+        foreach ($values as $value) {
+            if (!empty($value)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

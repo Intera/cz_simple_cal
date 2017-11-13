@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Repository;
 
 /***************************************************************
@@ -30,19 +31,20 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for Category domain models.
  */
-class CategoryRepository extends Repository {
+class CategoryRepository extends Repository
+{
+    /**
+     * Returns all categories with the given UIDs.
+     *
+     * @param array $uids Array of UIDs
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAllByUids($uids)
+    {
+        $query = $this->createQuery();
 
-	/**
-	 * Returns all categories with the given UIDs.
-	 *
-	 * @param array $uids Array of UIDs
-	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findAllByUids($uids) {
-		$query = $this->createQuery();
+        $query->matching($query->in('uid', $uids));
 
-		$query->matching($query->in('uid', $uids));
-
-		return $query->execute();
-	}
+        return $query->execute();
+    }
 }

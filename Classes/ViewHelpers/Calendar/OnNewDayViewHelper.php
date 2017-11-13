@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Calendar;
 
 /***************************************************************
@@ -39,35 +40,35 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * </f:for>
  * </example>
  */
-class OnNewDayViewHelper extends AbstractViewHelper {
+class OnNewDayViewHelper extends AbstractViewHelper
+{
+    /**
+     *
+     * @param \Tx\CzSimpleCal\Domain\Model\EventIndex $event the event to compare to the previously submitted one
+     * @param string $label if you need multiple irrelated instances set this to something unique
+     * @return string
+     */
+    public function render($event, $label = '')
+    {
+        $className = get_class($this);
 
-	/**
-	 *
-	 * @param \Tx\CzSimpleCal\Domain\Model\EventIndex $event the event to compare to the previously submitted one
-	 * @param string $label if you need multiple irrelated instances set this to something unique
-	 * @return string
-	 */
-	public function render($event, $label = '') {
+        $name = 'last_day_wrapper_date';
+        if ($label) {
+            $name .= '_' . $label;
+        }
 
-		$className = get_class($this);
+        $lastDay = null;
+        if ($this->viewHelperVariableContainer->exists($className, $name)) {
+            $lastDay = $this->viewHelperVariableContainer->get($className, $name);
+        }
 
-		$name = 'last_day_wrapper_date';
-		if ($label) {
-			$name .= '_' . $label;
-		}
+        $thisDay = strtotime('midnight', $event->getStart());
 
-		$lastDay = NULL;
-		if ($this->viewHelperVariableContainer->exists($className, $name)) {
-			$lastDay = $this->viewHelperVariableContainer->get($className, $name);
-		}
-
-		$thisDay = strtotime('midnight', $event->getStart());
-
-		if ($thisDay == $lastDay) {
-			return '';
-		} else {
-			$this->viewHelperVariableContainer->addOrUpdate($className, $name, $thisDay);
-			return $this->renderChildren();
-		}
-	}
+        if ($thisDay == $lastDay) {
+            return '';
+        } else {
+            $this->viewHelperVariableContainer->addOrUpdate($className, $name, $thisDay);
+            return $this->renderChildren();
+        }
+    }
 }

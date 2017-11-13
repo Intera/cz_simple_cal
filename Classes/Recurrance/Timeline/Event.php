@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Recurrance\Timeline;
 
 /***************************************************************
@@ -35,48 +36,53 @@ use Tx\CzSimpleCal\Domain\Model\Event as EventModel;
  *
  * This class manages these arrays and takes care of a valid syntax.
  */
-class Event extends Base {
+class Event extends Base
+{
+    /**
+     * the id of the Event this collection belongs to
+     *
+     * @var EventModel
+     */
+    protected $event = null;
 
-	/**
-	 * the id of the Event this collection belongs to
-	 * @var EventModel
-	 */
-	protected $event = null;
+    public function current()
+    {
+        $this->initOutput();
+        return $this->addEvent(current($this->data));
+    }
 
-	/**
-	 * set the id of the Event this collection belongs to
-	 *
-	 * @param EventModel $event
-	 * @return Event
-	 */
-	public function setEvent($event) {
-		$this->event = $event;
-		return $this;
-	}
+    public function next()
+    {
+        $this->initOutput();
+        if ($this->nextAsCurrent) {
+            $this->nextAsCurrent = false;
+            return $this->addEvent(current($this->data));
+        }
+        return $this->addEvent(next($this->data));
+    }
 
-	/**
-	 * add the model id to an EventIndex
-	 *
-	 * @param array $array
-	 * @return array
-	 */
-	protected function addEvent($array){
-		$array['event'] = $this->event;
-		$array['pid'] = $this->event->getPid();
-		return $array;
-	}
+    /**
+     * set the id of the Event this collection belongs to
+     *
+     * @param EventModel $event
+     * @return Event
+     */
+    public function setEvent($event)
+    {
+        $this->event = $event;
+        return $this;
+    }
 
-	public function current() {
-		$this->initOutput();
-		return $this->addEvent(current($this->data));
-	}
-
-	public function next() {
-		$this->initOutput();
-		if($this->nextAsCurrent) {
-			$this->nextAsCurrent = false;
-			return $this->addEvent(current($this->data));
-		}
-		return $this->addEvent(next($this->data));
-	}
+    /**
+     * add the model id to an EventIndex
+     *
+     * @param array $array
+     * @return array
+     */
+    protected function addEvent($array)
+    {
+        $array['event'] = $this->event;
+        $array['pid'] = $this->event->getPid();
+        return $array;
+    }
 }

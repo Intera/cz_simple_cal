@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
 /***************************************************************
@@ -89,7 +90,8 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * </output>
  *
  * <code title="using placeholders">
- * <f:format.numberChoice number="42" arguments="{number:42}">[0] no eggs|[1] 1 egg|[2,+Inf] ###number### eggs</f:format.numberChoice>
+ * <f:format.numberChoice number="42" arguments="{number:42}">[0] no eggs|[1] 1 egg|[2,+Inf] ###number###
+ * eggs</f:format.numberChoice>
  * </code>
  * <output>
  * 42 eggs
@@ -108,34 +110,35 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class NumberChoiceViewHelper extends AbstractViewHelper {
+class NumberChoiceViewHelper extends AbstractViewHelper
+{
+    /**
+     * render a string based on a given number
+     *
+     * @param integer $number the number that determines which text to use
+     * @param string $text the text configuration
+     * @param array $arguments values for the markers
+     * @return string Formatted string
+     * @throws \InvalidArgumentException
+     */
+    public function render($number, $text = null, $arguments = [])
+    {
+        if (is_null($text)) {
+            $text = $this->renderChildren();
+        }
 
-	/**
-	 * render a string based on a given number
-	 *
-	 * @param integer  $number     the number that determines which text to use
-	 * @param string   $text       the text configuration
-	 * @param array    $arguments  values for the markers
-	 * @return string Formatted string
-	 * @throws \InvalidArgumentException
-	 */
-	public function render($number, $text = null, $arguments = array()) {
-		if(is_null($text)) {
-			$text = $this->renderChildren();
-		}
+        foreach ($arguments as $key => $value) {
+            $arguments[sprintf('###%s###', $key)] = $value;
+            unset($arguments[$key]);
+        }
 
-		foreach($arguments as $key => $value) {
-			$arguments[sprintf('###%s###', $key)] = $value;
-			unset($arguments[$key]);
-		}
+        $formatter = new \Tx\CzSimpleCal\ViewHelpers\Format\Contrib\ChoiceFormat();
+        $ret = $formatter->format($text, $number);
 
-		$formatter = new \Tx\CzSimpleCal\ViewHelpers\Format\Contrib\ChoiceFormat();
-		$ret = $formatter->format($text, $number);
+        if ($ret === false) {
+            throw new \InvalidArgumentException(sprintf('format.numberChoice could not parse the text "%s".', $text));
+        }
 
-		if($ret === false) {
-			throw new \InvalidArgumentException(sprintf('format.numberChoice could not parse the text "%s".', $text));
-		}
-
-		return strtr($ret, $arguments);
-	}
+        return strtr($ret, $arguments);
+    }
 }

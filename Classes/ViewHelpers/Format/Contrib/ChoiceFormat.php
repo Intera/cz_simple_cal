@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Format\Contrib;
 
 /**
@@ -52,154 +53,169 @@ namespace Tx\CzSimpleCal\ViewHelpers\Format\Contrib;
  * @author Xiang Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version v1.0, last update on Fri Dec 24 20:46:16 EST 2004
  */
-class ChoiceFormat {
-	/**
-	 * The value for positive infinity.
-	 */
-	protected $inf;
+class ChoiceFormat
+{
+    /**
+     * The value for positive infinity.
+     */
+    protected $inf;
 
-	/**
-	 * The pattern to parse the formatting string.
-	 */
-	protected $parse = '/\s*\|?([\(\[\{]([-Inf\d:\s]+,?[\+Inf\d\s:\?\-=!><%\|&\(\)]*)+[\)\]\}])\s*/';
+    /**
+     * The pattern to parse the formatting string.
+     */
+    protected $parse = '/\s*\|?([\(\[\{]([-Inf\d:\s]+,?[\+Inf\d\s:\?\-=!><%\|&\(\)]*)+[\)\]\}])\s*/';
 
-	/**
-	 * The pattern to validate a set notation
-	 */
-	protected $validate = '/[\(\[\{]|[-Inf\d:\s]+|,|[\+Inf\d\s:\?\-=!><%\|&\(\)]+|[\)\]\}]/ms';
+    /**
+     * The pattern to validate a set notation
+     */
+    protected $validate = '/[\(\[\{]|[-Inf\d:\s]+|,|[\+Inf\d\s:\?\-=!><%\|&\(\)]+|[\)\]\}]/ms';
 
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->inf = -log(0);
-	}
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->inf = -log(0);
+    }
 
-	/**
-	 * For the choice string, and a number, find and return the string that satisfied the set within the choices.
-	 *
-	 * @param  string $string the choices string.
-	 * @param  float $number the number to test.
-	 * @return string the choosen string.
-	 */
-	public function format($string, $number) {
-		list($sets, $strings) = $this->parse($string);
-		$total = count($sets);
-		for ($i = 0; $i < $total; $i++) {
-			if ($this->isValid($number, $sets[$i])) {
-				return $strings[$i];
-			}
-		}
+    /**
+     * For the choice string, and a number, find and return the string that satisfied the set within the choices.
+     *
+     * @param  string $string the choices string.
+     * @param  float $number the number to test.
+     * @return string the choosen string.
+     */
+    public function format($string, $number)
+    {
+        list($sets, $strings) = $this->parse($string);
+        $total = count($sets);
+        for ($i = 0; $i < $total; $i++) {
+            if ($this->isValid($number, $sets[$i])) {
+                return $strings[$i];
+            }
+        }
 
-		return FALSE;
-	}
+        return false;
+    }
 
-	/**
-	 * Determines if the given number belongs to a given set
-	 *
-	 * @param  float $number the number to test.
-	 * @param  string $set the set, in set notation.
-	 * @throws \InvalidArgumentException
-	 * @return boolean true if number is in the set, false otherwise.
-	 */
-	public function isValid($number, $set) {
-		$n = preg_match_all($this->validate, $set, $matches, PREG_SET_ORDER);
+    /**
+     * Determines if the given number belongs to a given set
+     *
+     * @param  float $number the number to test.
+     * @param  string $set the set, in set notation.
+     * @throws \InvalidArgumentException
+     * @return boolean true if number is in the set, false otherwise.
+     */
+    public function isValid($number, $set)
+    {
+        $n = preg_match_all($this->validate, $set, $matches, PREG_SET_ORDER);
 
-		if ($n < 3) {
-			throw new \InvalidArgumentException(sprintf('Invalid set "%s".', $set));
-		}
+        if ($n < 3) {
+            throw new \InvalidArgumentException(sprintf('Invalid set "%s".', $set));
+        }
 
-		if (preg_match('/\{\s*n:([^\}]+)\}/', $set, $def)) {
-			return $this->isValidSetNotation($number, $def[1]);
-		}
+        if (preg_match('/\{\s*n:([^\}]+)\}/', $set, $def)) {
+            return $this->isValidSetNotation($number, $def[1]);
+        }
 
-		$leftBracket = $matches[0][0];
-		$rightBracket = $matches[$n - 1][0];
+        $leftBracket = $matches[0][0];
+        $rightBracket = $matches[$n - 1][0];
 
-		$i = 0;
-		$elements = array();
+        $i = 0;
+        $elements = [];
 
-		foreach ($matches as $match) {
-			$string = $match[0];
-			if ($i != 0 && $i != $n - 1 && $string !== ',') {
-				if ($string == '-Inf') {
-					$elements[] = -1 * $this->inf;
-				} else if ($string == '+Inf' || $string == 'Inf') {
-					$elements[] = $this->inf;
-				} else {
-					$elements[] = floatval($string);
-				}
-			}
-			$i++;
-		}
-		$total = count($elements);
-		$number = floatval($number);
+        foreach ($matches as $match) {
+            $string = $match[0];
+            if ($i != 0 && $i != $n - 1 && $string !== ',') {
+                if ($string == '-Inf') {
+                    $elements[] = -1 * $this->inf;
+                } else {
+                    if ($string == '+Inf' || $string == 'Inf') {
+                        $elements[] = $this->inf;
+                    } else {
+                        $elements[] = floatval($string);
+                    }
+                }
+            }
+            $i++;
+        }
+        $total = count($elements);
+        $number = floatval($number);
 
-		if ($leftBracket == '{' && $rightBracket == '}') {
-			return in_array($number, $elements);
-		}
+        if ($leftBracket == '{' && $rightBracket == '}') {
+            return in_array($number, $elements);
+        }
 
-		$left = FALSE;
-		if ($leftBracket == '[') {
-			$left = $number >= $elements[0];
-		} else if ($leftBracket == '(') {
-			$left = $number > $elements[0];
-		}
+        $left = false;
+        if ($leftBracket == '[') {
+            $left = $number >= $elements[0];
+        } else {
+            if ($leftBracket == '(') {
+                $left = $number > $elements[0];
+            }
+        }
 
-		$right = FALSE;
-		if ($rightBracket == ']') {
-			$right = $number <= $elements[$total - 1];
-		} else if ($rightBracket == ')') {
-			$right = $number < $elements[$total - 1];
-		}
+        $right = false;
+        if ($rightBracket == ']') {
+            $right = $number <= $elements[$total - 1];
+        } else {
+            if ($rightBracket == ')') {
+                $right = $number < $elements[$total - 1];
+            }
+        }
 
-		if ($left && $right) {
-			return TRUE;
-		}
+        if ($left && $right) {
+            return true;
+        }
 
-		return FALSE;
-	}
+        return false;
+    }
 
-	/**
-	 * Parses a choice string and get a list of sets and a list of strings corresponding to the sets.
-	 *
-	 * @param  string $string the string containing the choices
-	 * @return array array($sets, $strings)
-	 */
-	public function parse($string) {
-		$n = preg_match_all($this->parse, $string, $matches, PREG_OFFSET_CAPTURE);
-		$sets = array();
-		foreach ($matches[1] as $match) {
-			$sets[] = $match[0];
-		}
+    /**
+     * Parses a choice string and get a list of sets and a list of strings corresponding to the sets.
+     *
+     * @param  string $string the string containing the choices
+     * @return array array($sets, $strings)
+     */
+    public function parse($string)
+    {
+        $n = preg_match_all($this->parse, $string, $matches, PREG_OFFSET_CAPTURE);
+        $sets = [];
+        foreach ($matches[1] as $match) {
+            $sets[] = $match[0];
+        }
 
-		$offset = $matches[0];
-		$strings = array();
-		for ($i = 0; $i < $n; $i++) {
-			$len = strlen($offset[$i][0]);
-			$begin = $i == 0 ? $len : $offset[$i][1] + $len;
-			$end = $i == $n - 1 ? strlen($string) : $offset[$i + 1][1];
-			$strings[] = substr($string, $begin, $end - $begin);
-		}
+        $offset = $matches[0];
+        $strings = [];
+        for ($i = 0; $i < $n; $i++) {
+            $len = strlen($offset[$i][0]);
+            $begin = $i == 0 ? $len : $offset[$i][1] + $len;
+            $end = $i == $n - 1 ? strlen($string) : $offset[$i + 1][1];
+            $strings[] = substr($string, $begin, $end - $begin);
+        }
 
-		return array($sets, $strings);
-	}
+        return [
+            $sets,
+            $strings,
+        ];
+    }
 
-	/**
-	 * @param $number
-	 * @param $set
-	 * @return bool
-	 */
-	protected function isValidSetNotation(
-		/** @noinspection PhpUnusedParameterInspection */
-		$number, $set
-	) {
-		$str = '$result = ' . str_replace('n', '$number', $set) . ';';
-		try {
-			eval($str);
-			return isset($result) ? $result : FALSE;
-		} catch (\Exception $e) {
-			return FALSE;
-		}
-	}
+    /**
+     * @param $number
+     * @param $set
+     * @return bool
+     */
+    protected function isValidSetNotation(
+        /** @noinspection PhpUnusedParameterInspection */
+        $number,
+        $set
+    ) {
+        $str = '$result = ' . str_replace('n', '$number', $set) . ';';
+        try {
+            eval($str);
+            return isset($result) ? $result : false;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }

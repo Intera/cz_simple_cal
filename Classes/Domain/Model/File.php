@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Model;
 
 /***************************************************************
@@ -28,148 +29,157 @@ namespace Tx\CzSimpleCal\Domain\Model;
 /**
  * A file
  */
-class File {
+class File
+{
+    /**
+     * the property alternateText
+     *
+     * @var string alternateText
+     */
+    protected $alternateText;
 
-	/**
-	 * the property file
-	 *
-	 * @var string file
-	 */
-	protected $file;
+    /**
+     * the property caption
+     *
+     * @var string caption
+     */
+    protected $caption;
 
-	/**
-	 * Public path and filename of the file.
-	 *
-	 * @var string
-	 */
-	protected $pathAndFilename = NULL;
+    /**
+     * the property file
+     *
+     * @var string file
+     */
+    protected $file;
 
-	/**
-	 * getter for file
-	 *
-	 * @return string
-	 */
-	public function getFile() {
-		return $this->file;
-	}
+    /**
+     * the property path
+     *
+     * @var string path
+     */
+    protected $path;
 
-	/**
-	 * setter for file
-	 *
-	 * @param string $file
-	 * @return File
-	 */
-	public function setFile($file) {
-		$this->file = $file;
-		return $this;
-	}
+    /**
+     * Public path and filename of the file.
+     *
+     * @var string
+     */
+    protected $pathAndFilename = null;
 
-	/**
-	 * the property path
-	 *
-	 * @var string path
-	 */
-	protected $path;
+    /**
+     * getter for alternateText
+     *
+     * @return string
+     */
+    public function getAlternateText()
+    {
+        return $this->alternateText;
+    }
 
-	/**
-	 * getter for path
-	 *
-	 * @return string
-	 */
-	public function getPath() {
-		return $this->path;
-	}
+    /**
+     * getter for caption
+     *
+     * @return string
+     */
+    public function getCaption()
+    {
+        return $this->caption;
+    }
 
-	/**
-	 * setter for path
-	 *
-	 * @param string $path
-	 * @return File
-	 */
-	public function setPath($path) {
-		if($path && substr($path, -1) !== '/') {
-			$path = $path.'/';
-		}
-		$this->path = $path;
-		return $this;
-	}
+    /**
+     * getter for file
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
 
-	/**
-	 * get the full path to the file
-	 *
-	 * @return string
-	 */
-	public function getFilePath() {
-		if (isset($this->pathAndFilename)) {
-			$path = $this->pathAndFilename;
-		} else {
-			$path = $this->path . $this->file;
-		}
-		return $path;
-	}
+    /**
+     * get the full path to the file
+     *
+     * @return string
+     */
+    public function getFilePath()
+    {
+        if (isset($this->pathAndFilename)) {
+            $path = $this->pathAndFilename;
+        } else {
+            $path = $this->path . $this->file;
+        }
+        return $path;
+    }
 
-	/**
-	 * the property alternateText
-	 *
-	 * @var string alternateText
-	 */
-	protected $alternateText;
+    /**
+     * getter for path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
 
-	/**
-	 * getter for alternateText
-	 *
-	 * @return string
-	 */
-	public function getAlternateText() {
-		return $this->alternateText;
-	}
+    /**
+     * setter for alternateText
+     *
+     * @param string $alternateText
+     * @return File
+     */
+    public function setAlternateText($alternateText)
+    {
+        $this->alternateText = $alternateText;
+        return $this;
+    }
 
-	/**
-	 * setter for alternateText
-	 *
-	 * @param string $alternateText
-	 * @return File
-	 */
-	public function setAlternateText($alternateText) {
-		$this->alternateText = $alternateText;
-		return $this;
-	}
+    /**
+     * setter for caption
+     *
+     * @param string $caption
+     * @return File
+     */
+    public function setCaption($caption)
+    {
+        $this->caption = $caption;
+        return $this;
+    }
 
-	/**
-	 * the property caption
-	 *
-	 * @var string caption
-	 */
-	protected $caption;
+    /**
+     * setter for file
+     *
+     * @param string $file
+     * @return File
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+        return $this;
+    }
 
-	/**
-	 * getter for caption
-	 *
-	 * @return string
-	 */
-	public function getCaption() {
-		return $this->caption;
-	}
+    /**
+     * setter for path
+     *
+     * @param string $path
+     * @return File
+     */
+    public function setPath($path)
+    {
+        if ($path && substr($path, -1) !== '/') {
+            $path = $path . '/';
+        }
+        $this->path = $path;
+        return $this;
+    }
 
-	/**
-	 * setter for caption
-	 *
-	 * @param string $caption
-	 * @return File
-	 */
-	public function setCaption($caption) {
-		$this->caption = $caption;
-		return $this;
-	}
-
-	/**
-	 * If the path and filename is set it will not be generated
-	 * automatically by concatenating the path and the filename.
-	 *
-	 * @param string $pathAndFilename
-	 */
-	public function setPathAndFilename($pathAndFilename) {
-		$this->pathAndFilename = $pathAndFilename;
-	}
+    /**
+     * If the path and filename is set it will not be generated
+     * automatically by concatenating the path and the filename.
+     *
+     * @param string $pathAndFilename
+     */
+    public function setPathAndFilename($pathAndFilename)
+    {
+        $this->pathAndFilename = $pathAndFilename;
+    }
 }
-?>

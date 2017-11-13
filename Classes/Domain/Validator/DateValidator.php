@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Validator;
 
 /***************************************************************
@@ -30,60 +31,68 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 /**
  * sanitizes and validates a given date
  */
-class DateValidator extends AbstractValidator {
+class DateValidator extends AbstractValidator
+{
+    public function isValid($value)
+    {
+        $setterMethodName = 'set' . $this->options['propertyName'];
+        $getterMethodName = 'get' . $this->options['propertyName'];
+        $object = $this->options['object'];
 
-	public function isValid($value) {
-		$setterMethodName = 'set'.$this->options['propertyName'];
-		$getterMethodName = 'get'.$this->options['propertyName'];
-		$object = $this->options['object'];
+        // Check that value and domain property match
+        if ($value != $object->{$getterMethodName}()) {
+            throw new \RuntimeException(
+                'the given value and the value of the object don\'t match in ' . get_class($this)
+            );
+        }
 
-		// check that value and domain property match
-		if($value != $object->{$getterMethodName}()) {
-			throw new \RuntimeException('the given value and the value of the object don\'t match in '.get_class($this));
-		}
+        // Required
+        if (empty($value)) {
+            if ($this->options['required']) {
+                $this->addError('no value given', 'required');
+                return false;
+            } else {
+                return true;
+            }
+        }
 
-		// required
-		if(empty($value)) {
-			if($this->options['required']) {
-				$this->addError('no value given', 'required');
-				return false;
-			} else {
-				return true;
-			}
-		}
+        // Sanitize input
+        if (is_numeric($value) && $value > 0) {
+            $object->{$setterMethodName}(intval($value));
+            $value = intval($value);
+        } else {
+            $day = \Tx\CzSimpleCal\Utility\StrToTime::strtotime($value . ' | 00:00');
+            if ($day === false) {
+                $this->addError('could not be parsed.', 'parseError');
+                return false;
+            } else {
+                $object->{$setterMethodName}($day);
+                $value = $day;
+            }
+        }
 
-		// sanitize input
-		if(is_numeric($value) && $value > 0) {
-			$object->{$setterMethodName}(intval($value));
-			$value = intval($value);
-		} else {
-			$day = \Tx\CzSimpleCal\Utility\StrToTime::strtotime($value.' | 00:00');
-			if($day === false) {
-				$this->addError('could not be parsed.', 'parseError');
-				return false;
-			} else {
-				$object->{$setterMethodName}($day);
-				$value = $day;
-			}
-		}
+        // Minimum
+        if ($this->options['minimum']) {
+            if ($value < $this->options['minimum']) {
+                $this->addError(
+                    sprintf('No dates before %s allowed.', strftime('%Y-%m-%d', $this->options['minimum'])),
+                    'minimum'
+                );
+                return false;
+            }
+        }
 
-		// minimum
-		if($this->options['minimum']) {
-			if($value < $this->options['minimum']) {
-				$this->addError(sprintf('No dates before %s allowed.', strftime('%Y-%m-%d', $this->options['minimum'])), 'minimum');
-				return false;
-			}
-		}
+        // Maximum
+        if ($this->options['maximum']) {
+            if ($value > $this->options['maximum']) {
+                $this->addError(
+                    sprintf('No dates after %s allowed.', strftime('%Y-%m-%d', $this->options['maximum'])),
+                    'maximum'
+                );
+                return false;
+            }
+        }
 
-		// maximum
-		if($this->options['maximum']) {
-			if($value > $this->options['maximum']) {
-				$this->addError(sprintf('No dates after %s allowed.', strftime('%Y-%m-%d', $this->options['maximum'])), 'maximum');
-				return false;
-			}
-		}
-
-		return true;
-
-	}
+        return true;
+    }
 }

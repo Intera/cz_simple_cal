@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Validator;
 
 /***************************************************************
@@ -25,56 +26,59 @@ namespace Tx\CzSimpleCal\Domain\Validator;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
  * sanitizes and validates a list of tweets
  */
-class TwitterHashtagValidator extends AbstractValidator {
+class TwitterHashtagValidator extends AbstractValidator
+{
+    public function isValid($value)
+    {
+        $setterMethodName = 'set' . $this->options['propertyName'];
+        $getterMethodName = 'get' . $this->options['propertyName'];
+        $object = $this->options['object'];
 
-	public function isValid($value) {
-		$setterMethodName = 'set'.$this->options['propertyName'];
-		$getterMethodName = 'get'.$this->options['propertyName'];
-		$object = $this->options['object'];
+        // Check that value and domain property match
+        if ($value != $object->{$getterMethodName}()) {
+            throw new \RuntimeException(
+                'the given value and the value of the object don\'t match in ' . get_class($this)
+            );
+        }
 
-		// check that value and domain property match
-		if($value != $object->{$getterMethodName}()) {
-			throw new \RuntimeException('the given value and the value of the object don\'t match in '.get_class($this));
-		}
+        // Required
+        if (empty($value)) {
+            if ($this->options['required']) {
+                $this->addError('no value given', 'required');
+                return false;
+            } else {
+                return true;
+            }
+        }
 
-		// required
-		if(empty($value)) {
-			if($this->options['required']) {
-				$this->addError('no value given', 'required');
-				return false;
-			} else {
-				return true;
-			}
-		}
+        $tags = GeneralUtility::trimExplode(',', $value);
+        if ($this->options['minimum'] && $this->options['minimum'] > count($tags)) {
+            $this->addError(sprintf('at least %d items required', $this->options['minimum']), 'minimum');
+            return false;
+        }
 
-		$tags = GeneralUtility::trimExplode(',', $value);
-		if($this->options['minimum'] && $this->options['minimum'] > count($tags)) {
-			$this->addError(sprintf('at least %d items required', $this->options['minimum']), 'minimum');
-			return false;
-		}
+        if ($this->options['maximum'] && $this->options['maximum'] > count($tags)) {
+            $this->addError(sprintf('at max %d items allowed', $this->options['maximum']), 'maximum');
+            return false;
+        }
 
-		if($this->options['maximum'] && $this->options['maximum'] > count($tags)) {
-			$this->addError(sprintf('at max %d items allowed', $this->options['maximum']), 'maximum');
-			return false;
-		}
+        foreach ($tags as &$tag) {
+            if (!preg_match('/^#?[\pL\pN\-]{2,40}$/i', $tag)) {
+                $this->addError(sprintf('"%s" is not a valid hashtag.', $tag), 'invalid');
+                return false;
+            }
+            $tag = '#' . ltrim($tag, '#');
+        }
 
-		foreach($tags as &$tag) {
-			if(!preg_match('/^#?[\pL\pN\-]{2,40}$/i', $tag)) {
-				$this->addError(sprintf('"%s" is not a valid hashtag.', $tag), 'invalid');
-				return false;
-			}
-			$tag = '#'.ltrim($tag, '#');
-		}
+        $value = implode(', ', $tags);
 
-		$value = implode(', ', $tags);
-
-		$object->{$setterMethodName}($value);
-		return true;
-	}
+        $object->{$setterMethodName}($value);
+        return true;
+    }
 }

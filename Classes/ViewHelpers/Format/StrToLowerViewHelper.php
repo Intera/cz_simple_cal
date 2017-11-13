@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
 /*                                                                        *
@@ -16,15 +17,16 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * Converts a string to lowercase.
  */
-class StrToLowerViewHelper extends AbstractViewHelper {
-
-	/**
-	 * Converts the rendered children to lowercase.
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$data = $this->renderChildren();
-		return strtolower($data);
-	}
+class StrToLowerViewHelper extends AbstractViewHelper
+{
+    /**
+     * Converts the rendered children to lowercase.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $data = $this->renderChildren();
+        return strtolower($data);
+    }
 }

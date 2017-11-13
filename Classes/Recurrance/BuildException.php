@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Recurrance;
 
 /***************************************************************
@@ -25,7 +26,6 @@ namespace Tx\CzSimpleCal\Recurrance;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class BuildException extends \RuntimeException {
-
-
+class BuildException extends \RuntimeException
+{
 }

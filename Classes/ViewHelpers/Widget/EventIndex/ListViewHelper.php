@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex;
 
 /***************************************************************
@@ -46,45 +47,47 @@ use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper;
  * @author Christian Zenker <christian.zenker@599media.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class ListViewHelper extends AbstractWidgetViewHelper {
+class ListViewHelper extends AbstractWidgetViewHelper
+{
+    /**
+     * @var ListController
+     */
+    protected $controller;
 
-	/**
-	 * @var ListController
-	 */
-	protected $controller;
+    /**
+     * Initialize all arguments. You need to override this method and call
+     * $this->registerArgument(...) inside this method, to register all your arguments.
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('startDate', 'mixed', 'startDate', false, null);
+        $this->registerArgument('endDate', 'mixed', 'endDate', false, null);
+        $this->registerArgument('maxEvents', 'integer', 'maxEvents', false, 3);
+        $this->registerArgument('order', 'string', 'order', false, 'asc');
+        $this->registerArgument('orderBy', 'string', 'orderBy', false, 'startDate');
+        $this->registerArgument('includeStartedEvents', 'integer', 'includeStartedEvents', false, null);
+        $this->registerArgument('excludeOverlongEvents', 'integer', 'excludeOverlongEvents', false, null);
+        $this->registerArgument('filter', 'array', 'filter', false, null);
 
-	/**
-	 * @param ListController $controller
-	 * @return void
-	 */
-	public function injectController(ListController $controller) {
-		$this->controller = $controller;
-	}
+        $this->registerArgument('templateFilePath', 'string', 'template file path', false, null);
+    }
 
-	/**
-	 * Initialize all arguments. You need to override this method and call
-	 * $this->registerArgument(...) inside this method, to register all your arguments.
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('startDate', 'mixed', 'startDate', false, null);
-		$this->registerArgument('endDate', 'mixed', 'endDate', false, null);
-		$this->registerArgument('maxEvents', 'integer', 'maxEvents', false, 3);
-		$this->registerArgument('order', 'string', 'order', false, 'asc');
-		$this->registerArgument('orderBy', 'string', 'orderBy', false, 'startDate');
-		$this->registerArgument('includeStartedEvents', 'integer', 'includeStartedEvents', false, null);
-		$this->registerArgument('excludeOverlongEvents', 'integer', 'excludeOverlongEvents', false, null);
-		$this->registerArgument('filter', 'array', 'filter', false, null);
+    /**
+     * @param ListController $controller
+     * @return void
+     */
+    public function injectController(ListController $controller)
+    {
+        $this->controller = $controller;
+    }
 
-
-		$this->registerArgument('templateFilePath', 'string', 'template file path', false, null);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->initiateSubRequest();
-	}
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return $this->initiateSubRequest();
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Utility;
 
 /***************************************************************
@@ -30,35 +31,35 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Event config utility.
  */
-class EventConfig {
+class EventConfig
+{
+    public function getRecurranceSubtype($config)
+    {
+        if (is_array($config['row']['recurrance_type'])) {
+            $type = reset($config['row']['recurrance_type']);
+        } elseif (is_string($config['row']['recurrance_type'])) {
+            $type = $config['row']['recurrance_type'];
+        } else {
+            return;
+        }
 
-	public function getRecurranceSubtype($config) {
+        $type = trim($type);
 
-		if (is_array($config['row']['recurrance_type'])) {
-			$type = reset($config['row']['recurrance_type']);
-		} elseif (is_string($config['row']['recurrance_type'])) {
-			$type = $config['row']['recurrance_type'];
-		} else {
-			return;
-		}
+        if (empty($type)) {
+            return;
+        }
 
-		$type = trim($type);
+        $className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
 
-		if (empty($type)) {
-			return;
-		}
+        if (!class_exists($className)) {
+            return;
+        }
 
-		$className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
+        $recurranceType = GeneralUtility::makeInstance($className);
+        if (!method_exists($recurranceType, 'getSubtypes')) {
+            return;
+        }
 
-		if (!class_exists($className)) {
-			return;
-		}
-
-		$recurranceType = GeneralUtility::makeInstance($className);
-		if (!method_exists($recurranceType, 'getSubtypes')) {
-			return;
-		}
-
-		$config['items'] = $recurranceType->getSubtypes();
-	}
+        $config['items'] = $recurranceType->getSubtypes();
+    }
 }

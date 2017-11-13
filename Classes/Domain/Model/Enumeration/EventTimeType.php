@@ -1,4 +1,5 @@
 <?php
+
 namespace Int\CzSimpleCal\Domain\Model\Enumeration;
 
 /*                                                                        *
@@ -16,40 +17,40 @@ use TYPO3\CMS\Core\Type\Enumeration;
 /**
  * The time type of an event.
  */
-class EventTimeType extends Enumeration {
+class EventTimeType extends Enumeration
+{
+    /**
+     * Start date and end time: 14.02.2014 - 15.02.2014
+     *
+     * @const
+     */
+    const ALL_DATES = 'allDates';
 
-	/**
-	 * Start date and end time: 14.02.2014 - 15.02.2014
-	 *
-	 * @const
-	 */
-	const ALL_DATES = 'allDates';
+    /**
+     * Start date / time and end date / time: 14.02.2014 15:00 Uhr - 15.02.2014 16:00 Uhr
+     *
+     * @const
+     */
+    const ALL_DATE_TIMES = 'allDateTimes';
 
-	/**
-	 * Start date / time and end date / time: 14.02.2014 15:00 Uhr - 15.02.2014 16:00 Uhr
-	 *
-	 * @const
-	 */
-	const ALL_DATE_TIMES = 'allDateTimes';
+    /**
+     * Only a start date: 14.02.2014
+     *
+     * @const
+     */
+    const START_DATE = 'startDate';
 
-	/**
-	 * Only a start date: 14.02.2014
-	 *
-	 * @const
-	 */
-	const START_DATE = 'startDate';
+    /**
+     * Only start date and time: 14.02.2014 14:00 Uhr
+     *
+     * @const
+     */
+    const START_DATE_TIME = 'startDateTime';
 
-	/**
-	 * Only start date and time: 14.02.2014 14:00 Uhr
-	 *
-	 * @const
-	 */
-	const START_DATE_TIME = 'startDateTime';
-
-	/**
-	 * Start date and start and end time: 14.02.2014 14:00 - 16:00 Uhr
-	 *
-	 * @const
-	 */
-	const START_DATE_TIME_AND_END_TIME = 'startDateTimeAndEndTime';
+    /**
+     * Start date and start and end time: 14.02.2014 14:00 - 16:00 Uhr
+     *
+     * @const
+     */
+    const START_DATE_TIME_AND_END_TIME = 'startDateTimeAndEndTime';
 }

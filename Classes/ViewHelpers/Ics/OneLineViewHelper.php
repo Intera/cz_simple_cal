@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Ics;
 
 /***************************************************************
@@ -30,12 +31,12 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * removes lines from its content so it is suitable as a line for an ICS export
  */
-class OneLineViewHelper extends AbstractViewHelper {
+class OneLineViewHelper extends AbstractViewHelper
+{
+    public function render()
+    {
+        $content = $this->renderChildren();
 
-	public function render() {
-		$content = $this->renderChildren();
-
-		return preg_replace('/[\s]+/', ' ', $content);
-
-	}
+        return preg_replace('/[\s]+/', ' ', $content);
+    }
 }

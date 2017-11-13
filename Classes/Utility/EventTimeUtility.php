@@ -1,4 +1,5 @@
 <?php
+
 namespace Int\CzSimpleCal\Utility;
 
 /*                                                                        *
@@ -16,80 +17,84 @@ use Int\CzSimpleCal\Domain\Model\Enumeration\EventTimeType;
 /**
  * This utility determines the event time type.
  */
-class EventTimeUtility implements \TYPO3\CMS\Core\SingletonInterface {
+class EventTimeUtility implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * Returns the event time type for the given Event.
+     *
+     * @param \Tx\CzSimpleCal\Domain\Model\Event $event
+     * @return string
+     */
+    public function getEventTimeType($event)
+    {
+        // Default is all date / times
+        $result = EventTimeType::ALL_DATE_TIMES;
 
-	/**
-	 * Returns the event time as a plaing string without HTML tags.
-	 *
-	 * @param \Tx\CzSimpleCal\Domain\Model\EventIndex $eventIndex
-	 * @return string
-	 */
-	public function getPlainEventTimeForEventIndexEntry($eventIndex) {
+        $startDay = $event->getStartDay();
+        $startTime = $event->getStartTime();
 
-		$eventTimeType = $this->getEventTimeType($eventIndex->getEvent());
+        $endDay = $event->getEndDay();
+        $endTime = $event->getEndTime();
 
-		switch ($eventTimeType) {
-			case EventTimeType::ALL_DATES:
-				$eventTime = strftime('%x - ', $eventIndex->getStart()) . strftime('%x', $eventIndex->getEnd());
-				break;
-			case EventTimeType::START_DATE:
-				$eventTime = strftime('%x', $eventIndex->getStart());
-				break;
-			case EventTimeType::START_DATE_TIME:
-				$eventTime = strftime('%x %H:%M', $eventIndex->getStart());
-				break;
-			case EventTimeType::START_DATE_TIME_AND_END_TIME:
-				$eventTime = strftime('%x %H:%M - ', $eventIndex->getStart()) . strftime('%H:%M', $eventIndex->getEnd());
-				break;
-			// Default to display all date / times
-			default:
-				$eventTime = strftime('%x %H:%M - ', $eventIndex->getStart()) . strftime('%x %H:%M', $eventIndex->getEnd());
-				break;
-		}
+        $displayEndDay = true;
 
-		return $eventTime;
-	}
+        if (is_null($endDay) || $startDay === $endDay) {
+            $displayEndDay = false;
+        }
 
-	/**
-	 * Returns the event time type for the given Event.
-	 *
-	 * @param \Tx\CzSimpleCal\Domain\Model\Event $event
-	 * @return string
-	 */
-	public function getEventTimeType($event) {
-		// Default is all date / times
-		$result = EventTimeType::ALL_DATE_TIMES;
+        if (!$displayEndDay) {
+            if (isset($startTime) && isset($endTime)) {
+                if ($startTime !== $endTime) {
+                    $result = EventTimeType::START_DATE_TIME_AND_END_TIME;
+                } else {
+                    $result = EventTimeType::START_DATE_TIME;
+                }
+            } elseif (isset($startTime) && !isset($endTime)) {
+                $result = EventTimeType::START_DATE_TIME;
+            } elseif (!isset($startTime) && !isset($endTime)) {
+                $result = EventTimeType::START_DATE;
+            }
+        } else {
+            if (!isset($startTime) && !isset($endTime)) {
+                $result = EventTimeType::ALL_DATES;
+            }
+        }
 
-		$startDay = $event->getStartDay();
-		$startTime = $event->getStartTime();
+        return $result;
+    }
 
-		$endDay = $event->getEndDay();
-		$endTime = $event->getEndTime();
+    /**
+     * Returns the event time as a plaing string without HTML tags.
+     *
+     * @param \Tx\CzSimpleCal\Domain\Model\EventIndex $eventIndex
+     * @return string
+     */
+    public function getPlainEventTimeForEventIndexEntry($eventIndex)
+    {
+        $eventTimeType = $this->getEventTimeType($eventIndex->getEvent());
 
-		$displayEndDay = TRUE;
+        switch ($eventTimeType) {
+            case EventTimeType::ALL_DATES:
+                $eventTime = strftime('%x - ', $eventIndex->getStart())
+                    . strftime('%x', $eventIndex->getEnd());
+                break;
+            case EventTimeType::START_DATE:
+                $eventTime = strftime('%x', $eventIndex->getStart());
+                break;
+            case EventTimeType::START_DATE_TIME:
+                $eventTime = strftime('%x %H:%M', $eventIndex->getStart());
+                break;
+            case EventTimeType::START_DATE_TIME_AND_END_TIME:
+                $eventTime = strftime('%x %H:%M - ', $eventIndex->getStart())
+                    . strftime('%H:%M', $eventIndex->getEnd());
+                break;
+            // Default to display all date / times
+            default:
+                $eventTime = strftime('%x %H:%M - ', $eventIndex->getStart())
+                    . strftime('%x %H:%M', $eventIndex->getEnd());
+                break;
+        }
 
-		if (is_null($endDay) || $startDay === $endDay) {
-			$displayEndDay = FALSE;
-		}
-
-		if (!$displayEndDay) {
-			if (isset($startTime) && isset($endTime)) {
-				if ($startTime !== $endTime) {
-					$result = EventTimeType::START_DATE_TIME_AND_END_TIME;
-				} else {
-					$result = EventTimeType::START_DATE_TIME;
-				}
-			} elseif (isset($startTime) && !isset($endTime)) {
-				$result = EventTimeType::START_DATE_TIME;
-			} elseif (!isset($startTime) && !isset($endTime)) {
-				$result = EventTimeType::START_DATE;
-			}
-		} else {
-			if (!isset($startTime) && !isset($endTime)) {
-				$result = EventTimeType::ALL_DATES;
-			}
-		}
-
-		return $result;
-	}
+        return $eventTime;
+    }
 }

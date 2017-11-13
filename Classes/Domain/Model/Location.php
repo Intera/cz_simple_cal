@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Model;
 
 /***************************************************************
@@ -28,5 +29,6 @@ namespace Tx\CzSimpleCal\Domain\Model;
 /**
  * A location of an event
  */
-class Location extends Address {
+class Location extends Address
+{
 }

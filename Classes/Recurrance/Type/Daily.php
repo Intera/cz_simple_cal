@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Recurrance\Type;
 
 /***************************************************************
@@ -28,35 +29,34 @@ namespace Tx\CzSimpleCal\Recurrance\Type;
 /**
  * daily recurrance
  */
-class Daily extends Base {
+class Daily extends Base
+{
+    /**
+     * the main method building the recurrance
+     *
+     * @return void
+     */
+    protected function doBuild()
+    {
+        $start = clone $this->event->getDateTimeObjectStart();
+        $end = clone $this->event->getDateTimeObjectEnd();
+        $until = $this->event->getDateTimeObjectRecurranceUntil();
 
-	/**
-	 * the main method building the recurrance
-	 *
-	 * @return void
-	 */
-	protected function doBuild() {
+        while (true) {
+            if ($until < $start) {
+                break;
+            }
 
-		$start = clone $this->event->getDateTimeObjectStart();
-		$end = clone $this->event->getDateTimeObjectEnd();
-		$until = $this->event->getDateTimeObjectRecurranceUntil();
+            $this->timeline->add(
+                [
+                    'start' => $start->getTimestamp(),
+                    'end' => $end->getTimestamp(),
+                ],
+                $this->event
+            );
 
-		while (TRUE) {
-
-			if ($until < $start) {
-				break;
-			}
-
-			$this->timeline->add(
-				array(
-					'start' => $start->getTimestamp(),
-					'end' => $end->getTimestamp()
-				),
-				$this->event
-			);
-
-			$start->modify('+1 day');
-			$end->modify('+1 day');
-		}
-	}
+            $start->modify('+1 day');
+            $end->modify('+1 day');
+        }
+    }
 }

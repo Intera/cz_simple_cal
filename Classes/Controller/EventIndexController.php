@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Controller;
 
 /***************************************************************
@@ -30,130 +31,138 @@ use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 /**
  * Controller for the EventIndex object
  */
-class EventIndexController extends BaseExtendableController {
+class EventIndexController extends BaseExtendableController
+{
+    /**
+     * @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository
+     * @inject
+     */
+    protected $eventIndexRepository;
 
-	/**
-	 * @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository
-	 * @inject
-	 */
-	protected $eventIndexRepository;
+    /**
+     * count events and group them by an according timespan
+     */
+    public function countEventsAction()
+    {
+        $start = $this->getStartDate();
+        $end = $this->getEndDate();
 
-	/**
-	 * builds a list of some events
-	 *
-	 * @return null
-	 */
-	public function listAction() {
-		$start = $this->getStartDate();
-		$end = $this->getEndDate();
+        $this->view->assign('start', $start);
+        $this->view->assign('end', $end);
 
-		$this->view->assign('start', $start);
-		$this->view->assign('end', $end);
+        $this->view->assign(
+            'data',
+            $this->eventIndexRepository->countAllWithSettings(
+                array_merge(
+                    $this->actionSettings,
+                    [
+                        'startDate' => $start->getTimestamp(),
+                        'endDate' => $end->getTimestamp(),
+                    ]
+                )
+            )
+        );
+    }
 
-		$this->view->assign(
-			'events',
-			$this->eventIndexRepository->findAllWithSettings(array_merge(
-				$this->actionSettings,
-				array(
-					'startDate' => $start->getTimestamp(),
-					'endDate'   => $end->getTimestamp()
-				)
-			))
-		);
-	}
+    /**
+     * builds a list of some events
+     *
+     * @return null
+     */
+    public function listAction()
+    {
+        $start = $this->getStartDate();
+        $end = $this->getEndDate();
 
-	/**
-	 * count events and group them by an according timespan
-	 */
-	public function countEventsAction() {
-		$start = $this->getStartDate();
-		$end = $this->getEndDate();
+        $this->view->assign('start', $start);
+        $this->view->assign('end', $end);
 
-		$this->view->assign('start', $start);
-		$this->view->assign('end', $end);
+        $this->view->assign(
+            'events',
+            $this->eventIndexRepository->findAllWithSettings(
+                array_merge(
+                    $this->actionSettings,
+                    [
+                        'startDate' => $start->getTimestamp(),
+                        'endDate' => $end->getTimestamp(),
+                    ]
+                )
+            )
+        );
+    }
 
-		$this->view->assign(
-			'data',
-			$this->eventIndexRepository->countAllWithSettings(array_merge(
-				$this->actionSettings,
-				array(
-					'startDate' => $start->getTimestamp(),
-					'endDate'   => $end->getTimestamp()
-				)
-			))
-		);
-	}
+    /**
+     * display a single event
+     *
+     * @param integer $event
+     * @return null
+     */
+    public function showAction($event)
+    {
+        /* don't let Extbase fetch the event
+         * as you won't be able to extend the model
+         * via an extension
+         */
+        /** @var \Tx\CzSimpleCal\Domain\Model\EventIndex $eventIndexObject */
+        $eventIndexObject = $this->eventIndexRepository->findByUid($event);
 
-	/**
-	 * display a single event
-	 *
-	 * @param integer $event
-	 * @return null
-	 */
-	public function showAction($event) {
+        if (empty($eventIndexObject)) {
+            $this->throwStatus(404, null, $this->translateById('error-404-event-index-not-found'));
+        }
 
-		/* don't let Extbase fetch the event
-		 * as you won't be able to extend the model
-		 * via an extension
-		 */
-		/** @var \Tx\CzSimpleCal\Domain\Model\EventIndex $eventIndexObject */
-		$eventIndexObject = $this->eventIndexRepository->findByUid($event);
+        $this->view->assign('event', $eventIndexObject);
+    }
 
-		if(empty($eventIndexObject)) {
-			$this->throwStatus(404, NULL, $this->translateById('error-404-event-index-not-found'));
-		}
+    /**
+     * get the end date of events that should be fetched
+     *
+     * @todo getDate support
+     * @return CzSimpleCalDateTime
+     */
+    protected function getEndDate()
+    {
+        if (array_key_exists('endDate', $this->actionSettings)) {
+            if (isset($this->actionSettings['getDate'])) {
+                $date = new CzSimpleCalDateTime($this->actionSettings['getDate']);
+                $date->modify($this->actionSettings['endDate']);
+            } else {
+                $date = new CzSimpleCalDateTime($this->actionSettings['endDate']);
+            }
+            return $date;
+        } else {
+            return null;
+        }
+    }
 
-		$this->view->assign('event', $eventIndexObject);
-	}
+    /**
+     * get the start date of events that should be fetched
+     *
+     * @return CzSimpleCalDateTime
+     */
+    protected function getStartDate()
+    {
+        if (array_key_exists('startDate', $this->actionSettings)) {
+            if (isset($this->actionSettings['getDate'])) {
+                $date = new CzSimpleCalDateTime($this->actionSettings['getDate']);
+                $date->modify($this->actionSettings['startDate']);
+            } else {
+                $date = new CzSimpleCalDateTime($this->actionSettings['startDate']);
+            }
+            return $date;
+        } else {
+            return null;
+        }
+    }
 
-
-	/**
-	 * get the start date of events that should be fetched
-	 *
-	 * @return CzSimpleCalDateTime
-	 */
-	protected function getStartDate() {
-		if(array_key_exists('startDate', $this->actionSettings)) {
-			if(isset($this->actionSettings['getDate'])) {
-				$date = new CzSimpleCalDateTime($this->actionSettings['getDate']);
-				$date->modify($this->actionSettings['startDate']);
-			} else {
-				$date = new CzSimpleCalDateTime($this->actionSettings['startDate']);
-			}
-			return $date;
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * get the end date of events that should be fetched
-	 *
-	 * @todo getDate support
-	 * @return CzSimpleCalDateTime
-	 */
-	protected function getEndDate() {
-		if(array_key_exists('endDate', $this->actionSettings)) {
-			if(isset($this->actionSettings['getDate'])) {
-				$date = new CzSimpleCalDateTime($this->actionSettings['getDate']);
-				$date->modify($this->actionSettings['endDate']);
-			} else {
-				$date = new CzSimpleCalDateTime($this->actionSettings['endDate']);
-			}
-			return $date;
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * Returns the translation for the given key from the cz_simple_cal Extension.
-	 *
-	 * @param string $key
-	 * @param string $extensionName
-	 * @return string
-	 */
-	protected function translateById($key, $extensionName = 'CzSimpleCal') {
-		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, $extensionName);
-	}
+    /**
+     * Returns the translation for the given key from the cz_simple_cal Extension.
+     *
+     * @param string $key
+     * @param string $extensionName
+     * @return string
+     */
+    protected function translateById($key, $extensionName = 'CzSimpleCal')
+    {
+        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, $extensionName);
+    }
 }

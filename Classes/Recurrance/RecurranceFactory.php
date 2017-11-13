@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Recurrance;
 
 /***************************************************************
@@ -29,164 +30,181 @@ use Tx\CzSimpleCal\Domain\Model\Event as EventModel;
 use Tx\CzSimpleCal\Domain\Model\Exception as ExceptionModel;
 use Tx\CzSimpleCal\Recurrance\Timeline\Event as TimelineEvent;
 use Tx\CzSimpleCal\Recurrance\Timeline\Exception as TimelineException;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Tx\CzSimpleCal\Recurrance\Type\Base as RecurranceTypeBase;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * manages the build of all recurrant events
  */
-class RecurranceFactory {
+class RecurranceFactory
+{
+    /**
+     * the event to build the recurrance for
+     *
+     * @var EventModel
+     */
+    protected $event = null;
 
-	/**
-	 * the event to build the recurrance for
-	 *
-	 * @var EventModel
-	 */
-	protected $event = NULL;
+    /**
+     * build the recurrance for an event
+     *
+     * @param \Tx\CzSimpleCal\Domain\Model\BaseEvent $event
+     * @return TimelineEvent
+     * @throws \InvalidArgumentException
+     */
+    public function buildRecurranceForEvent($event)
+    {
+        if (!$event instanceof \Tx\CzSimpleCal\Domain\Model\BaseEvent) {
+            // No type hinting to make it more reusable
+            throw new \InvalidArgumentException(
+                sprintf(
+                    '$event must be of class \Tx\CzSimpleCal\Domain\Model\BaseEvent in %s::%s',
+                    get_class($this),
+                    __METHOD__
+                )
+            );
+        }
 
-	/**
-	 * build the recurrance for an event
-	 *
-	 * @param \Tx\CzSimpleCal\Domain\Model\BaseEvent $event
-	 * @return TimelineEvent
-	 * @throws \InvalidArgumentException
-	 */
-	public function buildRecurranceForEvent($event) {
-		if (!$event instanceof \Tx\CzSimpleCal\Domain\Model\BaseEvent) {
-			// no type hinting to make it more reusable
-			throw new \InvalidArgumentException(sprintf('$event must be of class \Tx\CzSimpleCal\Domain\Model\BaseEvent in %s::%s', get_class($this), __METHOD__));
-		}
+        $this->event = $event;
 
-		$this->event = $event;
+        // A class holding all possible events ordered by their starttime ascending
+        $events = $this->buildEventTimeline();
 
-		// A class holding all possible events ordered by their starttime ascending
-		$events = $this->buildEventTimeline();
+        // A class holding all exceptions
+        $exceptions = $this->buildExceptionTimeline();
 
-		// A class holding all exceptions
-		$exceptions = $this->buildExceptionTimeline();
+        return $this->dropExceptionalEvents($events, $exceptions);
+    }
 
-		return $this->dropExceptionalEvents($events, $exceptions);
-	}
+    /**
+     * build the recurrance for all events paying no attention to exceptions
+     *
+     * @return TimelineEvent
+     * @throws \RuntimeException
+     * @throws \BadMethodCallException
+     */
+    protected function buildEventTimeline()
+    {
+        $type = $this->event->getRecurranceType();
+        if (empty($type)) {
+            throw new \RuntimeException('The recurrance_type should not be empty.');
+        }
 
-	/**
-	 * build the recurrance for all events paying no attention to exceptions
-	 *
-	 * @return TimelineEvent
-	 * @throws \RuntimeException
-	 * @throws \BadMethodCallException
-	 */
-	protected function buildEventTimeline() {
+        $className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
 
-		$type = $this->event->getRecurranceType();
-		if (empty($type)) {
-			throw new \RuntimeException('The recurrance_type should not be empty.');
-		}
+        if (!class_exists($className)) {
+            throw new \BadMethodCallException(
+                sprintf('The class %s does not exist for creating recurring events.', $className)
+            );
+        }
 
-		$className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
+        $class = GeneralUtility::makeInstance($className);
 
-		if (!class_exists($className)) {
-			throw new \BadMethodCallException(sprintf('The class %s does not exist for creating recurring events.', $className));
-		}
+        if (!$class instanceof RecurranceTypeBase) {
+            throw new \BadMethodCallException(
+                sprintf('The class %s does not implement \\Tx\\CzSimpleCal\\Recurrance\\Type\\Base.', get_class($class))
+            );
+        }
 
-		$class = GeneralUtility::makeInstance($className);
+        $eventTimeline = new TimelineEvent();
+        $eventTimeline->setEvent($this->event);
 
-		if (!$class instanceof RecurranceTypeBase) {
-			throw new \BadMethodCallException(sprintf('The class %s does not implement \\Tx\\CzSimpleCal\\Recurrance\\Type\\Base.', get_class($class)));
-		}
+        return $class->build($this->event, $eventTimeline);
+    }
 
-		$eventTimeline = new TimelineEvent();
-		$eventTimeline->setEvent($this->event);
+    /**
+     * build the exception timeline
+     *
+     * @return TimelineException
+     * @throws \RuntimeException
+     * @throws \BadMethodCallException
+     */
+    protected function buildExceptionTimeline()
+    {
+        $exceptionTimeline = new TimelineException();
 
-		return $class->build($this->event, $eventTimeline);
-	}
+        /** @var ExceptionModel $exception */
+        foreach ($this->event->getExceptions() as $exception) {
+            $type = $exception->getRecurranceType();
+            if (empty($type)) {
+                throw new \RuntimeException('The recurrance_type should not be empty.');
+            }
 
-	/**
-	 * build the exception timeline
-	 *
-	 * @return TimelineException
-	 * @throws \RuntimeException
-	 * @throws \BadMethodCallException
-	 */
-	protected function buildExceptionTimeline() {
-		$exceptionTimeline = new TimelineException();
+            $className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
 
-		/** @var ExceptionModel $exception */
-		foreach ($this->event->getExceptions() as $exception) {
+            if (!class_exists($className)) {
+                throw new \BadMethodCallException(
+                    sprintf('The class %s does not exist for creating recurring events.', $className)
+                );
+            }
 
-			$type = $exception->getRecurranceType();
-			if (empty($type)) {
-				throw new \RuntimeException('The recurrance_type should not be empty.');
-			}
+            $class = GeneralUtility::makeInstance($className);
 
-			$className = 'Tx\\CzSimpleCal\\Recurrance\\Type\\' . GeneralUtility::underscoredToUpperCamelCase($type);
+            if (!$class instanceof RecurranceTypeBase) {
+                throw new \BadMethodCallException(
+                    sprintf(
+                        'The class %s does not implement \\Tx\\CzSimpleCal\\Recurrance\\Type\\Base.',
+                        get_class($class)
+                    )
+                );
+            }
 
-			if (!class_exists($className)) {
-				throw new \BadMethodCallException(sprintf('The class %s does not exist for creating recurring events.', $className));
-			}
+            $exceptionTimeline = $class->build($exception, $exceptionTimeline);
+        }
+        return $exceptionTimeline;
+    }
 
-			$class = GeneralUtility::makeInstance($className);
+    /**
+     * drop all events that are blocked by an exception
+     *
+     * some words on how it works:
+     *
+     * Basically the idea here is to check every event if it overlaps an exception.
+     *
+     * To make this algorithm a bit more efficant, these prerequisits are met:
+     *  - the events are ordered by their start-date (no duplicate start dates),
+     *  - the exceptions by their start-date (no duplicate start dates)
+     *
+     * So if we find, that the end-date of an exception is before the current start-date
+     * it is before the start-date of ALL remaining events and we'll just drop it.
+     *
+     *
+     * @param TimelineEvent $events
+     * @param TimelineException $exceptions
+     * @return TimelineEvent
+     */
+    protected function dropExceptionalEvents($events, $exceptions)
+    {
+        if (!$exceptions->hasData()) {
+            return $events;
+        }
 
-			if (!$class instanceof RecurranceTypeBase) {
-				throw new \BadMethodCallException(sprintf('The class %s does not implement \\Tx\\CzSimpleCal\\Recurrance\\Type\\Base.', get_class($class)));
-			}
+        foreach ($events as $eventKey => $event) {
+            foreach ($exceptions as $exceptionKey => $exception) {
+                if ($exception['end'] <= $eventKey /*eventKey = $event['start']*/) {
+                    // If: end of exception is before start of event
+                    // -> delete it as it won't affect any more of the events
+                    $exceptions->unsetCurrent();
+                } elseif ($event['end'] < $exceptionKey /*exceptionKey = $exception['start']*/ ||
+                    ($event['end'] == $exceptionKey && $event['start'] != $event['end'])
+                ) {
+                    // If: end of event is before start of exception or
+                    // end of event matches start of exception and the event is not zero length
+                    // -> none of the following exception will affect this event
+                    break;
+                } else {
+                    // Else: match -> delete this event
+                    if (isset($exception['additionalEventData'])) {
+                        $events->mergeAdditionalDataToCurrent($exception['additionalEventData']);
+                    } else {
+                        $events->unsetCurrent();
+                    }
 
-			$exceptionTimeline = $class->build($exception, $exceptionTimeline);
-		}
-		return $exceptionTimeline;
-	}
+                    break;
+                }
+            }
+        }
 
-	/**
-	 * drop all events that are blocked by an exception
-	 *
-	 * some words on how it works:
-	 *
-	 * Basically the idea here is to check every event if it overlaps an exception.
-	 *
-	 * To make this algorithm a bit more efficant, these prerequisits are met:
-	 *  - the events are ordered by their start-date (no duplicate start dates),
-	 *  - the exceptions by their start-date (no duplicate start dates)
-	 *
-	 * So if we find, that the end-date of an exception is before the current start-date
-	 * it is before the start-date of ALL remaining events and we'll just drop it.
-	 *
-	 *
-	 * @param TimelineEvent $events
-	 * @param TimelineException $exceptions
-	 * @return TimelineEvent
-	 */
-	protected function dropExceptionalEvents($events, $exceptions) {
-
-		if (!$exceptions->hasData()) {
-			return $events;
-		}
-
-		foreach ($events as $eventKey => $event) {
-
-			foreach ($exceptions as $exceptionKey => $exception) {
-
-				if ($exception['end'] <= $eventKey /*eventKey = $event['start']*/) {
-					//if: end of exception is before start of event -> delete it as it won't affect any more of the events
-					$exceptions->unsetCurrent();
-				} elseif ($event['end'] < $exceptionKey /*exceptionKey = $exception['start']*/ ||
-					($event['end'] == $exceptionKey && $event['start'] != $event['end'])
-				) {
-					//if: end of event is before start of exception or
-					//    end of event matches start of exception and the event is not zero length
-					//    -> none of the following exception will affect this event
-					break;
-				} else {
-					// else: match -> delete this event
-					if (isset($exception['additionalEventData'])) {
-						$events->mergeAdditionalDataToCurrent($exception['additionalEventData']);
-					} else {
-						$events->unsetCurrent();
-					}
-
-					break;
-				}
-			}
-		}
-
-		return $events;
-	}
+        return $events;
+    }
 }

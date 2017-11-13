@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Model;
 
 /***************************************************************
@@ -28,18 +29,19 @@ namespace Tx\CzSimpleCal\Domain\Model;
 /**
  * An exception group for an event in the calendar
  */
-class ExceptionGroup extends Base {
+class ExceptionGroup extends Base
+{
+    /**
+     * @lazy
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
+     */
+    protected $exceptions;
 
-	/**
-	 * @lazy
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
-	 */
-	protected $exceptions;
-
-	/**
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
-	 */
-	public function getExceptions() {
-		return $this->exceptions;
-	}
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
+     */
+    public function getExceptions()
+    {
+        return $this->exceptions;
+    }
 }

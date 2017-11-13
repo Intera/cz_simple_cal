@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
 /*                                                                        *
@@ -16,15 +17,16 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * Trim view helper.
  */
-class TrimViewHelper extends AbstractViewHelper {
-
-	/**
-	 * Removes whitespace around the rendered children.
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$data = $this->renderChildren();
-		return trim($data);
-	}
+class TrimViewHelper extends AbstractViewHelper
+{
+    /**
+     * Removes whitespace around the rendered children.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $data = $this->renderChildren();
+        return trim($data);
+    }
 }

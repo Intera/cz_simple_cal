@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Arrays;
 
 /***************************************************************
@@ -30,22 +31,23 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * Join item view helper.
  */
-class JoinItemViewHelper extends AbstractViewHelper {
+class JoinItemViewHelper extends AbstractViewHelper
+{
+    /**
+     * @throws \LogicException
+     * @return void
+     */
+    public function render()
+    {
+        $viewHelperName = str_replace('_JoinItemViewHelper', '_JoinViewHelper', get_class($this));
+        $key = 'items';
+        if (!$this->viewHelperVariableContainer->exists($viewHelperName, $key)) {
+            throw new \LogicException(sprintf('%s must be used as child of %s.', get_class($this), $viewHelperName));
+        }
 
-	/**
-	 * @throws \LogicException
-	 * @return void
-	 */
-	public function render() {
-		$viewHelperName = str_replace('_JoinItemViewHelper', '_JoinViewHelper', get_class($this));
-		$key = 'items';
-		if(!$this->viewHelperVariableContainer->exists($viewHelperName, $key)) {
-			throw new \LogicException(sprintf('%s must be used as child of %s.', get_class($this), $viewHelperName));
-		}
+        $values = $this->viewHelperVariableContainer->get($viewHelperName, $key);
+        $values[] = $this->renderChildren();
 
-		$values = $this->viewHelperVariableContainer->get($viewHelperName, $key);
-		$values[] = $this->renderChildren();
-
-		$this->viewHelperVariableContainer->addOrUpdate($viewHelperName, $key, $values);
-	}
+        $this->viewHelperVariableContainer->addOrUpdate($viewHelperName, $key, $values);
+    }
 }

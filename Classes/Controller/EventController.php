@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Controller;
 
 /***************************************************************
@@ -28,34 +29,33 @@ namespace Tx\CzSimpleCal\Controller;
 /**
  * Controller for the EventIndex object
  */
-class EventController extends BaseExtendableController {
+class EventController extends BaseExtendableController
+{
+    /**
+     * @var \Tx\CzSimpleCal\Domain\Repository\EventRepository
+     * @inject
+     */
+    protected $eventRepository;
 
-	/**
-	 * @var \Tx\CzSimpleCal\Domain\Repository\EventRepository
-	 * @inject
-	 */
-	protected $eventRepository;
+    /**
+     * display a single event
+     *
+     * @param integer $event
+     * @return null
+     */
+    public function showAction($event)
+    {
+        /* don't let Extbase fetch the event
+         * as you won't be able to extend the model
+         * via an extension
+         */
+        /** @var \Tx\CzSimpleCal\Domain\Model\Event $eventObject */
+        $eventObject = $this->eventRepository->findByUid($event);
 
-	/**
-	 * display a single event
-	 *
-	 * @param integer $event
-	 * @return null
-	 */
-	public function showAction($event) {
+        if (empty($eventObject)) {
+            $this->throwStatus(404, 'Not found', 'The requested event could not be found.');
+        }
 
-		/* don't let Extbase fetch the event
-		 * as you won't be able to extend the model
-		 * via an extension
-		 */
-		/** @var \Tx\CzSimpleCal\Domain\Model\Event $eventObject */
-		$eventObject = $this->eventRepository->findByUid($event);
-
-
-		if(empty($eventObject)) {
-			$this->throwStatus(404, 'Not found', 'The requested event could not be found.');
-		}
-
-		$this->view->assign('event', $eventObject);
-	}
+        $this->view->assign('event', $eventObject);
+    }
 }

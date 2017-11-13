@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
 /***************************************************************
@@ -33,24 +34,25 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class HostNameViewHelper extends AbstractViewHelper {
+class HostNameViewHelper extends AbstractViewHelper
+{
+    /**
+     * Get the localized name of a country from its country code
+     *
+     * @param string $uri
+     * @return string hostname of the uri
+     * @author Christian Zenker <christian.zenker@599media.de>
+     */
+    public function render($uri)
+    {
+        if (empty($uri)) {
+            return '';
+        }
 
-	/**
-	 * Get the localized name of a country from its country code
-	 *
-	 * @param string $uri
-	 * @return string hostname of the uri
-	 * @author Christian Zenker <christian.zenker@599media.de>
-	 */
-	public function render($uri) {
-		if(empty($uri)) {
-			return '';
-		}
-
-		if(strpos($uri, '://') === false) {
-			$uri = 'http://'.$uri;
-		}
-		$parts = parse_url($uri);
-		return $parts['host'];
-	}
+        if (strpos($uri, '://') === false) {
+            $uri = 'http://' . $uri;
+        }
+        $parts = parse_url($uri);
+        return $parts['host'];
+    }
 }

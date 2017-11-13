@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Hook;
 
 /***************************************************************
@@ -29,24 +30,24 @@ namespace Tx\CzSimpleCal\Hook;
  * Hooks for the database record list. This hook is currently used
  * to hide the inline addresses in the record list.
  */
-class DatabaseRecordListHook implements \TYPO3\CMS\Backend\RecordList\RecordListGetTableHookInterface {
+class DatabaseRecordListHook implements \TYPO3\CMS\Backend\RecordList\RecordListGetTableHookInterface
+{
+    /**
+     * Filters inline records from the records list.
+     *
+     * @param string $table The current database table
+     * @param integer $pageId The record's page ID
+     * @param string $additionalWhereClause An additional WHERE clause
+     * @param string $selectedFieldsList Comma separated list of selected fields
+     * @param \TYPO3\CMS\Recordlist\RecordList\DatabaseRecordList $parentObject Parent localRecordList object
+     * @return void
+     */
+    public function getDBlistQuery($table, $pageId, &$additionalWhereClause, &$selectedFieldsList, &$parentObject)
+    {
+        if ($table !== 'tx_czsimplecal_domain_model_address') {
+            return;
+        }
 
-	/**
-	 * Filters inline records from the records list.
-	 *
-	 * @param string $table The current database table
-	 * @param integer $pageId The record's page ID
-	 * @param string $additionalWhereClause An additional WHERE clause
-	 * @param string $selectedFieldsList Comma separated list of selected fields
-	 * @param \TYPO3\CMS\Recordlist\RecordList\DatabaseRecordList $parentObject Parent localRecordList object
-	 * @return void
-	 */
-	public function getDBlistQuery($table, $pageId, &$additionalWhereClause, &$selectedFieldsList, &$parentObject) {
-
-		if ($table !== 'tx_czsimplecal_domain_model_address') {
-			return;
-		}
-
-		$additionalWhereClause .= ' AND tx_czsimplecal_domain_model_address.event_uid = 0';
-	}
+        $additionalWhereClause .= ' AND tx_czsimplecal_domain_model_address.event_uid = 0';
+    }
 }

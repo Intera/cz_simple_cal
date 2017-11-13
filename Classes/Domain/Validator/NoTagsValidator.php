@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Validator;
 
 /***************************************************************
@@ -30,20 +31,20 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 /**
  * checks that a string does not container HTML tags
  */
-class NoTagsValidator extends AbstractValidator {
+class NoTagsValidator extends AbstractValidator
+{
+    /**
+     * checks that a string does not container HTML tags
+     *
+     * @param mixed $value
+     * @return void
+     */
+    public function isValid($value)
+    {
+        $strippedValue = strip_tags($value);
 
-	/**
-	 * checks that a string does not container HTML tags
-	 *
-	 * @param mixed $value
-	 * @return void
-	 */
-	public function isValid($value) {
-
-		$strippedValue = strip_tags($value);
-
-		if(strlen($value) > strlen($strippedValue)) {
-			$this->addError('HTML tags are not allowed.', 1316198501);
-		}
-	}
+        if (strlen($value) > strlen($strippedValue)) {
+            $this->addError('HTML tags are not allowed.', 1316198501);
+        }
+    }
 }

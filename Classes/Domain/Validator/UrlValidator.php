@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Validator;
 
 /***************************************************************
@@ -30,34 +31,37 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 /**
  * sanitizes and validates a given url
  */
-class UrlValidator extends AbstractValidator {
+class UrlValidator extends AbstractValidator
+{
+    public function isValid($value)
+    {
+        $setterMethodName = 'set' . $this->options['propertyName'];
+        $getterMethodName = 'get' . $this->options['propertyName'];
+        $object = $this->options['object'];
 
-	public function isValid($value) {
-		$setterMethodName = 'set'.$this->options['propertyName'];
-		$getterMethodName = 'get'.$this->options['propertyName'];
-		$object = $this->options['object'];
+        // Check that value and domain property match
+        if ($value != $object->{$getterMethodName}()) {
+            throw new \RuntimeException(
+                'the given value and the value of the object don\'t match in ' . get_class($this)
+            );
+        }
 
-		// check that value and domain property match
-		if($value != $object->{$getterMethodName}()) {
-			throw new \RuntimeException('the given value and the value of the object don\'t match in '.get_class($this));
-		}
+        if (empty($value)) {
+            return true;
+        }
 
-		if(empty($value)) {
-			return true;
-		}
+        if (strpos($value, '://') === false) {
+            $value = 'http://' . $value;
+        }
 
-		if(strpos($value, '://') === false) {
-			$value = 'http://'.$value;
-		}
+        $value = filter_var($value, FILTER_VALIDATE_URL);
 
-		$value = filter_var($value, FILTER_VALIDATE_URL);
+        if ($value === false) {
+            $this->addError('The url does not seem valid.', 'invalid');
+            return false;
+        }
 
-		if($value === false) {
-			$this->addError('The url does not seem valid.','invalid');
-			return false;
-		}
-
-		$object->{$setterMethodName}($value);
-		return true;
-	}
+        $object->{$setterMethodName}($value);
+        return true;
+    }
 }

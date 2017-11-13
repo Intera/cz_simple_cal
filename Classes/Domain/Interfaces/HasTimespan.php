@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Interfaces;
 
 /***************************************************************
@@ -30,19 +31,19 @@ use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 /**
  * This interface meens this domain model has a start and an end time.
  */
-interface HasTimespan {
+interface HasTimespan
+{
+    /**
+     * get the end of this domain model
+     *
+     * @return CzSimpleCalDateTime
+     */
+    public function getDateTimeObjectEnd();
 
-	/**
-	 * get the start of this domain model
-	 *
-	 * @return CzSimpleCalDateTime
-	 */
-	public function getDateTimeObjectStart();
-
-	/**
-	 * get the end of this domain model
-	 *
-	 * @return CzSimpleCalDateTime
-	 */
-	public function getDateTimeObjectEnd();
+    /**
+     * get the start of this domain model
+     *
+     * @return CzSimpleCalDateTime
+     */
+    public function getDateTimeObjectStart();
 }

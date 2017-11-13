@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers;
 
 /***************************************************************
@@ -46,113 +47,121 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * The settings are:
  *
  * settings.renderData.files {
- * 	mapObjectProperties {
- * 		uid = uid
- * 	}
- * 	overrideData {
- * 		header =
- * 	}
+ *    mapObjectProperties {
+ *        uid = uid
+ *    }
+ *    overrideData {
+ *        header =
+ *    }
  * }
  *
  * The curernt content object contains this data array:
  *
  * array(
- *	'pid' => 5,
- * 	'header' => 'my plugin'
+ *    'pid' => 5,
+ *    'header' => 'my plugin'
  * )
  *
  * This will result in this result array:
  *
  * array(
- *	'files' => array(
- *		'pid' => 5,
- * 		'uid' => $object->getUid(),
- * 		'header' => ''
- * 	)
+ *    'files' => array(
+ *        'pid' => 5,
+ *        'uid' => $object->getUid(),
+ *        'header' => ''
+ *    )
  * )
  *
  * The render data can now be used in CObjectViewHelper calls for the data attribute:
  *
- * <f:cObject typoscriptObjectPath="plugin.tx_czsimplecal.settings.renderData.files.renderObject" data="{renderData.files}" />
+ * <f:cObject typoscriptObjectPath="plugin.tx_czsimplecal.settings.renderData.files.renderObject"
+ * data="{renderData.files}" />
  */
-class RenderDataViewHelper extends AbstractViewHelper {
+class RenderDataViewHelper extends AbstractViewHelper
+{
+    /**
+     *
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     */
+    protected $configurationManager;
 
-	/**
-	 *
-	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-	 */
-	protected $configurationManager;
+    /**
+     * @var array
+     */
+    protected $contentObjectData;
 
-	/**
-	 * @var array
-	 */
-	protected $contentObjectData;
+    /**
+     * @var array
+     */
+    protected $settings;
 
-	/**
-	 * @var array
-	 */
-	protected $settings;
+    /**
+     * Initialize all arguments. You need to override this method and call
+     * $this->registerArgument(...) inside this method, to register all your arguments.
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('extensionName', 'string', 'The extension name that is used to fetch the settings.');
+        $this->registerArgument('pluginName', 'string', 'The plugin name that is used to fetch the settings.');
+    }
 
-	/**
-	 * Initialize all arguments. You need to override this method and call
-	 * $this->registerArgument(...) inside this method, to register all your arguments.
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('extensionName', 'string', 'The extension name that is used to fetch the settings.');
-		$this->registerArgument('pluginName', 'string', 'The plugin name that is used to fetch the settings.');
-	}
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+    }
 
-	public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager) {
-		$this->configurationManager = $configurationManager;
-	}
+    /**
+     * Builds the render data array.
+     *
+     * @param object $object The configured mapObjectProperties will be read from this object using getter methods.
+     * @param string $renderDataVariable The name of the variable that will be available during child object rendering.
+     * @return string
+     */
+    public function render($object, $renderDataVariable = 'renderData')
+    {
+        $this->initializeClassVariables();
+        $renderData = [];
 
-	/**
-	 * Builds the render data array.
-	 *
-	 * @param object $object The configured mapObjectProperties will be read from this object using getter methods.
-	 * @param string $renderDataVariable The name of the variable that will be available during child object rendering.
-	 * @return string
-	 */
-	public function render($object, $renderDataVariable = 'renderData') {
-		$this->initializeClassVariables();
-		$renderData = array();
+        foreach ($this->settings['renderData'] as $variableName => $dataSettings) {
+            $data = $this->contentObjectData;
 
-		foreach ($this->settings['renderData'] as $variableName => $dataSettings) {
+            if (is_array($dataSettings['mapObjectProperties'])) {
+                foreach ($dataSettings['mapObjectProperties'] as $dataProperty => $eventProperty) {
+                    $propertyGetter = 'get' . ucfirst($eventProperty);
+                    $data[$dataProperty] = $object->$propertyGetter();
+                }
+            }
 
-			$data = $this->contentObjectData;
+            if (is_array($dataSettings['overrideData'])) {
+                $data = array_merge($data, $dataSettings['overrideData']);
+            }
 
-			if (is_array($dataSettings['mapObjectProperties'])) {
-				foreach ($dataSettings['mapObjectProperties'] as $dataProperty => $eventProperty) {
-					$propertyGetter = 'get' . ucfirst($eventProperty);
-					$data[$dataProperty] = $object->$propertyGetter();
-				}
-			}
+            $renderData[$variableName] = $data;
+        }
 
-			if (is_array($dataSettings['overrideData'])) {
-				$data = array_merge($data, $dataSettings['overrideData']);
-			}
+        $this->templateVariableContainer->add($renderDataVariable, $renderData);
+        $result = $this->renderChildren();
+        $this->templateVariableContainer->remove($renderDataVariable);
 
-			$renderData[$variableName] = $data;
-		}
+        return $result;
+    }
 
-		$this->templateVariableContainer->add($renderDataVariable, $renderData);
-		$result = $this->renderChildren();
-		$this->templateVariableContainer->remove($renderDataVariable);
-
-		return $result;
-	}
-
-	/**
-	 * Initializes the settings and the contentObjectData class variables required for rendering.
-	 *
-	 * @return void
-	 */
-	protected function initializeClassVariables() {
-		$this->contentObjectData = $this->configurationManager->getContentObject()->data;
-		$extensionName = $this->hasArgument('extensionName') ? $this->arguments['extensionName'] : NULL;
-		$pluginName = $this->hasArgument('pluginName') ? $this->arguments['pluginName'] : NULL;
-		$this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, $extensionName, $pluginName);
-	}
+    /**
+     * Initializes the settings and the contentObjectData class variables required for rendering.
+     *
+     * @return void
+     */
+    protected function initializeClassVariables()
+    {
+        $this->contentObjectData = $this->configurationManager->getContentObject()->data;
+        $extensionName = $this->hasArgument('extensionName') ? $this->arguments['extensionName'] : null;
+        $pluginName = $this->hasArgument('pluginName') ? $this->arguments['pluginName'] : null;
+        $this->settings = $this->configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
+            $extensionName,
+            $pluginName
+        );
+    }
 }

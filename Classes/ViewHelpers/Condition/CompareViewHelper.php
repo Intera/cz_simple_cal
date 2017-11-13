@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Condition;
 
 /***************************************************************
@@ -34,7 +35,7 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * These are the operators that might be used:
  *
- * 	* "=" or "=="    check if both values are equal (integer 10 would be equal to string "10")
+ *    * "=" or "=="    check if both values are equal (integer 10 would be equal to string "10")
  *  * "==="          check if both values are identical (integer 10 would NOT be equal to string "10")
  *  * "!=" or "<>"   check if both values are not equal
  *  * "!=="          do an additional type check
@@ -72,41 +73,45 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  *
  * <code title="comparing object method results">
- *     <f:if condition="{x:condition.compare(value1: person.age, value2: 18, operation='&lt;')}">You are too young</f:if>
+ *     <f:if condition="{x:condition.compare(value1: person.age, value2: 18, operation='&lt;')}">You are too
+ * young</f:if>
  * </code>
  */
-class CompareViewHelper extends AbstractViewHelper {
+class CompareViewHelper extends AbstractViewHelper
+{
+    /**
+     * Compare two values
+     *
+     * @param mixed $value1 first value
+     * @param mixed $value2 second value
+     * @param string $operation a string for the operation
+     * @return boolean if the condition is met
+     * @throws \InvalidArgumentException
+     */
+    public function render($value1, $value2, $operation = '=')
+    {
+        $operation = htmlspecialchars_decode($operation);
 
-	/**
-	 * Compare two values
-	 *
-	 * @param mixed $value1 first value
-	 * @param mixed $value2 second value
-	 * @param string $operation a string for the operation
-	 * @return boolean if the condition is met
-	 * @throws \InvalidArgumentException
-	 */
-	public function render($value1, $value2, $operation = '=') {
-		$operation = htmlspecialchars_decode($operation);
-
-		if($operation === '=' || $operation === '==') {
-			return $value1 == $value2;
-		} elseif($operation === '===') {
-			return $value1 === $value2;
-		} elseif($operation === '!=' || $operation === '<>') {
-			return $value1 != $value2;
-		} elseif($operation === '!==') {
-			return $value1 !== $value2;
-		} elseif($operation === '>') {
-			return $value1 > $value2;
-		} elseif($operation === '>=' || $operation === '=>') {
-			return $value1 >= $value2;
-		} elseif($operation === '<') {
-			return $value1 < $value2;
-		} elseif($operation === '<=' || $operation === '=<') {
-			return $value1 <= $value2;
-		} else {
-			throw new \InvalidArgumentException(sprintf('The operation "%s" is unknown. Please see the documentation for valid values.', $operation));
-		}
-	}
+        if ($operation === '=' || $operation === '==') {
+            return $value1 == $value2;
+        } elseif ($operation === '===') {
+            return $value1 === $value2;
+        } elseif ($operation === '!=' || $operation === '<>') {
+            return $value1 != $value2;
+        } elseif ($operation === '!==') {
+            return $value1 !== $value2;
+        } elseif ($operation === '>') {
+            return $value1 > $value2;
+        } elseif ($operation === '>=' || $operation === '=>') {
+            return $value1 >= $value2;
+        } elseif ($operation === '<') {
+            return $value1 < $value2;
+        } elseif ($operation === '<=' || $operation === '=<') {
+            return $value1 <= $value2;
+        } else {
+            throw new \InvalidArgumentException(
+                sprintf('The operation "%s" is unknown. Please see the documentation for valid values.', $operation)
+            );
+        }
+    }
 }

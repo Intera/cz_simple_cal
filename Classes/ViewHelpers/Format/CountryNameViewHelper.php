@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
 /***************************************************************
@@ -25,69 +26,76 @@ namespace Tx\CzSimpleCal\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * format a localized name of a country by its isoCode
  */
-class CountryNameViewHelper extends AbstractViewHelper {
+class CountryNameViewHelper extends AbstractViewHelper
+{
+    /**
+     * @var object
+     */
+    protected static $staticInfoObject = null;
 
-	/**
-	 * Get the localized name of a country from its country code
-	 *
-	 * @param string $isoCode the three-letter isocode of the country (as given by static_info_tables)
-	 * @return string localized country name
-	 * @author Christian Zenker <christian.zenker@599media.de>
-	 */
-	public function render($isoCode) {
-		if(empty($isoCode)) {
-			return '';
-		}
+    /**
+     * init static info tables to use with this view helper
+     */
+    protected static function init()
+    {
+        // Check if class was already initialized
+        if (!is_null(self::$staticInfoObject)) {
+            return;
+        }
 
-		(!is_null(self::$staticInfoObject)) || self::init();
+        // Check if static_info_tables is installed
+        if (!ExtensionManagementUtility::isLoaded('static_info_tables')) {
+            self::$staticInfoObject = false;
+            /** @noinspection PhpUndefinedConstantInspection */
+            GeneralUtility::devLog(
+                'static_info_tables needs to be installed to use ' . get_class(self),
+                get_class(self),
+                1
+            );
+            return;
+        }
 
-		if(self::$staticInfoObject === false) {
-			// if init went wrong
-			return $isoCode;
-		}
+        require_once(ExtensionManagementUtility::extPath('static_info_tables')
+            . 'pi1/class.tx_staticinfotables_pi1.php');
+        // Init class
+        // Code taken from the documentation
+        self::$staticInfoObject = &GeneralUtility::getUserObj('&tx_staticinfotables_pi1');
+        if (!self::$staticInfoObject) {
+            self::$staticInfoObject = false;
+            return;
+        }
+        if (self::$staticInfoObject->needsInit()) {
+            self::$staticInfoObject->init();
+        }
+    }
 
-		return self::$staticInfoObject->getStaticInfoName('COUNTRIES', $isoCode);
-	}
+    /**
+     * Get the localized name of a country from its country code
+     *
+     * @param string $isoCode the three-letter isocode of the country (as given by static_info_tables)
+     * @return string localized country name
+     * @author Christian Zenker <christian.zenker@599media.de>
+     */
+    public function render($isoCode)
+    {
+        if (empty($isoCode)) {
+            return '';
+        }
 
-	/**
-	 * @var object
-	 */
-	protected static $staticInfoObject = null;
+        (!is_null(self::$staticInfoObject)) || self::init();
 
-	/**
-	 * init static info tables to use with this view helper
-	 */
-	protected static function init() {
-		// check if class was already initialized
-		if(!is_null(self::$staticInfoObject)) {
-			return;
-		}
+        if (self::$staticInfoObject === false) {
+            // If init went wrong
+            return $isoCode;
+        }
 
-		// check if static_info_tables is installed
-		if(!ExtensionManagementUtility::isLoaded('static_info_tables')) {
-			self::$staticInfoObject = false;
-			/** @noinspection PhpUndefinedConstantInspection */
-			GeneralUtility::devLog('static_info_tables needs to be installed to use '.get_class(self), get_class(self), 1);
-			return;
-		}
-
-		require_once(ExtensionManagementUtility::extPath('static_info_tables') . 'pi1/class.tx_staticinfotables_pi1.php');
-		// init class
-		// code taken from the documentation
-		self::$staticInfoObject = &GeneralUtility::getUserObj('&tx_staticinfotables_pi1');
-		if(!self::$staticInfoObject) {
-			self::$staticInfoObject = false;
-			return;
-		}
-		if (self::$staticInfoObject->needsInit()) {
-			self::$staticInfoObject->init();
-		}
-	}
+        return self::$staticInfoObject->getStaticInfoName('COUNTRIES', $isoCode);
+    }
 }

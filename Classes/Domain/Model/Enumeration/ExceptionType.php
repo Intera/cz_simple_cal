@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Model\Enumeration;
 
 /***************************************************************
@@ -30,24 +31,24 @@ use TYPO3\CMS\Core\Type\Enumeration;
 /**
  * The type of an event exception.
  */
-class ExceptionType extends Enumeration {
+class ExceptionType extends Enumeration
+{
+    /**
+     * Default is "HideEvent"
+     *
+     * @const
+     */
+    const __default = 'HideEvent';
 
-	/**
-	 * This exception type will remove the event from the index for the configured date(s).
-	 *
-	 * @const
-	 */
-	const HIDE_EVENT = 'HideEvent';
+    /**
+     * This exception type will remove the event from the index for the configured date(s).
+     *
+     * @const
+     */
+    const HIDE_EVENT = 'HideEvent';
 
-	/**
-	 * This exception type will overwrite some event properties for the configured date(s).
-	 */
-	const UPDATE_EVENT = 'UpdateEvent';
-
-	/**
-	 * Default is "HideEvent"
-	 *
-	 * @const
-	 */
-	const __default = 'HideEvent';
+    /**
+     * This exception type will overwrite some event properties for the configured date(s).
+     */
+    const UPDATE_EVENT = 'UpdateEvent';
 }

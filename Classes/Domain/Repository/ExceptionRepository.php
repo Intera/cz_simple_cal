@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Repository;
 
 /***************************************************************
@@ -30,50 +31,59 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for Exception domain models.
  */
-class ExceptionRepository extends Repository {
+class ExceptionRepository extends Repository
+{
+    /**
+     * find all exceptions for an event
+     *
+     * @param integer $uid event_id
+     * @ugly support for joins in extbase misses some features. It seems as if MM_opposite_field won't get any
+     *     attention when building queries.
+     * @return array
+     */
+    public function findAllForEventId($uid)
+    {
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Query $query */
+        $query = $this->createQuery();
 
-	/**
-	 * find all exceptions for an event
-	 *
-	 * @param integer $uid event_id
-	 * @ugly support for joins in extbase misses some features. It seems as if MM_opposite_field won't get any attention when building queries.
-	 * @return array
-	 */
-	public function findAllForEventId($uid) {
-
-		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\Query $query */
-		$query = $this->createQuery();
-
-		$query->statement('
+        $query->statement(
+            '
 			SELECT DISTINCT tx_czsimplecal_domain_model_exception.*
 			FROM tx_czsimplecal_domain_model_exception
-			JOIN tx_czsimplecal_event_exception_mm ON tx_czsimplecal_domain_model_exception.uid = tx_czsimplecal_event_exception_mm.uid_foreign
+			JOIN tx_czsimplecal_event_exception_mm
+			ON tx_czsimplecal_domain_model_exception.uid = tx_czsimplecal_event_exception_mm.uid_foreign
 			WHERE
 				tx_czsimplecal_event_exception_mm.tablenames = "tx_czsimplecal_domain_model_exception"
 				AND tx_czsimplecal_event_exception_mm.uid_local = ?
-		', array($uid));
-		$exceptions = $query->execute();
+		',
+            [$uid]
+        );
+        $exceptions = $query->execute();
 
+        // Second: get all exceptions that are linked via ExceptionGroups
+        $query = $this->createQuery();
 
-		// second: get all exceptions that are linked via ExceptionGroups
-		$query = $this->createQuery();
-
-		$query->statement('
+        $query->statement(
+            '
 			SELECT DISTINCT tx_czsimplecal_domain_model_exception.*
 			FROM tx_czsimplecal_domain_model_exception
-			JOIN tx_czsimplecal_exceptiongroup_exception_mm ON tx_czsimplecal_exceptiongroup_exception_mm.uid_foreign = tx_czsimplecal_domain_model_exception.uid
-			JOIN tx_czsimplecal_event_exception_mm ON tx_czsimplecal_event_exception_mm.uid_foreign = tx_czsimplecal_exceptiongroup_exception_mm.uid_local
+			JOIN tx_czsimplecal_exceptiongroup_exception_mm
+			ON tx_czsimplecal_exceptiongroup_exception_mm.uid_foreign = tx_czsimplecal_domain_model_exception.uid
+			JOIN tx_czsimplecal_event_exception_mm
+			ON tx_czsimplecal_event_exception_mm.uid_foreign = tx_czsimplecal_exceptiongroup_exception_mm.uid_local
 			WHERE
 				tx_czsimplecal_event_exception_mm.tablenames = "tx_czsimplecal_domain_model_exceptiongroup"
 				AND tx_czsimplecal_event_exception_mm.uid_local = ?
-		', array($uid));
-		$exceptions2 = $query->execute();
+		',
+            [$uid]
+        );
+        $exceptions2 = $query->execute();
 
-		// merge it return it
-		//TODO: check for duplicates
-		return array_merge(
-			$exceptions->toArray(),
-			$exceptions2->toArray()
-		);
-	}
+        // Merge it return it
+        // TODO: check for duplicates
+        return array_merge(
+            $exceptions->toArray(),
+            $exceptions2->toArray()
+        );
+    }
 }

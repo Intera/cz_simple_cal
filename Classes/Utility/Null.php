@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Utility;
 
 /***************************************************************
@@ -31,13 +32,15 @@ namespace Tx\CzSimpleCal\Utility;
  * (used as backend user to clear cache when an event was created/updated
  * in the EventAdministration controller without getting a log message)
  */
-class Null {
+class Null
+{
+    public function __call($methodName, $arguments)
+    {
+        return null;
+    }
 
-	public function __call($methodName, $arguments) {
-		return null;
-	}
-
-	public function __get($argument) {
-		return null;
-	}
+    public function __get($argument)
+    {
+        return null;
+    }
 }

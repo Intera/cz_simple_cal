@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller;
 
 /***************************************************************
@@ -31,68 +32,82 @@ use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController;
 /**
  * Count widget controller.
  */
-class CountController extends AbstractWidgetController {
+class CountController extends AbstractWidgetController
+{
+    /**
+     * the action settings to use for fetching the events
+     *
+     * @var array
+     */
+    protected $actionSettings = [];
 
-	/**
-	 * @var EventIndexRepository
-	 */
-	protected $eventIndexRepository;
+    /**
+     * @var EventIndexRepository
+     */
+    protected $eventIndexRepository;
 
-	/**
-	 * the action settings to use for fetching the events
-	 *
-	 * @var array
-	 */
-	protected $actionSettings = array();
+    /**
+     * @return void
+     */
+    public function initializeAction()
+    {
+        foreach ([
+                     'maxEvents',
+                     'order',
+                     'orderBy',
+                     'includeStartedEvents',
+                     'excludeOverlongEvents',
+                     'filter',
+                     'groupBy',
+                 ] as $argumentName) {
+            if (isset($this->widgetConfiguration[$argumentName])) {
+                $this->actionSettings[$argumentName] = $this->widgetConfiguration[$argumentName];
+            }
+        }
+        foreach (['startDate', 'endDate'] as $argumentName) {
+            if (isset($this->widgetConfiguration[$argumentName])) {
+                $this->actionSettings[$argumentName] = $this->normalizeArgumentToTimestamp(
+                    $this->widgetConfiguration[$argumentName]
+                );
+            }
+        }
+    }
 
-	/**
-	 * @return void
-	 */
-	public function initializeAction() {
-		foreach(array('maxEvents', 'order', 'orderBy', 'includeStartedEvents', 'excludeOverlongEvents', 'filter', 'groupBy') as $argumentName) {
-			if(isset($this->widgetConfiguration[$argumentName])) {
-				$this->actionSettings[$argumentName] = $this->widgetConfiguration[$argumentName];
-			}
-		}
-		foreach(array('startDate', 'endDate') as $argumentName) {
-			if(isset($this->widgetConfiguration[$argumentName])) {
-				$this->actionSettings[$argumentName] = $this->normalizeArgumentToTimestamp($this->widgetConfiguration[$argumentName]);
-			}
-		}
-	}
+    public function injectEventIndexRepository(EventIndexRepository $eventIndexRepository)
+    {
+        $this->eventIndexRepository = $eventIndexRepository;
+    }
 
-	public function injectEventIndexRepository(EventIndexRepository $eventIndexRepository) {
-		$this->eventIndexRepository = $eventIndexRepository;
-	}
+    /**
+     * @return void
+     */
+    public function indexAction()
+    {
+        $this->view->assign(
+            'data',
+            $this->eventIndexRepository->countAllWithSettings($this->actionSettings)
+        );
+        $this->view->assign('actionSettings', $this->actionSettings);
+    }
 
-	/**
-	 * normalizes anything that describes a time
-	 * and sets it to be a timestamp
-	 *
-	 * @param mixed $value
-	 * @return integer
-	 */
-	protected function normalizeArgumentToTimestamp($value) {
-		if(empty($value)) {
-			return NULL;
-		} elseif(is_numeric($value)) {
-			return \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($value, 0);
-		} elseif(is_string($value)) {
-			return \Tx\CzSimpleCal\Utility\StrToTime::strtotime($value);
-		} elseif($value instanceof \DateTime) {
-			return intval($value->format('U'));
-		}
-		return NULL;
-	}
-
-	/**
-	 * @return void
-	 */
-	public function indexAction() {
-		$this->view->assign(
-			'data',
-			$this->eventIndexRepository->countAllWithSettings($this->actionSettings)
-		);
-		$this->view->assign('actionSettings', $this->actionSettings);
-	}
+    /**
+     * normalizes anything that describes a time
+     * and sets it to be a timestamp
+     *
+     * @param mixed $value
+     * @return integer
+     */
+    protected function normalizeArgumentToTimestamp($value)
+    {
+        if (empty($value)) {
+            return null;
+        } elseif (is_numeric($value)) {
+            return \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($value, 0);
+        } elseif (is_string($value)) {
+            return \Tx\CzSimpleCal\Utility\StrToTime::strtotime($value);
+        } elseif ($value instanceof \DateTime) {
+            return intval($value->format('U'));
+        }
+        return null;
+    }
 }

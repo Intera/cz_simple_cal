@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Validator;
 
 /***************************************************************
@@ -30,20 +31,20 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 /**
  * checks that a value is null or ''
  */
-class EmptyValidator extends AbstractValidator {
+class EmptyValidator extends AbstractValidator
+{
+    /**
+     * checks that a value is null or ''
+     *
+     * @param mixed $value
+     * @return void
+     */
+    public function isValid($value)
+    {
+        if (is_null($value) || $value === '') {
+            return;
+        }
 
-	/**
-	 * checks that a value is null or ''
-	 *
-	 * @param mixed $value
-	 * @return void
-	 */
-	public function isValid($value) {
-
-		if(is_null($value) || $value === '') {
-			return;
-		}
-
-		$this->addError('This value should be empty.', 1316198501);
-	}
+        $this->addError('This value should be empty.', 1316198501);
+    }
 }

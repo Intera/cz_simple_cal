@@ -1,4 +1,5 @@
 <?php
+
 namespace Tx\CzSimpleCal\Domain\Model\Enumeration;
 
 /***************************************************************
@@ -25,13 +26,20 @@ namespace Tx\CzSimpleCal\Domain\Model\Enumeration;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Type\Enumeration;
+
 /**
  * The status of an event (according to iCalendar RFC 2445)
  */
-class EventStatus extends \TYPO3\CMS\Core\Type\Enumeration {
-	const __default = 'CONFIRMED';
-	const TENTATIVE = 'TENTATIVE';
-	const CONFIRMED = 'CONFIRMED';
-	const CANCELLED = 'CANCELLED';
-	const UNDEFINED = 'UNDEFINED';
+class EventStatus extends Enumeration
+{
+    const __default = 'CONFIRMED';
+
+    const CANCELLED = 'CANCELLED';
+
+    const CONFIRMED = 'CONFIRMED';
+
+    const TENTATIVE = 'TENTATIVE';
+
+    const UNDEFINED = 'UNDEFINED';
 }
