@@ -1,97 +1,110 @@
 <?php
 
+namespace Tx\CzSimpleCal\Tests\Unit\Utility;
+
+use Nimut\TestingFramework\TestCase\UnitTestCase;
+use Tx\CzSimpleCal\Utility\FileArrayBuilder;
+
 /**
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Utility_FileArrayBuilderTest extends tx_phpunit_testcase {
+class FileArrayBuilderTest extends UnitTestCase
+{
+    /**
+     * test that everything works alright no matter if a path-spec is finished with a slash or not
+     */
+    public function testIfPathEndsWithSlash()
+    {
+        $images = FileArrayBuilder::build('baz.jpg', 'foo/bar/');
+        $image = current($images);
+        $this->assertEquals('foo/bar/', $image->getPath(), 'ok if already finished with slash');
 
-	/**
-	 * test when no files are given
-	 */
-	public function testOnEmptyData() {
-		$images = Tx_CzSimpleCal_Utility_FileArrayBuilder::build('', '/foo/bar');
+        $images = FileArrayBuilder::build('baz.jpg', 'foo/bar');
+        $image = current($images);
+        $this->assertEquals('foo/bar/', $image->getPath(), 'ok if not finished with slash');
 
-		$this->assertTrue(is_array($images), 'an array is returned');
-		$this->assertEquals(0, count($images), 'array is empty');
-	}
+        $images = FileArrayBuilder::build('baz.jpg', '/foo/bar/');
+        $image = current($images);
+        $this->assertEquals('/foo/bar/', $image->getPath(), 'leading slash is not removed');
+    }
 
-	/**
-	 * test when one file is given but no alternative text or caption
-	 */
-	public function testOnOneImageWithoutEverything() {
-		$images = Tx_CzSimpleCal_Utility_FileArrayBuilder::build('baz.jpg', 'foo/bar/');
+    /**
+     * test when no files are given
+     */
+    public function testOnEmptyData()
+    {
+        $images = FileArrayBuilder::build('', '/foo/bar');
 
-		$this->assertTrue(is_array($images), 'an array is returned');
-		$this->assertEquals(1, count($images), 'array has one entry');
+        $this->assertTrue(is_array($images), 'an array is returned');
+        $this->assertEquals(0, count($images), 'array is empty');
+    }
 
-		$image = current($images);
+    /**
+     * test when one file is given but no alternative text or caption
+     */
+    public function testOnOneImageWithoutEverything()
+    {
+        $images = FileArrayBuilder::build('baz.jpg', 'foo/bar/');
 
-		$this->assertEquals('baz.jpg', $image->getFile(), 'filename is correctly set');
-		$this->assertEquals('foo/bar/', $image->getPath(), 'path is correctly set');
-		$this->assertNull($image->getAlternateText(), 'alternate text is empty');
-		$this->assertNull($image->getCaption(), 'caption is empty');
-	}
+        $this->assertTrue(is_array($images), 'an array is returned');
+        $this->assertEquals(1, count($images), 'array has one entry');
 
-	/**
-	 * test when two images with caption and alternative text are given
-	 */
-	public function testOnTwoImagesWithAlternateAndCaption() {
-		$images = Tx_CzSimpleCal_Utility_FileArrayBuilder::build('baz.jpg,bar.png', 'foo/bar/', "hello\nworld", "42\nfoobar");
+        $image = current($images);
 
-		$this->assertTrue(is_array($images), 'an array is returned');
-		$this->assertEquals(2, count($images), 'array has two entries');
+        $this->assertEquals('baz.jpg', $image->getFile(), 'filename is correctly set');
+        $this->assertEquals('foo/bar/', $image->getPath(), 'path is correctly set');
+        $this->assertNull($image->getAlternateText(), 'alternate text is empty');
+        $this->assertNull($image->getCaption(), 'caption is empty');
+    }
 
-		$image = current($images);
-		$this->assertEquals('baz.jpg', $image->getFile(), 'image #1: filename is correctly set');
-		$this->assertEquals('foo/bar/', $image->getPath(), 'image #1: path is correctly set');
-		$this->assertSame('hello', $image->getAlternateText(), 'image #1: alternate text correctly set');
-		$this->assertSame('42', $image->getCaption(), 'image #1: caption correctly set');
+    /**
+     * test when two images with caption and alternative text are given
+     */
+    public function testOnTwoImagesWithAlternateAndCaption()
+    {
+        $images = FileArrayBuilder::build(
+            'baz.jpg,bar.png',
+            'foo/bar/',
+            "hello\nworld",
+            "42\nfoobar"
+        );
 
-		$image = next($images);
-		$this->assertEquals('bar.png', $image->getFile(), 'image #2: filename is correctly set');
-		$this->assertEquals('foo/bar/', $image->getPath(), 'image #2: path is correctly set');
-		$this->assertSame('world', $image->getAlternateText(), 'image #2: alternate text correctly set');
-		$this->assertSame('foobar', $image->getCaption(), 'image #2: caption correctly set');
-	}
+        $this->assertTrue(is_array($images), 'an array is returned');
+        $this->assertEquals(2, count($images), 'array has two entries');
 
-	/**
-	 * test if captions an alternate texts are assigned correctly if some image does not have one
-	 */
-	public function testTwoImagesWithMissingAlternateTextAndCaptions() {
-		$images = Tx_CzSimpleCal_Utility_FileArrayBuilder::build('baz.jpg,bar.png', 'foo/bar/', "\nworld", "\nfoobar");
+        $image = current($images);
+        $this->assertEquals('baz.jpg', $image->getFile(), 'image #1: filename is correctly set');
+        $this->assertEquals('foo/bar/', $image->getPath(), 'image #1: path is correctly set');
+        $this->assertSame('hello', $image->getAlternateText(), 'image #1: alternate text correctly set');
+        $this->assertSame('42', $image->getCaption(), 'image #1: caption correctly set');
 
-		$this->assertTrue(is_array($images), 'an array is returned');
-		$this->assertEquals(2, count($images), 'array has two entries');
+        $image = next($images);
+        $this->assertEquals('bar.png', $image->getFile(), 'image #2: filename is correctly set');
+        $this->assertEquals('foo/bar/', $image->getPath(), 'image #2: path is correctly set');
+        $this->assertSame('world', $image->getAlternateText(), 'image #2: alternate text correctly set');
+        $this->assertSame('foobar', $image->getCaption(), 'image #2: caption correctly set');
+    }
 
-		$image = current($images);
-		$this->assertEquals('baz.jpg', $image->getFile(), 'image #1: filename is correctly set');
-		$this->assertEquals('foo/bar/', $image->getPath(), 'image #1: path is correctly set');
-		$this->assertNull($image->getAlternateText(), 'image #1: alternate text null');
-		$this->assertNull($image->getCaption(), 'image #1: caption null');
+    /**
+     * test if captions an alternate texts are assigned correctly if some image does not have one
+     */
+    public function testTwoImagesWithMissingAlternateTextAndCaptions()
+    {
+        $images = FileArrayBuilder::build('baz.jpg,bar.png', 'foo/bar/', "\nworld", "\nfoobar");
 
-		$image = next($images);
-		$this->assertEquals('bar.png', $image->getFile(), 'image #2: filename is correctly set');
-		$this->assertEquals('foo/bar/', $image->getPath(), 'image #2: path is correctly set');
-		$this->assertSame('world', $image->getAlternateText(), 'image #2: alternate text correctly set');
-		$this->assertSame('foobar', $image->getCaption(), 'image #2: caption correctly set');
-	}
+        $this->assertTrue(is_array($images), 'an array is returned');
+        $this->assertEquals(2, count($images), 'array has two entries');
 
-	/**
-	 * test that everything works alright no matter if a path-spec is finished with a slash or not
-	 */
-	public function testIfPathEndsWithSlash() {
-		$images = Tx_CzSimpleCal_Utility_FileArrayBuilder::build('baz.jpg', 'foo/bar/');
-		$image = current($images);
-		$this->assertEquals('foo/bar/', $image->getPath(), 'ok if already finished with slash');
+        $image = current($images);
+        $this->assertEquals('baz.jpg', $image->getFile(), 'image #1: filename is correctly set');
+        $this->assertEquals('foo/bar/', $image->getPath(), 'image #1: path is correctly set');
+        $this->assertNull($image->getAlternateText(), 'image #1: alternate text null');
+        $this->assertNull($image->getCaption(), 'image #1: caption null');
 
-		$images = Tx_CzSimpleCal_Utility_FileArrayBuilder::build('baz.jpg', 'foo/bar');
-		$image = current($images);
-		$this->assertEquals('foo/bar/', $image->getPath(), 'ok if not finished with slash');
-
-		$images = Tx_CzSimpleCal_Utility_FileArrayBuilder::build('baz.jpg', '/foo/bar/');
-		$image = current($images);
-		$this->assertEquals('/foo/bar/', $image->getPath(), 'leading slash is not removed');
-
-	}
-
+        $image = next($images);
+        $this->assertEquals('bar.png', $image->getFile(), 'image #2: filename is correctly set');
+        $this->assertEquals('foo/bar/', $image->getPath(), 'image #2: path is correctly set');
+        $this->assertSame('world', $image->getAlternateText(), 'image #2: alternate text correctly set');
+        $this->assertSame('foobar', $image->getCaption(), 'image #2: caption correctly set');
+    }
 }

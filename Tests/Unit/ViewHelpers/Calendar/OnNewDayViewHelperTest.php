@@ -1,81 +1,89 @@
 <?php
-require_once(t3lib_extmgm::extPath('fluid') . 'Tests/Unit/ViewHelpers/ViewHelperBaseTestcase.php');
-require_once(t3lib_extmgm::extPath('cz_simple_cal') . 'Classes/ViewHelpers/Calendar/OnNewDayViewHelper.php');
+
+namespace Tx\CzSimpleCal\Tests\Unit\ViewHelper\Calendar;
+
+use Tx\CzSimpleCal\Domain\Model\EventIndex;
+use Tx\CzSimpleCal\Tests\Unit\ViewHelpers\Calendar\Mocks\OnNewDayViewHelperMock;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperVariableContainer;
+use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 
 /**
  * testing the features of the Calendar_OnNewDayViewHelper
  *
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Calendar_OnNewDayViewHelperTest extends Tx_Fluid_ViewHelpers_ViewHelperBaseTestcase {
+class OnNewDayViewHelperTest extends ViewHelperBaseTestcase
+{
+    /**
+     * @var OnNewDayViewHelperMock
+     */
+    protected $viewHelper = null;
 
-	protected $viewHelper = null;
-	protected $viewHelperVariableContainer = null;
+    protected $viewHelperVariableContainer = null;
 
+    public function setUp()
+    {
+        parent::setUp();
 
-	public function setUp() {
-		parent::setUp();
+        $this->initViewHelper();
+    }
 
-		$this->initViewHelper();
-	}
+    public function testIfContentIsNotRenderedIfLastViewHelperWasOnSameDay()
+    {
+        $model = new EventIndex();
+        $model->setStart(1234567890);
+        $model->setEnd(1234567890);
 
-	protected function initViewHelper() {
-		$this->viewHelper = new Tx_CzSimpleCalTests_Mocks_ViewHelpers_Calendar_OnNewDayViewHelper();
+        $this->viewHelper->render($model);
 
-		$this->viewHelperVariableContainer = new Tx_Fluid_Core_ViewHelper_ViewHelperVariableContainer();
+        self::assertSame('', $this->viewHelper->render($model));
+    }
 
-		$this->viewHelper->setViewHelperVariableContainer($this->viewHelperVariableContainer);
-	}
+    public function testIfContentIsRenderedIfLastViewHelperWasOnEarlierDay()
+    {
+        $model = new EventIndex();
+        $model->setStart(1234567890);
+        $model->setEnd(1234567890);
 
+        $this->viewHelper->render($model);
 
-	public function testIfContentIsRenderedIfNoViewHelperWasPreviouslyUsed() {
+        $model = new EventIndex();
+        $model->setStart(1234567890 + 86400);
+        $model->setEnd(1234567890 + 86400);
 
-		$model = new Tx_CzSimpleCal_Domain_Model_EventIndex();
-		$model->setStart(1234567890);
-		$model->setEnd(1234567890);
+        self::assertSame('tag content', $this->viewHelper->render($model));
+    }
 
-		self::assertSame('tag content', $this->viewHelper->render($model));
-	}
+    public function testIfContentIsRenderedIfNoViewHelperWasPreviouslyUsed()
+    {
+        $model = new EventIndex();
+        $model->setStart(1234567890);
+        $model->setEnd(1234567890);
 
-	public function testIfContentIsNotRenderedIfLastViewHelperWasOnSameDay() {
+        self::assertSame('tag content', $this->viewHelper->render($model));
+    }
 
-		$model = new Tx_CzSimpleCal_Domain_Model_EventIndex();
-		$model->setStart(1234567890);
-		$model->setEnd(1234567890);
+    public function testMultipleIrelatedInstances()
+    {
+        $model = new EventIndex();
+        $model->setStart(1234567890);
+        $model->setEnd(1234567890);
 
-		$this->viewHelper->render($model);
+        $this->viewHelper->render($model);
 
-		self::assertSame('', $this->viewHelper->render($model));
-	}
+        self::assertSame('tag content', $this->viewHelper->render($model, 'foobar'));
+    }
 
-	public function testIfContentIsRenderedIfLastViewHelperWasOnEarlierDay() {
+    protected function initViewHelper()
+    {
+        $this->viewHelper = new OnNewDayViewHelperMock();
 
-		$model = new Tx_CzSimpleCal_Domain_Model_EventIndex();
-		$model->setStart(1234567890);
-		$model->setEnd(1234567890);
+        $this->viewHelperVariableContainer = new ViewHelperVariableContainer();
 
-		$this->viewHelper->render($model);
+        $renderingContext = new RenderingContext();
+        $renderingContext->injectViewHelperVariableContainer($this->viewHelperVariableContainer);
 
-		$model = new Tx_CzSimpleCal_Domain_Model_EventIndex();
-		$model->setStart(1234567890 + 86400);
-		$model->setEnd(1234567890 + 86400);
-
-		self::assertSame('tag content', $this->viewHelper->render($model));
-	}
-
-	public function testMultipleIrelatedInstances() {
-		$model = new Tx_CzSimpleCal_Domain_Model_EventIndex();
-		$model->setStart(1234567890);
-		$model->setEnd(1234567890);
-
-		$this->viewHelper->render($model);
-
-		self::assertSame('tag content', $this->viewHelper->render($model, 'foobar'));
-	}
-}
-
-class Tx_CzSimpleCalTests_Mocks_ViewHelpers_Calendar_OnNewDayViewHelper extends Tx_CzSimpleCal_ViewHelpers_Calendar_OnNewDayViewHelper {
-	protected function renderChildren() {
-		return 'tag content';
-	}
+        $this->viewHelper->setRenderingContext($renderingContext);
+    }
 }
