@@ -1,6 +1,4 @@
-.*
-*~
-_*
-
-!.gitignore
+.Build
 Documentation/makefile
+.env
+composer.lock
