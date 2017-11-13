@@ -71,6 +71,10 @@ class Yearly extends Base
             );
         }
 
+        if (trim(ini_get('date.timezone')) === '') {
+            throw new \RuntimeException('date.timezone is not configured. Easter realtive dates will be wrong!');
+        }
+
         /**
          * calculate the day offset
          */
