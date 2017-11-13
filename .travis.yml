@@ -11,6 +11,11 @@ cache:
   directories:
     - .composercache
 
+addons:
+  apt:
+    packages:
+      - parallel
+
 before_install:
   - composer self-update
   - composer --version
