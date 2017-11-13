@@ -34,7 +34,7 @@ script:
   - >
     echo;
     echo "Running unit tests";
-    chmod +x ./Resources/Private/Scripts/run_unit_tests.sh
+    chmod +x ./Resources/Private/Scripts/run_unit_tests.sh;
     ./Resources/Private/Scripts/run_unit_tests.sh
   - >
     echo;
@@ -47,5 +47,5 @@ script:
     export typo3DatabaseUsername="root";
     export typo3DatabasePassword="";
     export typo3InstallToolPassword="klaus";
-    chmod +x ./Resources/Private/Scripts/run_functional_tests.sh
+    chmod +x ./Resources/Private/Scripts/run_functional_tests.sh;
     ./Resources/Private/Scripts/run_functional_tests.sh
