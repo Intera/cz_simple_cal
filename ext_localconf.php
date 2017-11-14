@@ -50,3 +50,12 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
     = 'Tx\\CzSimpleCal\\Hook\\DataHandlerHook';
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass'][]
     = 'Tx\\CzSimpleCal\\Hook\\DataHandlerHook';
+
+$formDataGroupConfig = &$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup'];
+
+$formDataGroupConfig['tcaDatabaseRecord'][\Tx\CzSimpleCal\Hook\BackendFormEnhancements::class] = [
+    'depends' => [\TYPO3\CMS\Backend\Form\FormDataProvider\InitializeProcessedTca::class],
+    'before' => [\TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsProcessFieldLabels::class],
+];
+
+unset($formDataGroupConfig);

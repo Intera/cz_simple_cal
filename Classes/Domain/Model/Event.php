@@ -1003,6 +1003,11 @@ class Event extends BaseEvent
         $this->categories->detach($category);
     }
 
+    public function resetSlug()
+    {
+        $this->slug = '';
+    }
+
     /**
      * Setter for category
      *

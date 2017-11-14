@@ -63,6 +63,7 @@
 			<label index="tx_czsimplecal_domain_model_event.status.confirmed">Confirmed</label>
 			<label index="tx_czsimplecal_domain_model_event.status.cancelled">Cancelled</label>
 			<label index="tx_czsimplecal_domain_model_event.slug">Slug</label>
+			<label index="tx_czsimplecal_domain_model_event.regenerate_slug">Regenerate slug</label>
 			<label index="tx_czsimplecal_domain_model_event.last_indexed">Last indexed</label>
 
 			<label index="tx_czsimplecal_domain_model_event.tab_general">Event</label>
@@ -169,6 +170,9 @@
 			<label index="tx_czsimplecal_domain_model_event.status.tentative">Vorläufig</label>
 			<label index="tx_czsimplecal_domain_model_event.status.confirmed">Bestätigt</label>
 			<label index="tx_czsimplecal_domain_model_event.status.cancelled">Abgesagt</label>
+			<label index="tx_czsimplecal_domain_model_event.slug">URL</label>
+			<label index="tx_czsimplecal_domain_model_event.regenerate_slug">URL neu generieren</label>
+			<label index="tx_czsimplecal_domain_model_event.last_indexed">Zuletzt indiziert</label>
 
 			<label index="tx_czsimplecal_domain_model_eventindex">Event Index</label>
 

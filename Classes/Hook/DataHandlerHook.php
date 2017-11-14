@@ -218,28 +218,23 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
      *
      * @param string $status
      * @param string $table
-     * @param integer $id
+     * @param integer $recordUid
      * @param array $fieldArray
      * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function processDatamap_postProcessFieldArray(
         /** @noinspection PhpUnusedParameterInspection */
         $status,
         $table,
-        $id,
+        $recordUid,
         &$fieldArray,
         $dataHandler
     ) {
-        // If new exception or event is created initialize the timezone.
-        if ($status === 'new'
-            && (
-                $table == 'tx_czsimplecal_domain_model_event'
-                || $table == 'tx_czsimplecal_domain_model_exception'
-            )
-        ) {
-            $fieldArray['timezone'] = date('e');
-        }
+        $this->initializeTimezoneInFieldArrayForNewRecords($status, $table, $fieldArray);
 
         if ($status !== 'update') {
             return;
@@ -247,15 +242,12 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
 
         if ($table === 'tx_czsimplecal_domain_model_event') {
             $this->eventWasUpdated = true;
-            if ($this->haveFieldsChanged(
-                \Tx\CzSimpleCal\Domain\Model\Event::getFieldsRequiringReindexing(),
-                $fieldArray
-            )) {
-                $this->registerUpdatedEvent($id, 'update');
+            if ($this->eventRequiresReindexing($recordUid, $fieldArray)) {
+                $this->registerUpdatedEvent($recordUid, 'update');
             }
         } elseif ($table === 'tx_czsimplecal_domain_model_exception') {
             if (!empty($fieldArray)) {
-                $this->registerUpdatedException($id, null);
+                $this->registerUpdatedException($recordUid, null);
             }
         }
     }
@@ -447,6 +439,9 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
 
         switch ($changeType) {
             case 'update':
+                if ($this->slugShouldBeRegenerated($eventUid)) {
+                    $event->resetSlug();
+                }
                 $this->eventIndexer->update($event);
                 $this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.updateAndIndex');
                 break;
@@ -642,11 +637,42 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Registers the given uid as an updated exception.
      *
-     * @param int $id
+     * @param int $exceptionUid
      * @param array|null $exeptionData
      */
-    protected function registerUpdatedException($id, $exeptionData)
+    protected function registerUpdatedException($exceptionUid, $exeptionData)
     {
-        $this->updatedExceptions[$id] = $exeptionData;
+        $this->updatedExceptions[$exceptionUid] = $exeptionData;
+    }
+
+    private function eventRequiresReindexing(int $eventUid, array $fieldArray): bool
+    {
+        if ($this->slugShouldBeRegenerated($eventUid)) {
+            return true;
+        }
+        return $this->haveFieldsChanged(
+            \Tx\CzSimpleCal\Domain\Model\Event::getFieldsRequiringReindexing(),
+            $fieldArray
+        );
+    }
+
+    private function initializeTimezoneInFieldArrayForNewRecords(string $status, string $table, array &$fieldArray)
+    {
+        if ($status !== 'new') {
+            return;
+        }
+
+        if ($table !== 'tx_czsimplecal_domain_model_event'
+            && $table !== 'tx_czsimplecal_domain_model_exception') {
+            return;
+        }
+
+        $fieldArray['timezone'] = date('e');
+    }
+
+    private function slugShouldBeRegenerated(int $eventUid)
+    {
+        $postData = GeneralUtility::_POST();
+        return !empty($postData['data']['tx_czsimplecal_domain_model_event'][$eventUid]['regenerate_slug']);
     }
 }
