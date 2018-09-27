@@ -6,8 +6,7 @@ return [
         'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_eventindex',
         'label' => '',
         'hideTable' => true,
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal')
-            . 'Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif',
+        'iconfile' => 'EXT:cz_simple_cal/Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif',
         'languageField' => 'sys_language_uid',
     ],
     'interface' => ['showRecordFieldList' => ''],

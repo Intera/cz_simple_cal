@@ -12,8 +12,7 @@ return [
         'hideTable' => true,
         'type' => 'type',
         'enablecolumns' => ['disabled' => 'hidden'],
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal')
-            . 'Resources/Public/Icons/tx_czsimplecal_domain_model_exception.gif',
+        'iconfile' => 'EXT:cz_simple_cal/Resources/Public/Icons/tx_czsimplecal_domain_model_exception.gif',
         'dividers2tabs' => 1,
         'languageField' => 'sys_language_uid',
         'transOrigPointerField' => 'l10n_parent',

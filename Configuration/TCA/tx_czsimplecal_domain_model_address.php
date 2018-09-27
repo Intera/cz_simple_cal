@@ -13,8 +13,7 @@ return [
         'transOrigDiffSourceField' => 'l18n_diffsource',
         'delete' => 'deleted',
         'enablecolumns' => ['disabled' => 'hidden'],
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal')
-            . 'Resources/Public/Icons/tx_czsimplecal_domain_model_address.gif',
+        'iconfile' => 'EXT:cz_simple_cal/Resources/Public/Icons/tx_czsimplecal_domain_model_address.gif',
     ],
     'interface' => ['showRecordFieldList' => 'name,address,zip,city,country'],
     'types' => [

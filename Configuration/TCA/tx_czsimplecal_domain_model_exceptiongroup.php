@@ -5,8 +5,7 @@ return [
         'label' => 'title',
         'delete' => 'deleted',
         'enablecolumns' => ['disabled' => 'hidden'],
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal')
-            . 'Resources/Public/Icons/tx_czsimplecal_domain_model_exceptiongroup.gif',
+        'iconfile' => 'EXT:cz_simple_cal/Resources/Public/Icons/tx_czsimplecal_domain_model_exceptiongroup.gif',
     ],
     'interface' => ['showRecordFieldList' => 'title,exceptions'],
     'types' => [

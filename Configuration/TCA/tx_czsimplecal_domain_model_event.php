@@ -19,8 +19,7 @@ return [
             'endtime' => 'enable_endtime',
         ],
         'dividers2tabs' => 1,
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cz_simple_cal')
-            . 'Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif',
+        'iconfile' => 'EXT:cz_simple_cal/Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif',
         'requestUpdate' => 'recurrance_type',
     ],
     'interface' => [
