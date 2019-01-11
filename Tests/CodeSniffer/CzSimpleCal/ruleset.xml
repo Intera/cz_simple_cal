@@ -14,4 +14,7 @@
 	<rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
 		<exclude-pattern>Classes/Domain/Model/Event.php</exclude-pattern>
 	</rule>
+	<rule ref="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace">
+		<exclude-pattern>Classes/Utility/Inflector.php</exclude-pattern>
+	</rule>
 </ruleset>

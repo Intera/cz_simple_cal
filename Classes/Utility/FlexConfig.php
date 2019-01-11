@@ -2,6 +2,9 @@
 
 namespace Tx\CzSimpleCal\Utility;
 
+use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -46,7 +49,7 @@ class FlexConfig
         $pid = \TYPO3\CMS\Backend\Utility\BackendUtility::getTSCpid(
             'tt_content',
             $config['row']['uid'],
-            $config['row']['pid']
+            $this->getContentPid($config)
         );
         $tsConfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($pid[1]);
 
@@ -99,5 +102,25 @@ class FlexConfig
     protected function getLanguageService()
     {
         return $GLOBALS['LANG'];
+    }
+
+    /**
+     * Getter for pid.
+     *
+     * @param array $config The current configuration of the FlexForm select field.
+     * @return int $pid
+     */
+    private function getContentPid(array $config): int
+    {
+        if (!empty($config['row']['pid']) && $config['row']['pid'] > 0) {
+            return (int)$config['row']['pid'];
+        }
+
+        if (empty($config['flexParentDatabaseRow']['pid'])) {
+            return 0;
+        }
+
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        return (int)$dataHandler->resolvePid('tt_content', (int)$config['flexParentDatabaseRow']['pid']);
     }
 }
