@@ -46,16 +46,10 @@ class FlexConfig
      */
     public function getAllowedActions($config)
     {
-        $ppid = $config['row']['pid'];
-
-        if (!$ppid){
-            $ppid = $this->getPid($config);
-        }
-
         $pid = \TYPO3\CMS\Backend\Utility\BackendUtility::getTSCpid(
             'tt_content',
             $config['row']['uid'],
-            $ppid
+            $this->getContentPid($config)
         );
         $tsConfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($pid[1]);
 
@@ -116,9 +110,17 @@ class FlexConfig
      * @param array $config The current configuration of the FlexForm select field.
      * @return int $pid
      */
-    protected function getPid($config)
+    private function getContentPid(array $config): int
     {
+        if (!empty($config['row']['pid']) && $config['row']['pid'] > 0) {
+            return (int)$config['row']['pid'];
+        }
+
+        if (empty($config['flexParentDatabaseRow']['pid'])) {
+            return 0;
+        }
+
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
-        return $dataHandler->resolvePid('tt_content', $config['flexParentDatabaseRow']['pid']);
+        return (int)$dataHandler->resolvePid('tt_content', (int)$config['flexParentDatabaseRow']['pid']);
     }
 }
