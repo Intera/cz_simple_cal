@@ -1,4 +1,8 @@
 <?php
+/** @noinspection PhpFullyQualifiedNameUsageInspection */
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Domain\Model;
 
@@ -34,6 +38,7 @@ use Tx\CzSimpleCal\Recurrance\Timeline\Event as TimelineEvent;
 use Tx\CzSimpleCal\Utility\FileArrayBuilder;
 use Tx\CzSimpleCal\Utility\Inflector;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
@@ -97,7 +102,7 @@ class Event extends BaseEvent
      * a long description for this event
      *
      * @var string
-     * @validate String
+     * @Extbase\Validate("String")
      */
     protected $description;
 
@@ -111,7 +116,7 @@ class Event extends BaseEvent
     /**
      * Cache for all exceptions retrieved from exceptions and exeption groups.
      *
-     * @transient
+     * @Extbase\ORM\Transient
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
      */
     protected $exceptionCache;
@@ -213,7 +218,7 @@ class Event extends BaseEvent
 
     /**
      *
-     * @transient
+     * @Extbase\ORM\Transient
      * @var ObjectManagerInterface
      */
     protected $objectManager;
@@ -270,7 +275,7 @@ class Event extends BaseEvent
      * a short teaser for this event
      *
      * @var string
-     * @validate String
+     * @Extbase\Validate("String")
      */
     protected $teaser;
 
@@ -278,7 +283,8 @@ class Event extends BaseEvent
      * The title of this event
      *
      * @var string
-     * @validate NotEmpty, StringLength(minimum=3,maximum=255)
+     * @Extbase\Validate("StringLength", options={"minimum": 3, "maximum": 255})
+     * @Extbase\Validate("NotEmpty")
      */
     protected $title;
 

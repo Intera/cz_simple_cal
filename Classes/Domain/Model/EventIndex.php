@@ -1,4 +1,7 @@
 <?php
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Domain\Model;
 
@@ -26,12 +29,20 @@ namespace Tx\CzSimpleCal\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DateTime;
+use DateTimeZone;
+use InvalidArgumentException;
 use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
+use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Recurrance\Timeline\Event as TimelineEvent;
 use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 use Tx\CzSimpleCal\Utility\Inflector;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * Event index entry.
@@ -67,7 +78,7 @@ class EventIndex extends Base
     protected $event;
 
     /**
-     * @transient
+     * @Extbase\ORM\Transient
      * @var ObjectManagerInterface
      */
     protected $objectManager;
@@ -115,8 +126,8 @@ class EventIndex extends Base
      *
      * @param EventIndex $obj
      * @param $data
-     * @throws \InvalidArgumentException
      * @return EventIndex
+     * @throws InvalidArgumentException
      */
     public static function fromArray($obj, $data)
     {
@@ -125,7 +136,7 @@ class EventIndex extends Base
 
             // Check if there is a setter defined (use of is_callable to check if the scope is public)
             if (!is_callable([$obj, $methodName])) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     sprintf('Could not find the %s method to set %s in %s.', $methodName, $name, get_class($obj))
                 );
             }
@@ -144,7 +155,7 @@ class EventIndex extends Base
         $value = $this->generateRawSlug();
         $value = Inflector::urlize($value);
 
-        /** @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository $eventIndexRepository */
+        /** @var EventIndexRepository $eventIndexRepository */
         $eventIndexRepository = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventIndexRepository');
 
         $slug = $eventIndexRepository->makeSlugUnique($value, $this->uid);
@@ -170,7 +181,7 @@ class EventIndex extends Base
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Category> categories
+     * @return ObjectStorage<Category> categories
      * @deprecated Use ->getEvent()->getCategories() instead.
      */
     public function getCategories()
@@ -207,7 +218,7 @@ class EventIndex extends Base
             $this->dateTimeObjectEnd = new CzSimpleCalDateTime(
                 '@' . $this->end
             );
-            $this->dateTimeObjectEnd->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+            $this->dateTimeObjectEnd->setTimezone(new DateTimeZone(date_default_timezone_get()));
         }
         return $this->dateTimeObjectEnd;
     }
@@ -223,7 +234,7 @@ class EventIndex extends Base
             $this->dateTimeObjectStart = new CzSimpleCalDateTime(
                 '@' . $this->start
             );
-            $this->dateTimeObjectStart->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+            $this->dateTimeObjectStart->setTimezone(new DateTimeZone(date_default_timezone_get()));
         }
         return $this->dateTimeObjectStart;
     }
@@ -258,7 +269,7 @@ class EventIndex extends Base
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Exception> exception
+     * @return ObjectStorage<Exception> exception
      * @deprecated Use ->getEvent()->getExceptions() instead.
      */
     public function getExceptions()
@@ -267,7 +278,7 @@ class EventIndex extends Base
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+     * @return ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
      * @deprecated Use ->getEvent()->getFileReferences() instead.
      */
     public function getFileReferences()
@@ -320,7 +331,7 @@ class EventIndex extends Base
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+     * @return ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
      * @deprecated Use ->getEvent()->getImageReferences() instead.
      */
     public function getImageReferences()
@@ -338,7 +349,7 @@ class EventIndex extends Base
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      * @deprecated Use ->getEvent()->getLastIndexed() instead.
      */
     public function getLastIndexed()
@@ -422,7 +433,7 @@ class EventIndex extends Base
 
     /**
      * @param $limit
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return QueryResultInterface
      * @deprecated Use ->getEvent()->getNextAppointments() instead.
      */
     public function getNextAppointments($limit = 3)
@@ -664,12 +675,12 @@ class EventIndex extends Base
      *
      * @param string $slug
      * @return EventIndex
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function setSlug($slug)
     {
         if (preg_match('/^[a-z0-9\-]*$/i', $slug) === false) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.')
             );
         }

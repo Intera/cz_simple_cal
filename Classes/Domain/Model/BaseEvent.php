@@ -1,4 +1,7 @@
 <?php
+/** @noinspection PhpFullyQualifiedNameUsageInspection */
+
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Domain\Model;
 
@@ -27,6 +30,7 @@ namespace Tx\CzSimpleCal\Domain\Model;
  ***************************************************************/
 
 use Tx\CzSimpleCal\Domain\Interfaces\IsRecurring;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 /**
  * A base version for an event with start, end and possible recurrance
@@ -63,7 +67,7 @@ abstract class BaseEvent extends Base implements IsRecurring
      * the type of recurrance
      *
      * @var string
-     * @validate StringLength(maximum=30)
+     * @Extbase\Validate("StringLength", options={"maximum": 30})
      */
     protected $recurranceType = 'none';
 
@@ -71,7 +75,7 @@ abstract class BaseEvent extends Base implements IsRecurring
      * recurrance until this date
      *
      * @var integer
-     * @validate StringLength(maximum=30)
+     * @Extbase\Validate("StringLength", options={"maximum": 30})
      */
     protected $recurranceUntil;
 
@@ -103,7 +107,7 @@ abstract class BaseEvent extends Base implements IsRecurring
      * the timezone of the user who created that event
      *
      * @var string
-     * @validate StringLength(maximum=20)
+     * @Extbase\Validate("StringLength", options={"maximum": 20})
      */
     protected $timezone;
 
@@ -321,7 +325,6 @@ abstract class BaseEvent extends Base implements IsRecurring
      * set the timezone of the user who created that event
      *
      * @param string $timezone
-     * @return null
      */
     public function setTimezone($timezone)
     {
@@ -330,8 +333,6 @@ abstract class BaseEvent extends Base implements IsRecurring
 
     /**
      * create the DateTimeObjects of start and end
-     *
-     * @return null
      */
     protected function createDateTimeObjects()
     {

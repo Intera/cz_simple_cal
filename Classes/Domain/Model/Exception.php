@@ -1,4 +1,8 @@
 <?php
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+/** @noinspection PhpFullyQualifiedNameUsageInspection */
+
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Domain\Model;
 
@@ -27,6 +31,8 @@ namespace Tx\CzSimpleCal\Domain\Model;
  ***************************************************************/
 
 use Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**
  * An exception for an event in the calendar
@@ -34,9 +40,8 @@ use Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType;
 class Exception extends BaseEvent
 {
     /**
-     * @inject
-     * @transient
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @Extbase\ORM\Transient
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -56,7 +61,7 @@ class Exception extends BaseEvent
      * The title of this exception
      *
      * @var string
-     * @validate NotEmpty
+     * @Extbase\Validate("NotEmpty")
      */
     protected $title;
 
@@ -64,6 +69,11 @@ class Exception extends BaseEvent
      * @var \Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType
      */
     protected $type;
+
+    public function injectObjectManager(ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
     /**
      * @return string
