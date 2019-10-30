@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Domain\Validator;
 
@@ -26,7 +27,12 @@ namespace Tx\CzSimpleCal\Domain\Validator;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Utility\StrToTime;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
+use TYPO3\CMS\Extbase\Validation\Validator\DisjunctionValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\GenericObjectValidator;
+use TYPO3\CMS\Extbase\Validation\Validator\StringLengthValidator;
 
 /**
  * validates an event submitted by a user
@@ -34,9 +40,14 @@ use TYPO3\CMS\Extbase\Validation\Validator\GenericObjectValidator;
 class UserEventValidator extends GenericObjectValidator
 {
     /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     protected $objectManager = null;
+
+    public function injectObjectManager(ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
     /**
      * validate an Event submitted by the user
@@ -46,9 +57,8 @@ class UserEventValidator extends GenericObjectValidator
      */
     public function isValid($value)
     {
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\StringLengthValidator $validator */
-        $validator = $this->getObjectManager()->get(
-            'TYPO3\\CMS\\Extbase\\Validation\\Validator\\StringLengthValidator',
+        $validator = $this->objectManager->get(
+            StringLengthValidator::class,
             [
                 'minimum' => 3,
                 'maximum' => 255,
@@ -57,22 +67,20 @@ class UserEventValidator extends GenericObjectValidator
         $this->addPropertyValidator('title', $validator);
 
         // Start day
-        /** @var DateValidator $validator */
-        $validator = $this->getObjectManager()->get(
-            'Tx\\CzSimpleCal\\Domain\\Validator\\DateValidator',
+        $validator = $this->objectManager->get(
+            DateValidator::class,
             [
                 'object' => $value,
                 'propertyName' => 'startDay',
                 'required' => true,
-                'minimum' => \Tx\CzSimpleCal\Utility\StrToTime::strtotime('midnight'),
+                'minimum' => StrToTime::strtotime('midnight'),
             ]
         );
         $this->addPropertyValidator('startDay', $validator);
 
         // Start time
-        /** @var TimeValidator $validator */
-        $validator = $this->getObjectManager()->get(
-            'Tx\\CzSimpleCal\\Domain\\Validator\\TimeValidator',
+        $validator = $this->objectManager->get(
+            TimeValidator::class,
             [
                 'object' => $value,
                 'propertyName' => 'startTime',
@@ -82,22 +90,21 @@ class UserEventValidator extends GenericObjectValidator
         $this->addPropertyValidator('startTime', $validator);
 
         // End day
-        /** @var DateValidator $validator */
-        $validator = $this->getObjectManager()->get(
-            'Tx\\CzSimpleCal\\Domain\\Validator\\DateValidator',
+        $validator = $this->objectManager->get(
+            DateValidator::class,
             [
                 'object' => $value,
                 'propertyName' => 'endDay',
                 'required' => false,
-                'minimum' => \Tx\CzSimpleCal\Utility\StrToTime::strtotime('midnight'),
+                'minimum' => StrToTime::strtotime('midnight'),
             ]
         );
         $this->addPropertyValidator('endDay', $validator);
 
         // End time
         /** @var TimeValidator $validator */
-        $validator = $this->getObjectManager()->get(
-            'Tx\\CzSimpleCal\\Domain\\Validator\\TimeValidator',
+        $validator = $this->objectManager->get(
+            TimeValidator::class,
             [
                 'object' => $value,
                 'propertyName' => 'endTime',
@@ -107,83 +114,69 @@ class UserEventValidator extends GenericObjectValidator
         $this->addPropertyValidator('endTime', $validator);
 
         // Description
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\DisjunctionValidator $validator */
-        $validator = $this->getObjectManager()->get('TYPO3\\CMS\\Extbase\\Validation\\Validator\\DisjunctionValidator');
-        /** @var NoTagsValidator $noTagsValidator */
-        $noTagsValidator = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Domain\\Validator\\NoTagsValidator');
+        $validator = $this->objectManager->get(DisjunctionValidator::class);
+        $noTagsValidator = $this->objectManager->get(NoTagsValidator::class);
         $validator->addValidator($noTagsValidator);
-        /** @var EmptyValidator $emptyValidator */
-        $emptyValidator = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Domain\\Validator\\EmptyValidator');
+        $emptyValidator = $this->objectManager->get(EmptyValidator::class);
         $validator->addValidator($emptyValidator);
         $this->addPropertyValidator('description', $validator);
 
         // LocationName
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\DisjunctionValidator $validator */
-        $validator = $this->getObjectManager()->get('TYPO3\\CMS\\Extbase\\Validation\\Validator\\DisjunctionValidator');
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\StringLengthValidator $stringValidator */
-        $stringValidator = $this->getObjectManager()->get(
-            'TYPO3\\CMS\\Extbase\\Validation\\Validator\\StringLengthValidator',
+        $validator = $this->objectManager->get(DisjunctionValidator::class);
+        $stringValidator = $this->objectManager->get(
+            StringLengthValidator::class,
             [
                 'minimum' => 3,
                 'maximum' => 255,
             ]
         );
         $validator->addValidator($stringValidator);
-        /** @var EmptyValidator $emptyValidator */
-        $emptyValidator = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Domain\\Validator\\EmptyValidator');
+        $emptyValidator = $this->objectManager->get(EmptyValidator::class);
         $validator->addValidator($emptyValidator);
         $this->addPropertyValidator('locationName', $validator);
 
         // LocationAddress
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\DisjunctionValidator $validator */
-        $validator = $this->getObjectManager()->get('TYPO3\\CMS\\Extbase\\Validation\\Validator\\DisjunctionValidator');
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\StringLengthValidator $stringValidator */
-        $stringValidator = $this->getObjectManager()->get(
-            'TYPO3\\CMS\\Extbase\\Validation\\Validator\\StringLengthValidator',
+        $validator = $this->objectManager->get(DisjunctionValidator::class);
+        $stringValidator = $this->objectManager->get(
+            StringLengthValidator::class,
             [
                 'minimum' => 3,
                 'maximum' => 255,
             ]
         );
         $validator->addValidator($stringValidator);
-        $emptyValidator = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Domain\\Validator\\EmptyValidator');
+        $emptyValidator = $this->objectManager->get(EmptyValidator::class);
         $validator->addValidator($emptyValidator);
         $this->addPropertyValidator('locationAddress', $validator);
 
         // Location city
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\DisjunctionValidator $validator */
-        $validator = $this->getObjectManager()->get('TYPO3\\CMS\\Extbase\\Validation\\Validator\\DisjunctionValidator');
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\StringLengthValidator $stringValidator */
-        $stringValidator = $this->getObjectManager()->get(
-            'TYPO3\\CMS\\Extbase\\Validation\\Validator\\StringLengthValidator',
+        $validator = $this->objectManager->get(DisjunctionValidator::class);
+        /** @var StringLengthValidator $stringValidator */
+        $stringValidator = $this->objectManager->get(
+            StringLengthValidator::class,
             [
                 'minimum' => 3,
                 'maximum' => 255,
             ]
         );
         $validator->addValidator($stringValidator);
-        $emptyValidator = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Domain\\Validator\\EmptyValidator');
+        $emptyValidator = $this->objectManager->get(EmptyValidator::class);
         $validator->addValidator($emptyValidator);
         $this->addPropertyValidator('locationCity', $validator);
 
         // Show page instead
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\DisjunctionValidator $validator */
-        $validator = $this->getObjectManager()->get('TYPO3\\CMS\\Extbase\\Validation\\Validator\\DisjunctionValidator');
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator $andValidator */
-        $andValidator = $this->getObjectManager()->get(
-            'TYPO3\\CMS\\Extbase\\Validation\\Validator\\ConjunctionValidator'
-        );
-        $stringValidator = $this->getObjectManager()->get(
-            'TYPO3\\CMS\\Extbase\\Validation\\Validator\\StringLengthValidator',
+        $validator = $this->objectManager->get(DisjunctionValidator::class);
+        $andValidator = $this->objectManager->get(ConjunctionValidator::class);
+        $stringValidator = $this->objectManager->get(
+            StringLengthValidator::class,
             [
                 'minimum' => 10,
                 'maximum' => 255,
             ]
         );
         $andValidator->addValidator($stringValidator);
-        /** @var UrlValidator $urlValidator */
-        $urlValidator = $this->getObjectManager()->get(
-            'Tx\\CzSimpleCal\\Domain\\Validator\\UrlValidator',
+        $urlValidator = $this->objectManager->get(
+            UrlValidator::class,
             [
                 'object' => $value,
                 'propertyName' => 'showPageInstead',
@@ -191,15 +184,13 @@ class UserEventValidator extends GenericObjectValidator
         );
         $andValidator->addValidator($urlValidator);
         $validator->addValidator($andValidator);
-        /** @var EmptyValidator $emptyValidator */
-        $emptyValidator = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Domain\\Validator\\EmptyValidator');
+        $emptyValidator = $this->objectManager->get(EmptyValidator::class);
         $validator->addValidator($emptyValidator);
         $this->addPropertyValidator('showPageInstead', $validator);
 
         // Twitter hashtags
-        /** @var TwitterHashtagValidator $validator */
-        $validator = $this->getObjectManager()->get(
-            'Tx\\CzSimpleCal\\Domain\\Validator\\TwitterHashtagValidator',
+        $validator = $this->objectManager->get(
+            TwitterHashtagValidator::class,
             [
                 'object' => $value,
                 'propertyName' => 'twitterHashtags',
@@ -209,9 +200,8 @@ class UserEventValidator extends GenericObjectValidator
         $this->addPropertyValidator('twitterHashtags', $validator);
 
         // Flickr tags
-        /** @var FlickrTagValidator $validator */
-        $validator = $this->getObjectManager()->get(
-            'Tx\\CzSimpleCal\\Domain\\Validator\\FlickrTagValidator',
+        $validator = $this->objectManager->get(
+            FlickrTagValidator::class,
             [
                 'object' => $value,
                 'propertyName' => 'flickrTags',
@@ -229,18 +219,5 @@ class UserEventValidator extends GenericObjectValidator
 
         // Prevent descriptions from having tags (will be parsed with parsefunc_RTE
         $value->setDescription(htmlspecialchars($value->getDescription(), null, null, false));
-    }
-
-    /**
-     * @return \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     */
-    protected function getObjectManager()
-    {
-        if (is_null($this->objectManager)) {
-            $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                'TYPO3\\CMS\\Extbase\\Object\\ObjectManager'
-            );
-        }
-        return $this->objectManager;
     }
 }
