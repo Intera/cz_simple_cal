@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
@@ -26,7 +27,7 @@ namespace Tx\CzSimpleCal\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * get the hostname of a url
@@ -36,6 +37,11 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class HostNameViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        $this->registerArgument('uri', 'string', '', true);
+    }
+
     /**
      * Get the localized name of a country from its country code
      *
@@ -43,9 +49,10 @@ class HostNameViewHelper extends AbstractViewHelper
      * @return string hostname of the uri
      * @author Christian Zenker <christian.zenker@599media.de>
      */
-    public function render($uri)
+    public function render()
     {
-        if (empty($uri)) {
+        $uri = trim($this->arguments['uri']);
+        if ($uri === '') {
             return '';
         }
 

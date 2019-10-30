@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Arrays;
 
@@ -26,7 +27,7 @@ namespace Tx\CzSimpleCal\ViewHelpers\Arrays;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * join multiple values from an array into a string
@@ -57,14 +58,19 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class JoinViewHelper extends AbstractViewHelper
 {
-    /**
-     * @param array $items an array of strings that need to be joined
-     * @param string $by the string used to glue the items together
-     * @param boolean $removeEmpty if true, empty items will be removed
-     * @return string Rendered result
-     */
-    public function render($items = null, $by = ', ', $removeEmpty = false)
+    public function initializeArguments()
     {
+        $this->registerArgument('items', 'array', 'an array of strings that need to be joined', false, null);
+        $this->registerArgument('by', 'string', 'the string used to glue the items together', false, ', ');
+        $this->registerArgument('removeEmpty', 'bool', 'if true, empty items will be removed', false, false);
+    }
+
+    public function render(): string
+    {
+        $items = $this->arguments['items'];
+        $by = $this->arguments['by'];
+        $removeEmpty = $this->arguments['removeEmpty'];
+
         if (is_null($items)) {
             $items = $this->getItems();
         }

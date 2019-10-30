@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Calendar;
 
@@ -26,7 +27,8 @@ namespace Tx\CzSimpleCal\ViewHelpers\Calendar;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use Tx\CzSimpleCal\Utility\DateTime;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * create a \Tx\CzSimpleCal\Utility\DateTime object
@@ -40,12 +42,13 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class CreateDateTimeViewHelper extends AbstractViewHelper
 {
-    /**
-     * @param string $dateTime some string of the type date
-     * @return \Tx\CzSimpleCal\Utility\DateTime
-     */
-    public function render($dateTime)
+    public function initializeArguments()
     {
-        return new \Tx\CzSimpleCal\Utility\DateTime($dateTime);
+        $this->registerArgument('dateTime', DateTime::class, 'some string of the type date', true);
+    }
+
+    public function render(): DateTime
+    {
+        return new DateTime($this->arguments['dateTime']);
     }
 }

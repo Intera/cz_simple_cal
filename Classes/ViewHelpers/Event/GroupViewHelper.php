@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Event;
 
@@ -26,8 +27,14 @@ namespace Tx\CzSimpleCal\ViewHelpers\Event;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use InvalidArgumentException;
+use RuntimeException;
+use Tx\CzSimpleCal\Domain\Model\Event;
+use Tx\CzSimpleCal\Domain\Model\EventIndex;
+use Tx\CzSimpleCal\Utility\StrToTime;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use UnexpectedValueException;
 
 /**
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
@@ -37,24 +44,23 @@ class GroupViewHelper extends AbstractViewHelper
 {
     protected $orderGetMethodName = null;
 
+    public function initializeArguments()
+    {
+        $this->registerArgument('events', 'array', 'the events', true);
+        $this->registerArgument('as', 'string', 'the variable name the group events should be written to', true);
+        $this->registerArgument('by', 'string', 'one of the supported types', false, 'day');
+        $this->registerArgument('orderBy', 'string', '', false, '');
+    }
+
     /**
-     *
-     * @param array $events the events
-     * @param string $as the variable name the group events should be written to
-     * @param string $by one of the supported types
-     * @param string $orderBy
-     * @param string $order
      * @return string
-     * @throws \InvalidArgumentException
      */
-    public function render(
-        /** @noinspection PhpUnusedParameterInspection */
-        $events,
-        $as,
-        $by = 'day',
-        $orderBy = '',
-        $order = ''
-    ) {
+    public function render()
+    {
+        $events = $this->arguments['events'];
+        $as = $this->arguments['as'];
+        $by = $this->arguments['by'];
+
         $by = strtolower($by);
         if ($by === 'day') {
             $events = $this->groupByTime($events, 'midnight');
@@ -67,7 +73,7 @@ class GroupViewHelper extends AbstractViewHelper
         } elseif ($by === 'organizer') {
             $events = $this->groupByOrganizer($events);
         } else {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('%s can\'t group by "%s". Maybe a misspelling?', get_class($this), $by)
             );
         }
@@ -82,12 +88,13 @@ class GroupViewHelper extends AbstractViewHelper
     /**
      * do grouping by location
      *
-     * @param $events
+     * @param array $events
+     * @return array
      */
-    protected function groupByLocation($events)
+    protected function groupByLocation(array $events): array
     {
         $result = [];
-        /** @var \Tx\CzSimpleCal\Domain\Model\Event $event */
+        /** @var Event $event */
         foreach ($events as $event) {
             $locationKey = $event->getActiveLocation() ? $event->getActiveLocation()->getUid() : 0;
             if (!array_key_exists($locationKey, $result)) {
@@ -99,18 +106,20 @@ class GroupViewHelper extends AbstractViewHelper
 
             $result[$locationKey]['events'][] = $event;
         }
+
         return $this->order($result);
     }
 
     /**
      * do grouping by organizer
      *
-     * @param $events
+     * @param array $events
+     * @return array
      */
-    protected function groupByOrganizer($events)
+    protected function groupByOrganizer(array $events): array
     {
         $result = [];
-        /** @var \Tx\CzSimpleCal\Domain\Model\Event $event */
+        /** @var Event $event */
         foreach ($events as $event) {
             $organizerKey = $event->getActiveOrganizer() ? $event->getActiveOrganizer()->getUid() : 0;
             if (!array_key_exists($organizerKey, $result)) {
@@ -129,15 +138,15 @@ class GroupViewHelper extends AbstractViewHelper
      * do grouping by some time related constraint
      *
      * @param array $events
-     * @param string $string
+     * @param string $time
      * @return array
      */
-    protected function groupByTime($events, $string)
+    protected function groupByTime(array $events, string $time): array
     {
         $result = [];
-        /** @var \Tx\CzSimpleCal\Domain\Model\EventIndex $event */
+        /** @var EventIndex $event */
         foreach ($events as $event) {
-            $key = \Tx\CzSimpleCal\Utility\StrToTime::strtotime($string, $event->getStart());
+            $key = StrToTime::strtotime($time, $event->getStart());
             if (!array_key_exists($key, $result)) {
                 $result[$key] = [
                     'info' => $key,
@@ -150,7 +159,7 @@ class GroupViewHelper extends AbstractViewHelper
         return $result;
     }
 
-    protected function order($events)
+    protected function order(array $events): array
     {
         if (!$this->arguments['orderBy']) {
             return $events;
@@ -160,14 +169,14 @@ class GroupViewHelper extends AbstractViewHelper
         if (usort($events, [$this, 'orderByObjectMethod'])) {
             return $events;
         } else {
-            throw new \RuntimeException(sprintf('%s could not sort the events.', get_class($this)));
+            throw new RuntimeException(sprintf('%s could not sort the events.', get_class($this)));
         }
     }
 
     protected function orderByObjectMethod($a, $b)
     {
         if (strlen($this->orderGetMethodName) < 5) {
-            throw new \UnexpectedValueException(sprintf('%s was called without setting a getMethodName', __FUNCTION__));
+            throw new UnexpectedValueException(sprintf('%s was called without setting a getMethodName', __FUNCTION__));
         }
 
         $aValue = call_user_func([$a['info'], $this->orderGetMethodName]);

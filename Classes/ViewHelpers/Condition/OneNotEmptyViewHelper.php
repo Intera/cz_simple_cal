@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Condition;
 
@@ -26,25 +27,32 @@ namespace Tx\CzSimpleCal\ViewHelpers\Condition;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * A view helper to return true if one of the values is not empty
  */
 class OneNotEmptyViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        $this->registerArgument('values', 'array', 'the values', true);
+    }
+
     /**
-     * @param array $values the values
      * @return boolean if the condition is met
      * @author Christian Zenker <christian.zenker@599media.de>
      */
-    public function render($values)
+    public function render(): bool
     {
+        $values = $this->arguments['values'];
+
         foreach ($values as $value) {
             if (!empty($value)) {
                 return true;
             }
         }
+
         return false;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
@@ -26,9 +27,12 @@ namespace Tx\CzSimpleCal\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Psr\Log\LoggerInterface;
+use SJBR\StaticInfoTables\PiBaseApi;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * format a localized name of a country by its isoCode
@@ -36,41 +40,46 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 class CountryNameViewHelper extends AbstractViewHelper
 {
     /**
-     * @var object
+     * @var PiBaseApi
      */
     protected static $staticInfoObject = null;
+
+    public function initializeArguments()
+    {
+        $this->registerArgument(
+            'isoCode',
+            'string',
+            'the three-letter isocode of the country (as given by static_info_tables)',
+            true
+        );
+    }
+
+    /**
+     * @return LoggerInterface
+     */
+    protected static function getLogger()
+    {
+        return GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+    }
 
     /**
      * init static info tables to use with this view helper
      */
     protected static function init()
     {
-        // Check if class was already initialized
         if (!is_null(self::$staticInfoObject)) {
             return;
         }
 
-        // Check if static_info_tables is installed
         if (!ExtensionManagementUtility::isLoaded('static_info_tables')) {
             self::$staticInfoObject = false;
             /** @noinspection PhpUndefinedConstantInspection */
-            GeneralUtility::devLog(
-                'static_info_tables needs to be installed to use ' . get_class(self),
-                get_class(self),
-                1
-            );
+            self::getLogger()->warning('static_info_tables needs to be installed to use ' . get_class(self));
             return;
         }
 
-        require_once(ExtensionManagementUtility::extPath('static_info_tables')
-            . 'pi1/class.tx_staticinfotables_pi1.php');
-        // Init class
-        // Code taken from the documentation
-        self::$staticInfoObject = &GeneralUtility::getUserObj('&tx_staticinfotables_pi1');
-        if (!self::$staticInfoObject) {
-            self::$staticInfoObject = false;
-            return;
-        }
+        self::$staticInfoObject = GeneralUtility::makeInstance(PiBaseApi::class);
+
         if (self::$staticInfoObject->needsInit()) {
             self::$staticInfoObject->init();
         }
@@ -79,20 +88,20 @@ class CountryNameViewHelper extends AbstractViewHelper
     /**
      * Get the localized name of a country from its country code
      *
-     * @param string $isoCode the three-letter isocode of the country (as given by static_info_tables)
      * @return string localized country name
      * @author Christian Zenker <christian.zenker@599media.de>
      */
-    public function render($isoCode)
+    public function render(): string
     {
-        if (empty($isoCode)) {
+        $isoCode = trim($this->arguments['isoCode']);
+        if ($isoCode === '') {
             return '';
         }
 
-        (!is_null(self::$staticInfoObject)) || self::init();
+        self::init();
 
-        if (self::$staticInfoObject === false) {
-            // If init went wrong
+        // If init went wrong
+        if (!self::$staticInfoObject) {
             return $isoCode;
         }
 

@@ -1,6 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Arrays;
+
+use LogicException;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /***************************************************************
  *  Copyright notice
@@ -26,23 +30,21 @@ namespace Tx\CzSimpleCal\ViewHelpers\Arrays;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
-
 /**
  * Join item view helper.
  */
 class JoinItemViewHelper extends AbstractViewHelper
 {
     /**
-     * @throws \LogicException
      * @return void
+     * @throws LogicException
      */
     public function render()
     {
         $viewHelperName = str_replace('_JoinItemViewHelper', '_JoinViewHelper', get_class($this));
         $key = 'items';
         if (!$this->viewHelperVariableContainer->exists($viewHelperName, $key)) {
-            throw new \LogicException(sprintf('%s must be used as child of %s.', get_class($this), $viewHelperName));
+            throw new LogicException(sprintf('%s must be used as child of %s.', get_class($this), $viewHelperName));
         }
 
         $values = $this->viewHelperVariableContainer->get($viewHelperName, $key);

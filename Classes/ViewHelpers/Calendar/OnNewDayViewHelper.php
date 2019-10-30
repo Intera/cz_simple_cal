@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Calendar;
 
@@ -26,7 +27,8 @@ namespace Tx\CzSimpleCal\ViewHelpers\Calendar;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use Tx\CzSimpleCal\Domain\Model\EventIndex;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * renders its content if the submitted event is on a different date then the previous one
@@ -42,14 +44,29 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class OnNewDayViewHelper extends AbstractViewHelper
 {
-    /**
-     *
-     * @param \Tx\CzSimpleCal\Domain\Model\EventIndex $event the event to compare to the previously submitted one
-     * @param string $label if you need multiple irrelated instances set this to something unique
-     * @return string
-     */
-    public function render($event, $label = '')
+    public function initializeArguments()
     {
+        $this->registerArgument(
+            'event',
+            EventIndex::class,
+            'the event to compare to the previously submitted one',
+            true
+        );
+        $this->registerArgument(
+            'label',
+            'string',
+            'if you need multiple irrelated instances set this to something unique',
+            false,
+            ''
+        );
+    }
+
+    public function render(): string
+    {
+        /** @var EventIndex $event */
+        $event = $this->arguments['event'];
+        $label = $this->arguments['label'];
+
         $className = get_class($this);
 
         $name = 'last_day_wrapper_date';
@@ -66,9 +83,9 @@ class OnNewDayViewHelper extends AbstractViewHelper
 
         if ($thisDay == $lastDay) {
             return '';
-        } else {
-            $this->viewHelperVariableContainer->addOrUpdate($className, $name, $thisDay);
-            return $this->renderChildren();
         }
+
+        $this->viewHelperVariableContainer->addOrUpdate($className, $name, $thisDay);
+        return $this->renderChildren();
     }
 }

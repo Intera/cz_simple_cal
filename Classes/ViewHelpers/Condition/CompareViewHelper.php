@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Condition;
 
@@ -26,7 +27,8 @@ namespace Tx\CzSimpleCal\ViewHelpers\Condition;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use InvalidArgumentException;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * A view helper to do a mathematical comparison on two values.
@@ -79,17 +81,24 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class CompareViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        $this->registerArgument('value1', 'mixed', 'first value', true);
+        $this->registerArgument('value2', 'mixed', 'second value', true);
+        $this->registerArgument('operation', 'string', 'a string for the operation', false, '=');
+    }
+
     /**
      * Compare two values
      *
-     * @param mixed $value1 first value
-     * @param mixed $value2 second value
-     * @param string $operation a string for the operation
-     * @return boolean if the condition is met
-     * @throws \InvalidArgumentException
+     * @return bool if the condition is met
      */
-    public function render($value1, $value2, $operation = '=')
+    public function render(): bool
     {
+        $value1 = $this->arguments['value1'];
+        $value2 = $this->arguments['value2'];
+        $operation = $this->arguments['operation'];
+
         $operation = htmlspecialchars_decode($operation);
 
         if ($operation === '=' || $operation === '==') {
@@ -109,7 +118,7 @@ class CompareViewHelper extends AbstractViewHelper
         } elseif ($operation === '<=' || $operation === '=<') {
             return $value1 <= $value2;
         } else {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('The operation "%s" is unknown. Please see the documentation for valid values.', $operation)
             );
         }
