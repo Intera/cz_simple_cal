@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Controller;
 
@@ -26,7 +27,10 @@ namespace Tx\CzSimpleCal\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Domain\Model\EventIndex;
+use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Controller for the EventIndex object
@@ -34,10 +38,14 @@ use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 class EventIndexController extends BaseExtendableController
 {
     /**
-     * @var \Tx\CzSimpleCal\Domain\Repository\EventIndexRepository
-     * @inject
+     * @var EventIndexRepository
      */
     protected $eventIndexRepository;
+
+    public function injectEventIndexRepository(EventIndexRepository $eventIndexRepository)
+    {
+        $this->eventIndexRepository = $eventIndexRepository;
+    }
 
     /**
      * count events and group them by an according timespan
@@ -66,8 +74,6 @@ class EventIndexController extends BaseExtendableController
 
     /**
      * builds a list of some events
-     *
-     * @return null
      */
     public function listAction()
     {
@@ -95,7 +101,6 @@ class EventIndexController extends BaseExtendableController
      * display a single event
      *
      * @param integer $event
-     * @return null
      */
     public function showAction($event)
     {
@@ -103,7 +108,7 @@ class EventIndexController extends BaseExtendableController
          * as you won't be able to extend the model
          * via an extension
          */
-        /** @var \Tx\CzSimpleCal\Domain\Model\EventIndex $eventIndexObject */
+        /** @var EventIndex $eventIndexObject */
         $eventIndexObject = $this->eventIndexRepository->findByUid($event);
 
         if (empty($eventIndexObject)) {
@@ -116,8 +121,8 @@ class EventIndexController extends BaseExtendableController
     /**
      * get the end date of events that should be fetched
      *
-     * @todo getDate support
      * @return CzSimpleCalDateTime
+     * @todo getDate support
      */
     protected function getEndDate()
     {
@@ -163,6 +168,6 @@ class EventIndexController extends BaseExtendableController
      */
     protected function translateById($key, $extensionName = 'CzSimpleCal')
     {
-        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, $extensionName);
+        return LocalizationUtility::translate($key, $extensionName);
     }
 }

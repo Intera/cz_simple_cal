@@ -1,6 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Controller;
+
+use Tx\CzSimpleCal\Domain\Model\Event;
+use Tx\CzSimpleCal\Domain\Repository\EventRepository;
 
 /***************************************************************
  *  Copyright notice
@@ -32,16 +36,19 @@ namespace Tx\CzSimpleCal\Controller;
 class EventController extends BaseExtendableController
 {
     /**
-     * @var \Tx\CzSimpleCal\Domain\Repository\EventRepository
-     * @inject
+     * @var EventRepository
      */
     protected $eventRepository;
+
+    public function injectEventRepository(EventRepository $eventRepository)
+    {
+        $this->eventRepository = $eventRepository;
+    }
 
     /**
      * display a single event
      *
      * @param integer $event
-     * @return null
      */
     public function showAction($event)
     {
@@ -49,7 +56,7 @@ class EventController extends BaseExtendableController
          * as you won't be able to extend the model
          * via an extension
          */
-        /** @var \Tx\CzSimpleCal\Domain\Model\Event $eventObject */
+        /** @var Event $eventObject */
         $eventObject = $this->eventRepository->findByUid($event);
 
         if (empty($eventObject)) {
