@@ -124,7 +124,7 @@ class Event extends BaseEvent
     /**
      * Exception groups for this event
      *
-     * @lazy
+     * @Extbase\ORM\Lazy
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\ExceptionGroup>
      */
     protected $exceptionGroups;
@@ -132,7 +132,7 @@ class Event extends BaseEvent
     /**
      * Exceptions for this event
      *
-     * @lazy
+     * @Extbase\ORM\Lazy
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
      */
     protected $exceptions;
@@ -141,7 +141,7 @@ class Event extends BaseEvent
      * files associated with this event
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
-     * @lazy
+     * @Extbase\ORM\Lazy
      */
     protected $files;
 
@@ -168,7 +168,7 @@ class Event extends BaseEvent
      * the image files associated with this event
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
-     * @lazy
+     * @Extbase\ORM\Lazy
      */
     protected $images;
 
@@ -185,7 +185,7 @@ class Event extends BaseEvent
      *
      * This setting has precedence before $locationInline.
      *
-     * @lazy
+     * @Extbase\ORM\Lazy
      * @var \Tx\CzSimpleCal\Domain\Model\Location
      */
     protected $location;
@@ -194,7 +194,7 @@ class Event extends BaseEvent
      * The location of the event. This record is only used in the
      * current event (inline element).
      *
-     * @lazy
+     * @Extbase\ORM\Lazy
      * @var \Tx\CzSimpleCal\Domain\Model\Location
      */
     protected $locationInline;
@@ -229,7 +229,7 @@ class Event extends BaseEvent
      *
      * This setting has precedence before $organizerInline.
      *
-     * @lazy
+     * @Extbase\ORM\Lazy
      * @var \Tx\CzSimpleCal\Domain\Model\Organizer
      */
     protected $organizer;
@@ -238,7 +238,7 @@ class Event extends BaseEvent
      * The organizer of the event. This record is only used in the
      * current event (inline element).
      *
-     * @lazy
+     * @Extbase\ORM\Lazy
      * @var \Tx\CzSimpleCal\Domain\Model\Organizer
      */
     protected $organizerInline;

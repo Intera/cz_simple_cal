@@ -1,4 +1,8 @@
 <?php
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+/** @noinspection PhpFullyQualifiedNameUsageInspection */
+
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Domain\Model;
 
@@ -26,13 +30,15 @@ namespace Tx\CzSimpleCal\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Extbase\Annotation as Extbase;
+
 /**
  * An exception group for an event in the calendar
  */
 class ExceptionGroup extends Base
 {
     /**
-     * @lazy
+     * @Extbase\ORM\Lazy
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Exception>
      */
     protected $exceptions;
