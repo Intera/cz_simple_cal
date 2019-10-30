@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers;
 
@@ -14,7 +15,7 @@ namespace Tx\CzSimpleCal\ViewHelpers;
 
 use Int\CzSimpleCal\Utility\EventTimeUtility;
 use Tx\CzSimpleCal\Domain\Model\Event;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Retrieves the event time type of a given event.
@@ -26,6 +27,11 @@ class EventTimeTypeViewHelper extends AbstractViewHelper
      */
     protected $eventTimeTypeUtility;
 
+    public function initializeArguments()
+    {
+        $this->registerArgument('event', Event::class, '', true);
+    }
+
     public function injectEventTimeTypeUtility(EventTimeUtility $eventTimeTypeUtility)
     {
         $this->eventTimeTypeUtility = $eventTimeTypeUtility;
@@ -35,11 +41,11 @@ class EventTimeTypeViewHelper extends AbstractViewHelper
      * Returns the event time type for the given event (can be used in
      * the switch view helper).
      *
-     * @param Event $event
      * @return string
      */
-    public function render(Event $event)
+    public function render(): string
     {
+        $event = $this->arguments['event'];
         return $this->eventTimeTypeUtility->getEventTimeType($event);
     }
 }

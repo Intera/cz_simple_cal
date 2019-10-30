@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
@@ -26,7 +27,9 @@ namespace Tx\CzSimpleCal\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use InvalidArgumentException;
+use Tx\CzSimpleCal\ViewHelpers\Format\Contrib\ChoiceFormat;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Renders a string based on a given number.
@@ -112,17 +115,25 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class NumberChoiceViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        $this->registerArgument('number', 'integer', 'the number that determines which text to use', true);
+        $this->registerArgument('text', 'string', 'the text configuration', false, null);
+        $this->registerArgument('arguments', 'array', 'values for the markers', false, []);
+    }
+
     /**
      * render a string based on a given number
      *
-     * @param integer $number the number that determines which text to use
-     * @param string $text the text configuration
-     * @param array $arguments values for the markers
      * @return string Formatted string
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function render($number, $text = null, $arguments = [])
+    public function render()
     {
+        $number = $this->arguments['number'];
+        $text = $this->arguments['text'];
+        $arguments = $this->arguments['arguments'];
+
         if (is_null($text)) {
             $text = $this->renderChildren();
         }
@@ -132,11 +143,11 @@ class NumberChoiceViewHelper extends AbstractViewHelper
             unset($arguments[$key]);
         }
 
-        $formatter = new \Tx\CzSimpleCal\ViewHelpers\Format\Contrib\ChoiceFormat();
+        $formatter = new ChoiceFormat();
         $ret = $formatter->format($text, $number);
 
         if ($ret === false) {
-            throw new \InvalidArgumentException(sprintf('format.numberChoice could not parse the text "%s".', $text));
+            throw new InvalidArgumentException(sprintf('format.numberChoice could not parse the text "%s".', $text));
         }
 
         return strtr($ret, $arguments);

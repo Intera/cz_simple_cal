@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller;
 
@@ -26,7 +27,10 @@ namespace Tx\CzSimpleCal\ViewHelpers\Widget\EventIndex\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DateTime;
 use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
+use Tx\CzSimpleCal\Utility\StrToTime;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController;
 
 /**
@@ -51,15 +55,16 @@ class CountController extends AbstractWidgetController
      */
     public function initializeAction()
     {
-        foreach ([
-                     'maxEvents',
-                     'order',
-                     'orderBy',
-                     'includeStartedEvents',
-                     'excludeOverlongEvents',
-                     'filter',
-                     'groupBy',
-                 ] as $argumentName) {
+        $argumentNames = [
+            'maxEvents',
+            'order',
+            'orderBy',
+            'includeStartedEvents',
+            'excludeOverlongEvents',
+            'filter',
+            'groupBy',
+        ];
+        foreach ($argumentNames as $argumentName) {
             if (isset($this->widgetConfiguration[$argumentName])) {
                 $this->actionSettings[$argumentName] = $this->widgetConfiguration[$argumentName];
             }
@@ -102,10 +107,10 @@ class CountController extends AbstractWidgetController
         if (empty($value)) {
             return null;
         } elseif (is_numeric($value)) {
-            return \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($value, 0);
+            return MathUtility::forceIntegerInRange($value, 0);
         } elseif (is_string($value)) {
-            return \Tx\CzSimpleCal\Utility\StrToTime::strtotime($value);
-        } elseif ($value instanceof \DateTime) {
+            return StrToTime::strtotime($value);
+        } elseif ($value instanceof DateTime) {
             return intval($value->format('U'));
         }
         return null;

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers;
 
@@ -26,7 +27,7 @@ namespace Tx\CzSimpleCal\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * sets data of the global cObject
@@ -74,12 +75,17 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class SetGlobalDataViewHelper extends AbstractViewHelper
 {
-    /**
-     * @param string $field the field name to override or create
-     * @param string $data the data to add to the field
-     */
-    public function render($field, $data = null)
+    public function initializeArguments()
     {
+        $this->registerArgument('field', 'string', 'the field name to override or create', true);
+        $this->registerArgument('data', 'string', 'the data to add to the field', false, null);
+    }
+
+    public function render()
+    {
+        $field = $this->arguments['field'];
+        $data = $this->arguments['data'];
+
         if (is_null($data)) {
             $data = $this->renderChildren();
         }

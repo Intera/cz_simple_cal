@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers;
 
@@ -27,7 +28,7 @@ namespace Tx\CzSimpleCal\ViewHelpers;
  ***************************************************************/
 
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * This view helper loops over all configurations defined within settings.renderData and builds
@@ -81,7 +82,7 @@ class RenderDataViewHelper extends AbstractViewHelper
 {
     /**
      *
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @var ConfigurationManagerInterface
      */
     protected $configurationManager;
 
@@ -103,6 +104,19 @@ class RenderDataViewHelper extends AbstractViewHelper
      */
     public function initializeArguments()
     {
+        $this->registerArgument(
+            'object',
+            'object',
+            'The configured mapObjectProperties will be read from this object using getter methods.',
+            true
+        );
+        $this->registerArgument(
+            'renderDataVariable',
+            'string',
+            'The name of the variable that will be available during child object rendering.',
+            false,
+            'renderData'
+        );
         $this->registerArgument('extensionName', 'string', 'The extension name that is used to fetch the settings.');
         $this->registerArgument('pluginName', 'string', 'The plugin name that is used to fetch the settings.');
     }
@@ -115,12 +129,13 @@ class RenderDataViewHelper extends AbstractViewHelper
     /**
      * Builds the render data array.
      *
-     * @param object $object The configured mapObjectProperties will be read from this object using getter methods.
-     * @param string $renderDataVariable The name of the variable that will be available during child object rendering.
      * @return string
      */
-    public function render($object, $renderDataVariable = 'renderData')
+    public function render(): string
     {
+        $object = $this->arguments['object'];
+        $renderDataVariable = $this->arguments['renderDataVariable'];
+
         $this->initializeClassVariables();
         $renderData = [];
 

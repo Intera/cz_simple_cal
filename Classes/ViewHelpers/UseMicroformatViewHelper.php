@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers;
 
@@ -26,7 +27,7 @@ namespace Tx\CzSimpleCal\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Adds a microformat to the head definition
@@ -38,14 +39,23 @@ class UseMicroformatViewHelper extends AbstractViewHelper
         'hcalendar' => 'http://microformats.org/profile/hcalendar',
     ];
 
+    public function initializeArguments()
+    {
+        $this->registerArgument(
+            'format',
+            'string',
+            'you might give the uri of the microformat or use the predefined strings "hcard" or "hcalendar"',
+            true
+        );
+    }
+
     /**
      * add a microformat definition to the pages head
-     *
-     * @param string $format you might give the uri of the microformat or use the predefined strings "hcard" or
-     *     "hcalendar"
      */
-    public function render($format)
+    public function render()
     {
+        $format = $this->arguments['format'];
+
         if (array_key_exists($format, self::$knownMicroformats)) {
             $format = self::$knownMicroformats[$format];
         }

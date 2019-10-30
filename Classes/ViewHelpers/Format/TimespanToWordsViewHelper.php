@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\ViewHelpers\Format;
 
@@ -26,7 +27,12 @@ namespace Tx\CzSimpleCal\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use RuntimeException;
+use Tx\CzSimpleCal\Utility\DateTime;
+use TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Renders a readable version for a timespan for days with as little
@@ -51,16 +57,23 @@ class TimespanToWordsViewHelper extends AbstractViewHelper
      */
     protected $extensionName = null;
 
+    public function initializeArguments()
+    {
+        $this->registerArgument('start', DateTime::class, '', true);
+        $this->registerArgument('end', DateTime::class, '', true);
+    }
+
     /**
      * Render the supplied unix \Tx\CzSimpleCal\Utility\DateTime in a localized human-readable string.
      *
-     * @param \Tx\CzSimpleCal\Utility\DateTime $start
-     * @param \Tx\CzSimpleCal\Utility\DateTime $end
      * @return string formatted output
      * @author Christian Zenker <christian.zenker@599media.de>
      */
-    public function render($start, $end)
+    public function render()
     {
+        $start = $this->getDateTimeArgument('start');
+        $end = $this->getDateTimeArgument('end');
+
         if ($start->format('Y') != $end->format('Y')) {
             return
                 $this->getLL('timespan.from') . ' ' .
@@ -95,8 +108,22 @@ class TimespanToWordsViewHelper extends AbstractViewHelper
     protected function getLL($key)
     {
         if (is_null($this->extensionName)) {
-            $this->extensionName = $this->controllerContext->getRequest()->getControllerExtensionName();
+            $this->extensionName = $this->getControllerContext()->getRequest()->getControllerExtensionName();
         }
-        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, $this->extensionName);
+        return LocalizationUtility::translate($key, $this->extensionName);
+    }
+
+    private function getControllerContext(): ControllerContext
+    {
+        $renderingContext = $this->renderingContext;
+        if (!$renderingContext instanceof RenderingContext) {
+            throw new RuntimeException('Only compatible with Extbase rendering context!');
+        }
+        return $renderingContext->getControllerContext();
+    }
+
+    private function getDateTimeArgument(string $argumentName): DateTime
+    {
+        return $this->arguments[$argumentName];
     }
 }
