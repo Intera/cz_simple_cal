@@ -3,6 +3,9 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
+/** @uses \Tx\CzSimpleCal\Controller\EventIndexController::listAction() */
+/** @uses \Tx\CzSimpleCal\Controller\EventIndexController::countEventsAction() */
+/** @uses \Tx\CzSimpleCal\Controller\EventIndexController::showAction() */
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'Tx.CzSimpleCal',
     'Pi1',
