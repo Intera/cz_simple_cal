@@ -1,4 +1,8 @@
 <?php
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+/** @noinspection PhpFullyQualifiedNameUsageInspection */
+
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Controller;
 
@@ -26,10 +30,19 @@ namespace Tx\CzSimpleCal\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Domain\Model\Category;
+use Tx\CzSimpleCal\Domain\Model\Event;
+use Tx\CzSimpleCal\Indexer\Event as EventIndexer;
+use Tx\CzSimpleCal\Domain\Repository\CategoryRepository;
+use Tx\CzSimpleCal\Domain\Repository\EventRepository;
+use Tx\CzSimpleCal\Domain\Validator\UserEventValidator;
 use Tx\CzSimpleCal\Utility\NullReturningDummyClass;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 /**
  * Controller for the Event object with editing capabilities for frontend-users
@@ -40,12 +53,12 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class EventAdministrationController extends ActionController
 {
     /**
-     * @var \Tx\CzSimpleCal\Domain\Repository\CategoryRepository
+     * @var CategoryRepository
      */
     protected $categoryRepository;
 
     /**
-     * @var \Tx\CzSimpleCal\Domain\Repository\EventRepository
+     * @var EventRepository
      */
     protected $eventRepository;
 
@@ -54,22 +67,12 @@ class EventAdministrationController extends ActionController
      */
     protected $objectManager;
 
-    /**
-     * inject an categoryRepository
-     *
-     * @param \Tx\CzSimpleCal\Domain\Repository\CategoryRepository $categoryRepository
-     */
-    public function injectCategoryRepository(\Tx\CzSimpleCal\Domain\Repository\CategoryRepository $categoryRepository)
+    public function injectCategoryRepository(CategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }
 
-    /**
-     * inject an eventRepository
-     *
-     * @param \Tx\CzSimpleCal\Domain\Repository\EventRepository $eventRepository
-     */
-    public function injectEventRepository(\Tx\CzSimpleCal\Domain\Repository\EventRepository $eventRepository)
+    public function injectEventRepository(EventRepository $eventRepository)
     {
         $this->eventRepository = $eventRepository;
     }
@@ -79,9 +82,9 @@ class EventAdministrationController extends ActionController
      *
      * @param \Tx\CzSimpleCal\Domain\Model\Event $newEvent
      * @return void
-     * @ignorevalidation $newEvent
+     * @Extbase\IgnoreValidation("newEvent")
      */
-    public function createAction(\Tx\CzSimpleCal\Domain\Model\Event $newEvent)
+    public function createAction(Event $newEvent)
     {
         $this->abortOnMissingUser();
         $this->setDefaults($newEvent);
@@ -96,8 +99,7 @@ class EventAdministrationController extends ActionController
             $persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\PersistenceManager');
             $persistenceManager->persistAll();
             // Create index for event
-            /** @var \Tx\CzSimpleCal\Indexer\Event $eventIndexer */
-            $eventIndexer = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Indexer\\Event');
+            $eventIndexer = $this->objectManager->get(EventIndexer::class);
             $eventIndexer->create($newEvent);
 
             $this->addFlashMessage(
@@ -116,15 +118,14 @@ class EventAdministrationController extends ActionController
      *
      * @param \Tx\CzSimpleCal\Domain\Model\Event $event The event to delete
      * @return void
-     * @ignorevalidation $event
+     * @Extbase\IgnoreValidation("event")
      */
-    public function deleteAction(\Tx\CzSimpleCal\Domain\Model\Event $event)
+    public function deleteAction(Event $event)
     {
         $this->abortOnInvalidUser($event);
 
         // Delete index for event
-        /** @var \Tx\CzSimpleCal\Indexer\Event $eventIndexer */
-        $eventIndexer = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Indexer\\Event');
+        $eventIndexer = $this->objectManager->get(EventIndexer::class);
         $eventIndexer->delete($event);
 
         $this->eventRepository->remove($event);
@@ -143,9 +144,9 @@ class EventAdministrationController extends ActionController
      *
      * @param \Tx\CzSimpleCal\Domain\Model\Event $event
      * @return void
-     * @ignorevalidation $event
+     * @Extbase\IgnoreValidation("event")
      */
-    public function editAction(\Tx\CzSimpleCal\Domain\Model\Event $event)
+    public function editAction(Event $event)
     {
         $this->abortOnInvalidUser($event);
         $categories = $this->getCategories();
@@ -164,29 +165,7 @@ class EventAdministrationController extends ActionController
     }
 
     /**
-     * get an instance of the objectManager
-     *
-     * Note:
-     * =====
-     * injecting the container using dependency injection
-     * causes an error.
-     *
-     * @return \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     */
-    public function getObjectManager()
-    {
-        if (is_null($this->objectManager)) {
-            $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                'TYPO3\\CMS\\Extbase\\Object\\ObjectManager'
-            );
-        }
-        return $this->objectManager;
-    }
-
-    /**
      * list all events by the logged in user
-     *
-     *
      */
     public function listAction()
     {
@@ -198,26 +177,27 @@ class EventAdministrationController extends ActionController
      *
      * @param \Tx\CzSimpleCal\Domain\Model\Event $fromEvent
      * @return void
-     * @ignorevalidation $fromEvent
+     * @Extbase\IgnoreValidation("fromEvent")
      */
-    public function newAction(\Tx\CzSimpleCal\Domain\Model\Event $fromEvent = null)
+    public function newAction(Event $fromEvent = null)
     {
         $this->abortOnMissingUser();
-        $event = new \Tx\CzSimpleCal\Domain\Model\Event();
+        $event = new Event();
         if ($fromEvent) {
-            foreach ([
-                         'categories',
-                         'description',
-                         'endDay',
-                         'endTime',
-                         'flickrTags',
-                         'showPageInstead',
-                         'startDay',
-                         'startTime',
-                         'teaser',
-                         'title',
-                         'twitterHashtags',
-                     ] as $field) {
+            $fields = [
+                'categories',
+                'description',
+                'endDay',
+                'endTime',
+                'flickrTags',
+                'showPageInstead',
+                'startDay',
+                'startTime',
+                'teaser',
+                'title',
+                'twitterHashtags',
+            ];
+            foreach ($fields as $field) {
                 $getter = 'get' . ucfirst($field);
                 $setter = 'set' . ucfirst($field);
                 $event->$setter($fromEvent->$getter());
@@ -232,7 +212,7 @@ class EventAdministrationController extends ActionController
         // TODO: set organizer / location properties
         $categories = $this->getCategories();
         if (!$event->getCategory() && $categories->count() > 0) {
-            /** @var \Tx\CzSimpleCal\Domain\Model\Category $category */
+            /** @var Category $category */
             $category = $categories->getFirst();
             $event->addCategory($category);
         }
@@ -256,9 +236,9 @@ class EventAdministrationController extends ActionController
      *
      * @param $event \Tx\CzSimpleCal\Domain\Model\Event
      * @return void
-     * @ignorevalidation $event
+     * @Extbase\IgnoreValidation("event")
      */
-    public function updateAction(\Tx\CzSimpleCal\Domain\Model\Event $event)
+    public function updateAction(Event $event)
     {
         $this->abortOnInvalidUser($event);
         $this->view->assign('event', $event);
@@ -267,8 +247,7 @@ class EventAdministrationController extends ActionController
             $this->eventRepository->update($event);
 
             // Update index for event
-            /** @var \Tx\CzSimpleCal\Indexer\Event $eventIndexer */
-            $eventIndexer = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Indexer\\Event');
+            $eventIndexer = $this->objectManager->get(EventIndexer::class);
             $eventIndexer->update($event);
 
             $this->addFlashMessage(
@@ -323,8 +302,7 @@ class EventAdministrationController extends ActionController
         }
 
         // Init TCEmain object
-        /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
-        $tce = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\DataHandling\\DataHandler');
+        $tce = GeneralUtility::makeInstance(DataHandler::class);
         if (!$tce->BE_USER) {
             /* that's a little ugly here:
              * We need some BE_USER as the cleanCache event will be logged to syslog.
@@ -374,7 +352,7 @@ class EventAdministrationController extends ActionController
      */
     protected function isEventValid($event)
     {
-        $validator = $this->getObjectManager()->get('Tx\\CzSimpleCal\\Domain\\Validator\\UserEventValidator');
+        $validator = $this->objectManager->get(UserEventValidator::class);
 
         if (!$validator->isValid($event)) {
             $this->request->setErrors($validator->getErrors());
@@ -404,8 +382,7 @@ class EventAdministrationController extends ActionController
      */
     protected function logEventLifecycle($event, $action)
     {
-        /** @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication $user */
-        $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Authentication\\BackendUserAuthentication');
+        $user = GeneralUtility::makeInstance(BackendUserAuthentication::class);
         $actions = [
             1 => 'added',
             2 => 'edited',
