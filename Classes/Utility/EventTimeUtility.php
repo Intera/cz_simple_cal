@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace Int\CzSimpleCal\Utility;
+namespace Tx\CzSimpleCal\Utility;
 
 /*                                                                        *
  * This script belongs to the TYPO3 Extension "cz_simple_cal".            *
@@ -12,7 +13,7 @@ namespace Int\CzSimpleCal\Utility;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use Int\CzSimpleCal\Domain\Model\Enumeration\EventTimeType;
+use Tx\CzSimpleCal\Domain\Model\Enumeration\EventTimeType;
 
 /**
  * This utility determines the event time type.

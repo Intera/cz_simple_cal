@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace Int\CzSimpleCal\Domain\Model\Enumeration;
+namespace Tx\CzSimpleCal\Domain\Model\Enumeration;
 
 /*                                                                        *
  * This script belongs to the TYPO3 Extension "cz_simple_cal".            *

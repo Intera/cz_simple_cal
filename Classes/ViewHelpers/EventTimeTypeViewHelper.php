@@ -13,7 +13,7 @@ namespace Tx\CzSimpleCal\ViewHelpers;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use Int\CzSimpleCal\Utility\EventTimeUtility;
+use Tx\CzSimpleCal\Utility\EventTimeUtility;
 use Tx\CzSimpleCal\Domain\Model\Event;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
