@@ -54,7 +54,7 @@ class DateTime extends \DateTime
 
     public function getTimestamp()
     {
-        return $this->format('U');
+        return (int)$this->format('U');
     }
 
     public function getTimestampInteger()
@@ -77,7 +77,7 @@ class DateTime extends \DateTime
     public function modify($dateTime)
     {
         $time = StrToTime::doSubstitutions($dateTime);
-        $time = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $time, true);
+        $time = GeneralUtility::trimExplode('|', $time, true);
         $this->doModify($time);
     }
 

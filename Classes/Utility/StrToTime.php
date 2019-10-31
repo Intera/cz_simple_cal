@@ -105,7 +105,7 @@ class StrToTime
             '/(mon(?:day)?|tue(?:sday)?|wed(?:nesday)?|thu(?:rsday)?|fri(?:day)?|sat(?:urday)?|sun(?:day)?)'
             . ' (last|this|next) week/i',
             [
-                self,
+                __CLASS__,
                 'callbackSubstitutedReltextWeekPattern',
             ],
             $time

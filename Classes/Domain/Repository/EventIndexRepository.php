@@ -365,7 +365,10 @@ class EventIndexRepository extends Repository
         $builder = $this->getQueryBuilder('tx_czsimplecal_domain_model_eventindex');
         $builder->delete('tx_czsimplecal_domain_model_eventindex')
             ->where(
-                $builder->expr()->eq('event', $builder->createNamedParameter((int)$eventUid, PDO::PARAM_INT)),
+                $builder->expr()->eq(
+                    'event',
+                    $builder->createNamedParameter((int)$eventUid, PDO::PARAM_INT)
+                )
             )
             ->execute();
     }

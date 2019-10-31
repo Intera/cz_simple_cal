@@ -133,10 +133,10 @@ class DateTimeViewHelper extends AbstractViewHelper
      * handle all the different input formats and return a real timestamp
      *
      * @param mixed $timestamp
-     * @return mixed
+     * @return int
      * @throws InvalidArgumentException
      */
-    protected function normalizeTimestamp($timestamp)
+    protected function normalizeTimestamp($timestamp): int
     {
         if (is_null($timestamp)) {
             $timestamp = time();
@@ -151,6 +151,6 @@ class DateTimeViewHelper extends AbstractViewHelper
                 sprintf('timestamp might be an integer, a string or a DateTimeObject only.')
             );
         }
-        return $timestamp;
+        return (int)$timestamp;
     }
 }
