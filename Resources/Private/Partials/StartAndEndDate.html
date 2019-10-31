@@ -37,10 +37,10 @@
 			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:format.date format="%x" date="{event.end}" /> <f:render section="displayTime" arguments="{timestamp: event.end}" /></time>
 		</f:case>
 
-		<f:case default="TRUE">
+		<f:defaultCase>
 			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date({format: 'c', date: event.start})}"><f:format.date format="%x" date="{event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start}" /></time> -
 			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:format.date format="%x" date="{event.end}" /> <f:render section="displayTime" arguments="{timestamp: event.end}" /></time>
-		</f:case>
+		</f:defaultCase>
 
 	</f:switch>
 </f:section>
