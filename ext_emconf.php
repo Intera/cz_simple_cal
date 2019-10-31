@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpMissingStrictTypesDeclarationInspection */
+
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Simple calendar using Extbase',
     'description' => 'A simple calendar.',
@@ -10,10 +12,9 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Christian Zenker',
     'author_email' => 'christian.zenker@599media.de',
     'author_company' => '599media GmbH',
-    'version' => '1.0.0',
-    '_md5_values_when_last_written' => '',
+    'version' => '9.0.0-dev',
     'constraints' => [
-        'depends' => ['typo3' => '6.2.3-7.6.99'],
+        'depends' => ['typo3' => '9.5.0-9.5.99'],
         'conflicts' => [],
         'suggests' => [
             'scheduler' => '',
