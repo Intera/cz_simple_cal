@@ -10,7 +10,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 trait IndexedArgumentsTrait
 {
-    private function initArguments(... $argumentList)
+    private function initArguments(...$argumentList)
     {
         $mappedArguments = [];
         $argumentDefinitions = $this->viewHelper->prepareArguments();

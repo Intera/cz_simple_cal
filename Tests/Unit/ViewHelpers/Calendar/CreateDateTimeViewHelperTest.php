@@ -17,7 +17,6 @@ class CreateDateTimeViewHelperTest extends ViewHelperBaseTestcase
 {
     use IndexedArgumentsTrait;
 
-
     /**
      * @var CreateDateTimeViewHelper
      */
