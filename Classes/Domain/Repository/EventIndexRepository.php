@@ -393,8 +393,9 @@ class EventIndexRepository extends Repository
     /**
      * find all events matching some settings and count them
      *
+     * TODO: (ugly) doing dozens of database requests
+     *
      * @param array $settings
-     * @ugly doing dozens of database requests
      * @return array|int
      */
     protected function doCountAllWithSettings($settings = [])
@@ -519,9 +520,10 @@ class EventIndexRepository extends Repository
      *
      * all given values must be sanitized
      *
+     * TODO: (ugly) doing dozens of database requests extbase query needs a better fluent interface for query creation
+     *
      * @param array $settings
      * @param $query
-     * @ugly extbase query needs a better fluent interface for query creation
      * @return QueryInterface
      * @throws InvalidArgumentException
      */

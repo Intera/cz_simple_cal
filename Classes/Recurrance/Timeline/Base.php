@@ -52,7 +52,8 @@ class Base implements \Iterator, \Countable
     /**
      * don't output the next but the current value of data if the next is requested
      *
-     * @ugly
+     * TODO: (ugly)
+     *
      * @see \Tx\CzSimpleCal\Recurrance\Timeline\Base::next()
      * @var boolean
      */
@@ -128,7 +129,7 @@ class Base implements \Iterator, \Countable
     {
         $this->initOutput();
 
-        /* @ugly:
+        /* TODO: (ugly)
          *
          * when unsetting an entry while iterating over the array all other entries will shift on
          * position back. This also affects the internal pointer that points to the next entry

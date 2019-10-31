@@ -66,7 +66,7 @@ class EventIndex extends Base
     /**
      * the timestamp from the end of that event
      *
-     * @ugly integer is used as we'd like an instance of the Utility_DayTime, but extbase would only return a DateTime
+     * TODO: (ugly) integer is used as we'd like an instance of the Utility_DayTime, but extbase would only return a DateTime
      *     Object in the extbase version shipped with TYPO3 4.4
      * @var integer
      */
@@ -100,7 +100,7 @@ class EventIndex extends Base
     /**
      * the timestamp from the beginning of that event
      *
-     * @ugly integer is used as we'd like an instance of the Utility_DayTime, but extbase would only return a DateTime
+     * TODO: (ugly) integer is used as we'd like an instance of the Utility_DayTime, but extbase would only return a DateTime
      *     Object in the extbase version shipped with TYPO3 4.4
      * @var integer
      */

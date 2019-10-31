@@ -36,9 +36,10 @@ class ExceptionRepository extends Repository
     /**
      * find all exceptions for an event
      *
-     * @param integer $uid event_id
-     * @ugly support for joins in extbase misses some features. It seems as if MM_opposite_field won't get any
+     * TODO: (ugly) support for joins in extbase misses some features. It seems as if MM_opposite_field won't get any
      *     attention when building queries.
+     *
+     * @param integer $uid event_id
      * @return array
      */
     public function findAllForEventId($uid)
