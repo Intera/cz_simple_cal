@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Domain\Repository;
 
@@ -27,6 +28,8 @@ namespace Tx\CzSimpleCal\Domain\Repository;
  ***************************************************************/
 
 use Tx\CzSimpleCal\Domain\Model\Event;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
@@ -40,7 +43,7 @@ class EventRepository extends Repository
      * find all events by a given user id
      *
      * @param string $userId
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return QueryResultInterface
      */
     public function findAllByUserId($userId)
     {
@@ -54,7 +57,7 @@ class EventRepository extends Repository
 
         $query->setOrderings(
             [
-                'start_day' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
+                'start_day' => QueryInterface::ORDER_DESCENDING,
             ]
         );
 
@@ -64,7 +67,7 @@ class EventRepository extends Repository
     /**
      * find all records regardless of their storage page, enable fields or language
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return QueryResultInterface
      */
     public function findAllEverywhere()
     {
@@ -81,7 +84,7 @@ class EventRepository extends Repository
      * find a record by its uid regardless of its pid
      *
      * @param $uid
-     * @return \Tx\CzSimpleCal\Domain\Model\Event
+     * @return Event
      */
     public function findOneByUidEverywhere($uid)
     {
@@ -101,6 +104,7 @@ class EventRepository extends Repository
 
         $object = $result->getFirst();
 
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $object;
     }
 
@@ -110,7 +114,7 @@ class EventRepository extends Repository
      *
      * @param integer $limit
      * @param integer $maxAge UNIX timestamp
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return QueryResultInterface
      */
     public function findRecordsForReindexing($limit = null, $maxAge = null)
     {
@@ -121,14 +125,13 @@ class EventRepository extends Repository
             ->setRespectSysLanguage(true);
 
         if (!is_null($limit)) {
-            $query->
-            setLimit($limit);
+            $query->setLimit($limit);
         }
         if (is_null($maxAge)) {
             // If: no maxAge is set, fetch the oldest events
             $query->setOrderings(
                 [
-                    'last_indexed' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+                    'last_indexed' => QueryInterface::ORDER_ASCENDING,
                 ]
             );
         } else {
@@ -158,7 +161,7 @@ class EventRepository extends Repository
         setRespectSysLanguage(false);
         $query->setOrderings(
             [
-                'last_indexed' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+                'last_indexed' => QueryInterface::ORDER_ASCENDING,
             ]
         );
 
@@ -188,6 +191,7 @@ class EventRepository extends Repository
         setRespectStoragePage(false)->
         setIgnoreEnableFields(true)->
         setRespectSysLanguage(false);
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
         $query->matching(
             $query->logicalAnd(
                 $query->equals('slug', $slug),
@@ -203,6 +207,7 @@ class EventRepository extends Repository
             setRespectStoragePage(false)->
             setIgnoreEnableFields(true)->
             setRespectSysLanguage(false);
+            /** @noinspection PhpMethodParametersCountMismatchInspection */
             $query->matching(
                 $query->logicalAnd(
                     $query->like('slug', $slug . '-%'),
@@ -211,7 +216,7 @@ class EventRepository extends Repository
             );
             $query->setOrderings(
                 [
-                    'slug' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
+                    'slug' => QueryInterface::ORDER_DESCENDING,
                 ]
             );
             $query->setLimit(1);

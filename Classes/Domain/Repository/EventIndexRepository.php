@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Domain\Repository;
 
@@ -26,8 +27,18 @@ namespace Tx\CzSimpleCal\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DateTimeZone;
+use InvalidArgumentException;
+use PDO;
+use Tx\CzSimpleCal\Domain\Model\Event;
 use Tx\CzSimpleCal\Domain\Model\EventIndex;
+use Tx\CzSimpleCal\Utility\DateTime;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
@@ -67,21 +78,21 @@ class EventIndexRepository extends Repository
         'order' => [
             'filter' => FILTER_CALLBACK,
             'options' => [
-                self,
+                __CLASS__,
                 'sanitizeOrder',
             ],
         ],
         'orderBy' => [
             'filter' => FILTER_CALLBACK,
             'options' => [
-                self,
+                __CLASS__,
                 'sanitizeString',
             ],
         ],
         'groupBy' => [
             'filter' => FILTER_CALLBACK,
             'options' => [
-                self,
+                __CLASS__,
                 'sanitizeString',
             ],
         ],
@@ -164,7 +175,7 @@ class EventIndexRepository extends Repository
         if (!is_string($value) || empty($value)) {
             return null;
         }
-        if (preg_match('/[^a-z0-9\._\-]/i', trim($value))) {
+        if (preg_match('/[^a-z0-9._\-]/i', trim($value))) {
             // If: there is anything not a letter, number, dot, underscore or hyphen
             return null;
         } else {
@@ -174,6 +185,8 @@ class EventIndexRepository extends Repository
 
     /**
      * call an event before adding an event to the repo
+     *
+     * @param $object
      */
     public function add($object)
     {
@@ -186,10 +199,10 @@ class EventIndexRepository extends Repository
      *
      * for all options for the settings see setupSettings()
      *
-     * @see setupSettings()
-     * @see doCountAllWithSettings()
      * @param $settings
      * @return array
+     * @see setupSettings()
+     * @see doCountAllWithSettings()
      */
     public function countAllWithSettings($settings = [])
     {
@@ -213,8 +226,8 @@ class EventIndexRepository extends Repository
      * Finds all event index entries for the given event without
      * respecting storage pages or enable fields.
      *
-     * @param \Tx\CzSimpleCal\Domain\Model\Event $event
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @param Event $event
+     * @return QueryResultInterface
      */
     public function findAllByEventEverywhere($event)
     {
@@ -234,9 +247,9 @@ class EventIndexRepository extends Repository
      *
      * for all options for the settings see setupSettings()
      *
-     * @see setupSettings()
      * @param $settings
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return QueryResultInterface
+     * @see setupSettings()
      */
     public function findAllWithSettings($settings = [])
     {
@@ -251,12 +264,12 @@ class EventIndexRepository extends Repository
      * first.
      *
      * @param int $maxEvents
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return array|QueryResultInterface
      */
     public function findLatest($maxEvents)
     {
         $query = $this->createQuery();
-        $query->setOrderings(['event.tstamp' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
+        $query->setOrderings(['event.tstamp' => QueryInterface::ORDER_DESCENDING]);
         if ($maxEvents > 0) {
             $query->setLimit((int)$maxEvents);
         }
@@ -268,19 +281,20 @@ class EventIndexRepository extends Repository
      *
      * @param integer $eventUid
      * @param integer $limit
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return array|QueryResultInterface
      */
     public function findNextAppointmentsByEventUid($eventUid, $limit = 3)
     {
         $query = $this->createQuery();
         $query->setLimit($limit);
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
         $query->matching(
             $query->logicalAnd(
                 $query->equals('event.uid', $eventUid),
                 $query->greaterThanOrEqual('start', time())
             )
         );
-        $query->setOrderings(['start' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING]);
+        $query->setOrderings(['start' => QueryInterface::ORDER_ASCENDING]);
 
         return $query->execute();
     }
@@ -300,6 +314,7 @@ class EventIndexRepository extends Repository
             ->setIgnoreEnableFields(true)
             ->setRespectSysLanguage(true);
 
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
         $query->matching(
             $query->logicalAnd(
                 $query->equals('slug', $slug),
@@ -315,6 +330,7 @@ class EventIndexRepository extends Repository
             setRespectStoragePage(false)->
             setIgnoreEnableFields(true)->
             setRespectSysLanguage(false);
+            /** @noinspection PhpMethodParametersCountMismatchInspection */
             $query->matching(
                 $query->logicalAnd(
                     $query->like('slug', $slug . '-%'),
@@ -323,7 +339,7 @@ class EventIndexRepository extends Repository
             );
             $query->setOrderings(
                 [
-                    'slug' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
+                    'slug' => QueryInterface::ORDER_DESCENDING,
                 ]
             );
             $query->setLimit(1);
@@ -346,10 +362,12 @@ class EventIndexRepository extends Repository
     public function removeAllNative($eventUid)
     {
         // We use a normal database query to improve the performance.
-        $this->getDatabaseConnection()->exec_DELETEquery(
-            'tx_czsimplecal_domain_model_eventindex',
-            'event=' . (int)$eventUid
-        );
+        $builder = $this->getQueryBuilder('tx_czsimplecal_domain_model_eventindex');
+        $builder->delete('tx_czsimplecal_domain_model_eventindex')
+            ->where(
+                $builder->expr()->eq('event', $builder->createNamedParameter((int)$eventUid, PDO::PARAM_INT)),
+            )
+            ->execute();
     }
 
     /**
@@ -375,9 +393,9 @@ class EventIndexRepository extends Repository
     /**
      * find all events matching some settings and count them
      *
-     * @param $settings
+     * @param array $settings
      * @ugly doing dozens of database requests
-     * @return array
+     * @return array|int
      */
     protected function doCountAllWithSettings($settings = [])
     {
@@ -397,8 +415,8 @@ class EventIndexRepository extends Repository
                 $step = null;
             }
 
-            $startDate = new \Tx\CzSimpleCal\Utility\DateTime('@' . $settings['startDate']);
-            $startDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+            $startDate = new DateTime('@' . $settings['startDate']);
+            $startDate->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
             $endDate = $settings['endDate'];
             while ($startDate->getTimestamp() < $endDate) {
@@ -434,12 +452,10 @@ class EventIndexRepository extends Repository
         }
     }
 
-    /**
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
+    protected function getQueryBuilder(string $table): QueryBuilder
     {
-        return $GLOBALS['TYPO3_DB'];
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getQueryBuilderForTable($table);
     }
 
     /**
@@ -506,8 +522,8 @@ class EventIndexRepository extends Repository
      * @param array $settings
      * @param $query
      * @ugly extbase query needs a better fluent interface for query creation
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryInterface
-     * @throws \InvalidArgumentException
+     * @return QueryInterface
+     * @throws InvalidArgumentException
      */
     protected function setupSettings($settings = [], $query = null)
     {
@@ -529,6 +545,7 @@ class EventIndexRepository extends Repository
             );
 
             if (isset($constraint)) {
+                /** @noinspection PhpMethodParametersCountMismatchInspection */
                 $constraint = $query->logicalAnd($constraint, $temp_constraint);
             } else {
                 $constraint = $temp_constraint;
@@ -539,7 +556,7 @@ class EventIndexRepository extends Repository
         if (isset($settings['filter'])) {
             foreach ($settings['filter'] as $name => $filter) {
                 if (is_array($filter['value'])) {
-                    /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $temp_constraint */
+                    /** @var ConstraintInterface $temp_constraint */
                     $temp_constraint = $query->in('event.' . $name, $filter['value']);
 
                     if (isset($filter['negate']) && $filter['negate']) {
@@ -547,6 +564,7 @@ class EventIndexRepository extends Repository
                     }
 
                     if (isset($constraint)) {
+                        /** @noinspection PhpMethodParametersCountMismatchInspection */
                         $constraint = $query->logicalAnd($constraint, $temp_constraint);
                     } else {
                         $constraint = $temp_constraint;
@@ -575,17 +593,17 @@ class EventIndexRepository extends Repository
             } elseif ($settings['orderBy'] === 'end' || $settings['orderBy'] === 'endDate') {
                 $orderBy = 'end';
             } else {
-                throw new \InvalidArgumentException('"orderBy" should be one of "start" or "end".');
+                throw new InvalidArgumentException('"orderBy" should be one of "start" or "end".');
             }
 
             if (!isset($settings['order'])) {
-                $order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
+                $order = QueryInterface::ORDER_ASCENDING;
             } elseif (strtolower($settings['order']) === 'asc') {
-                $order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
+                $order = QueryInterface::ORDER_ASCENDING;
             } elseif (strtolower($settings['order']) === 'desc') {
-                $order = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING;
+                $order = QueryInterface::ORDER_DESCENDING;
             } else {
-                throw new \InvalidArgumentException('"order" should be one of "asc" or "desc".');
+                throw new InvalidArgumentException('"order" should be one of "asc" or "desc".');
             }
 
             $query->setOrderings([$orderBy => $order]);
