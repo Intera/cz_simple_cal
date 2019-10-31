@@ -14,10 +14,17 @@
         <slug>eventtotestdomainmodel</slug>
         <teaser>The teaser of the test event!</teaser>
         <description>The description of the test event :)</description>
-        <show_page_instead>123456</show_page_instead>
-        <location_inline>1</location_inline>
         <!-- 2010-01-01 -->
-        <start_day>1262300400</start_day>
+        <start_day>1262304000</start_day>
         <l18n_diffsource/>
     </tx_czsimplecal_domain_model_event>
+    <tx_czsimplecal_domain_model_eventindex>
+        <uid>1</uid>
+        <pid>999</pid>
+        <sys_language_uid>0</sys_language_uid>
+        <start>1262304000</start>
+        <end>1262390399</end>
+        <event>1</event>
+        <slug>test</slug>
+    </tx_czsimplecal_domain_model_eventindex>
 </dataset>

@@ -1,0 +1,16 @@
+page = PAGE
+
+page.shortcutIcon = EXT:cz_simple_cal/Tests/Acceptance/Fixtures/favicon.ico
+
+page.10 = COA
+page.10 {
+  10 = TEXT
+  10.value = action-day
+  10.typolink.parameter = 10
+  10.typolink.additionalParams = &tx_czsimplecal_pi1[getDate]=2010-01-01
+  10.wrap = <li>|</li>
+
+  stdWrap.wrap = <ul class="test-links">|</ul>
+}
+
+page.20 < styles.content.get

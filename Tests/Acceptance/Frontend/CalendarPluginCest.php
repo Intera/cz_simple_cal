@@ -12,22 +12,16 @@ class CalendarPluginCest
 {
     public function actionDay(FrontendTester $I)
     {
-        $this->openPageAlias($I, 'action-day', '&tx_czsimplecal_pi1[getDate]=2010-01-01');
+        $this->openPageAlias($I, 'action-day');
 
         $I->canSeeElement(['css' => 'div.vcalendar-day']);
         $I->canSeeElement('//h2[. = "Events on January  1, 2010"]');
         $I->canSeeNumberOfElements('//*[contains(@class, "vevent")]', 1);
     }
 
-    protected function openPageAlias(FrontendTester $I, string $alias, ?string $parameters = null): void
+    protected function openPageAlias(FrontendTester $I, string $alias): void
     {
-        $url = '/' . $alias;
-
-        if ($parameters) {
-            $parameters = ltrim($parameters, '&');
-            $url .= '?' . $parameters;
-        }
-
-        $I->amOnPage($url);
+        $I->amOnPage('/');
+        $I->click($alias);
     }
 }

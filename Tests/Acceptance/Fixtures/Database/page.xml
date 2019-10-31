@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <pages>
+        <uid>1</uid>
+        <pid>0</pid>
+        <title>root Page</title>
+        <slug>/</slug>
+    </pages>
+    <sys_template>
+        <uid>1</uid>
+        <pid>1</pid>
+        <root>1</root>
+        <include_static_file>
+            EXT:fluid_styled_content/Configuration/TypoScript/,
+            EXT:cz_simple_cal/Configuration/TypoScript/main/,
+        </include_static_file>
+        <config>
+            <![CDATA[
+<INCLUDE_TYPOSCRIPT: source="FILE: EXT:cz_simple_cal/Tests/Acceptance/Fixtures/setup.typoscript">
+            ]]>
+        </config>
+    </sys_template>
+
+    <pages>
+        <uid>10</uid>
+        <pid>1</pid>
+        <title>action day</title>
+        <slug>/action-day</slug>
+    </pages>
+
+    <tt_content>
+        <uid>10</uid>
+        <pid>10</pid>
+        <CType>list</CType>
+        <list_type>czsimplecal_pi1</list_type>
+        <pages>999</pages>
+        <pi_flexform>
+            <![CDATA[
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3FlexForms>
+    <data>
+        <sheet index="sDEF">
+            <language index="lDEF">
+                <field index="switchableControllerActions">
+                    <value index="vDEF">EventIndex-&gt;day</value>
+                </field>
+            </language>
+        </sheet>
+    </data>
+</T3FlexForms>
+            ]]>
+        </pi_flexform>
+    </tt_content>
+</dataset>
