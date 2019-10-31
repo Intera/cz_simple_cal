@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Selenium;
 
@@ -7,19 +8,6 @@ namespace Tx\CzSimpleCal\Tests\Selenium;
  */
 class Test extends BaseSeleniumTestCase
 {
-    /**
-     * test the day view
-     */
-    public function testActionDay()
-    {
-        $this->openPageAlias('action-day', '&tx_czsimplecal_pi1[getDate]=2010-01-01');
-
-        $this->assertElementPresent('css=div.vcalendar-day', 'day-view is shown');
-        $this->assertElementPresent('//h2[. = "Events on January  1, 2010"]', 'heading is shown');
-        $this->assertEquals(1, $this->selenium->getXpathCount('//*[contains(@class, "vevent")]'), 'one event is shown');
-        // No further tests as all other settings were tested in the list-action
-    }
-
     public function testActionList()
     {
         $this->openPageAlias('action-list');

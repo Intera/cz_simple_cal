@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <pages>
+        <uid>999</uid>
+        <pid>1</pid>
+        <title>Sysfolder</title>
+        <deleted>0</deleted>
+        <doktype>254</doktype>
+    </pages>
+    <tx_czsimplecal_domain_model_event>
+        <uid>1</uid>
+        <pid>999</pid>
+        <title>eventToTestDomainModel</title>
+        <slug>eventtotestdomainmodel</slug>
+        <teaser>The teaser of the test event!</teaser>
+        <description>The description of the test event :)</description>
+        <show_page_instead>123456</show_page_instead>
+        <location_inline>1</location_inline>
+        <!-- 2010-01-01 -->
+        <start_day>1262300400</start_day>
+        <l18n_diffsource/>
+    </tx_czsimplecal_domain_model_event>
+</dataset>
