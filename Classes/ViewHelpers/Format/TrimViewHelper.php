@@ -21,6 +21,16 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 class TrimViewHelper extends AbstractViewHelper
 {
     /**
+     * @var bool
+     */
+    protected $escapeChildren = false;
+
+    /**
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
+    /**
      * Removes whitespace around the rendered children.
      *
      * @return string
