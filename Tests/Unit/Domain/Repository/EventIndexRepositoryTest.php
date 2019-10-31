@@ -1,12 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\Domain\Repository;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Tx\CzSimpleCal\Tests\Unit\Domain\Repository\Mock\EventIndexRepositoryMock;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Service\TypoScriptService;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * testing the Domain_Repository_EventIndex class
@@ -19,6 +20,11 @@ class EventIndexRepositoryTest extends UnitTestCase
      * @var EventIndexRepositoryMock
      */
     protected $repository;
+
+    /**
+     * @var bool
+     */
+    protected $resetSingletonInstances = true;
 
     /**
      * @var TypoScriptService
@@ -266,6 +272,10 @@ class EventIndexRepositoryTest extends UnitTestCase
 
     /**
      * @dataProvider provideDataForCleanSettingsFields
+     *
+     * @param $field
+     * @param $value
+     * @param $assumed
      */
     public function testCleanSettingsFields($field, $value, $assumed)
     {
@@ -423,8 +433,11 @@ class EventIndexRepositoryTest extends UnitTestCase
         );
     }
 
-    protected function nameDataProviderForCleanSettingsFields(&$value, $key)
-    {
+    protected function nameDataProviderForCleanSettingsFields(
+        &$value,
+        /** @noinspection PhpUnusedParameterInspection */
+        $key
+    ) {
         $value = sprintf(
             '%s set to %s:%s returns %s',
             $value[0],

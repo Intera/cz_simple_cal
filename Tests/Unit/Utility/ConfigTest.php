@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\Utility;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Tx\CzSimpleCal\Utility\Config;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * testing the Config class
@@ -12,22 +13,18 @@ use Tx\CzSimpleCal\Utility\Config;
  */
 class ConfigTest extends UnitTestCase
 {
-    /**
-     * stores the GLOBALS array
-     *
-     * @var array
-     */
-    protected $oldGlobals = null;
-
     public function setUp()
     {
-        $this->oldGlobals = $GLOBALS;
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cz_simple_cal'] = serialize(['foo' => 'bar']);
+        parent::setUp();
+
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cz_simple_cal'] = ['foo' => 'bar'];
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
-        $GLOBALS = $this->oldGlobals;
+        parent::tearDown();
+
+        unset($GLOBALS['TYPO3_CONF_VARS']);
     }
 
     public function testInitialization()

@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\Recurrance\Timeline;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Tx\CzSimpleCal\Domain\Model\Event;
 use Tx\CzSimpleCal\Recurrance\Timeline\Base;
 use Tx\CzSimpleCal\Recurrance\Timeline\Event as TimelineEvent;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * testing the features of Tx_CzSimpleCal_Recurrance_Timeline_Event

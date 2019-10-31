@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\Recurrance\Type\Mocks;
 
+use InvalidArgumentException;
 use Tx\CzSimpleCal\Domain\Interfaces\IsRecurring;
 use Tx\CzSimpleCal\Utility\DateTime;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -34,7 +36,7 @@ class IsRecurringMock implements IsRecurring
 
             // Check if there is a setter defined (use of is_callable to check if the scope is public)
             if (!is_callable([$obj, $methodName])) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     sprintf('Could not find the %s method to set %s in %s.', $methodName, $name, get_class($obj))
                 );
             }

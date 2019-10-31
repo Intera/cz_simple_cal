@@ -1,9 +1,14 @@
 <?php
+/** @noinspection PhpDocSignatureInspection */
+
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\ViewHelper\Condition;
 
+use InvalidArgumentException;
+use Tx\CzSimpleCal\Tests\Unit\ViewHelpers\IndexedArgumentsTrait;
 use Tx\CzSimpleCal\ViewHelpers\Condition\CompareViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Fluid\Unit\ViewHelpers\ViewHelperBaseTestcase;
 
 /**
  * testing the features of the Condition_CompareViewHelper
@@ -12,6 +17,11 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class CompareViewHelperTest extends ViewHelperBaseTestcase
 {
+    use IndexedArgumentsTrait;
+
+    /**
+     * @var CompareViewHelper
+     */
     protected $viewHelper = null;
 
     protected $viewHelperNode = null;
@@ -586,8 +596,11 @@ class CompareViewHelperTest extends ViewHelperBaseTestcase
      */
     public function testEquals($value1, $value2, $expected)
     {
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '='));
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '=='));
+        $this->initArguments($value1, $value2, '=');
+        self::assertSame($expected, $this->viewHelper->render());
+
+        $this->initArguments($value1, $value2, '==');
+        self::assertSame($expected, $this->viewHelper->render());
     }
 
     /**
@@ -595,7 +608,8 @@ class CompareViewHelperTest extends ViewHelperBaseTestcase
      */
     public function testGreaterThan($value1, $value2, $expected)
     {
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '>'));
+        $this->initArguments($value1, $value2, '>');
+        self::assertSame($expected, $this->viewHelper->render());
     }
 
     /**
@@ -603,8 +617,11 @@ class CompareViewHelperTest extends ViewHelperBaseTestcase
      */
     public function testGreaterThanEquals($value1, $value2, $expected)
     {
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '>='));
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '=>'));
+        $this->initArguments($value1, $value2, '>=');
+        self::assertSame($expected, $this->viewHelper->render());
+
+        $this->initArguments($value1, $value2, '=>');
+        self::assertSame($expected, $this->viewHelper->render());
     }
 
     /**
@@ -612,7 +629,8 @@ class CompareViewHelperTest extends ViewHelperBaseTestcase
      */
     public function testLessThan($value1, $value2, $expected)
     {
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '<'));
+        $this->initArguments($value1, $value2, '<');
+        self::assertSame($expected, $this->viewHelper->render());
     }
 
     /**
@@ -620,7 +638,8 @@ class CompareViewHelperTest extends ViewHelperBaseTestcase
      */
     public function testLessThanEquals($value1, $value2, $expected)
     {
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '<='));
+        $this->initArguments($value1, $value2, '<=');
+        self::assertSame($expected, $this->viewHelper->render());
     }
 
     /**
@@ -628,8 +647,11 @@ class CompareViewHelperTest extends ViewHelperBaseTestcase
      */
     public function testNotEquals($value1, $value2, $expected)
     {
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '!='));
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '<>'));
+        $this->initArguments($value1, $value2, '!=');
+        self::assertSame($expected, $this->viewHelper->render());
+
+        $this->initArguments($value1, $value2, '<>');
+        self::assertSame($expected, $this->viewHelper->render());
     }
 
     /**
@@ -637,7 +659,8 @@ class CompareViewHelperTest extends ViewHelperBaseTestcase
      */
     public function testNotSame($value1, $value2, $expected)
     {
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '!=='));
+        $this->initArguments($value1, $value2, '!==');
+        self::assertSame($expected, $this->viewHelper->render());
     }
 
     /**
@@ -645,7 +668,8 @@ class CompareViewHelperTest extends ViewHelperBaseTestcase
      */
     public function testSame($value1, $value2, $expected)
     {
-        self::assertSame($expected, $this->viewHelper->render($value1, $value2, '==='));
+        $this->initArguments($value1, $value2, '===');
+        self::assertSame($expected, $this->viewHelper->render());
     }
 
     protected function initViewHelper()
@@ -670,5 +694,7 @@ class CompareViewHelperTest extends ViewHelperBaseTestcase
         } elseif (is_string($value)) {
             return sprintf('string: "%s"', $value);
         }
+
+        throw new InvalidArgumentException('Unknown variable type!');
     }
 }

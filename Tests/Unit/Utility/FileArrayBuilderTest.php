@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\Utility;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Tx\CzSimpleCal\Utility\FileArrayBuilder;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * @author Christian Zenker <christian.zenker@599media.de>

@@ -1,9 +1,13 @@
 <?php
+/** @noinspection PhpDocSignatureInspection */
+
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\ViewHelper\Format;
 
+use Tx\CzSimpleCal\Tests\Unit\ViewHelpers\IndexedArgumentsTrait;
 use Tx\CzSimpleCal\ViewHelpers\Format\NumberChoiceViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Fluid\Unit\ViewHelpers\ViewHelperBaseTestcase;
 
 /**
  * testing the features of the Condition_CompareViewHelper
@@ -12,6 +16,8 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class NumberChoiceViewHelperTest extends ViewHelperBaseTestcase
 {
+    use IndexedArgumentsTrait;
+
     /**
      * @var NumberChoiceViewHelper
      */
@@ -70,9 +76,10 @@ class NumberChoiceViewHelperTest extends ViewHelperBaseTestcase
 
     public function testArgumentsParameter()
     {
+        $this->initArguments(1, '[0]foo|[1]###bar###', ['bar' => 'baz']);
         self::assertEquals(
             'baz',
-            $this->viewHelper->render(1, '[0]foo|[1]###bar###', ['bar' => 'baz']),
+            $this->viewHelper->render(),
             'markers are substituted.'
         );
     }
@@ -82,6 +89,7 @@ class NumberChoiceViewHelperTest extends ViewHelperBaseTestcase
      */
     public function testIfCorrectIntervalIsFound($text, $number, $assert)
     {
-        self::assertEquals($assert, $this->viewHelper->render($number, $text));
+        $this->initArguments($number, $text);
+        self::assertEquals($assert, $this->viewHelper->render());
     }
 }

@@ -1,12 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\ViewHelper\Calendar;
 
 use Tx\CzSimpleCal\Domain\Model\EventIndex;
 use Tx\CzSimpleCal\Tests\Unit\ViewHelpers\Calendar\Mocks\OnNewDayViewHelperMock;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
-use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperVariableContainer;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use Tx\CzSimpleCal\Tests\Unit\ViewHelpers\IndexedArgumentsTrait;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Fluid\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperVariableContainer;
 
 /**
  * testing the features of the Calendar_OnNewDayViewHelper
@@ -15,6 +17,8 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class OnNewDayViewHelperTest extends ViewHelperBaseTestcase
 {
+    use IndexedArgumentsTrait;
+
     /**
      * @var OnNewDayViewHelperMock
      */
@@ -35,9 +39,11 @@ class OnNewDayViewHelperTest extends ViewHelperBaseTestcase
         $model->setStart(1234567890);
         $model->setEnd(1234567890);
 
-        $this->viewHelper->render($model);
+        $this->initArguments($model);
+        $this->viewHelper->render();
 
-        self::assertSame('', $this->viewHelper->render($model));
+        $this->initArguments($model);
+        self::assertSame('', $this->viewHelper->render());
     }
 
     public function testIfContentIsRenderedIfLastViewHelperWasOnEarlierDay()
@@ -46,13 +52,15 @@ class OnNewDayViewHelperTest extends ViewHelperBaseTestcase
         $model->setStart(1234567890);
         $model->setEnd(1234567890);
 
-        $this->viewHelper->render($model);
+        $this->initArguments($model);
+        $this->viewHelper->render();
 
         $model = new EventIndex();
         $model->setStart(1234567890 + 86400);
         $model->setEnd(1234567890 + 86400);
 
-        self::assertSame('tag content', $this->viewHelper->render($model));
+        $this->initArguments($model);
+        self::assertSame('tag content', $this->viewHelper->render());
     }
 
     public function testIfContentIsRenderedIfNoViewHelperWasPreviouslyUsed()
@@ -61,7 +69,8 @@ class OnNewDayViewHelperTest extends ViewHelperBaseTestcase
         $model->setStart(1234567890);
         $model->setEnd(1234567890);
 
-        self::assertSame('tag content', $this->viewHelper->render($model));
+        $this->initArguments($model);
+        self::assertSame('tag content', $this->viewHelper->render());
     }
 
     public function testMultipleIrelatedInstances()
@@ -70,20 +79,24 @@ class OnNewDayViewHelperTest extends ViewHelperBaseTestcase
         $model->setStart(1234567890);
         $model->setEnd(1234567890);
 
-        $this->viewHelper->render($model);
+        $this->initArguments($model);
+        $this->viewHelper->render();
 
-        self::assertSame('tag content', $this->viewHelper->render($model, 'foobar'));
+        $this->initArguments($model, 'foobar');
+        self::assertSame('tag content', $this->viewHelper->render());
     }
 
     protected function initViewHelper()
     {
         $this->viewHelper = new OnNewDayViewHelperMock();
+        $this->injectDependenciesIntoViewHelper($this->viewHelper);
 
-        $this->viewHelperVariableContainer = new ViewHelperVariableContainer();
-
-        $renderingContext = new RenderingContext();
-        $renderingContext->injectViewHelperVariableContainer($this->viewHelperVariableContainer);
-
-        $this->viewHelper->setRenderingContext($renderingContext);
+        // We need to use a real instance of the ViewHelperVariableContainer!
+        /** @noinspection PhpUndefinedMethodInspection */
+        $this->renderingContext->_set(
+            'viewHelperVariableContainer',
+            GeneralUtility::makeInstance(ViewHelperVariableContainer::class)
+        );
+        $this->viewHelper->setRenderingContext($this->renderingContext);
     }
 }

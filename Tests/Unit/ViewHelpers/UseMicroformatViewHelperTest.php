@@ -1,17 +1,22 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\ViewHelper;
 
+use stdClass;
+use Tx\CzSimpleCal\Tests\Unit\ViewHelpers\IndexedArgumentsTrait;
 use Tx\CzSimpleCal\ViewHelpers\UseMicroformatViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Fluid\Unit\ViewHelpers\ViewHelperBaseTestcase;
 
 /**
  * testing the features of the UseMicroformatViewHelper
  *
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class UseMicroformatTest extends ViewHelperBaseTestcase
+class UseMicroformatViewHelperTest extends ViewHelperBaseTestcase
 {
+    use IndexedArgumentsTrait;
+
     protected $oldHeaderData = null;
 
     /**
@@ -22,19 +27,25 @@ class UseMicroformatTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
+
         $this->viewHelper = new UseMicroformatViewHelper();
-        $this->oldHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+
+        $GLOBALS['TSFE'] = new stdClass();
+        $GLOBALS['TSFE']->additionalHeaderData = [];
     }
 
     public function tearDown()
     {
-        $GLOBALS['TSFE']->additionalHeaderData = $this->oldHeaderData;
+        parent::tearDown();
+
+        unset($GLOBALS['TSFE']);
     }
 
     public function testCustomUri()
     {
         $uri = 'http://www.example.com/my-microformat';
-        $this->viewHelper->render($uri);
+        $this->initArguments($uri);
+        $this->viewHelper->render();
 
         $changedData = $this->getChangedHeaderData();
 
@@ -44,12 +55,14 @@ class UseMicroformatTest extends ViewHelperBaseTestcase
         self::assertContains($uri, current($changedData), 'the correct uri of the microformat was added');
 
         // Add the same microformat again
-        $this->viewHelper->render($uri);
+        $this->initArguments($uri);
+        $this->viewHelper->render();
         $changedData = $this->getChangedHeaderData();
         self::assertEquals(1, count($changedData), 'the same microformat won\'t be added a second time');
 
         // Add a different microformat
-        $this->viewHelper->render($uri . '2');
+        $this->initArguments($uri . '2');
+        $this->viewHelper->render();
         $changedData = $this->getChangedHeaderData();
         self::assertFalse(
             empty($changedData) || !is_array($changedData),
@@ -60,7 +73,8 @@ class UseMicroformatTest extends ViewHelperBaseTestcase
 
     public function testPredefinedUri()
     {
-        $this->viewHelper->render('hcard');
+        $this->initArguments('hcard');
+        $this->viewHelper->render();
 
         $changedData = $this->getChangedHeaderData();
 
@@ -78,12 +92,6 @@ class UseMicroformatTest extends ViewHelperBaseTestcase
      */
     protected function getChangedHeaderData()
     {
-        if (is_null($this->oldHeaderData) || !is_array($this->oldHeaderData)) {
-            return is_array($GLOBALS['TSFE']->additionalHeaderData) ?
-                $GLOBALS['TSFE']->additionalHeaderData :
-                [];
-        } else {
-            return array_diff($GLOBALS['TSFE']->additionalHeaderData, $this->oldHeaderData);
-        }
+        return $GLOBALS['TSFE']->additionalHeaderData;
     }
 }

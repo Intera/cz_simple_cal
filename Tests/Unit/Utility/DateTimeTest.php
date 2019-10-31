@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\Utility;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use DateTimeZone;
 use Tx\CzSimpleCal\Utility\DateTime;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * testing the DateTime class
@@ -385,8 +387,8 @@ class DateTimeTest extends UnitTestCase
             $dateTime = new DateTime($format);
             $dateTimeExt = new DateTime($format);
         } else {
-            $dateTime = new DateTime($format, new \DateTimeZone($timezone));
-            $dateTimeExt = new DateTime($format, new \DateTimeZone($timezone));
+            $dateTime = new DateTime($format, new DateTimeZone($timezone));
+            $dateTimeExt = new DateTime($format, new DateTimeZone($timezone));
         }
         self::assertEquals(
             $dateTime->format('c'),

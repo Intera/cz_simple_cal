@@ -1,10 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\Recurrance\Timeline;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use Iterator;
 use Tx\CzSimpleCal\Domain\Model\Event;
 use Tx\CzSimpleCal\Recurrance\Timeline\Base;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use UnexpectedValueException;
 
 /**
  * testing the features of Tx_CzSimpleCal_Recurrance_Timeline_Base
@@ -48,7 +51,7 @@ class BaseTest extends UnitTestCase
             );
 
             self::assertTrue(false, 'adding two equal events throws an error.');
-        } catch (\UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
             self::assertTrue(true, 'adding two equal events throws an error.');
         }
     }
@@ -85,7 +88,7 @@ class BaseTest extends UnitTestCase
 
         $this->timeline->add($first, $this->event)->add($second, $this->event);
 
-        self::assertTrue($this->timeline instanceof \Iterator, 'the class implements the Iterator-Interface');
+        self::assertTrue($this->timeline instanceof Iterator, 'the class implements the Iterator-Interface');
 
         self::assertEquals(
             $first,

@@ -1,12 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\Recurrance;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Tx\CzSimpleCal\Domain\Model\Event;
 use Tx\CzSimpleCal\Recurrance\Timeline\Exception;
 use Tx\CzSimpleCal\Tests\Unit\Recurrance\Mocks\RecurranceFactoryMock;
 use Tx\CzSimpleCal\Tests\Unit\Recurrance\Mocks\TimelineEventMock;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * testing the features of Tx_CzSimpleCal_Recurrance_FactoryTest

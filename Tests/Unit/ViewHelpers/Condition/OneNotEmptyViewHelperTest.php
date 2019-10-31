@@ -1,9 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\ViewHelper\Condition;
 
+use stdClass;
+use Tx\CzSimpleCal\Tests\Unit\ViewHelpers\IndexedArgumentsTrait;
 use Tx\CzSimpleCal\ViewHelpers\Condition\OneNotEmptyViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Fluid\Unit\ViewHelpers\ViewHelperBaseTestcase;
 
 /**
  * testing the features of the Condition_OneNotEmptyViewHelper
@@ -12,6 +15,8 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class OneNotEmptyViewHelperTest extends ViewHelperBaseTestcase
 {
+    use IndexedArgumentsTrait;
+
     /**
      * @var OneNotEmptyViewHelper
      */
@@ -30,70 +35,96 @@ class OneNotEmptyViewHelperTest extends ViewHelperBaseTestcase
 
     public function testComplexExamples()
     {
+        $this->initArguments(
+            [
+                '',
+                0,
+                false,
+            ]
+        );
         self::assertSame(
             false,
-            $this->viewHelper->render(
-                [
-                    '',
-                    0,
-                    false,
-                ]
-            ),
+            $this->viewHelper->render(),
             'just empty values'
         );
 
+        $this->initArguments(
+            [
+                '',
+                0,
+                'foobar',
+            ]
+        );
         self::assertSame(
             true,
-            $this->viewHelper->render(
-                [
-                    '',
-                    0,
-                    'foobar',
-                ]
-            ),
+            $this->viewHelper->render(),
             'non-empty value as last item'
         );
-        self::assertSame(
-            true,
-            $this->viewHelper->render(
-                [
-                    'foobar',
-                    0,
-                    false,
-                ]
-            ),
-            'non-empty value as first item'
+
+        $this->initArguments(
+            [
+                'foobar',
+                0,
+                false,
+            ]
         );
         self::assertSame(
             true,
-            $this->viewHelper->render(
-                [
-                    'foobar',
-                    42,
-                    true,
-                ]
-            ),
+            $this->viewHelper->render(),
+            'non-empty value as first item'
+        );
+
+        $this->initArguments(
+            [
+                'foobar',
+                42,
+                true,
+            ]
+        );
+        self::assertSame(
+            true,
+            $this->viewHelper->render(),
             'just non-empty values'
         );
     }
 
     public function testEmptyValues()
     {
-        self::assertSame(false, $this->viewHelper->render([]), 'nothing at all');
-        self::assertSame(false, $this->viewHelper->render(['']), 'empty string');
-        self::assertSame(false, $this->viewHelper->render([0]), '0');
-        self::assertSame(false, $this->viewHelper->render([false]), 'boolean false');
-        self::assertSame(false, $this->viewHelper->render(['0']), 'string with a 0');
-        self::assertSame(false, $this->viewHelper->render([[]]), 'empty array');
+        $this->initArguments([]);
+        self::assertSame(false, $this->viewHelper->render(), 'nothing at all');
+
+        $this->initArguments(['']);
+        self::assertSame(false, $this->viewHelper->render(), 'empty string');
+
+        $this->initArguments([0]);
+        self::assertSame(false, $this->viewHelper->render(), '0');
+
+        $this->initArguments([false]);
+        self::assertSame(false, $this->viewHelper->render(), 'boolean false');
+
+        $this->initArguments(['0']);
+        self::assertSame(false, $this->viewHelper->render(), 'string with a 0');
+
+        $this->initArguments([[]]);
+        self::assertSame(false, $this->viewHelper->render(), 'empty array');
     }
 
     public function testNonEmptyValues()
     {
-        self::assertSame(true, $this->viewHelper->render(['foobar']), 'non-empty string');
-        self::assertSame(true, $this->viewHelper->render([42]), 'a positive integer');
-        self::assertSame(true, $this->viewHelper->render([-42]), 'a negative integer');
-        self::assertSame(true, $this->viewHelper->render([new \stdClass()]), 'a class');
-        self::assertSame(true, $this->viewHelper->render([true]), 'boolean true');
+        $this->initArguments(['foobar']);
+        self::assertSame(true, $this->viewHelper->render(), 'non-empty string');
+
+        $this->initArguments([42]);
+        self::assertSame(true, $this->viewHelper->render(), 'a positive integer');
+
+        $this->initArguments([-42]);
+        self::assertSame(true, $this->viewHelper->render(), 'a negative integer');
+
+        $this->initArguments([new stdClass()]);
+        self::assertSame(true, $this->viewHelper->render(), 'a class');
+
+        $this->initArguments([true]);
+        self::assertSame(true, $this->viewHelper->render(), 'boolean true');
     }
 
     protected function initViewHelper()

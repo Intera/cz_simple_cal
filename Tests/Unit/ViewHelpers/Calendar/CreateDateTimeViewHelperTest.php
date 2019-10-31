@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\ViewHelper\Calendar;
 
+use Tx\CzSimpleCal\Tests\Unit\ViewHelpers\IndexedArgumentsTrait;
 use Tx\CzSimpleCal\Utility\DateTime;
 use Tx\CzSimpleCal\ViewHelpers\Calendar\CreateDateTimeViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Fluid\Unit\ViewHelpers\ViewHelperBaseTestcase;
 
 /**
  * testing the features of the Calendar_CreateDateViewHelper
@@ -13,6 +15,12 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class CreateDateTimeViewHelperTest extends ViewHelperBaseTestcase
 {
+    use IndexedArgumentsTrait;
+
+
+    /**
+     * @var CreateDateTimeViewHelper
+     */
     protected $viewHelper = null;
 
     protected $viewHelperNode = null;
@@ -28,7 +36,8 @@ class CreateDateTimeViewHelperTest extends ViewHelperBaseTestcase
 
     public function testBasic()
     {
-        $dateTime = $this->viewHelper->render('2009-02-13 23:31:30GMT');
+        $this->initArguments('2009-02-13 23:31:30GMT');
+        $dateTime = $this->viewHelper->render();
 
         self::assertTrue(
             $dateTime instanceof DateTime,

@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Tests\Unit\Recurrance\Type;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Tx\CzSimpleCal\Recurrance\Timeline\Base;
 use Tx\CzSimpleCal\Recurrance\Type\Yearly;
 use Tx\CzSimpleCal\Tests\Unit\Recurrance\Type\Mocks\IsRecurringMock;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * testing the features of Tx_CzSimpleCal_Recurrance_Type_Yearly
