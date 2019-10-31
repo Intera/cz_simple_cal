@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace Tx\CzSimpleCal\Tests\Unit\Domain\Model;
+namespace Tx\CzSimpleCal\Tests\Functional\Domain\Model;
 
 /***************************************************************
  *  Copyright notice
@@ -26,7 +27,9 @@ namespace Tx\CzSimpleCal\Tests\Unit\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use Countable;
+use Iterator;
+use IteratorAggregate;
 use Tx\CzSimpleCal\Domain\Model\Category;
 use Tx\CzSimpleCal\Domain\Model\Event;
 use Tx\CzSimpleCal\Domain\Model\Exception;
@@ -34,6 +37,7 @@ use Tx\CzSimpleCal\Domain\Model\File;
 use Tx\CzSimpleCal\Domain\Repository\EventRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * an event in an calendar
@@ -85,7 +89,7 @@ class EventTest extends FunctionalTestCase
     public static function assertEachIsInstanceOf($array, $class, $message = null)
     {
         self::assertTrue(
-            is_array($array) || $array instanceof \Iterator || $array instanceof \IteratorAggregate,
+            is_array($array) || $array instanceof Iterator || $array instanceof IteratorAggregate,
             sprintf(
                 'the array given to check for class "%s" is an array%s',
                 $class,
@@ -117,7 +121,7 @@ class EventTest extends FunctionalTestCase
     {
         $categories = $this->object->getCategories();
 
-        self::assertTrue(is_array($categories) || $categories instanceof \Countable, 'categories can be counted');
+        self::assertTrue(is_array($categories) || $categories instanceof Countable, 'categories can be counted');
         self::assertEquals(1, count($categories), 'exactly one category assigned');
         self::assertEachIsInstanceOf($categories, Category::class);
     }
@@ -143,7 +147,7 @@ class EventTest extends FunctionalTestCase
     {
         $exceptions = $this->object->getExceptions();
 
-        self::assertTrue(is_array($exceptions) || $exceptions instanceof \Countable, 'exceptions can be counted');
+        self::assertTrue(is_array($exceptions) || $exceptions instanceof Countable, 'exceptions can be counted');
         // Will be covered by checking associated exceptions
         // self::assertEquals(3, count($exceptions), 'exactly three exceptions are assigned');
         self::assertEachIsInstanceOf(
