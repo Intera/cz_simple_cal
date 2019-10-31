@@ -3,10 +3,6 @@
 # Domain model "Event"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_event (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-
-
 	title varchar(220) DEFAULT '',
 	start_day int(11) DEFAULT '0',
 	start_time int(11) DEFAULT NULL,
@@ -20,9 +16,9 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 	recurrance_type varchar(30) DEFAULT 'none',
 	recurrance_subtype varchar(30) DEFAULT '',
 	recurrance_until int(11) DEFAULT NULL,
-	location int(11) DEFAULT '0',
+	location varchar(255) DEFAULT '',
 	location_inline int(11) DEFAULT '0',
-	organizer int(11) DEFAULT '0',
+	organizer varchar(255) DEFAULT '',
 	organizer_inline int(11) DEFAULT '0',
 	categories int(11) unsigned DEFAULT '0' NOT NULL,
 	show_page_instead varchar(255) DEFAULT '' NOT NULL,
@@ -37,30 +33,6 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 	cruser_fe int(11) DEFAULT '0',
 	crgroup_fe int(11) DEFAULT '0',
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	enable_endtime int(11) unsigned DEFAULT '0' NOT NULL,
-
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(30) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l18n_parent int(11) DEFAULT '0' NOT NULL,
-	l18n_diffsource mediumblob NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
 	KEY slug (slug)
 );
 
@@ -68,9 +40,6 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 # Domain model "EventIndex"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_eventindex (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-
 	start int(11) NOT NULL DEFAULT '0',
 	end int(11) NOT NULL DEFAULT '0',
 	event int(11) NOT NULL DEFAULT '0',
@@ -78,10 +47,6 @@ CREATE TABLE tx_czsimplecal_domain_model_eventindex (
 	status varchar(255) DEFAULT NULL,
 	teaser text,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
 	KEY slug (slug)
 );
 
@@ -89,8 +54,6 @@ CREATE TABLE tx_czsimplecal_domain_model_eventindex (
 # Domain model "Exception"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_exception (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
 	parent_uid int(11) DEFAULT '0' NOT NULL,
 	parent_table varchar(255) DEFAULT '' NOT NULL,
 	parent_field  varchar(255) DEFAULT '' NOT NULL,
@@ -108,15 +71,6 @@ CREATE TABLE tx_czsimplecal_domain_model_exception (
 	recurrance_subtype varchar(30) DEFAULT '',
 	recurrance_until int(11) DEFAULT NULL,
 
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parentpage (pid),
 	KEY parentrecord (parent_uid,parent_table,parent_field)
 );
 
@@ -124,17 +78,8 @@ CREATE TABLE tx_czsimplecal_domain_model_exception (
 # Domain model "ExceptionGroup"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_exceptiongroup (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-
 	title text,
-	exceptions int(11) unsigned DEFAULT '0' NOT NULL,
-
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid)
+	exceptions int(11) unsigned DEFAULT '0' NOT NULL
 );
 
 ###
@@ -162,44 +107,14 @@ CREATE TABLE tx_czsimplecal_event_exceptiongroup_mm (
 # Domain model "Category"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_category (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-
-
 	title text,
-	show_page_instead varchar(255) DEFAULT '' NOT NULL,
-
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(30) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l18n_parent int(11) DEFAULT '0' NOT NULL,
-	l18n_diffsource mediumblob NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid)
+	show_page_instead varchar(255) DEFAULT '' NOT NULL
 );
 
 ###
 # Domain model "Address"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_address (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-
 	name varchar(255) DEFAULT '' NOT NULL,
 	address text,
 	zip varchar(10) DEFAULT '' NOT NULL,
@@ -207,30 +122,7 @@ CREATE TABLE tx_czsimplecal_domain_model_address (
 	country varchar(3) DEFAULT '' NOT NULL,
 	homepage varchar(255) DEFAULT '' NOT NULL,
 	event_uid int(11) unsigned DEFAULT '0' NOT NULL,
-	event_field varchar(255) DEFAULT '' NOT NULL,
-
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(30) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l18n_parent int(11) DEFAULT '0' NOT NULL,
-	l18n_diffsource mediumblob NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid)
+	event_field varchar(255) DEFAULT '' NOT NULL
 );
 
 ###
@@ -253,5 +145,3 @@ CREATE TABLE tx_czsimplecal_event_category_mm (
 	PRIMARY KEY (uid),
 	KEY parent (pid)
 );
-
-
