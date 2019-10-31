@@ -1,105 +1,104 @@
-
 ###
 # Domain model "Event"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_event (
-	title varchar(220) DEFAULT '',
-	start_day int(11) DEFAULT '0',
-	start_time int(11) DEFAULT NULL,
-	end_day int(11) DEFAULT NULL,
-	end_time int(11) DEFAULT NULL,
-	timezone varchar(20) DEFAULT 'GMT',
-	teaser text,
-	description text,
-	images int(11) DEFAULT '0' NOT NULL,
-	files int(11) DEFAULT '0' NOT NULL,
-	recurrance_type varchar(30) DEFAULT 'none',
-	recurrance_subtype varchar(30) DEFAULT '',
-	recurrance_until int(11) DEFAULT NULL,
-	location varchar(255) DEFAULT '',
-	location_inline int(11) DEFAULT '0',
-	organizer varchar(255) DEFAULT '',
-	organizer_inline int(11) DEFAULT '0',
-	categories int(11) unsigned DEFAULT '0' NOT NULL,
-	show_page_instead varchar(255) DEFAULT '' NOT NULL,
-	exceptions int(11) unsigned DEFAULT '0' NOT NULL,
-	exception_groups int(11) unsigned DEFAULT '0' NOT NULL,
-	twitter_hashtags varchar(255) DEFAULT '',
-	status varchar(255) DEFAULT NULL,
-	flickr_tags varchar(255) DEFAULT '',
-	slug varchar(250) DEFAULT '' NOT NULL,
-	last_indexed int(11) DEFAULT '0',
+	title VARCHAR(220) DEFAULT '',
+	start_day INT(11) DEFAULT '0',
+	start_time INT(11) DEFAULT NULL,
+	end_day INT(11) DEFAULT NULL,
+	end_time INT(11) DEFAULT NULL,
+	timezone VARCHAR(20) DEFAULT 'GMT',
+	teaser TEXT,
+	description TEXT,
+	images INT(11) DEFAULT '0' NOT NULL,
+	files INT(11) DEFAULT '0' NOT NULL,
+	recurrance_type VARCHAR(30) DEFAULT 'none',
+	recurrance_subtype VARCHAR(30) DEFAULT '',
+	recurrance_until INT(11) DEFAULT NULL,
+	location VARCHAR(255) DEFAULT '',
+	location_inline INT(11) DEFAULT '0',
+	organizer VARCHAR(255) DEFAULT '',
+	organizer_inline INT(11) DEFAULT '0',
+	categories INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	show_page_instead VARCHAR(255) DEFAULT '' NOT NULL,
+	exceptions INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	exception_groups INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	twitter_hashtags VARCHAR(255) DEFAULT '',
+	status VARCHAR(255) DEFAULT NULL,
+	flickr_tags VARCHAR(255) DEFAULT '',
+	slug VARCHAR(250) DEFAULT '' NOT NULL,
+	last_indexed INT(11) DEFAULT '0',
 
-	cruser_fe int(11) DEFAULT '0',
-	crgroup_fe int(11) DEFAULT '0',
+	cruser_fe INT(11) DEFAULT '0',
+	crgroup_fe INT(11) DEFAULT '0',
 
-	KEY slug (slug)
+	KEY slug(slug)
 );
 
 ###
 # Domain model "EventIndex"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_eventindex (
-	start int(11) NOT NULL DEFAULT '0',
-	end int(11) NOT NULL DEFAULT '0',
-	event int(11) NOT NULL DEFAULT '0',
-	slug varchar(250) DEFAULT '',
-	status varchar(255) DEFAULT NULL,
-	teaser text,
+	start INT(11) NOT NULL DEFAULT '0',
+	end INT(11) NOT NULL DEFAULT '0',
+	event INT(11) NOT NULL DEFAULT '0',
+	slug VARCHAR(250) DEFAULT '',
+	status VARCHAR(255) DEFAULT NULL,
+	teaser TEXT,
 
-	KEY slug (slug)
+	KEY slug(slug)
 );
 
 ###
 # Domain model "Exception"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_exception (
-	parent_uid int(11) DEFAULT '0' NOT NULL,
-	parent_table varchar(255) DEFAULT '' NOT NULL,
-	parent_field  varchar(255) DEFAULT '' NOT NULL,
+	parent_uid INT(11) DEFAULT '0' NOT NULL,
+	parent_table VARCHAR(255) DEFAULT '' NOT NULL,
+	parent_field VARCHAR(255) DEFAULT '' NOT NULL,
 
-	type varchar(30) DEFAULT 'hide_event',
-	title text,
-	status varchar(255) DEFAULT NULL,
-	teaser text,
-	start_day int(11) DEFAULT '0',
-	start_time int(11) DEFAULT NULL,
-	end_day int(11) DEFAULT NULL,
-	end_time int(11) DEFAULT NULL,
-	timezone varchar(20) DEFAULT 'GMT',
-	recurrance_type varchar(30) DEFAULT 'none',
-	recurrance_subtype varchar(30) DEFAULT '',
-	recurrance_until int(11) DEFAULT NULL,
+	type VARCHAR(30) DEFAULT 'hide_event',
+	title TEXT,
+	status VARCHAR(255) DEFAULT NULL,
+	teaser TEXT,
+	start_day INT(11) DEFAULT '0',
+	start_time INT(11) DEFAULT NULL,
+	end_day INT(11) DEFAULT NULL,
+	end_time INT(11) DEFAULT NULL,
+	timezone VARCHAR(20) DEFAULT 'GMT',
+	recurrance_type VARCHAR(30) DEFAULT 'none',
+	recurrance_subtype VARCHAR(30) DEFAULT '',
+	recurrance_until INT(11) DEFAULT NULL,
 
-	KEY parentrecord (parent_uid,parent_table,parent_field)
+	KEY parentrecord(parent_uid, parent_table, parent_field)
 );
 
 ###
 # Domain model "ExceptionGroup"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_exceptiongroup (
-	title text,
-	exceptions int(11) unsigned DEFAULT '0' NOT NULL
+	title TEXT,
+	exceptions INT(11) UNSIGNED DEFAULT '0' NOT NULL
 );
 
 ###
 # Relation Table "Event" to "ExceptionGroup"
 ###
 CREATE TABLE tx_czsimplecal_event_exceptiongroup_mm (
-	uid int(10) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+	uid INT(10) NOT NULL AUTO_INCREMENT,
+	pid INT(11) DEFAULT '0' NOT NULL,
 
-	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
-	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-	sorting int(11) unsigned DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_local INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	uid_foreign INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	sorting INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	sorting_foreign INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	tstamp int(10) unsigned DEFAULT '0' NOT NULL,
-	crdate int(10) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(3) unsigned DEFAULT '0' NOT NULL,
+	tstamp INT(10) UNSIGNED DEFAULT '0' NOT NULL,
+	crdate INT(10) UNSIGNED DEFAULT '0' NOT NULL,
+	hidden TINYINT(3) UNSIGNED DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent(pid)
 );
 
 
@@ -107,41 +106,41 @@ CREATE TABLE tx_czsimplecal_event_exceptiongroup_mm (
 # Domain model "Category"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_category (
-	title text,
-	show_page_instead varchar(255) DEFAULT '' NOT NULL
+	title TEXT,
+	show_page_instead VARCHAR(255) DEFAULT '' NOT NULL
 );
 
 ###
 # Domain model "Address"
 ###
 CREATE TABLE tx_czsimplecal_domain_model_address (
-	name varchar(255) DEFAULT '' NOT NULL,
-	address text,
-	zip varchar(10) DEFAULT '' NOT NULL,
-	city varchar(255) DEFAULT '' NOT NULL,
-	country varchar(3) DEFAULT '' NOT NULL,
-	homepage varchar(255) DEFAULT '' NOT NULL,
-	event_uid int(11) unsigned DEFAULT '0' NOT NULL,
-	event_field varchar(255) DEFAULT '' NOT NULL
+	name VARCHAR(255) DEFAULT '' NOT NULL,
+	address TEXT,
+	zip VARCHAR(10) DEFAULT '' NOT NULL,
+	city VARCHAR(255) DEFAULT '' NOT NULL,
+	country VARCHAR(3) DEFAULT '' NOT NULL,
+	homepage VARCHAR(255) DEFAULT '' NOT NULL,
+	event_uid INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	event_field VARCHAR(255) DEFAULT '' NOT NULL
 );
 
 ###
 # Relation Table "Event" to "Category"
 ###
 CREATE TABLE tx_czsimplecal_event_category_mm (
-	uid int(10) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+	uid INT(10) NOT NULL AUTO_INCREMENT,
+	pid INT(11) DEFAULT '0' NOT NULL,
 
-	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
-	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-	tablenames varchar(255) DEFAULT '' NOT NULL,
-	sorting int(11) unsigned DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_local INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	uid_foreign INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	tablenames VARCHAR(255) DEFAULT '' NOT NULL,
+	sorting INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	sorting_foreign INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	tstamp int(10) unsigned DEFAULT '0' NOT NULL,
-	crdate int(10) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(3) unsigned DEFAULT '0' NOT NULL,
+	tstamp INT(10) UNSIGNED DEFAULT '0' NOT NULL,
+	crdate INT(10) UNSIGNED DEFAULT '0' NOT NULL,
+	hidden TINYINT(3) UNSIGNED DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent(pid)
 );
