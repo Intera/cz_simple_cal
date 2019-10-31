@@ -27,20 +27,25 @@ namespace Tx\CzSimpleCal\Hook;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Doctrine\DBAL\FetchMode;
 use InvalidArgumentException;
+use PDO;
 use RuntimeException;
 use stdClass;
 use Tx\CzSimpleCal\Domain\Model\Event;
 use Tx\CzSimpleCal\Domain\Repository\EventRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
-use TYPO3\CMS\Lang\LanguageService;
 use UnexpectedValueException;
 
 /**
@@ -313,11 +318,12 @@ class DataHandlerHook implements SingletonInterface
      */
     protected function fetchEventLanguage($uid)
     {
-        $rows = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            'sys_language_uid',
-            'tx_czsimplecal_domain_model_event',
-            'deleted=0 AND uid=' . (int)$uid
-        );
+        $builder = $this->getQueryBuilderWithDeletedRestriction('tx_czsimplecal_domain_model_event');
+        $builder->select('sys_language_uid')
+            ->from('tx_czsimplecal_domain_model_event')
+            ->where($builder->expr()->eq('uid', $builder->createNamedParameter((int)$uid, PDO::PARAM_INT)));
+
+        $rows = $builder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
         if (empty($rows)) {
             throw new RuntimeException(
                 sprintf('sys_language_uid of Event with uid %d could not be determined.', $uid)
@@ -382,17 +388,16 @@ class DataHandlerHook implements SingletonInterface
     protected function fetchEventUidForDefaultLanguage($uid)
     {
         $uid = (int)$uid;
-        $rows = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            'l18n_parent',
-            'tx_czsimplecal_domain_model_event',
-            'deleted=0 AND uid=' . $uid
-        );
-
-        if (empty($rows)) {
-            throw new RuntimeException(sprintf('l18n_parent of Event with uid %d could not be determined.', $uid));
+        if (!$uid) {
+            return $uid;
         }
 
-        $parentUid = (int)$rows[0]['l18n_parent'];
+        $builder = $this->getQueryBuilderWithDeletedRestriction('tx_czsimplecal_domain_model_event');
+        $builder->select('l18n_parent')
+            ->from('tx_czsimplecal_domain_model_event')
+            ->where($builder->expr()->eq('uid', $builder->createNamedParameter((int)$uid, PDO::PARAM_INT)));
+
+        $parentUid = (int)$builder->execute()->fetch(FetchMode::COLUMN);
         if ($parentUid !== 0) {
             return $parentUid;
         } else {
@@ -409,19 +414,25 @@ class DataHandlerHook implements SingletonInterface
      */
     protected function findEventTranslations($uid)
     {
-        return (array)$this->getDatabaseConnection()->exec_SELECTgetRows(
-            'uid,sys_language_uid',
-            'tx_czsimplecal_domain_model_event',
-            'deleted=0 AND l18n_parent=' . (int)$uid
-        );
+        $builder = $this->getQueryBuilderWithDeletedRestriction('tx_czsimplecal_domain_model_event');
+        $builder->select('uid', 'sys_language_uid')
+            ->from('tx_czsimplecal_domain_model_event')
+            ->where(
+                $builder->expr()->eq(
+                    'l18n_parent',
+                    $builder->createNamedParameter((int)$uid, PDO::PARAM_INT)
+                )
+            );
+
+        return $builder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    /**
-     * @return DatabaseConnection
-     */
-    protected function getDatabaseConnection()
+    protected function getQueryBuilderWithDeletedRestriction(string $tableName): QueryBuilder
     {
-        return $GLOBALS['TYPO3_DB'];
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $builder = $connectionPool->getQueryBuilderForTable($tableName);
+        $builder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        return $builder;
     }
 
     /**
@@ -632,9 +643,11 @@ class DataHandlerHook implements SingletonInterface
      */
     protected function registerUpdatedEvent($eventUid, $changeType = false, $eventDeleted = false)
     {
-        if (isset($this->updatedEvents[$eventUid])
-            && !isset($changeType)
-        ) {
+        if (!$eventUid) {
+            return;
+        }
+
+        if (isset($this->updatedEvents[$eventUid]) && !isset($changeType)) {
             return;
         }
 
