@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Hook;
 
@@ -26,8 +27,21 @@ namespace Tx\CzSimpleCal\Hook;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use InvalidArgumentException;
+use RuntimeException;
+use stdClass;
+use Tx\CzSimpleCal\Domain\Model\Event;
+use Tx\CzSimpleCal\Domain\Repository\EventRepository;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use TYPO3\CMS\Lang\LanguageService;
+use UnexpectedValueException;
 
 /**
  * This hook will be called by the TYPO3 DataHandler when a record
@@ -38,10 +52,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Christian Zenker <christian.zenker@599media.de>
  * @author Alexander Stehlik <astehlik.deleteme@intera.de>
  */
-class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
+class DataHandlerHook implements SingletonInterface
 {
     /**
-     * @var \Tx\CzSimpleCal\Domain\Model\Event[]
+     * @var Event[]
      */
     protected $eventCache = [];
 
@@ -51,7 +65,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
     protected $eventIndexer;
 
     /**
-     * @var \Tx\CzSimpleCal\Domain\Repository\EventRepository
+     * @var EventRepository
      */
     protected $eventRepository;
 
@@ -63,7 +77,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
     protected $eventWasUpdated = false;
 
     /**
-     * @var \TYPO3\CMS\Core\Messaging\FlashMessageService
+     * @var FlashMessageService
      */
     protected $flashMessageService;
 
@@ -75,12 +89,12 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
     protected $languageFile = 'EXT:cz_simple_cal/Resources/Private/Language/locallang_mod.xml';
 
     /**
-     * @var \TYPO3\CMS\Lang\LanguageService
+     * @var LanguageService
      */
     protected $languageService;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
+     * @var PersistenceManagerInterface
      */
     protected $persistenceManager;
 
@@ -112,7 +126,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Will be called after all operations and process changed events.
      *
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
+     * @param DataHandler $dataHandler
      * @return void
      *
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -137,7 +151,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
      * @param string $table
      * @param int $recordUid
      * @param mixed $value
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
+     * @param DataHandler $dataHandler
      * @param mixed $pasteUpdate
      * @return void
      *
@@ -168,7 +182,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
                 case 'move':
                 case 'undelete':
                 case 'delete':
-                    $exception = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord(
+                    $exception = BackendUtility::getRecord(
                         'tx_czsimplecal_domain_model_exception',
                         $recordUid
                     );
@@ -185,7 +199,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
      * @param string $table
      * @param integer $recordUid
      * @param array $fieldArray
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
+     * @param DataHandler $dataHandler
      * @return void
      *
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -220,7 +234,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
      * @param string $table
      * @param integer $recordUid
      * @param array $fieldArray
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
+     * @param DataHandler $dataHandler
      * @return void
      *
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -305,7 +319,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
             'deleted=0 AND uid=' . (int)$uid
         );
         if (empty($rows)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 sprintf('sys_language_uid of Event with uid %d could not be determined.', $uid)
             );
         }
@@ -317,8 +331,8 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
      *
      * @param int $id
      * @param int $languageUid
-     * @throws \InvalidArgumentException
-     * @return \Tx\CzSimpleCal\Domain\Model\Event
+     * @return Event
+     * @throws InvalidArgumentException
      */
     protected function fetchEventObject($id, $languageUid)
     {
@@ -329,7 +343,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
         // language versions of the objects.
         // Additionally we set showHiddenRecords to make translated hidden records available.
         // Will be cleared in processCmdmap_afterFinish().
-        $GLOBALS['TSFE'] = new \stdClass();
+        $GLOBALS['TSFE'] = new stdClass();
         $GLOBALS['TSFE']->sys_language_content = $languageUid;
         $GLOBALS['TSFE']->showHiddenRecords = true;
         $event = $this->eventRepository->findOneByUidEverywhere($id);
@@ -342,11 +356,11 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
         }
 
         if (empty($event)) {
-            throw new \InvalidArgumentException(sprintf('An event with uid %d could not be found.', $id));
+            throw new InvalidArgumentException(sprintf('An event with uid %d could not be found.', $id));
         }
 
         if ($event->getUidLocalized() !== $id) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 sprintf(
                     'The UID of the event returned by the repository (%d) does not match the requested ID (%d).',
                     $event->getUidLocalized(),
@@ -375,7 +389,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
         );
 
         if (empty($rows)) {
-            throw new \RuntimeException(sprintf('l18n_parent of Event with uid %d could not be determined.', $uid));
+            throw new RuntimeException(sprintf('l18n_parent of Event with uid %d could not be determined.', $uid));
         }
 
         $parentUid = (int)$rows[0]['l18n_parent'];
@@ -403,7 +417,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return DatabaseConnection
      */
     protected function getDatabaseConnection()
     {
@@ -502,7 +516,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
                 $this->initializeFashMessageClasses();
                 $this->addTranslatedFlashMessage(
                     'flashmessages.tx_czsimplecal_domain_model_event.updateNoIndex',
-                    \TYPO3\CMS\Core\Messaging\FlashMessage::INFO
+                    FlashMessage::INFO
                 );
             }
             return;
@@ -516,7 +530,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
         foreach ($updatedEvents as $eventUid => $changeType) {
             try {
                 $this->indexUpdatedEvent($eventUid, $changeType);
-            } catch (\UnexpectedValueException $e) {
+            } catch (UnexpectedValueException $e) {
                 $errorDuringIndexing = true;
                 $translationKey = 'flashmessages.exception.indexUpdatedEvent';
                 $exceptionCode = $e->getCode();
@@ -544,7 +558,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
         if (isset($this->eventIndexer)) {
             return;
         }
-        /** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
+        /** @var ObjectManagerInterface $objectManager */
         $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $this->eventIndexer = $objectManager->get('Tx\\CzSimpleCal\\Indexer\\Event');
         $this->eventRepository = $objectManager->get('Tx\\CzSimpleCal\\Domain\\Repository\\EventRepository');
@@ -589,7 +603,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
     {
         foreach ($this->updatedExceptions as $exceptionUid => $exception) {
             if (!isset($exception)) {
-                $exception = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord(
+                $exception = BackendUtility::getRecord(
                     'tx_czsimplecal_domain_model_exception',
                     $exceptionUid
                 );
@@ -651,7 +665,7 @@ class DataHandlerHook implements \TYPO3\CMS\Core\SingletonInterface
             return true;
         }
         return $this->haveFieldsChanged(
-            \Tx\CzSimpleCal\Domain\Model\Event::getFieldsRequiringReindexing(),
+            Event::getFieldsRequiringReindexing(),
             $fieldArray
         );
     }
