@@ -1,6 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Tx\CzSimpleCal\Utility;
+
+use InvalidArgumentException;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -54,14 +59,15 @@ class Config
      * get a value
      *
      * @param string $name
-     * @throws \InvalidArgumentException
+     * @return mixed
+     * @throws InvalidArgumentException
      */
     public static function get($name)
     {
         self::init();
 
         if (!self::exists($name)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('The value "%s" was not set. Did you update the Extensions settings?', $name)
             );
         }
@@ -74,7 +80,7 @@ class Config
      *
      * @param string|array $name
      * @param string $value
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function set($name, $value = null)
     {
@@ -87,7 +93,7 @@ class Config
                 $name
             );
         } else {
-            throw new \InvalidArgumentException('The value "name" must be a string or array.');
+            throw new InvalidArgumentException('The value "name" must be a string or array.');
         }
     }
 
@@ -97,7 +103,7 @@ class Config
     protected static function init()
     {
         if (is_null(self::$data)) {
-            self::$data = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cz_simple_cal']);
+            self::$data = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('cz_simple_cal');
         }
     }
 }
