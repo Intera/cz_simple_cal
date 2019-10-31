@@ -47,7 +47,7 @@ jobs:
 
     - name: "Acceptance tests PHP 7.2"
       php: "7.2"
-      script: bash .Build/bin/t3_run_tests.sh -s acceptance -p $TRAVIS_PHP_VERSION
+      script: bash .Build/bin/t3_run_tests.sh -s acceptance -p $TRAVIS_PHP_VERSION -a Frontend
     - name: "Acceptance tests PHP 7.3"
       php: "7.3"
-      script: bash .Build/bin/t3_run_tests.sh -s acceptance -p $TRAVIS_PHP_VERSION
+      script: bash .Build/bin/t3_run_tests.sh -s acceptance -p $TRAVIS_PHP_VERSION -a Frontend
