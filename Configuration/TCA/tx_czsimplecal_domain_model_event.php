@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+use Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event',
@@ -100,13 +105,14 @@ return [
         ],
         'hidden' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
-            'config' => ['type' => 'check'],
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.visible',
+            'config' => [
+                'type' => 'check',
+                'renderType' => 'checkboxToggle',
+            ],
         ],
         'deleted' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.deleted',
-            'config' => ['type' => 'check'],
+            'config' => ['type' => 'passthrough'],
         ],
         'pid' => [
             'exclude' => 0,
@@ -220,65 +226,58 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.description',
             'config' => [
                 'type' => 'text',
+                'enableRichtext' => true,
                 'cols' => 40,
                 'rows' => 6,
-                'wizards' => [
-                    'RTE' => [
-                        'notNewRecords' => 1,
-                        'RTEonly' => 1,
-                        'type' => 'script',
-                        'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext.W.RTE',
-                        'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_rte.gif',
-                        'module' => ['name' => 'wizard_rte'],
-                    ],
-                ],
             ],
         ],
         'images' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.images',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
                 'images',
                 [
                     'appearance' => ['createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference'],
                     // Custom configuration for displaying fields in the overlay/reference table
                     // to use the imageoverlayPalette instead of the basicoverlayPalette
-                    'foreign_types' => [
-                        '0' => [
-                            'showitem' => '
+                    'overrideChildTca' => [
+                        'types' => [
+                            '0' => [
+                                'showitem' => '
 						        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
 						        --palette--;;filePalette
 						    ',
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
-                            'showitem' => '
+                            ],
+                            \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
+                                'showitem' => '
 						        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
 						        --palette--;;filePalette
 						    ',
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                            'showitem' => '
+                            ],
+                            \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                                'showitem' => '
 						        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
 						        --palette--;;filePalette
 						    ',
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
-                            'showitem' => '
+                            ],
+                            \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
+                                'showitem' => '
 						        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
 						        --palette--;;filePalette
 						    ',
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
-                            'showitem' => '
+                            ],
+                            \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
+                                'showitem' => '
 						        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
 						        --palette--;;filePalette
 						    ',
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
-                            'showitem' => '
+                            ],
+                            \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
+                                'showitem' => '
 						        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
 						        --palette--;;filePalette
 						    ',
+                            ],
                         ],
                     ],
                 ],
@@ -288,7 +287,7 @@ return [
         'files' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.files',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
                 'files',
                 [
                     'appearance' => ['createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:media.addFileReference'],
@@ -305,23 +304,23 @@ return [
                 'items' => [
                     [
                         'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.none',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType::NONE,
+                        RecurranceType::NONE,
                     ],
                     [
                         'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.daily',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType::DAILY,
+                        RecurranceType::DAILY,
                     ],
                     [
                         'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.weekly',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType::WEEKLY,
+                        RecurranceType::WEEKLY,
                     ],
                     [
                         'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.monthly',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType::MONTHLY,
+                        RecurranceType::MONTHLY,
                     ],
                     [
                         'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.yearly',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType::YEARLY,
+                        RecurranceType::YEARLY,
                     ],
                 ],
             ],
@@ -475,23 +474,16 @@ return [
             'exclude' => 0,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.show_page_instead',
             'config' => [
-                'eval' => 'trim',
-                'max' => 256,
-                'size' => 25,
-                'softref' => 'typolink',
-                'type' => 'input',
-
-                'wizards' => [
-                    'link' => [
-                        'link' => [
-                            'type' => 'popup',
-                            'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:header_link_formlabel',
-                            'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
-                            'module' => ['name' => 'wizard_link'],
-                            'JSopenParams' => 'width=800,height=600,status=0,menubar=0,scrollbars=1',
-                        ],
-                    ],
+                'type' => 'group',
+                'internal_type' => 'db',
+                'allowed' => 'pages',
+                'size' => 1,
+                'maxitems' => 1,
+                'minitems' => 0,
+                'suggestOptions' => [
+                    'default' => ['additionalSearchFields' => 'nav_title, alias, url'],
                 ],
+                'default' => 0,
             ],
         ],
         'exceptions' => [
