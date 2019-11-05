@@ -83,15 +83,20 @@ class EventIndexController extends BaseExtendableController
         $this->view->assign('start', $start);
         $this->view->assign('end', $end);
 
+        $filterSetting = [];
+        if ($start) {
+            $filterSetting['startDate'] = $start->getTimestamp();
+        }
+        if ($end) {
+            $filterSetting['endDate'] = $end->getTimestamp();
+        }
+
         $this->view->assign(
             'events',
             $this->eventIndexRepository->findAllWithSettings(
                 array_merge(
                     $this->actionSettings,
-                    [
-                        'startDate' => $start->getTimestamp(),
-                        'endDate' => $end->getTimestamp(),
-                    ]
+                    $filterSetting
                 )
             )
         );
