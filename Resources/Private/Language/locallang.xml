@@ -1,150 +1,150 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3locallang>
-	<meta type="array">
-		<type>module</type>
-		<description>Language labels for the Simple calendar using Extbase extension in the FRONTEND</description>
-	</meta>
-	<data type="array">
-		<languageKey index="default" type="array">
-			<label index="tx_czsimplecal_domain_model_event">an event in an calendar</label>
-			<label index="tx_czsimplecal_domain_model_event.title">The title of this event</label>
-			<label index="tx_czsimplecal_domain_model_event.start_day">the day that event starts</label>
-			<label index="tx_czsimplecal_domain_model_event.start_time">the time this event starts (leave blank for an allday event)</label>
-			<label index="tx_czsimplecal_domain_model_event.end_day">the day this event ends (leave blank for an event on one day)</label>
-			<label index="tx_czsimplecal_domain_model_event.end_time">the time this event ends</label>
-			<label index="tx_czsimplecal_domain_model_event.teaser">a short teaser for this event</label>
-			<label index="tx_czsimplecal_domain_model_event.description">a long description for this event</label>
-			<label index="tx_czsimplecal_domain_model_event_files">Files</label>
-			<label index="tx_czsimplecal_domain_model_event.location_name">the name of the location this event takes place in</label>
-			<label index="tx_czsimplecal_domain_model_event.organizer_name">the name of the institution or person the event is organized by</label>
-			<label index="tx_czsimplecal_domain_model_event.categories">categories</label>
-			<label index="tx_czsimplecal_domain_model_category">a category of an event</label>
-			<label index="tx_czsimplecal_domain_model_category.title">a title for this category</label>
+    <meta type="array">
+        <type>module</type>
+        <description>Language labels for the Simple calendar using Extbase extension in the FRONTEND</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="tx_czsimplecal_domain_model_event">an event in an calendar</label>
+            <label index="tx_czsimplecal_domain_model_event.title">The title of this event</label>
+            <label index="tx_czsimplecal_domain_model_event.start_day">the day that event starts</label>
+            <label index="tx_czsimplecal_domain_model_event.start_time">the time this event starts (leave blank for an allday event)</label>
+            <label index="tx_czsimplecal_domain_model_event.end_day">the day this event ends (leave blank for an event on one day)</label>
+            <label index="tx_czsimplecal_domain_model_event.end_time">the time this event ends</label>
+            <label index="tx_czsimplecal_domain_model_event.teaser">a short teaser for this event</label>
+            <label index="tx_czsimplecal_domain_model_event.description">a long description for this event</label>
+            <label index="tx_czsimplecal_domain_model_event_files">Files</label>
+            <label index="tx_czsimplecal_domain_model_event.location_name">the name of the location this event takes place in</label>
+            <label index="tx_czsimplecal_domain_model_event.organizer_name">the name of the institution or person the event is organized by</label>
+            <label index="tx_czsimplecal_domain_model_event.categories">categories</label>
+            <label index="tx_czsimplecal_domain_model_category">a category of an event</label>
+            <label index="tx_czsimplecal_domain_model_category.title">a title for this category</label>
 
-			<label index="event">Event</label>
-			<label index="events">Events</label>
-			<label index="nextAppointments">next Appointments</label>
-			<label index="categories">Categories</label>
-			<label index="display_time">%s</label>
-			<label index="event_show_upcoming_events_header">Upcoming events (up to three)</label>
-			<label index="event_show_no_upcoming_events_message">No upcoming events found. This event has taken place in the past.</label>
-			<label index="event_show_details_header">Details</label>
+            <label index="event">Event</label>
+            <label index="events">Events</label>
+            <label index="nextAppointments">next Appointments</label>
+            <label index="categories">Categories</label>
+            <label index="display_time">%s</label>
+            <label index="event_show_upcoming_events_header">Upcoming events (up to three)</label>
+            <label index="event_show_no_upcoming_events_message">No upcoming events found. This event has taken place in the past.</label>
+            <label index="event_show_details_header">Details</label>
 
-			<label index="event_status_title_tentative">This event is tentative.</label>
-			<label index="event_status_title_confirmed">This event has been confirmed.</label>
-			<label index="event_status_title_cancelled">This event has been cancelled!</label>
+            <label index="event_status_title_tentative">This event is tentative.</label>
+            <label index="event_status_title_confirmed">This event has been confirmed.</label>
+            <label index="event_status_title_cancelled">This event has been cancelled!</label>
 
-			<label index="msg.noEvents">No events have been found.</label>
-			<label index="msg.backToList">to the list view</label>
-			<label index="msg.toCategory">more on category "%s"</label>
+            <label index="msg.noEvents">No events have been found.</label>
+            <label index="msg.backToList">to the list view</label>
+            <label index="msg.toCategory">more on category "%s"</label>
 
-			<label index="format.monthAndYear">%B %Y</label>
-			<label index="format.dayWrapper">%a, %B %e, %Y</label>
-			<label index="format.show.allday">%B %e, %Y</label>
-			<label index="format.show.dayTime">%B %e, %Y %H:%M</label>
-			<label index="format.show.time">%H:%M</label>
+            <label index="format.monthAndYear">%B %Y</label>
+            <label index="format.dayWrapper">%a, %B %e, %Y</label>
+            <label index="format.show.allday">%B %e, %Y</label>
+            <label index="format.show.dayTime">%B %e, %Y %H:%M</label>
+            <label index="format.show.time">%H:%M</label>
 
-			<!-- used for timespan generation -->
-			<label index="timespan.format.sameDay">%B %e, %Y</label>
-			<label index="timespan.format.sameMonth.start">%B %e</label>
-			<label index="timespan.format.sameMonth.end">%e, %Y</label>
-			<label index="timespan.format.sameYear.start">%B %e</label>
-			<label index="timespan.format.sameYear.end">%B %e, %Y</label>
-			<label index="timespan.format.else.start">%B %e, %Y</label>
-			<label index="timespan.format.else.end">%B %e, %Y</label>
-			<label index="timespan.from">from</label>
-			<label index="timespan.to">to</label>
-			<label index="timespan.on">on</label>
+            <!-- used for timespan generation -->
+            <label index="timespan.format.sameDay">%B %e, %Y</label>
+            <label index="timespan.format.sameMonth.start">%B %e</label>
+            <label index="timespan.format.sameMonth.end">%e, %Y</label>
+            <label index="timespan.format.sameYear.start">%B %e</label>
+            <label index="timespan.format.sameYear.end">%B %e, %Y</label>
+            <label index="timespan.format.else.start">%B %e, %Y</label>
+            <label index="timespan.format.else.end">%B %e, %Y</label>
+            <label index="timespan.from">from</label>
+            <label index="timespan.to">to</label>
+            <label index="timespan.on">on</label>
 
-			<label index="previousWeek">previous week</label>
-			<label index="nextWeek">next week</label>
+            <label index="previousWeek">previous week</label>
+            <label index="nextWeek">next week</label>
 
-			<label index="time.end">end at</label>
+            <label index="time.end">end at</label>
 
-			<label index="numEvents">[0]No events|[1] 1 event|[2,+Inf] ###number### events</label>
+            <label index="numEvents">[0]No events|[1] 1 event|[2,+Inf] ###number### events</label>
 
-			<!-- labels for organizers and location -->
-			<label index="organizer">Organizer</label>
-			<label index="location">Location</label>
-			<label index="address_name">Name</label>
-			<label index="address">Address</label>
-			<label index="zip_and_city">ZIP / City</label>
-			<label index="address_homepage">Homepage</label>
+            <!-- labels for organizers and location -->
+            <label index="organizer">Organizer</label>
+            <label index="location">Location</label>
+            <label index="address_name">Name</label>
+            <label index="address">Address</label>
+            <label index="zip_and_city">ZIP / City</label>
+            <label index="address_homepage">Homepage</label>
 
-			<label index="action.EventIndex.next.title">Upcomming event</label>
+            <label index="action.EventIndex.next.title">Upcomming event</label>
 
-			<label index="error-404-event-index-not-found">The requested event could not be found.</label>
-		</languageKey>
+            <label index="error-404-event-index-not-found">The requested event could not be found.</label>
+        </languageKey>
 
-		<languageKey index="de" type="array">
-			<label index="tx_czsimplecal_domain_model_event">Ein Event im Kalender</label>
-			<label index="tx_czsimplecal_domain_model_event.title">Name des Events</label>
-			<label index="tx_czsimplecal_domain_model_event.start_day">Der Tag an dem das Event beginnt</label>
-			<label index="tx_czsimplecal_domain_model_event.start_time">Die Uhrzeit zu der das Event startet (Feld leer lassen für Ganztages-Event)</label>
-			<label index="tx_czsimplecal_domain_model_event.end_day">Der Tag an dem das Event endet (Feld leer lasse für eintägiges Event)</label>
-			<label index="tx_czsimplecal_domain_model_event.end_time">Die Uhrzeit zu der das Event endet</label>
-			<label index="tx_czsimplecal_domain_model_event.teaser">kurzer Teaser</label>
-			<label index="tx_czsimplecal_domain_model_event.description">lange Beschreibung</label>
-			<label index="tx_czsimplecal_domain_model_event_files">Dateien</label>
-			<label index="tx_czsimplecal_domain_model_event.location_name">Name des Veranstaltungsortes</label>
-			<label index="tx_czsimplecal_domain_model_event.organizer_name">Name des Veranstalters</label>
-			<label index="tx_czsimplecal_domain_model_event.categories">Kategorien</label>
-			<label index="tx_czsimplecal_domain_model_category">Eine Event-Kategorie</label>
-			<label index="tx_czsimplecal_domain_model_category.title">Name der Event-Kategorie</label>
+        <languageKey index="de" type="array">
+            <label index="tx_czsimplecal_domain_model_event">Ein Event im Kalender</label>
+            <label index="tx_czsimplecal_domain_model_event.title">Name des Events</label>
+            <label index="tx_czsimplecal_domain_model_event.start_day">Der Tag an dem das Event beginnt</label>
+            <label index="tx_czsimplecal_domain_model_event.start_time">Die Uhrzeit zu der das Event startet (Feld leer lassen für Ganztages-Event)</label>
+            <label index="tx_czsimplecal_domain_model_event.end_day">Der Tag an dem das Event endet (Feld leer lasse für eintägiges Event)</label>
+            <label index="tx_czsimplecal_domain_model_event.end_time">Die Uhrzeit zu der das Event endet</label>
+            <label index="tx_czsimplecal_domain_model_event.teaser">kurzer Teaser</label>
+            <label index="tx_czsimplecal_domain_model_event.description">lange Beschreibung</label>
+            <label index="tx_czsimplecal_domain_model_event_files">Dateien</label>
+            <label index="tx_czsimplecal_domain_model_event.location_name">Name des Veranstaltungsortes</label>
+            <label index="tx_czsimplecal_domain_model_event.organizer_name">Name des Veranstalters</label>
+            <label index="tx_czsimplecal_domain_model_event.categories">Kategorien</label>
+            <label index="tx_czsimplecal_domain_model_category">Eine Event-Kategorie</label>
+            <label index="tx_czsimplecal_domain_model_category.title">Name der Event-Kategorie</label>
 
-			<label index="event">Veranstaltung</label>
-			<label index="events">Veranstaltungen</label>
-			<label index="nextAppointments">nächste Termine</label>
-			<label index="categories">Kategorien</label>
-			<label index="display_time">%s Uhr</label>
-			<label index="event_show_upcoming_events_header">Kommende Termine (bis zu drei)</label>
-			<label index="event_show_no_upcoming_events_message">Keine zukünftigen Termine gefunden. Dieser Termin hat in der Vergangenheit stattgefunden.</label>
-			<label index="event_show_details_header">Details</label>
+            <label index="event">Veranstaltung</label>
+            <label index="events">Veranstaltungen</label>
+            <label index="nextAppointments">nächste Termine</label>
+            <label index="categories">Kategorien</label>
+            <label index="display_time">%s Uhr</label>
+            <label index="event_show_upcoming_events_header">Kommende Termine (bis zu drei)</label>
+            <label index="event_show_no_upcoming_events_message">Keine zukünftigen Termine gefunden. Dieser Termin hat in der Vergangenheit stattgefunden.</label>
+            <label index="event_show_details_header">Details</label>
 
-			<label index="event_status_title_tentative">Diese Veranstaltung ist vorläufig.</label>
-			<label index="event_status_title_confirmed">Diese Veranstaltung wurde bestätigt.</label>
-			<label index="event_status_title_cancelled">Diese Veranstaltung wurde abgesagt!</label>
+            <label index="event_status_title_tentative">Diese Veranstaltung ist vorläufig.</label>
+            <label index="event_status_title_confirmed">Diese Veranstaltung wurde bestätigt.</label>
+            <label index="event_status_title_cancelled">Diese Veranstaltung wurde abgesagt!</label>
 
-			<label index="msg.noEvents">Es wurden keine passenden Veranstaltungen gefunden.</label>
-			<label index="msg.backToList">zur Übersicht</label>
-			<label index="msg.toCategory">Mehr zur Kategorie "%s"</label>
+            <label index="msg.noEvents">Es wurden keine passenden Veranstaltungen gefunden.</label>
+            <label index="msg.backToList">zur Übersicht</label>
+            <label index="msg.toCategory">Mehr zur Kategorie "%s"</label>
 
-			<label index="format.monthAndYear">%B %Y</label>
-			<label index="format.dayWrapper">%a, %e. %B %Y</label>
-			<label index="format.show.allday">%e. %B %Y</label>
-			<label index="format.show.dayTime">%e. %B %Y %H:%M</label>
-			<label index="format.show.time">%H:%M</label>
+            <label index="format.monthAndYear">%B %Y</label>
+            <label index="format.dayWrapper">%a, %e. %B %Y</label>
+            <label index="format.show.allday">%e. %B %Y</label>
+            <label index="format.show.dayTime">%e. %B %Y %H:%M</label>
+            <label index="format.show.time">%H:%M</label>
 
-			<!-- used for timespan generation -->
-			<label index="timespan.format.sameDay">%e. %B %Y</label>
-			<label index="timespan.format.sameMonth.start">%e.</label>
-			<label index="timespan.format.sameMonth.end">%e. %B, %Y</label>
-			<label index="timespan.format.sameYear.start">%e. %B</label>
-			<label index="timespan.format.sameYear.end">%e. %B, %Y</label>
-			<label index="timespan.format.else.start">%e. %B %Y</label>
-			<label index="timespan.format.else.end">%e. %B %Y</label>
-			<label index="timespan.from">vom</label>
-			<label index="timespan.to">bis</label>
-			<label index="timespan.on">am</label>
+            <!-- used for timespan generation -->
+            <label index="timespan.format.sameDay">%e. %B %Y</label>
+            <label index="timespan.format.sameMonth.start">%e.</label>
+            <label index="timespan.format.sameMonth.end">%e. %B, %Y</label>
+            <label index="timespan.format.sameYear.start">%e. %B</label>
+            <label index="timespan.format.sameYear.end">%e. %B, %Y</label>
+            <label index="timespan.format.else.start">%e. %B %Y</label>
+            <label index="timespan.format.else.end">%e. %B %Y</label>
+            <label index="timespan.from">vom</label>
+            <label index="timespan.to">bis</label>
+            <label index="timespan.on">am</label>
 
-			<label index="time.end">Ende gegen</label>
+            <label index="time.end">Ende gegen</label>
 
-			<label index="numEvents">[0]keine Veranstaltungen|[1] eine Veranstaltung|[2,+Inf] ###number### Veranstaltungen</label>
+            <label index="numEvents">[0]keine Veranstaltungen|[1] eine Veranstaltung|[2,+Inf] ###number### Veranstaltungen</label>
 
-			<label index="previousWeek">vorherige Woche</label>
-			<label index="nextWeek">nächste Woche</label>
+            <label index="previousWeek">vorherige Woche</label>
+            <label index="nextWeek">nächste Woche</label>
 
-			<!-- labels for organizers and location -->
-			<label index="organizer">Organisator</label>
-			<label index="location">Veranstaltungsort</label>
-			<label index="address_name">Name</label>
-			<label index="address">Adresse</label>
-			<label index="zip_and_city">PLZ / Stadt</label>
-			<label index="address_homepage">Homepage</label>
+            <!-- labels for organizers and location -->
+            <label index="organizer">Organisator</label>
+            <label index="location">Veranstaltungsort</label>
+            <label index="address_name">Name</label>
+            <label index="address">Adresse</label>
+            <label index="zip_and_city">PLZ / Stadt</label>
+            <label index="address_homepage">Homepage</label>
 
-			<label index="action.EventIndex.next.title">Nächste Veranstaltung</label>
+            <label index="action.EventIndex.next.title">Nächste Veranstaltung</label>
 
-			<label index="error-404-event-index-not-found">Der gewünschte Termin wurde leider nicht gefunden.</label>
-		</languageKey>
-	</data>
+            <label index="error-404-event-index-not-found">Der gewünschte Termin wurde leider nicht gefunden.</label>
+        </languageKey>
+    </data>
 </T3locallang>

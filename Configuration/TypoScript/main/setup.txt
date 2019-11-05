@@ -1,143 +1,146 @@
 plugin.tx_czsimplecal {
 
-	persistence.storagePid = {$plugin.tx_czsimplecal.pidList}
+  persistence.storagePid = {$plugin.tx_czsimplecal.pidList}
 
-	mvc.callDefaultActionIfActionCantBeResolved = 1
+  mvc.callDefaultActionIfActionCantBeResolved = 1
 
-	view.defaultPid = {$plugin.tx_czsimplecal.pids.default}
+  view.defaultPid = {$plugin.tx_czsimplecal.pids.default}
 
-	settings {
+  settings {
 
-		// These settings will be used for all actions and are overwritten with the action settings below.
-		defaultActionSettings {
-		}
+    // These settings will be used for all actions and are overwritten with the action settings below.
+    defaultActionSettings {
 
-		EventIndex {
-			actions {
-				list {
-					startDate  = today
-					endDate    = today +1 month
+    }
 
-					maxEvents = 9999
-					orderBy   = start
-					order     = ASC
-				}
+    EventIndex {
+      actions {
+        list {
+          startDate = today
+          endDate = today +1 month
 
-				next {
-					startDate  = now
-					endDate    = now +1 month
+          maxEvents = 9999
+          orderBy = start
+          order = ASC
+        }
 
-					maxEvents = 1
-					orderBy   = start
-					order     = ASC
+        next {
+          startDate = now
+          endDate = now +1 month
 
-					useAction = list
-				}
+          maxEvents = 1
+          orderBy = start
+          order = ASC
 
-				minimonth {
-					getPostAllowed = getDate
+          useAction = list
+        }
 
-					startDate  = first day of this month|monday this week
-					endDate    = last day of this month|monday next week -1 second
-					groupBy    = day
+        minimonth {
+          getPostAllowed = getDate
 
-					useAction = countEvents
-				}
+          startDate = first day of this month|monday this week
+          endDate = last day of this month|monday next week -1 second
+          groupBy = day
 
-				week {
-					startDate = monday this week
-					endDate   = sunday this week 23:59:59
+          useAction = countEvents
+        }
 
-					getPostAllowed = getDate
+        week {
+          startDate = monday this week
+          endDate = sunday this week 23:59:59
 
-					maxEvents = 999
-					orderBy = start
-					order   = ASC
+          getPostAllowed = getDate
 
-					useAction = list
-				}
+          maxEvents = 999
+          orderBy = start
+          order = ASC
 
-				day {
-					startDate = today
-					endDate   = today 23:59:59
+          useAction = list
+        }
 
-					getPostAllowed = getDate
+        day {
+          startDate = today
+          endDate = today 23:59:59
 
-					maxEvents = 999
-					orderBy = start
-					order   = ASC
+          getPostAllowed = getDate
 
-					useAction = list
-				}
-			}
-		}
+          maxEvents = 999
+          orderBy = start
+          order = ASC
 
-		// this is where you can put your customized options
-		custom {
-		}
+          useAction = list
+        }
+      }
+    }
 
-		renderData {
+    // this is where you can put your customized options
+    custom {
 
-			descriptionAndImages {
+    }
 
-				mapObjectProperties {
-					uid = uid
-					bodytext = description
-				}
+    renderData {
 
-				overrideData {
+      descriptionAndImages {
 
-					// This might be used as condition somewhere so we set
-					// it just to be sure
-					CType = textpic
+        mapObjectProperties {
+          uid = uid
+          bodytext = description
+        }
 
-					// Images are aligned in tex right by default
-					imageorient = 17
+        overrideData {
 
-					// Enable click enlarge by default
-					image_zoom = 1
+          // This might be used as condition somewhere so we set
+          // it just to be sure
+          CType = textpic
 
-					// we do not want the header to be rendered
-					header =
-				}
-			}
+          // Images are aligned in tex right by default
+          imageorient = 17
 
-			files {
+          // Enable click enlarge by default
+          image_zoom = 1
 
-				mapObjectProperties {
-					uid = uid
-				}
+          // we do not want the header to be rendered
+          header =
+        }
+      }
 
-				overrideData {
-					// we do not want the header to be rendered
-					header =
-				}
-			}
-		}
-	}
+      files {
 
-	rendering {
+        mapObjectProperties {
+          uid = uid
+        }
 
-		descriptionAndImages =< tt_content.textpic
-		descriptionAndImages {
-			20 {
-				imgList.cObject.references {
-					table = tx_czsimplecal_domain_model_event
-					fieldName = images
-				}
-				preRenderRegisters.allImageCaptions.cObject.references < .imgList.cObject.references
-			}
-		}
+        overrideData {
+          // we do not want the header to be rendered
+          header =
+        }
+      }
+    }
+  }
 
-		files =< tt_content.uploads
-		files {
-			15 = TEXT
-			15.data = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang.xml:tx_czsimplecal_domain_model_event_files
-			15.wrap = <h3>|</h3>
-			20.references {
-				table = tx_czsimplecal_domain_model_event
-				fieldName = files
-			}
-		}
-	}
+  rendering {
+
+    descriptionAndImages =< tt_content.textpic
+    descriptionAndImages {
+      20 {
+        imgList.cObject.references {
+          table = tx_czsimplecal_domain_model_event
+          fieldName = images
+        }
+
+        preRenderRegisters.allImageCaptions.cObject.references < .imgList.cObject.references
+      }
+    }
+
+    files =< tt_content.uploads
+    files {
+      15 = TEXT
+      15.data = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang.xml:tx_czsimplecal_domain_model_event_files
+      15.wrap = <h3>|</h3>
+      20.references {
+        table = tx_czsimplecal_domain_model_event
+        fieldName = files
+      }
+    }
+  }
 }
