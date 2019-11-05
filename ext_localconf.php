@@ -38,7 +38,7 @@ if (!defined('TYPO3_MODE')) {
     file_get_contents(
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(
             'cz_simple_cal'
-        ) . 'Configuration/TSconfig/default.txt'
+        ) . 'Configuration/TSconfig/Page/main.pagets'
     )
 );
 
