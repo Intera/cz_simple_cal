@@ -12,6 +12,7 @@
             <label index="tx_czsimplecal_domain_model_event.start_time">Start Time</label>
             <label index="tx_czsimplecal_domain_model_event.end_day">End Day</label>
             <label index="tx_czsimplecal_domain_model_event.end_time">End Time</label>
+            <label index="tx_czsimplecal_domain_model_event.timezone">Timezone</label>
             <label index="tx_czsimplecal_domain_model_event.teaser">Teaser</label>
             <label index="tx_czsimplecal_domain_model_event.description">Description</label>
             <label index="tx_czsimplecal_domain_model_event.images">Images</label>
@@ -56,6 +57,7 @@
             <label index="tx_czsimplecal_domain_model_event.categories">Categories</label>
             <label index="tx_czsimplecal_domain_model_event.show_page_instead">Show this page instead</label>
             <label index="tx_czsimplecal_domain_model_event.exceptions">Exceptions</label>
+            <label index="tx_czsimplecal_domain_model_event.exception_groups">Exception Groups</label>
             <label index="tx_czsimplecal_domain_model_event.twitter_hashtags">Twitter Hashtags</label>
             <label index="tx_czsimplecal_domain_model_event.flickr_tags">Flickr Tags</label>
             <label index="tx_czsimplecal_domain_model_event.status">Status</label>
