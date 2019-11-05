@@ -1,0 +1,33 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+<div class="col-md-3" id="{event.hash}">
+    <f:link.action arguments="{event: event}" action="show" addQueryString="true">
+        <div class="vevent">
+            <span class="dtstart"
+                style="background-color: {event.categoryColor}"
+                title="{f:format.date(format: '%Y-%m-%dT%H:%M%z', date: event.dateTimeObjectStart)}">
+                <span class="month"><f:format.date date="{event.dateTimeObjectStart}" format="M"/></span>
+                <span class="day"><f:format.date date="{event.dateTimeObjectStart}" format="d"/></span>
+            </span>
+
+            <f:if condition="{event.category}">
+                <span class="category">
+                    {event.category.title}
+                </span>
+            </f:if>
+
+            <h3 class="summary">{event.title}</h3>
+
+            <span class="time">
+                <f:format.date date="{event.dateTimeObjectStart}" format="l"/>,
+                <f:if condition="{event.startTime}">
+                    <f:then><f:format.date date="{event.dateTimeObjectStart}" format="%X"/> Uhr</f:then>
+                    <f:else>Ganztägig</f:else>
+                </f:if>
+            </span>
+
+            <span class="location">{event.location.name}</span>
+        </div>
+    </f:link.action>
+</div>
+</html>

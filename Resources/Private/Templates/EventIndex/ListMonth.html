@@ -1,0 +1,28 @@
+<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+
+<cal:useMicroformat format="hcalendar"/>
+
+<div class="vcalendar vcalendar-list">
+    <f:if condition="{events}">
+        <f:then>
+            <f:widget.paginate as="paginatedEvents" objects="{events}" configuration="{maximumNumberOfLinks: 2}">
+                <f:for each="{paginatedEvents}" as="event">
+                    <cal:calendar.onNewDay event="{event}" mode="month">
+                        <cal:template.groupEnd/>
+                        <f:render partial="EventIndex/MonthWrapper.html" arguments="{_all}"/>
+                        <cal:template.groupStart class="row"/>
+                    </cal:calendar.onNewDay>
+
+                    <f:render partial="EventIndex/EventBox" arguments="{_all}"/>
+                </f:for>
+                <cal:template.groupEnd/>
+            </f:widget.paginate>
+        </f:then>
+        <f:else>
+            <div class="alert alert-info"><f:translate key="msg.noEvents"/></div>
+        </f:else>
+    </f:if>
+</div>
+</html>

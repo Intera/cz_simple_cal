@@ -40,6 +40,7 @@
 
             <label index="format.monthAndYear">%B %Y</label>
             <label index="format.dayWrapper">%a, %B %e, %Y</label>
+            <label index="format.monthWrapper">%B, %Y</label>
             <label index="format.show.allday">%B %e, %Y</label>
             <label index="format.show.dayTime">%B %e, %Y %H:%M</label>
             <label index="format.show.time">%H:%M</label>

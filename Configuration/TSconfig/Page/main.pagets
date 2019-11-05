@@ -1,10 +1,15 @@
 options.cz_simple_cal_pi1.flexform {
   allowedActions {
-    enabledActions = list,show,next,day,week,minimonth
+    enabledActions = list,listMonth,show,next,day,week,minimonth
     availableActions {
       list {
         value = EventIndex->list
         label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.list
+      }
+
+      listMonth {
+        value = EventIndex->listMonth
+        label = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView.listMonth
       }
 
       show {

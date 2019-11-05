@@ -11,6 +11,7 @@
 			<label index="field.useView">selected view</label>
 			<label index="field.view.defaultPid">Default target page</label>
 			<label index="field.useView.list">List some events</label>
+			<label index="field.useView.listMonths">List events grouped by month</label>
 			<label index="field.useView.show">Show single event</label>
 			<label index="field.useView.day">Day view</label>
 			<label index="field.useView.week">Week view</label>
