@@ -1,2 +1,6 @@
-{namespace cal=Tx\CzSimpleCal\ViewHelpers}
-<h4 id="{cal:format.dateTime(timestamp: event.start, format: 'day-%Y-%m-%d')}"><cal:format.dateTime format="{f:translate(key:'format.dayWrapper')}" timestamp="{event.start}"/></h4>
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+<h4 id="{f:format.date(date: event.start, format: 'day-%Y-%m-%d')}">
+    <f:format.date date="{event.start}" format="{f:translate(key: 'format.dayWrapper')}"/>
+</h4>
+</html>

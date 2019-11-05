@@ -62,8 +62,6 @@ class DateTime extends \DateTime
         return parent::getTimestamp();
     }
 
-//
-
     /**
      * Alter the timestamp of a DateTime object by incrementing or decrementing
      * in a format accepted by strtotime().
