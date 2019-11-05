@@ -32,11 +32,9 @@ namespace Tx\CzSimpleCal\Domain\Model;
 
 use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
 use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
-use Tx\CzSimpleCal\Domain\Repository\EventRepository;
 use Tx\CzSimpleCal\Recurrance\RecurranceFactory;
 use Tx\CzSimpleCal\Recurrance\Timeline\Event as TimelineEvent;
 use Tx\CzSimpleCal\Utility\FileArrayBuilder;
-use Tx\CzSimpleCal\Utility\Inflector;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
@@ -63,6 +61,7 @@ class Event extends BaseEvent
         'pid',
         'hidden',
         'deleted',
+        'slug',
     ];
 
     /**
@@ -332,25 +331,6 @@ class Event extends BaseEvent
             $this->categories = $this->objectManager->get(ObjectStorage::class);
         }
         $this->categories->attach($category);
-    }
-
-    /**
-     * generate a slug for this record
-     */
-    public function generateSlug()
-    {
-        // Only generate a new slug when none exists yet.
-        $currentSlug = $this->getSlug();
-        if ($currentSlug !== '') {
-            return;
-        }
-
-        $value = $this->generateRawSlug();
-        $value = Inflector::urlize($value);
-
-        $eventRepository = $this->objectManager->get(EventRepository::class);
-        $slug = $eventRepository->makeSlugUnique($value, $this->uid);
-        $this->setSlug($slug);
     }
 
     /**
@@ -1263,7 +1243,7 @@ class Event extends BaseEvent
     {
         if (preg_match('/^[a-z0-9\-]*$/i', $slug) === false) {
             throw new \InvalidArgumentException(
-                sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.')
+                sprintf('"%s" is no valid slug. Only ASCII-letters, numbers and the hyphen are allowed.', $slug)
             );
         }
         $this->slug = $slug;

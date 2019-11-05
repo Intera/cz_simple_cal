@@ -151,7 +151,6 @@ class Event
     {
         $this->registerProcessedEvent($event);
         $event->setLastIndexed(new \DateTime());
-        $event->generateSlug();
         $this->eventRepository->update($event);
 
         if (!$event->isEnabled()) {

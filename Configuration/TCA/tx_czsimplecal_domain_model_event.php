@@ -23,7 +23,7 @@ return [
         'requestUpdate' => 'recurrance_type',
     ],
     'interface' => [
-        'showRecordFieldList' => 'title,start_day,start_time,end_day,end_time,teaser,description,slug,recurrance_type'
+        'showRecordFieldList' => 'title,slug,start_day,start_time,end_day,end_time,teaser,description,recurrance_type'
             . ',recurrance_subtype,recurrance_until,location_inline,location,organizer_inline,organizer,categories'
             . ',show_page_instead,exceptions,exception_groups,flickr_tags,twitter_hashtags',
     ],
@@ -31,9 +31,9 @@ return [
         '1' => [
             'showitem' => '
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_general,
-                    title,start_day,start_time,end_day,end_time,status,categories,show_page_instead,teaser,description;;;richtext:rte_transform[flag=rte_enabled|mode=ts_css],
+                    title,slug,start_day,start_time,end_day,end_time,status,categories,show_page_instead,teaser,description,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_resources,
-                    images,files,slug,regenerate_slug,
+                    images,files,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_recurrance,
                     recurrance_type,recurrance_subtype,recurrance_until,exceptions,exception_groups,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_location,
@@ -573,8 +573,18 @@ return [
         'slug' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.slug',
-            // Just show the value - don't make it editable
-            'config' => ['type' => 'none'],
+            'config' => [
+                'type' => 'slug',
+                'generatorOptions' => [
+                    'fields' => ['title'],
+                    'fieldSeparator' => '/',
+                    'prefixParentPageSlug' => true,
+                    'replacements' => ['/' => ''],
+                ],
+                'fallbackCharacter' => '-',
+                'eval' => 'uniqueInSite',
+                'default' => '',
+            ],
         ],
         'last_indexed' => [
             'exclude' => 1,

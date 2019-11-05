@@ -464,9 +464,6 @@ class DataHandlerHook implements SingletonInterface
 
         switch ($changeType) {
             case 'update':
-                if ($this->slugShouldBeRegenerated($eventUid)) {
-                    $event->resetSlug();
-                }
                 $this->eventIndexer->update($event);
                 $this->addTranslatedFlashMessage('flashmessages.tx_czsimplecal_domain_model_event.updateAndIndex');
                 break;
@@ -674,9 +671,6 @@ class DataHandlerHook implements SingletonInterface
 
     private function eventRequiresReindexing(int $eventUid, array $fieldArray): bool
     {
-        if ($this->slugShouldBeRegenerated($eventUid)) {
-            return true;
-        }
         return $this->haveFieldsChanged(
             Event::getFieldsRequiringReindexing(),
             $fieldArray
@@ -695,11 +689,5 @@ class DataHandlerHook implements SingletonInterface
         }
 
         $fieldArray['timezone'] = date('e');
-    }
-
-    private function slugShouldBeRegenerated(int $eventUid)
-    {
-        $postData = GeneralUtility::_POST();
-        return !empty($postData['data']['tx_czsimplecal_domain_model_event'][$eventUid]['regenerate_slug']);
     }
 }
