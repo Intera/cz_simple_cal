@@ -1,18 +1,21 @@
-{namespace cal=Tx\CzSimpleCal\ViewHelpers}
-<cal:useMicroformat format="hcalendar" />
+<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+<cal:useMicroformat format="hcalendar"/>
 <div class="vcalendar vcalendar-list">
-<f:if condition="{events}">
-	<f:then>
-		<f:for each="{events}" as="event">
-			<cal:calendar.onNewDay event="{event}">
-				<f:render partial="EventIndex/dayWrapper.html" arguments="{event: event, settings:settings}" />
-			</cal:calendar.onNewDay>
+    <f:if condition="{events}">
+        <f:then>
+            <f:for each="{events}" as="event">
+                <cal:calendar.onNewDay event="{event}">
+                    <f:render partial="EventIndex/dayWrapper.html" arguments="{event: event, settings:settings}"/>
+                </cal:calendar.onNewDay>
 
-			<f:render partial="EventIndex/event-for-list.html" arguments="{event: event, settings:settings}" />
-		</f:for>
-	</f:then>
-	<f:else>
-		<p><f:translate key="msg.noEvents" /></p>
-	</f:else>
-</f:if>
+                <f:render partial="EventIndex/event-for-list.html" arguments="{event: event, settings:settings}"/>
+            </f:for>
+        </f:then>
+        <f:else>
+            <p><f:translate key="msg.noEvents"/></p>
+        </f:else>
+    </f:if>
 </div>
+</html>

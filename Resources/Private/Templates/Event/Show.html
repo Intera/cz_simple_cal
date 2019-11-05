@@ -1,43 +1,44 @@
-{namespace cal=Tx\CzSimpleCal\ViewHelpers}
+<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
 
 <cal:setGlobalData field="title">{event.title}</cal:setGlobalData>
 
 <div class="vevent vcalendar-event">
+    <f:render partial="EventHeader" arguments="{_all}"/>
 
-	<f:render partial="EventHeader" arguments="{_all}" />
+    <h3><f:translate key="event_show_upcoming_events_header"/></h3>
 
-	<h3><f:translate key="event_show_upcoming_events_header" /></h3>
+    <f:if condition="{event.nextAppointments}">
+        <f:then>
+            <f:for each="{event.nextAppointments}" as="eventIndex">
+                <p class="tx-czsimplecal-event-show-date">
+                    <f:render partial="StartAndEndDate" arguments="{event: eventIndex, linkEventTimeToIndex: 'true'}"/>
+                </p>
+            </f:for>
+        </f:then>
+        <f:else>
+            <div class="infobox">
+                <f:translate key="event_show_no_upcoming_events_message"/>
+            </div>
+        </f:else>
+    </f:if>
 
-	<f:if condition="{event.nextAppointments}">
-		<f:then>
-			<f:for each="{event.nextAppointments}" as="eventIndex">
-				<p class="tx-czsimplecal-event-show-date">
-					<f:render partial="StartAndEndDate" arguments="{event: eventIndex, linkEventTimeToIndex: 'true'}" />
-				</p>
-			</f:for>
-		</f:then>
-		<f:else>
-			<div class="infobox">
-				<f:translate key="event_show_no_upcoming_events_message" />
-			</div>
-		</f:else>
-	</f:if>
+    <f:if condition="{event.categories}">
+        <h3><f:translate key="categories"/></h3>
+        <ul>
+            <f:for each="{event.categories}" as="category" iteration="iteration">
+                <li>{category.title}</li>
+            </f:for>
+        </ul>
+    </f:if>
 
-	<f:if condition="{event.categories}">
-		<h3><f:translate key="categories" /></h3>
-		<ul>
-			<f:for each="{event.categories}" as="category" iteration="iteration">
-				<li>{category.title}</li>
-			</f:for>
-		</ul>
-	</f:if>
+    <h3><f:translate key="event_show_details_header"/></h3>
 
-	<h3><f:translate key="event_show_details_header" /></h3>
+    <cal:renderData object="{event}">
+        <f:render partial="EventDetails" arguments="{settings: settings, event: event, renderData: renderData}"/>
+    </cal:renderData>
 
-	<cal:renderData object="{event}">
-		<f:render partial="EventDetails" arguments="{settings: settings, event: event, renderData: renderData}"/>
-	</cal:renderData>
-
-	<f:render partial="BackToListLink" arguments="{_all}" />
-
+    <f:render partial="BackToListLink" arguments="{_all}"/>
 </div>
+</html>

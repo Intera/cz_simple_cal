@@ -1,48 +1,52 @@
-{namespace cal=Tx\CzSimpleCal\ViewHelpers}
+<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
 <div class="vcalendar vcalendar-minimonth">
-<f:if condition="{data}">
-	<f:then>
-	<f:alias map="{dayOfMonth: data.10, monthNumber:'{cal:format.dateTime(timestamp: data.10.date, format:\'%Y%m\')}'}">
-		<table>
-			<thead>
-				<tr>
-					<td colspan="8">
-						<f:link.action
-							action="minimonth"
-							arguments="{getDate:'{cal:format.dateTime(timestamp: dayOfMonth.date, get:\'first day of last month\')}'}"
-							title="{cal:format.dateTime(timestamp: dayOfMonth.date, get:'first day of last month', format:'{f:translate(key:\'format.monthAndYear\')}')}"
-						>&lt;&lt;</f:link.action>
-						<cal:format.dateTime timestamp="{dayOfMonth.date}" format="{f:translate(key:'format.monthAndYear')}" />
-						<f:link.action
-							action="minimonth"
-							arguments="{getDate:'{cal:format.dateTime(timestamp: dayOfMonth.date, get:\'first day of next month\')}'}"
-							title="{cal:format.dateTime(timestamp: dayOfMonth.date, get:'first day of next month', format:'{f:translate(key:\'format.monthAndYear\')}')}"
-						>&gt;&gt;</f:link.action>
-					</td>
-				</tr>
-				<tr>
-					<th></th>
-					<f:for each="{0:'mon', 1:'tue', 2:'wed', 3:'thu', 4:'fri', 5:'sat', 6:'sun'}" as="weekday">
-						<th class="cal-minimonth-dow"><cal:format.dateTime timestamp="{date.0}" get="{weekday}" format="%a" /></th>
-					</f:for>
-				</tr>
-			</thead>
+    <f:if condition="{data}">
+        <f:then>
+            <f:alias map="{dayOfMonth: data.10, monthNumber:'{cal:format.dateTime(timestamp: data.10.date, format:\'%Y%m\')}'}">
+                <table>
+                    <thead>
+                        <tr>
+                            <td colspan="8">
+                                <f:link.action
+                                    arguments="{getDate:'{cal:format.dateTime(timestamp: dayOfMonth.date, get:\'first day of last month\')}'}"
+                                    action="minimonth"
+                                    title="{cal:format.dateTime(timestamp: dayOfMonth.date, get:'first day of last month', format:'{f:translate(key:\'format.monthAndYear\')}')}"
+                                >&lt;&lt;</f:link.action>
+                                <cal:format.dateTime format="{f:translate(key:'format.monthAndYear')}" timestamp="{dayOfMonth.date}"/>
+                                <f:link.action
+                                    arguments="{getDate:'{cal:format.dateTime(timestamp: dayOfMonth.date, get:\'first day of next month\')}'}"
+                                    action="minimonth"
+                                    title="{cal:format.dateTime(timestamp: dayOfMonth.date, get:'first day of next month', format:'{f:translate(key:\'format.monthAndYear\')}')}"
+                                >&gt;&gt;</f:link.action>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <f:for each="{0:'mon', 1:'tue', 2:'wed', 3:'thu', 4:'fri', 5:'sat', 6:'sun'}" as="weekday">
+                                <th class="cal-minimonth-dow">
+                                    <cal:format.dateTime format="%a" get="{weekday}" timestamp="{date.0}"/>
+                                </th>
+                            </f:for>
+                        </tr>
+                    </thead>
 
+                    <tbody>
+                        <f:for each="{data}" as="day">
+                            <f:if condition="{cal:format.dateTime(timestamp: day.date, format: '%u')} == 1">
+                                <tr>
+                                    <f:render partial="EventIndex/minimonth/woy.html" arguments="{day: day, settings:settings, actionSettings: actionSettings, monthNumber: monthNumber}"></f:render>
+                            </f:if>
 
-			<tbody>
-				<f:for each="{data}" as="day">
-					<f:if condition="{cal:format.dateTime(timestamp: day.date, format: '%u')} == 1">
-						<tr><f:render partial="EventIndex/minimonth/woy.html" arguments="{day: day, settings:settings, actionSettings: actionSettings, monthNumber: monthNumber}"></f:render>
-					</f:if>
+                            <f:render partial="EventIndex/minimonth/day.html" arguments="{day: day, settings:settings, actionSettings: actionSettings, monthNumber: monthNumber}"></f:render>
 
-					<f:render partial="EventIndex/minimonth/day.html" arguments="{day: day, settings:settings, actionSettings: actionSettings, monthNumber: monthNumber}"></f:render>
-
-					<f:if condition="{cal:format.dateTime(timestamp: day.date, format: '%u')} == 7"></tr></f:if>
-				</f:for>
-			</tbody>
-		</table>
-
-		</f:alias>
-	</f:then>
-</f:if>
+                            <f:if condition="{cal:format.dateTime(timestamp: day.date, format: '%u')} == 7"></tr></f:if>
+                        </f:for>
+                    </tbody>
+                </table>
+            </f:alias>
+        </f:then>
+    </f:if>
 </div>
+</html>

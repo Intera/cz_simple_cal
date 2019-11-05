@@ -1,29 +1,33 @@
-{namespace cal=Tx\CzSimpleCal\ViewHelpers}
+<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
 
-<cal:useMicroformat format="hcalendar" />
+<cal:useMicroformat format="hcalendar"/>
+
 <cal:setGlobalData field="title">{event.title}</cal:setGlobalData>
 
-<f:flashMessages renderMode="div" />
+<f:flashMessages renderMode="div"/>
 
 <div class="vevent vcalendar-event">
+    <f:render partial="EventHeader" arguments="{_all}"/>
 
-	<f:render partial="EventHeader" arguments="{_all}" />
+    <p class="tx-czsimplecal-event-show-date">
+        <f:render partial="StartAndEndDate" arguments="{_all}"/>
+    </p>
 
-	<p class="tx-czsimplecal-event-show-date">
-		<f:render partial="StartAndEndDate" arguments="{_all}" />
-	</p>
+    <f:render partial="CancelledWarning" arguments="{_all}"/>
 
-	<f:render partial="CancelledWarning" arguments="{_all}" />
+    <f:render partial="Categories" arguments="{_all}"/>
 
-	<f:render partial="Categories" arguments="{_all}" />
+    <cal:renderData object="{event.event}">
+        <f:render partial="EventDetails" arguments="{settings: settings, event: event.event, renderData: renderData}"/>
+    </cal:renderData>
 
-	<cal:renderData object="{event.event}">
-		<f:render partial="EventDetails" arguments="{settings: settings, event: event.event, renderData: renderData}"/>
-	</cal:renderData>
+    <f:if condition="{subscriptionPossible}">
+        <f:render partial="EventIndex/SubscriptionForm" arguments="{_all}"/>
+    </f:if>
 
-	<f:if condition="{subscriptionPossible}">
-		<f:render partial="EventIndex/SubscriptionForm" arguments="{_all}" />
-	</f:if>
-
-	<f:render partial="BackToListLink" arguments="{_all}" />
+    <f:render partial="BackToListLink" arguments="{_all}"/>
 </div>
+
+</html>
