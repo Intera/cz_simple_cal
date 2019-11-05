@@ -1,0 +1,17 @@
+// The mapping configuration needs to be in the global config, otherwise
+// lazy loading will not work.
+config.tx_extbase {
+  persistence.classes {
+    Tx\CzSimpleCal\Domain\Model\Organizer {
+      mapping {
+        tableName = tx_czsimplecal_domain_model_address
+      }
+    }
+
+    Tx\CzSimpleCal\Domain\Model\Location {
+      mapping {
+        tableName = tx_czsimplecal_domain_model_address
+      }
+    }
+  }
+}
