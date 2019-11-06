@@ -98,6 +98,7 @@
             <label index="tx_czsimplecal_domain_model_exceptiongroup.exceptions">Exceptions</label>
 
             <label index="tx_czsimplecal_domain_model_category">Category</label>
+            <label index="tx_czsimplecal_domain_model_category.color">Color</label>
             <label index="tx_czsimplecal_domain_model_category.title">Title</label>
             <label index="tx_czsimplecal_domain_model_category.show_page_instead">Show this page instead</label>
 
@@ -160,6 +161,7 @@
             <label index="tx_czsimplecal_domain_model_event.organizer_zip">Veranstalter PLZ</label>
             <label index="tx_czsimplecal_domain_model_event.organizer_city">Veranstalter Stadt</label>
             <label index="tx_czsimplecal_domain_model_event.categories">Kategorien</label>
+            <label index="tx_czsimplecal_domain_model_event.show_page_instead">Zeige diese Seite</label>
             <label index="tx_czsimplecal_domain_model_event.exceptions">Ausnahmen</label>
             <label index="tx_czsimplecal_domain_model_event.twitter_hashtags">Twitter Hashtags</label>
             <label index="tx_czsimplecal_domain_model_event.flickr_tags">Flickr Tags</label>
@@ -203,7 +205,9 @@
             <label index="tx_czsimplecal_domain_model_exceptiongroup.exceptions">Ausnahmen</label>
 
             <label index="tx_czsimplecal_domain_model_category">Kategorien</label>
+            <label index="tx_czsimplecal_domain_model_category.color">Farbe</label>
             <label index="tx_czsimplecal_domain_model_category.title">Titel</label>
+            <label index="tx_czsimplecal_domain_model_category.show_page_instead">Zeige diese Seite</label>
 
             <label index="tt_address.is_organizer">ist Veranstalter für Kalender</label>
             <label index="tt_address.is_location">ist Veranstaltungsort für Kalender</label>

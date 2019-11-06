@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
+use Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType;
+
 $languagePrefix = 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:';
 $languagePrefixColumn = $languagePrefix . 'tx_czsimplecal_domain_model_exception.';
 $commonFields = 'type, title, start_day, start_time, end_day, end_time, --palette--;;system,
@@ -21,10 +26,10 @@ return [
     'interface' => ['showRecordFieldList' => 'type,title,start_day,start_time,end_day,end_time,recurrance_type,recurrance_subtype,recurrance_until,status,teaser'],
     'types' => [
         '0' => ['showitem' => 'type'],
-        \Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::HIDE_EVENT => ['showitem' => $commonFields],
-        \Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::UPDATE_EVENT => [
+        ExceptionType::HIDE_EVENT => ['showitem' => $commonFields],
+        ExceptionType::UPDATE_EVENT => [
             'showitem' => '' .
-                    $commonFields . ',
+                $commonFields . ',
                 --div--;' . $languagePrefixColumn . 'tab_update_event_properties,
 			        status, teaser
 		    ',
@@ -47,10 +52,10 @@ return [
                     [
                         0 => '',
                         1 => '',
-                        'invertStateDisplay' => true
-                    ]
+                        'invertStateDisplay' => true,
+                    ],
                 ],
-            ]
+            ],
         ],
         'pid' => [
             'exclude' => 0,
@@ -123,7 +128,10 @@ return [
             ],
         ],
         'l10n_diffsource' => [
-            'config' => ['type' => 'passthrough'],
+            'config' => [
+                'type' => 'passthrough',
+                'default' => '',
+            ],
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -219,22 +227,22 @@ return [
                 'items' => [
                     [
                         $languagePrefixColumn . 'status.I.undefined',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::UNDEFINED,
+                        EventStatus::UNDEFINED,
                     ],
                     [
                         $languagePrefixColumn . 'status.I.tentative',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::TENTATIVE,
+                        EventStatus::TENTATIVE,
                     ],
                     [
                         $languagePrefixColumn . 'status.I.confirmed',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::CONFIRMED,
+                        EventStatus::CONFIRMED,
                     ],
                     [
                         $languagePrefixColumn . 'status.I.cancelled',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::CANCELLED,
+                        EventStatus::CANCELLED,
                     ],
                 ],
-                'default' => \Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus::CONFIRMED,
+                'default' => EventStatus::CONFIRMED,
             ],
         ],
         'sys_language_uid' => [
@@ -275,14 +283,14 @@ return [
                 'items' => [
                     [
                         $languagePrefixColumn . 'type.I.hide_event',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::HIDE_EVENT,
+                        ExceptionType::HIDE_EVENT,
                     ],
                     [
                         $languagePrefixColumn . 'type.I.update_event',
-                        \Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::UPDATE_EVENT,
+                        ExceptionType::UPDATE_EVENT,
                     ],
                 ],
-                'default' => \Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType::HIDE_EVENT,
+                'default' => ExceptionType::HIDE_EVENT,
             ],
         ],
     ],

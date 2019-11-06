@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_category',
@@ -19,9 +21,6 @@ return [
     'types' => [
         '1' => ['showitem' => 'title,show_page_instead'],
     ],
-    'palettes' => [
-        '1' => ['showitem' => ''],
-    ],
     'columns' => [
         'sys_language_uid' => [
             'exclude' => true,
@@ -41,11 +40,12 @@ return [
             ],
         ],
         'l18n_parent' => [
+            'exclude' => true,
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.php:LGL.l18n_parent',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [
                         '',
@@ -54,17 +54,21 @@ return [
                 ],
                 'foreign_table' => 'tx_czsimplecal_domain_model_category',
                 'foreign_table_where' => 'AND tx_czsimplecal_domain_model_category.uid=###REC_FIELD_l18n_parent### AND tx_czsimplecal_domain_model_category.sys_language_uid IN (-1,0)',
+                'default' => 0,
             ],
         ],
         'l18n_diffsource' => [
-            'config' => ['type' => 'passthrough'],
+            'config' => [
+                'type' => 'passthrough',
+                'default' => '',
+            ],
         ],
         't3ver_label' => [
-            'displayCond' => 'FIELD:t3ver_label:REQ:true',
-            'label' => 'LLL:EXT:lang/locallang_general.php:LGL.versionLabel',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.versionLabel',
             'config' => [
-                'type' => 'none',
-                'cols' => 27,
+                'type' => 'input',
+                'size' => 30,
+                'max' => 255,
             ],
         ],
         'hidden' => [
@@ -77,10 +81,10 @@ return [
                     [
                         0 => '',
                         1 => '',
-                        'invertStateDisplay' => true
-                    ]
+                        'invertStateDisplay' => true,
+                    ],
                 ],
-            ]
+            ],
         ],
         'title' => [
             'exclude' => 0,

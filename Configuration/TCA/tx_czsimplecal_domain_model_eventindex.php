@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 // This TCA is needed to get the Domain Object Mapper of Extbase to work,
 // but this table should not be displayed in the Frontent.
 return [
