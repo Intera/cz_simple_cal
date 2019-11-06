@@ -11,7 +11,7 @@
                 <f:for each="{paginatedEvents}" as="event">
                     <cal:calendar.onNewDay event="{event}" mode="month">
                         <cal:template.groupEnd/>
-                        <f:render partial="EventIndex/MonthWrapper.html" arguments="{_all}"/>
+                        <f:render partial="EventIndex/MonthWrapper" arguments="{_all}"/>
                         <cal:template.groupStart class="row"/>
                     </cal:calendar.onNewDay>
 

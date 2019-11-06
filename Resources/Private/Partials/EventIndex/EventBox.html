@@ -19,14 +19,22 @@
             <h3 class="summary">{event.title}</h3>
 
             <span class="time">
-                <f:format.date date="{event.dateTimeObjectStart}" format="l"/>,
-                <f:if condition="{event.startTime}">
-                    <f:then><f:format.date date="{event.dateTimeObjectStart}" format="%X"/> Uhr</f:then>
-                    <f:else>Ganztägig</f:else>
-                </f:if>
+                <f:spaceless>
+                    <f:format.date date="{event.dateTimeObjectStart}" format="l"/>,
+                    <f:if condition="{event.startTime}">
+                        <f:then><f:format.date date="{event.dateTimeObjectStart}" format="%X"/> Uhr</f:then>
+                        <f:else>Ganztägig</f:else>
+                    </f:if>
+                </f:spaceless><f:spaceless>
+                    <f:if condition="{event.locationName}">
+                        ,
+                    </f:if>
+                </f:spaceless>
             </span>
 
-            <span class="location">{event.location.name}</span>
+            <f:if condition="{event.locationName}">
+                <span class="location">{event.locationName}</span>
+            </f:if>
         </div>
     </f:link.action>
 </div>
