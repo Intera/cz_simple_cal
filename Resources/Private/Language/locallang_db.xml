@@ -47,13 +47,11 @@
             <label index="tx_czsimplecal_domain_model_event.location_address">Location Address</label>
             <label index="tx_czsimplecal_domain_model_event.location_zip">Location Zip</label>
             <label index="tx_czsimplecal_domain_model_event.location_city">Location City</label>
-            <label index="tx_czsimplecal_domain_model_event.location_country">Location Country</label>
             <label index="tx_czsimplecal_domain_model_event.organizer">Organizer</label>
             <label index="tx_czsimplecal_domain_model_event.organizer_name">Organizer Name</label>
             <label index="tx_czsimplecal_domain_model_event.organizer_address">Organizer Address</label>
             <label index="tx_czsimplecal_domain_model_event.organizer_zip">Organizer Zip</label>
             <label index="tx_czsimplecal_domain_model_event.organizer_city">Organizer City</label>
-            <label index="tx_czsimplecal_domain_model_event.organizer_country">Organizer Country</label>
             <label index="tx_czsimplecal_domain_model_event.categories">Categories</label>
             <label index="tx_czsimplecal_domain_model_event.show_page_instead">Show this page instead</label>
             <label index="tx_czsimplecal_domain_model_event.exceptions">Exceptions</label>
@@ -156,13 +154,11 @@
             <label index="tx_czsimplecal_domain_model_event.location_address">Veranstaltungsort Adresse</label>
             <label index="tx_czsimplecal_domain_model_event.location_zip">Veranstaltungsort PLZ</label>
             <label index="tx_czsimplecal_domain_model_event.location_city">Veranstaltungsort Stadt</label>
-            <label index="tx_czsimplecal_domain_model_event.location_country">Veranstaltungsort Land</label>
             <label index="tx_czsimplecal_domain_model_event.organizer">Veranstalter</label>
             <label index="tx_czsimplecal_domain_model_event.organizer_name">Veranstalter Name</label>
             <label index="tx_czsimplecal_domain_model_event.organizer_address">Veranstalter Adresse</label>
             <label index="tx_czsimplecal_domain_model_event.organizer_zip">Veranstalter PLZ</label>
             <label index="tx_czsimplecal_domain_model_event.organizer_city">Veranstalter Stadt</label>
-            <label index="tx_czsimplecal_domain_model_event.organizer_country">Veranstalter Land</label>
             <label index="tx_czsimplecal_domain_model_event.categories">Kategorien</label>
             <label index="tx_czsimplecal_domain_model_event.exceptions">Ausnahmen</label>
             <label index="tx_czsimplecal_domain_model_event.twitter_hashtags">Twitter Hashtags</label>

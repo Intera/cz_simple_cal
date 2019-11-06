@@ -380,29 +380,6 @@ return [
                 'allowed' => 'tx_czsimplecal_domain_model_address',
             ],
         ],
-        'location_country' => [
-            'displayCond' => 'EXT:static_info_tables:LOADED:TRUE',
-            'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.location_country',
-            'config' => [
-                'type' => 'select',
-                'items' => [
-                    [
-                        '',
-                        0,
-                    ],
-                ],
-                'itemsProcFunc' => 'tx_staticinfotables_div->selectItemsTCA',
-                'itemsProcFunc_config' => [
-                    'table' => 'static_countries',
-                    'indexField' => 'cn_iso_3',
-                    'prependHotlist' => 1,
-                ],
-                'size' => 1,
-                'minitems' => 0,
-                'maxitems' => 1,
-            ],
-        ],
         'organizer_inline' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.organizer',
@@ -432,29 +409,6 @@ return [
                 'minitems' => 0,
                 'maxitems' => 1,
                 'allowed' => 'tx_czsimplecal_domain_model_address',
-            ],
-        ],
-        'organizer_country' => [
-            'displayCond' => 'EXT:static_info_tables:LOADED:TRUE',
-            'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.organizer_country',
-            'config' => [
-                'type' => 'select',
-                'items' => [
-                    [
-                        '',
-                        0,
-                    ],
-                ],
-                'itemsProcFunc' => 'tx_staticinfotables_div->selectItemsTCA',
-                'itemsProcFunc_config' => [
-                    'table' => 'static_countries',
-                    'indexField' => 'cn_iso_3',
-                    'prependHotlist' => 1,
-                ],
-                'size' => 1,
-                'minitems' => 0,
-                'maxitems' => 1,
             ],
         ],
         'categories' => [
