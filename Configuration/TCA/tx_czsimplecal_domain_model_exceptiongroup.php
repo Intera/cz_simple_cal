@@ -16,9 +16,19 @@ return [
     ],
     'columns' => [
         'hidden' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
-            'config' => ['type' => 'check'],
+            'exclude' => true,
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.visible',
+            'config' => [
+                'type' => 'check',
+                'renderType' => 'checkboxToggle',
+                'items' => [
+                    [
+                        0 => '',
+                        1 => '',
+                        'invertStateDisplay' => true
+                    ]
+                ],
+            ]
         ],
         'title' => [
             'exclude' => 1,
