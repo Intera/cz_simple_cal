@@ -47,15 +47,15 @@ return [
                     organizer_inline,organizer,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_socialmedia,
     			    twitter_hashtags,flickr_tags,
-                --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,
-                    --palette--;LLL:EXT:cms/locallang_ttc.xlf:palette.access;access 
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                    --palette--;;access
             ',
         ],
     ],
     'palettes' => [
         'access' => [
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access',
             'showitem' => 'hidden, enable_endtime',
-            'canNotCollapse' => 1,
         ],
     ],
     'columns' => [
@@ -170,7 +170,7 @@ return [
         ],
         'enable_endtime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
             'config' => [
                 'type' => 'input',
                 'size' => 13,
