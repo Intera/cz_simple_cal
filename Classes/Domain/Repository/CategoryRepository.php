@@ -26,10 +26,14 @@ namespace Tx\CzSimpleCal\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Domain\Model\Category;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for Category domain models.
+ *
+ * @method Category findByUid($uid)
  */
 class CategoryRepository extends Repository
 {
@@ -37,7 +41,7 @@ class CategoryRepository extends Repository
      * Returns all categories with the given UIDs.
      *
      * @param array $uids Array of UIDs
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return QueryResultInterface
      */
     public function findAllByUids($uids)
     {

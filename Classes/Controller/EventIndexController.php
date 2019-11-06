@@ -27,9 +27,12 @@ namespace Tx\CzSimpleCal\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Tx\CzSimpleCal\Domain\Model\Category;
 use Tx\CzSimpleCal\Domain\Model\EventIndex;
+use Tx\CzSimpleCal\Domain\Repository\CategoryRepository;
 use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -38,9 +41,19 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class EventIndexController extends BaseExtendableController
 {
     /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository;
+
+    /**
      * @var EventIndexRepository
      */
     protected $eventIndexRepository;
+
+    public function injectCategoryRepository(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
 
     public function injectEventIndexRepository(EventIndexRepository $eventIndexRepository)
     {
@@ -70,6 +83,8 @@ class EventIndexController extends BaseExtendableController
                 )
             )
         );
+
+        $this->view->assign('categories', $this->categoryRepository->findAll());
     }
 
     /**
@@ -100,6 +115,9 @@ class EventIndexController extends BaseExtendableController
                 )
             )
         );
+
+        $this->view->assign('categories', $this->categoryRepository->findAll());
+        $this->view->assign('selectedCategory', $this->getSelectedCategory());
     }
 
     /**
@@ -174,5 +192,23 @@ class EventIndexController extends BaseExtendableController
     protected function translateById($key, $extensionName = 'CzSimpleCal')
     {
         return LocalizationUtility::translate($key, $extensionName);
+    }
+
+    private function getSelectedCategory(): ?Category
+    {
+        if (empty($this->actionSettings['filter']['categories.uid'])) {
+            return null;
+        }
+
+        $filterCategories = GeneralUtility::intExplode(
+            ',',
+            $this->actionSettings['filter']['categories.uid'],
+            true
+        );
+        if ($filterCategories == []) {
+            return null;
+        }
+
+        return $this->categoryRepository->findByUid($filterCategories[0]);
     }
 }

@@ -4,10 +4,35 @@
 
 <cal:useMicroformat format="hcalendar"/>
 
+<ul class="nav event-list-controls">
+    <f:if condition="categories">
+        <li class="nav-item dropdown">
+            <a aria-expanded="false" aria-haspopup="true"
+                class="nav-link dropdown-toggle" data-toggle="dropdown"
+                href="#" role="button" title="{f:if(condition: '{selectedCategory}', then: 'Gefiltert nach Kategorie', else: 'Nach Kategorie filtern')}">
+                <f:if condition="{selectedCategory}">
+                    <f:then>{selectedCategory.title}</f:then>
+                    <f:else>Kategorie</f:else>
+                </f:if>
+            </a>
+            <div class="dropdown-menu">
+                <cal:link.filterCategory class="dropdown-item{f:if(condition: '!{selectedCategory}', then: ' active')}">
+                    Alle
+                </cal:link.filterCategory>
+                <f:for each="{categories}" as="category">
+                    <cal:link.filterCategory category="{category}" class="dropdown-item{f:if(condition: '{selectedCategory.uid}=={category.uid}', then: ' active')}">
+                        {category.title}
+                    </cal:link.filterCategory>
+                </f:for>
+            </div>
+        </li>
+    </f:if>
+</ul>
+
 <div class="vcalendar vcalendar-list">
     <f:if condition="{events}">
         <f:then>
-            <f:widget.paginate as="paginatedEvents" objects="{events}" configuration="{maximumNumberOfLinks: 2}">
+            <f:widget.paginate as="paginatedEvents" configuration="{maximumNumberOfLinks: 5}" objects="{events}">
                 <f:for each="{paginatedEvents}" as="event">
                     <cal:calendar.onNewDay event="{event}" mode="month">
                         <cal:template.groupEnd/>
