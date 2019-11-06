@@ -17,9 +17,9 @@ return [
         'enablecolumns' => ['disabled' => 'hidden'],
         'iconfile' => 'EXT:cz_simple_cal/Resources/Public/Icons/tx_czsimplecal_domain_model_category.gif',
     ],
-    'interface' => ['showRecordFieldList' => 'title,show_page_instead'],
+    'interface' => ['showRecordFieldList' => 'title,color,show_page_instead'],
     'types' => [
-        '1' => ['showitem' => 'title,show_page_instead'],
+        '1' => ['showitem' => 'title,color,show_page_instead'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -84,6 +84,14 @@ return [
                         'invertStateDisplay' => true,
                     ],
                 ],
+            ],
+        ],
+        'color' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_category.color',
+            'config' => [
+                'type' => 'input',
+                'renderType' => 'colorpicker',
             ],
         ],
         'title' => [

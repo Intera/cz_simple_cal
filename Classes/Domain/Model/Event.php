@@ -391,6 +391,16 @@ class Event extends BaseEvent
         return $this->categories->current();
     }
 
+    public function getCategoryColor(): string
+    {
+        $category = $this->getCategory();
+        if (!$category) {
+            return '';
+        }
+
+        return $category->getColor();
+    }
+
     /**
      * Getter for cruserFe
      *

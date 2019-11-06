@@ -32,6 +32,11 @@ namespace Tx\CzSimpleCal\Domain\Model;
 class Category extends Base
 {
     /**
+     * @var string
+     */
+    protected $color;
+
+    /**
      * if respected by the template a TYPO3 page is linked
      *
      * as there is no Category-Controller yet, thats the only way to link a page according to
@@ -47,6 +52,11 @@ class Category extends Base
      * @var string
      */
     protected $title;
+
+    public function getColor(): string
+    {
+        return $this->color;
+    }
 
     /**
      * getter for showPageInstead
