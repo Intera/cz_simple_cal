@@ -132,28 +132,5 @@ return [
                 'eval' => 'trim',
             ],
         ],
-        'country' => [
-            'displayCond' => 'EXT:static_info_tables:LOADED:TRUE',
-            'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address.country',
-            'config' => [
-                'type' => 'select',
-                'items' => [
-                    [
-                        '',
-                        0,
-                    ],
-                ],
-                'itemsProcFunc' => 'tx_staticinfotables_div->selectItemsTCA',
-                'itemsProcFunc_config' => [
-                    'table' => 'static_countries',
-                    'indexField' => 'cn_iso_3',
-                    'prependHotlist' => 1,
-                ],
-                'size' => 1,
-                'minitems' => 0,
-                'maxitems' => 1,
-            ],
-        ],
     ],
 ];
