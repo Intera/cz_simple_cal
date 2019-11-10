@@ -12,7 +12,12 @@ if (ExtensionManagementUtility::isLoaded('static_info_tables')) {
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => [['', 0]],
+                'items' => [
+                    [
+                        '',
+                        0,
+                    ],
+                ],
                 'foreign_table' => 'static_countries',
                 'foreign_table_where' => 'ORDER BY static_countries.cn_short_en',
                 'itemsProcFunc' => TcaSelectItemsProcessor::class . '->translateCountriesSelector',
