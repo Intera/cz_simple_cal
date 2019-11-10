@@ -24,7 +24,6 @@ return [
         ],
         'dividers2tabs' => 1,
         'iconfile' => 'EXT:cz_simple_cal/Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif',
-        'requestUpdate' => 'recurrance_type',
     ],
     'interface' => [
         'showRecordFieldList' => 'title,slug,start_day,start_time,end_day,end_time,teaser,description,recurrance_type'
@@ -311,6 +310,7 @@ return [
             'l10n_display' => 'defaultAsReadonly',
             'exclude' => 1,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
