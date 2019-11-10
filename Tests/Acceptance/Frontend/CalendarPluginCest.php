@@ -15,7 +15,7 @@ class CalendarPluginCest
         $this->openPageAlias($I, 'action-day');
 
         $I->canSeeElement(['css' => 'div.vcalendar-day']);
-        $I->canSeeElement('//h2[. = "Events on January  1, 2010"]');
+        $I->canSee('Events on January 1, 2010', 'h2');
         $I->canSeeNumberOfElements('//*[contains(@class, "vevent")]', 1);
     }
 
