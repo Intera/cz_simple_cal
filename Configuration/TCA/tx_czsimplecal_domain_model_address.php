@@ -42,11 +42,12 @@ return [
             ],
         ],
         'l18n_parent' => [
+            'exclude' => true,
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => 1,
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [
                         '',
@@ -55,6 +56,7 @@ return [
                 ],
                 'foreign_table' => 'tx_czsimplecal_domain_model_category',
                 'foreign_table_where' => 'AND tx_czsimplecal_domain_model_category.uid=###REC_FIELD_l18n_parent### AND tx_czsimplecal_domain_model_category.sys_language_uid IN (-1,0)',
+                'default' => 0,
             ],
         ],
         'l18n_diffsource' => [
@@ -81,10 +83,10 @@ return [
                     [
                         0 => '',
                         1 => '',
-                        'invertStateDisplay' => true
-                    ]
+                        'invertStateDisplay' => true,
+                    ],
                 ],
-            ]
+            ],
         ],
         'homepage' => [
             'exclude' => 0,
@@ -95,7 +97,7 @@ return [
                 'size' => 50,
                 'max' => 1024,
                 'eval' => 'trim',
-                'softref' => 'typolink'
+                'softref' => 'typolink',
             ],
         ],
         'name' => [

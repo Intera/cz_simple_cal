@@ -24,6 +24,7 @@ return [
             'label' => '',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'pages',
                 'minitems' => 1,
                 'maxitems' => 1,
@@ -34,6 +35,7 @@ return [
             'label' => '',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'eval' => 'datetime,required',
             ],
         ],
@@ -42,6 +44,7 @@ return [
             'label' => '',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'eval' => 'datetime,required',
             ],
         ],

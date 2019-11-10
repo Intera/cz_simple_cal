@@ -62,6 +62,7 @@ return [
             'label' => '',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'pages',
                 'minitems' => 1,
                 'maxitems' => 1,
@@ -83,8 +84,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_day',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'date,required',
             ],
         ],
@@ -95,8 +96,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_time',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'null,time',
                 'default' => null,
             ],
@@ -108,8 +109,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_day',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'null,date',
                 'default' => null,
             ],
@@ -121,8 +122,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_time',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'null,time',
                 'default' => null,
             ],
@@ -134,11 +135,12 @@ return [
             ],
         ],
         'l10n_parent' => [
+            'exclude' => false,
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => 0,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [
                         '',
@@ -147,7 +149,9 @@ return [
                 ],
                 'foreign_table' => 'tx_czsimplecal_domain_model_exception',
                 'foreign_table_where' => 'AND tx_czsimplecal_domain_model_exception.uid=###REC_FIELD_l10n_parent### AND tx_czsimplecal_domain_model_exception.sys_language_uid IN (-1,0)',
+                'default' => 0,
             ],
+
         ],
         'timezone' => [
             'l10n_mode' => 'exclude',
@@ -169,6 +173,7 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [
                         'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.none',
@@ -201,6 +206,7 @@ return [
             'displayCond' => 'FIELD:recurrance_type:!IN:0,,none,daily',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'itemsProcFunc' => 'Tx\\CzSimpleCal\\Utility\\EventConfig->getRecurranceSubtype',
             ],
         ],
@@ -211,8 +217,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_until',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'null,date',
                 'default' => null,
             ],
@@ -224,6 +230,7 @@ return [
             'label' => $languagePrefixColumn . 'status',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [
                         $languagePrefixColumn . 'status.I.undefined',
@@ -280,6 +287,7 @@ return [
             'label' => $languagePrefixColumn . 'type',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [
                         $languagePrefixColumn . 'type.I.hide_event',

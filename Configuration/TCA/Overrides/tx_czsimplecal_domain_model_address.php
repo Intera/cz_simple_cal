@@ -11,6 +11,7 @@ if (ExtensionManagementUtility::isLoaded('static_info_tables')) {
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address.country',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [['', 0]],
                 'foreign_table' => 'static_countries',
                 'foreign_table_where' => 'ORDER BY static_countries.cn_short_en',

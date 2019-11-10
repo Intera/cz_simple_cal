@@ -76,11 +76,12 @@ return [
             ],
         ],
         'l18n_parent' => [
+            'exclude' => true,
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [
                         '',
@@ -89,6 +90,7 @@ return [
                 ],
                 'foreign_table' => 'tx_czsimplecal_domain_model_event',
                 'foreign_table_where' => 'AND tx_czsimplecal_domain_model_event.uid=###REC_FIELD_l18n_parent### AND tx_czsimplecal_domain_model_event.sys_language_uid IN (-1,0)',
+                'default' => 0,
             ],
         ],
         'l18n_diffsource' => [
@@ -115,10 +117,10 @@ return [
                     [
                         0 => '',
                         1 => '',
-                        'invertStateDisplay' => true
-                    ]
+                        'invertStateDisplay' => true,
+                    ],
                 ],
-            ]
+            ],
         ],
         'deleted' => [
             'config' => ['type' => 'passthrough'],
@@ -128,6 +130,7 @@ return [
             'label' => '',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'pages',
                 'minitems' => 1,
                 'maxitems' => 1,
@@ -152,8 +155,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_day',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'date,required',
             ],
         ],
@@ -164,8 +167,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_time',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'null,time',
                 'default' => null,
             ],
@@ -175,8 +178,8 @@ return [
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 13,
-                'max' => 20,
                 'eval' => 'datetime',
                 'default' => '0',
             ],
@@ -190,8 +193,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_day',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'null,date',
                 'default' => null,
             ],
@@ -203,8 +206,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_time',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'null,time',
                 'default' => null,
             ],
@@ -310,6 +313,7 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [
                         'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.none',
@@ -342,6 +346,7 @@ return [
             'displayCond' => 'FIELD:recurrance_type:!IN:0,,none,daily',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'itemsProcFunc' => 'Tx\\CzSimpleCal\\Utility\\EventConfig->getRecurranceSubtype',
             ],
         ],
@@ -352,8 +357,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_until',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'null,date',
                 'default' => null,
             ],
@@ -426,11 +431,10 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.categories',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+                'enableMultiSelectFilterTextfield' => true,
                 'foreign_table' => 'tx_czsimplecal_domain_model_category',
                 'MM' => 'tx_czsimplecal_event_category_mm',
-                'size' => 10,
-                'maxSize' => 20,
-                'maxitems' => 9999,
             ],
         ],
         'show_page_instead' => [
@@ -508,6 +512,7 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.status',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [
                         'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.status.tentative',
@@ -546,8 +551,8 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.last_indexed',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 12,
-                'max' => 20,
                 'eval' => 'date',
             ],
         ],
