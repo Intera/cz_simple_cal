@@ -91,20 +91,12 @@ return [
             'exclude' => 0,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address.homepage',
             'config' => [
-                'eval' => 'trim',
-                'max' => 256,
-                'size' => 25,
-                'softref' => 'typolink',
                 'type' => 'input',
-                'wizards' => [
-                    'link' => [
-                        'type' => 'popup',
-                        'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:header_link_formlabel',
-                        'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
-                        'module' => ['name' => 'wizard_link'],
-                        'JSopenParams' => 'width=800,height=600,status=0,menubar=0,scrollbars=1',
-                    ],
-                ],
+                'renderType' => 'inputLink',
+                'size' => 50,
+                'max' => 1024,
+                'eval' => 'trim',
+                'softref' => 'typolink'
             ],
         ],
         'name' => [
