@@ -64,12 +64,12 @@ abstract class BaseExtendableController extends ActionController
     {
         // Fetch default settings.
         $actionSettings = (array)$this->settings['defaultActionSettings'];
+        $actionName = $this->request->getControllerActionName();
 
         // Merge the current action settings.
         ArrayUtility::mergeRecursiveWithOverrule(
             $actionSettings,
-            (array)$this->settings[$this->request->getControllerName(
-            )]['actions'][$this->request->getControllerActionName()]
+            (array)$this->settings[$actionName]['actions'][$this->request->getControllerActionName()]
         );
 
         // Merge the settings from the flexform
@@ -97,8 +97,7 @@ abstract class BaseExtendableController extends ActionController
         }
 
         $this->actionSettings = &$actionSettings;
-        $this->settings[$this->request->getControllerName()]['actions'][$this->request->getControllerActionName(
-        )] = &$actionSettings;
+        $this->settings[$this->request->getControllerName()]['actions'][$actionName] = &$actionSettings;
     }
 
     /**
