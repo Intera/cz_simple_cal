@@ -24,7 +24,7 @@ plugin.tx_czsimplecal {
           order = ASC
         }
 
-        listMonth {
+        listMonths {
           getPostAllowed = filter
           startDate = today
           maxEvents = 9999

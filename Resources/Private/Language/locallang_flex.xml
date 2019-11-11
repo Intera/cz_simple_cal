@@ -62,6 +62,7 @@
 			<label index="field.useView">Ansicht</label>
 			<label index="field.view.defaultPid">Standard Zielseite</label>
 			<label index="field.useView.list">Zeige einige Events</label>
+			<label index="field.useView.listMonths">Eventliste gruppiert nach Monaten</label>
 			<label index="field.useView.show">Zeige einzelnes Event</label>
 			<label index="field.useView.day">Tagesansicht </label>
 			<label index="field.useView.week">Wochenansicht</label>
