@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-11-11T19:25:23Z"
+		  product-name="cz_simple_cal">
+		<header/>
+		<body>
+			<trans-unit id="title.description" xml:space="preserve">
+				<source>The title of this event</source>
+			</trans-unit>
+			<trans-unit id="start_day.description" xml:space="preserve">
+				<source>the day that event starts</source>
+			</trans-unit>
+			<trans-unit id="start_time.description" xml:space="preserve">
+				<source>the time this event starts (leave blank for an allday event)</source>
+			</trans-unit>
+			<trans-unit id="end_day.description" xml:space="preserve">
+				<source>the day this event ends (leave blank for an event on one day)</source>
+			</trans-unit>
+			<trans-unit id="end_time.description" xml:space="preserve">
+				<source>the time this event ends</source>
+			</trans-unit>
+			<trans-unit id="teaser.description" xml:space="preserve">
+				<source>a short teaser for this event</source>
+			</trans-unit>
+			<trans-unit id="description.description" xml:space="preserve">
+				<source>a long description for this event</source>
+			</trans-unit>
+			<trans-unit id="location_name.description" xml:space="preserve">
+				<source>the name of the location this event takes place in</source>
+			</trans-unit>
+			<trans-unit id="organizer_name.description" xml:space="preserve">
+				<source>the name of the institution or person the event is organized by</source>
+			</trans-unit>
+			<trans-unit id="category.description" xml:space="preserve">
+				<source>the categories this event belongs to</source>
+			</trans-unit>
+			<trans-unit id="twitter_hashtags.description" xml:space="preserve">
+				<source>comma seperated values</source>
+			</trans-unit>
+			<trans-unit id="flickr_tags.description" xml:space="preserve">
+				<source>comma seperated values</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

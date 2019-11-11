@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-11-11T19:25:44Z"
+		  product-name="cz_simple_cal">
+		<header/>
+		<body>
+			<trans-unit id="mlang_tabs_tab" xml:space="preserve">
+				<source>Events</source>
+			</trans-unit>
+			<trans-unit id="mlang_labels_tabdescr" xml:space="preserve">
+				<source>Index events</source>
+			</trans-unit>
+			<trans-unit id="flashmessages.tx_czsimplecal_domain_model_event.create" xml:space="preserve">
+				<source>Event was created and indexed succesfully.</source>
+			</trans-unit>
+			<trans-unit id="flashmessages.tx_czsimplecal_domain_model_event.updateNoIndex" xml:space="preserve">
+				<source>Changes were saved, but no reindexing seemed to be necessary.</source>
+			</trans-unit>
+			<trans-unit id="flashmessages.tx_czsimplecal_domain_model_event.updateAndIndex" xml:space="preserve">
+				<source>Changes were saved and event was reindexed.</source>
+			</trans-unit>
+			<trans-unit id="flashmessages.exception.indexUpdatedEvent" xml:space="preserve">
+				<source>An error occurred during the indexing of the event: %s</source>
+			</trans-unit>
+			<trans-unit id="flashmessages.exception.indexUpdatedEvent.1392817280" xml:space="preserve">
+				<source>Error during indexing the event: the start date of the event is larger than the end date. Please make sure you removed the checkoxed at all fields that are not set. (Error details: %s)</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_scheduler_index.label" xml:space="preserve">
+				<source>Index calendar events</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_scheduler_index.description" xml:space="preserve">
+				<source>Indexing all calendar events of czSimpleCal.</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_scheduler_index.minindexage.label" xml:space="preserve">
+				<source>minimum age for reindexing</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_scheduler_index.info_index_not_finished" xml:space="preserve">
+				<source>Not all events could be indexed. The index could be as old as %s.</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_scheduler_index.minindexage.nostring" xml:space="preserve">
+				<source>The minimum index age is not a string</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_scheduler_index.minindexage.parseerror" xml:space="preserve">
+				<source>&quot;%s&quot; could not be parsed by strtotime()</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

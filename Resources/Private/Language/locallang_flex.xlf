@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-11-11T19:25:40Z"
+		  product-name="cz_simple_cal">
+		<header/>
+		<body>
+			<trans-unit id="sheet.general" xml:space="preserve">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="field.useView" xml:space="preserve">
+				<source>selected view</source>
+			</trans-unit>
+			<trans-unit id="field.view.defaultPid" xml:space="preserve">
+				<source>Default target page</source>
+			</trans-unit>
+			<trans-unit id="field.useView.list" xml:space="preserve">
+				<source>List some events</source>
+			</trans-unit>
+			<trans-unit id="field.useView.listMonths" xml:space="preserve">
+				<source>List events grouped by month</source>
+			</trans-unit>
+			<trans-unit id="field.useView.show" xml:space="preserve">
+				<source>Show single event</source>
+			</trans-unit>
+			<trans-unit id="field.useView.day" xml:space="preserve">
+				<source>Day view</source>
+			</trans-unit>
+			<trans-unit id="field.useView.week" xml:space="preserve">
+				<source>Week view</source>
+			</trans-unit>
+			<trans-unit id="field.useView.next" xml:space="preserve">
+				<source>Next event view</source>
+			</trans-unit>
+			<trans-unit id="field.useView.minimonth" xml:space="preserve">
+				<source>Minimonth view</source>
+			</trans-unit>
+			<trans-unit id="field.action.startDate" xml:space="preserve">
+				<source>Start Date</source>
+			</trans-unit>
+			<trans-unit id="field.action.startDate.default" xml:space="preserve">
+				<source>(use default)</source>
+			</trans-unit>
+			<trans-unit id="field.action.startDate.thisYear" xml:space="preserve">
+				<source>this Year</source>
+			</trans-unit>
+			<trans-unit id="field.action.startDate.thisMonth" xml:space="preserve">
+				<source>this Month</source>
+			</trans-unit>
+			<trans-unit id="field.action.startDate.thisWeek" xml:space="preserve">
+				<source>this Week</source>
+			</trans-unit>
+			<trans-unit id="field.action.startDate.yesterday" xml:space="preserve">
+				<source>Yesterday</source>
+			</trans-unit>
+			<trans-unit id="field.action.startDate.today" xml:space="preserve">
+				<source>Today</source>
+			</trans-unit>
+			<trans-unit id="field.action.startDate.now" xml:space="preserve">
+				<source>Now</source>
+			</trans-unit>
+			<trans-unit id="field.action.startDate.tomorrow" xml:space="preserve">
+				<source>Tomorrow</source>
+			</trans-unit>
+			<trans-unit id="field.action.startDate.nextMonth" xml:space="preserve">
+				<source>next Month</source>
+			</trans-unit>
+			<trans-unit id="field.action.endDate" xml:space="preserve">
+				<source>End Date</source>
+			</trans-unit>
+			<trans-unit id="field.action.endDate.default" xml:space="preserve">
+				<source>(use default)</source>
+			</trans-unit>
+			<trans-unit id="field.action.endDate.today" xml:space="preserve">
+				<source>end of Today</source>
+			</trans-unit>
+			<trans-unit id="field.action.endDate.24hours" xml:space="preserve">
+				<source>in 24 hours</source>
+			</trans-unit>
+			<trans-unit id="field.action.endDate.tomorrow" xml:space="preserve">
+				<source>end of Tomorrow</source>
+			</trans-unit>
+			<trans-unit id="field.action.endDate.thisWeek" xml:space="preserve">
+				<source>end of this Week</source>
+			</trans-unit>
+			<trans-unit id="field.action.endDate.thisMonth" xml:space="preserve">
+				<source>end of this Month</source>
+			</trans-unit>
+			<trans-unit id="field.action.endDate.nextMonth" xml:space="preserve">
+				<source>end of next Month</source>
+			</trans-unit>
+			<trans-unit id="field.action.endDate.thisYear" xml:space="preserve">
+				<source>end of this Year</source>
+			</trans-unit>
+			<trans-unit id="field.action.filterCategories" xml:space="preserve">
+				<source>only show these categories</source>
+			</trans-unit>
+			<trans-unit id="field.action.filterOrganizer" xml:space="preserve">
+				<source>only show events from this organizer</source>
+			</trans-unit>
+			<trans-unit id="field.action.filterLocation" xml:space="preserve">
+				<source>only show events from this location</source>
+			</trans-unit>
+			<trans-unit id="field.action.maxEvents" xml:space="preserve">
+				<source>maximum number of events</source>
+			</trans-unit>
+			<trans-unit id="field.action.orderBy" xml:space="preserve">
+				<source>Order field</source>
+			</trans-unit>
+			<trans-unit id="field.action.orderBy.default" xml:space="preserve">
+				<source>(use default)</source>
+			</trans-unit>
+			<trans-unit id="field.action.orderBy.start" xml:space="preserve">
+				<source>start date</source>
+			</trans-unit>
+			<trans-unit id="field.action.orderBy.end" xml:space="preserve">
+				<source>end date</source>
+			</trans-unit>
+			<trans-unit id="field.action.order" xml:space="preserve">
+				<source>Order</source>
+			</trans-unit>
+			<trans-unit id="field.action.order.default" xml:space="preserve">
+				<source>(use default)</source>
+			</trans-unit>
+			<trans-unit id="field.action.order.ascending" xml:space="preserve">
+				<source>ascending</source>
+			</trans-unit>
+			<trans-unit id="field.action.order.descending" xml:space="preserve">
+				<source>descending</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

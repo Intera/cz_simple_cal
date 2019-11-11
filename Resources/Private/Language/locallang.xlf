@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-11-11T19:25:11Z"
+		  product-name="cz_simple_cal">
+		<header/>
+		<body>
+			<trans-unit id="tx_czsimplecal_domain_model_event" xml:space="preserve">
+				<source>an event in an calendar</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.title" xml:space="preserve">
+				<source>The title of this event</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.start_day" xml:space="preserve">
+				<source>the day that event starts</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.start_time" xml:space="preserve">
+				<source>the time this event starts (leave blank for an allday event)</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.end_day" xml:space="preserve">
+				<source>the day this event ends (leave blank for an event on one day)</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.end_time" xml:space="preserve">
+				<source>the time this event ends</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.teaser" xml:space="preserve">
+				<source>a short teaser for this event</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.description" xml:space="preserve">
+				<source>a long description for this event</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event_files" xml:space="preserve">
+				<source>Files</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.location_name" xml:space="preserve">
+				<source>the name of the location this event takes place in</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.organizer_name" xml:space="preserve">
+				<source>the name of the institution or person the event is organized by</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.categories" xml:space="preserve">
+				<source>categories</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_category" xml:space="preserve">
+				<source>a category of an event</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_category.title" xml:space="preserve">
+				<source>a title for this category</source>
+			</trans-unit>
+			<trans-unit id="event" xml:space="preserve">
+				<source>Event</source>
+			</trans-unit>
+			<trans-unit id="events" xml:space="preserve">
+				<source>Events</source>
+			</trans-unit>
+			<trans-unit id="nextAppointments" xml:space="preserve">
+				<source>next Appointments</source>
+			</trans-unit>
+			<trans-unit id="categories" xml:space="preserve">
+				<source>Categories</source>
+			</trans-unit>
+			<trans-unit id="display_time" xml:space="preserve">
+				<source>%s</source>
+			</trans-unit>
+			<trans-unit id="event_show_upcoming_events_header" xml:space="preserve">
+				<source>Upcoming events (up to three)</source>
+			</trans-unit>
+			<trans-unit id="event_show_no_upcoming_events_message" xml:space="preserve">
+				<source>No upcoming events found. This event has taken place in the past.</source>
+			</trans-unit>
+			<trans-unit id="event_show_details_header" xml:space="preserve">
+				<source>Details</source>
+			</trans-unit>
+			<trans-unit id="event_status_title_tentative" xml:space="preserve">
+				<source>This event is tentative.</source>
+			</trans-unit>
+			<trans-unit id="event_status_title_confirmed" xml:space="preserve">
+				<source>This event has been confirmed.</source>
+			</trans-unit>
+			<trans-unit id="event_status_title_cancelled" xml:space="preserve">
+				<source>This event has been cancelled!</source>
+			</trans-unit>
+			<trans-unit id="msg.noEvents" xml:space="preserve">
+				<source>No events have been found.</source>
+			</trans-unit>
+			<trans-unit id="msg.backToList" xml:space="preserve">
+				<source>to the list view</source>
+			</trans-unit>
+			<trans-unit id="msg.toCategory" xml:space="preserve">
+				<source>more on category &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="format.monthAndYear" xml:space="preserve">
+				<source>%B %Y</source>
+			</trans-unit>
+			<trans-unit id="format.dayWrapper" xml:space="preserve">
+				<source>%a, %B %e, %Y</source>
+			</trans-unit>
+			<trans-unit id="format.monthWrapper" xml:space="preserve">
+				<source>%B, %Y</source>
+			</trans-unit>
+			<trans-unit id="format.show.allday" xml:space="preserve">
+				<source>%B %e, %Y</source>
+			</trans-unit>
+			<trans-unit id="format.show.dayTime" xml:space="preserve">
+				<source>%B %e, %Y %H:%M</source>
+			</trans-unit>
+			<trans-unit id="format.show.time" xml:space="preserve">
+				<source>%H:%M</source>
+			</trans-unit>
+			<trans-unit id="timespan.format.sameDay" xml:space="preserve">
+				<source>%B %e, %Y</source>
+			</trans-unit>
+			<trans-unit id="timespan.format.sameMonth.start" xml:space="preserve">
+				<source>%B %e</source>
+			</trans-unit>
+			<trans-unit id="timespan.format.sameMonth.end" xml:space="preserve">
+				<source>%e, %Y</source>
+			</trans-unit>
+			<trans-unit id="timespan.format.sameYear.start" xml:space="preserve">
+				<source>%B %e</source>
+			</trans-unit>
+			<trans-unit id="timespan.format.sameYear.end" xml:space="preserve">
+				<source>%B %e, %Y</source>
+			</trans-unit>
+			<trans-unit id="timespan.format.else.start" xml:space="preserve">
+				<source>%B %e, %Y</source>
+			</trans-unit>
+			<trans-unit id="timespan.format.else.end" xml:space="preserve">
+				<source>%B %e, %Y</source>
+			</trans-unit>
+			<trans-unit id="timespan.from" xml:space="preserve">
+				<source>from</source>
+			</trans-unit>
+			<trans-unit id="timespan.to" xml:space="preserve">
+				<source>to</source>
+			</trans-unit>
+			<trans-unit id="timespan.on" xml:space="preserve">
+				<source>on</source>
+			</trans-unit>
+			<trans-unit id="previousWeek" xml:space="preserve">
+				<source>previous week</source>
+			</trans-unit>
+			<trans-unit id="nextWeek" xml:space="preserve">
+				<source>next week</source>
+			</trans-unit>
+			<trans-unit id="time.end" xml:space="preserve">
+				<source>end at</source>
+			</trans-unit>
+			<trans-unit id="numEvents" xml:space="preserve">
+				<source>[0]No events|[1] 1 event|[2,+Inf] ###number### events</source>
+			</trans-unit>
+			<trans-unit id="organizer" xml:space="preserve">
+				<source>Organizer</source>
+			</trans-unit>
+			<trans-unit id="location" xml:space="preserve">
+				<source>Location</source>
+			</trans-unit>
+			<trans-unit id="address_name" xml:space="preserve">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="address" xml:space="preserve">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="zip_and_city" xml:space="preserve">
+				<source>ZIP / City</source>
+			</trans-unit>
+			<trans-unit id="address_homepage" xml:space="preserve">
+				<source>Homepage</source>
+			</trans-unit>
+			<trans-unit id="action.EventIndex.next.title" xml:space="preserve">
+				<source>Upcomming event</source>
+			</trans-unit>
+			<trans-unit id="error-404-event-index-not-found" xml:space="preserve">
+				<source>The requested event could not be found.</source>
+			</trans-unit>
+			<trans-unit id="rss_title_suffix_latest" xml:space="preserve">
+				<source>Newest events</source>
+			</trans-unit>
+			<trans-unit id="rss_title_suffix_upcoming" xml:space="preserve">
+				<source>Upcoming events</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

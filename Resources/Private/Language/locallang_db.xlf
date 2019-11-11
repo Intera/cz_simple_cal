@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-11-11T19:25:36Z"
+		  product-name="cz_simple_cal">
+		<header/>
+		<body>
+			<trans-unit id="tx_czsimplecal_domain_model_event" xml:space="preserve">
+				<source>Event</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.title" xml:space="preserve">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.start_day" xml:space="preserve">
+				<source>Start Day</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.start_time" xml:space="preserve">
+				<source>Start Time</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.end_day" xml:space="preserve">
+				<source>End Day</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.end_time" xml:space="preserve">
+				<source>End Time</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.timezone" xml:space="preserve">
+				<source>Timezone</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.teaser" xml:space="preserve">
+				<source>Teaser</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.description" xml:space="preserve">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.images" xml:space="preserve">
+				<source>Images</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.images_caption" xml:space="preserve">
+				<source>Captions for Images</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.images_alternative" xml:space="preserve">
+				<source>Alternative Text for Images</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.files" xml:space="preserve">
+				<source>Files</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.files_caption" xml:space="preserve">
+				<source>Captions for Files</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_type" xml:space="preserve">
+				<source>Recurrance</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_type.none" xml:space="preserve">
+				<source>(none)</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_type.daily" xml:space="preserve">
+				<source>daily</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_type.weekly" xml:space="preserve">
+				<source>weekly</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_type.monthly" xml:space="preserve">
+				<source>monthly</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_type.yearly" xml:space="preserve">
+				<source>yearly</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype" xml:space="preserve">
+				<source>Recurrance subtype</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.weekly" xml:space="preserve">
+				<source>every week</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.oddeven" xml:space="preserve">
+				<source>every two weeks (odd/even-aware)</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.2week" xml:space="preserve">
+				<source>every two weeks</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.3week" xml:space="preserve">
+				<source>every three weeks</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.4week" xml:space="preserve">
+				<source>every four weeks</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.auto" xml:space="preserve">
+				<source>(auto)</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.bydayofmonth" xml:space="preserve">
+				<source>by day of the month</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.firstweekdayofmonth"
+						xml:space="preserve">
+				<source>first [weekday] of month</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.secondweekdayofmonth"
+						xml:space="preserve">
+				<source>second [weekday] of month</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.thirdweekdayofmonth"
+						xml:space="preserve">
+				<source>third [weekday] of month</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.lastweekdayofmonth"
+						xml:space="preserve">
+				<source>last [weekday] of month</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.penultimateweekdayofmonth"
+						xml:space="preserve">
+				<source>penultimate [weekday] of month</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_subtype.relativetoeaster" xml:space="preserve">
+				<source>relative to easter</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_until" xml:space="preserve">
+				<source>Repeat until</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.recurrance_times" xml:space="preserve">
+				<source>Repeat times</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.location" xml:space="preserve">
+				<source>Location</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.location_name" xml:space="preserve">
+				<source>Location Name</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.location_address" xml:space="preserve">
+				<source>Location Address</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.location_zip" xml:space="preserve">
+				<source>Location Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.location_city" xml:space="preserve">
+				<source>Location City</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.organizer" xml:space="preserve">
+				<source>Organizer</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.organizer_name" xml:space="preserve">
+				<source>Organizer Name</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.organizer_address" xml:space="preserve">
+				<source>Organizer Address</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.organizer_zip" xml:space="preserve">
+				<source>Organizer Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.organizer_city" xml:space="preserve">
+				<source>Organizer City</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.categories" xml:space="preserve">
+				<source>Categories</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.show_page_instead" xml:space="preserve">
+				<source>Show this page instead</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.exceptions" xml:space="preserve">
+				<source>Exceptions</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.exception_groups" xml:space="preserve">
+				<source>Exception Groups</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.twitter_hashtags" xml:space="preserve">
+				<source>Twitter Hashtags</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.flickr_tags" xml:space="preserve">
+				<source>Flickr Tags</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.status" xml:space="preserve">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.status.tentative" xml:space="preserve">
+				<source>Tentative</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.status.confirmed" xml:space="preserve">
+				<source>Confirmed</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.status.cancelled" xml:space="preserve">
+				<source>Cancelled</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.slug" xml:space="preserve">
+				<source>Slug</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.last_indexed" xml:space="preserve">
+				<source>Last indexed</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.tab_general" xml:space="preserve">
+				<source>Event</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.tab_resources" xml:space="preserve">
+				<source>Resources</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.tab_recurrance" xml:space="preserve">
+				<source>Recurrance</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.tab_location" xml:space="preserve">
+				<source>Location</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.tab_organizer" xml:space="preserve">
+				<source>Organizer</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.tab_socialmedia" xml:space="preserve">
+				<source>Social Media</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_eventindex" xml:space="preserve">
+				<source>Event index</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception" xml:space="preserve">
+				<source>Exception</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.type" xml:space="preserve">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.type.I.hide_event" xml:space="preserve">
+				<source>Hide event</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.type.I.update_event" xml:space="preserve">
+				<source>Update event properties</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.title" xml:space="preserve">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.tab_recurrance" xml:space="preserve">
+				<source>Recurrance</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.tab_update_event_properties" xml:space="preserve">
+				<source>Update event properties</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.status" xml:space="preserve">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.status.I.undefined" xml:space="preserve">
+				<source>Do not overwrite</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.status.I.tentative" xml:space="preserve">
+				<source>Tentative</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.status.I.confirmed" xml:space="preserve">
+				<source>Confirmed</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.status.I.cancelled" xml:space="preserve">
+				<source>Cancelled</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.teaser" xml:space="preserve">
+				<source>Overwrite teaser</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.recurrance_until" xml:space="preserve">
+				<source>Repeat until</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.recurrance_times" xml:space="preserve">
+				<source>Repeat times</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.events" xml:space="preserve">
+				<source>Events</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exception.exception_groups" xml:space="preserve">
+				<source>Exception Groups</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exceptiongroup" xml:space="preserve">
+				<source>Exception Group</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exceptiongroup.title" xml:space="preserve">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_exceptiongroup.exceptions" xml:space="preserve">
+				<source>Exceptions</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_category" xml:space="preserve">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_category.color" xml:space="preserve">
+				<source>Color</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_category.title" xml:space="preserve">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_category.show_page_instead" xml:space="preserve">
+				<source>Show this page instead</source>
+			</trans-unit>
+			<trans-unit id="tt_address.is_organizer" xml:space="preserve">
+				<source>is calendar organizer</source>
+			</trans-unit>
+			<trans-unit id="tt_address.is_location" xml:space="preserve">
+				<source>is calendar location</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_address" xml:space="preserve">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_address.name" xml:space="preserve">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_address.address" xml:space="preserve">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_address.zip" xml:space="preserve">
+				<source>Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_address.city" xml:space="preserve">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_address.country" xml:space="preserve">
+				<source>Country</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_address.homepage" xml:space="preserve">
+				<source>Homepage</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
