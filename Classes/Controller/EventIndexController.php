@@ -27,13 +27,16 @@ namespace Tx\CzSimpleCal\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DateTime;
 use Tx\CzSimpleCal\Domain\Model\Category;
 use Tx\CzSimpleCal\Domain\Model\EventIndex;
 use Tx\CzSimpleCal\Domain\Repository\CategoryRepository;
 use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Controller for the EventIndex object
@@ -121,6 +124,26 @@ class EventIndexController extends BaseExtendableController
     }
 
     /**
+     * Render calendar events with the newest timestamps as RSS feed.
+     */
+    public function rssLatestAction()
+    {
+        $events = $this->eventIndexRepository->findLatest($this->actionSettings['maxEvents']);
+        $this->initializeRssVariablesInView('latest');
+        $this->view->assign('events', $events);
+    }
+
+    /**
+     * Render upcoming events as RSS feed.
+     */
+    public function rssUpcomingAction()
+    {
+        $events = $this->eventIndexRepository->findAllWithSettings($this->actionSettings);
+        $this->initializeRssVariablesInView('upcoming');
+        $this->view->assign('events', $events);
+    }
+
+    /**
      * display a single event
      *
      * @param integer $event
@@ -139,6 +162,25 @@ class EventIndexController extends BaseExtendableController
         }
 
         $this->view->assign('event', $eventIndexObject);
+    }
+
+    /**
+     * Builds the title for the RSS feed for the given type.
+     *
+     * @param string $type
+     * @return string
+     */
+    protected function buildRssTitle($type)
+    {
+        $pageTitleSuffix = ' - ' . $this->getTypoScriptFrontendController()->generatePageTitle();
+
+        if (!empty($this->settings['rss'][$type]['channelTitle'])) {
+            return $this->settings['rss'][$type]['channelTitle'];
+        }
+
+        $contentTitle = $this->configurationManager->getContentObject()->data['header'];
+        $rssTypeTitle = ' (' . $this->translateById('rss_title_suffix_' . $type) . ')';
+        return $contentTitle . $rssTypeTitle . $pageTitleSuffix;
     }
 
     /**
@@ -180,6 +222,44 @@ class EventIndexController extends BaseExtendableController
         } else {
             return null;
         }
+    }
+
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
+    }
+
+    /**
+     * Loads some variables in the current view that are required by all RSS feeds.
+     *
+     * @param string $feedType "latest" or "upcoming"
+     * @return void
+     */
+    protected function initializeRssVariablesInView($feedType)
+    {
+        $this->view->assign(
+            'feedSettings',
+            isset($this->settings['rss'][$feedType]) ? $this->settings['rss'][$feedType] : []
+        );
+        $this->view->assign('language', $this->getTypoScriptFrontendController()->lang);
+        $this->view->assign('currentUrl', GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
+        $this->view->assign('channelTitle', $this->buildRssTitle($feedType));
+        $this->view->assign('channelLastBuildDate', new DateTime());
+    }
+
+    /**
+     * Initializes some common variables in the view.
+     *
+     * The current content object data is loaded and the RSS feed titles.
+     *
+     * @param ViewInterface $view
+     * @return void
+     */
+    protected function initializeView(ViewInterface $view)
+    {
+        $this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
+        $this->view->assign('rssTitleLatest', $this->buildRssTitle('latest'));
+        $this->view->assign('rssTitleUpcoming', $this->buildRssTitle('upcoming'));
     }
 
     /**

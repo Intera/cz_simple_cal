@@ -1,0 +1,26 @@
+<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+<f:if condition="{settings.rss.disable}" then="">
+    <f:else>
+        <f:if condition="{settings.rss.latest.pageType}">
+            <cal:headerData>
+                <link
+                    href="{f:uri.page(pageUid: '{contentObjectData.pid}', pageType: '{settings.rss.latest.pageType}', additionalParams: '{content: \'{contentObjectData.uid}\'}', noCacheHash: 'true') -> f:format.htmlspecialchars()}"
+                    rel="alternate"
+                    title="{rssTitleLatest -> f:format.htmlspecialchars()}"
+                    type="application/rss+xml"/>
+            </cal:headerData>
+        </f:if>
+        <f:if condition="{settings.rss.upcoming.pageType}">
+            <cal:headerData>
+                <link
+                    href="{f:uri.page(pageUid: '{contentObjectData.pid}', pageType: '{settings.rss.upcoming.pageType}', additionalParams: '{content: \'{contentObjectData.uid}\'}', noCacheHash: 'true') -> f:format.htmlspecialchars()}"
+                    rel="alternate"
+                    title="{rssTitleUpcoming -> f:format.htmlspecialchars()}"
+                    type="application/rss+xml"/>
+            </cal:headerData>
+        </f:if>
+    </f:else>
+</f:if>
+</html>

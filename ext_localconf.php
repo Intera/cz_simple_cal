@@ -33,6 +33,22 @@ if (!defined('TYPO3_MODE')) {
     ['EventAdministration' => 'list,new,create,edit,update,delete']
 );
 
+/** @uses \Tx\CzSimpleCal\Controller\EventIndexController::rssUpcomingAction() */
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'Tx.CzSimpleCal',
+    'RssUpcoming',
+    ['EventIndex' => 'rssUpcoming'],
+    []
+);
+
+/** @uses \Tx\CzSimpleCal\Controller\EventIndexController::rssLatestAction() */
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'Tx.CzSimpleCal',
+    'RssLatest',
+    ['EventIndex' => 'rssLatest'],
+    []
+);
+
 // Add default pageTSConfig
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
     file_get_contents(

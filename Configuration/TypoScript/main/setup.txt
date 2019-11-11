@@ -79,6 +79,15 @@ plugin.tx_czsimplecal {
 
           useAction = list
         }
+
+        rssUpcoming < .miniList
+        rssUpcoming {
+          maxEvents = 10
+        }
+
+        rssLatest {
+          maxEvents = 10
+        }
       }
     }
 

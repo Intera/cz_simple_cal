@@ -1,44 +1,10 @@
 <?php
+/** @noinspection PhpFullyQualifiedNameUsageInspection */
+/** @noinspection PhpMissingStrictTypesDeclarationInspection */
+
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $_EXTKEY,
-    'Pi1',
-    'Simple calendar using Extbase'
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $_EXTKEY,
-    'Pi2',
-    'Calendar event submission for users'
-);
-
-// Default typoscript
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-    $_EXTKEY,
-    'Configuration/TypoScript/main',
-    'Simple calendar using Extbase'
-);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-    $_EXTKEY,
-    'Configuration/TypoScript/customaddress',
-    'Use custom address extension'
-);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-    $_EXTKEY,
-    'Configuration/TypoScript/ics',
-    'ICS configuration'
-);
-
-// Init flexform for plugin
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['czsimplecal_pi1'] = 'pi_flexform';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['czsimplecal_pi1'] = 'layout,select_key';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
-    'czsimplecal_pi1',
-    'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform.xml'
-);
 
 // TCA config
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(

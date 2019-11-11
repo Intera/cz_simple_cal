@@ -53,6 +53,7 @@ abstract class BaseExtendableController extends ActionController
     {
         $this->initializeSettings();
         $this->initializeActionSettings();
+        $this->initializeForcedActionSetting();
     }
 
     /**
@@ -98,6 +99,14 @@ abstract class BaseExtendableController extends ActionController
 
         $this->actionSettings = &$actionSettings;
         $this->settings[$this->request->getControllerName()]['actions'][$actionName] = &$actionSettings;
+    }
+
+    protected function initializeForcedActionSetting(): void
+    {
+        $forcedAction = $this->settings['forceAction'] ?? '';
+        if ($forcedAction && $this->request->getControllerActionName() !== $forcedAction) {
+            $this->forward($this->settings['forceAction']);
+        }
     }
 
     /**

@@ -1,0 +1,67 @@
+plugin.tx_czsimplecal {
+  settings {
+    rss {
+      latest.pageType = {$plugin.tx_czsimplecal.rss.latest.pageType}
+      upcoming.pageType = {$plugin.tx_czsimplecal.rss.upcoming.pageType}
+    }
+  }
+}
+
+
+temp.feedDummyPage = PAGE
+temp.feedDummyPage {
+  config {
+    disableAllHeaderCode = 1
+    xhtml_cleaning = none
+    admPanel = 0
+    additionalHeaders.10.header = Content-Type: text/xml;charset=utf-8
+    makeImageResourcesAbsolute = 1
+  }
+
+  10 = COA
+  10 {
+    10 = CONTENT
+    10 {
+      table = tt_content
+      select.uidInList {
+        data = GP:content
+        intval = 1
+      }
+
+      renderObj = CASE
+      renderObj {
+        key.field = CType
+        list = CASE
+        list {
+          key.field = list_type
+        }
+      }
+    }
+
+    if.isTrue {
+      data = GP:content
+      intval = 1
+    }
+  }
+}
+
+pageCalendarRSSLatest < temp.feedDummyPage
+pageCalendarRSSLatest {
+  typeNum = {$plugin.tx_czsimplecal.rss.latest.pageType}
+
+  10.10.renderObj.list {
+    czsimplecal_pi1 < tt_content.list.20.czsimplecal_rsslatest
+    czsimplecal_pi1.settings.forceAction = rssLatest
+  }
+}
+
+
+pageCalendarRSSUpcoming < temp.feedDummyPage
+pageCalendarRSSUpcoming {
+  typeNum = {$plugin.tx_czsimplecal.rss.upcoming.pageType}
+
+  10.10.renderObj.list {
+    czsimplecal_pi1 < tt_content.list.20.czsimplecal_rssupcoming
+    czsimplecal_pi1.settings.forceAction = rssUpcoming
+  }
+}

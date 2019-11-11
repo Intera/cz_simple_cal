@@ -1,0 +1,69 @@
+{namespace cal=Tx\CzSimpleCal\ViewHelpers}<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	 xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+
+		<atom:link href="{currentUrl -> f:format.htmlspecialchars()}" rel="self" type="application/rss+xml" />
+
+		<title><f:format.htmlspecialchars>{channelTitle}</f:format.htmlspecialchars></title>
+
+		<link>{f:uri.page(pageUid:'{contentObjectData.pid}', absolute: 'true')}</link>
+
+		<description>{feedSettings.channelDescription}</description>
+
+		<language>{language}</language>
+
+		<f:if condition="{settings.rss.channelCopyright}">
+			<copyright>{settings.rss.channelCopyright}</copyright>
+		</f:if>
+
+		<lastBuildDate><f:format.date format="r">{channelLastBuildDate}</f:format.date></lastBuildDate>
+
+		<f:if condition="{events}">
+
+			<pubDate><f:format.date date="{channelPubDate}" format="r" /></pubDate>
+
+			<f:for each="{events}" as="event">
+				<item>
+					<guid isPermaLink="false">event-{event.uid}</guid>
+
+					<pubDate><f:format.date format="r">{event.tstamp}</f:format.date></pubDate>
+
+					<title><f:format.htmlspecialchars><cal:event.plainTime eventIndex="{event}" /> [<f:translate key="event_status_{event.status}"/>] {event.title}</f:format.htmlspecialchars></title>
+
+					<link><f:format.htmlspecialchars><f:uri.action action="show" arguments="{event: event}" absolute="true" extensionName="CzSimpleCal" pluginName="Pi1" /></f:format.htmlspecialchars></link>
+
+					<description><f:format.htmlspecialchars>{event.teaser}</f:format.htmlspecialchars></description>
+
+					<content:encoded><f:format.cdata>
+
+						<h2>{event.title}</h2>
+
+						<p class="tx-czsimplecal-event-show-date">
+							<f:render partial="StartAndEndDate" arguments="{_all}" />
+						</p>
+
+						<f:render partial="CancelledWarning" arguments="{_all}" />
+
+						<f:render partial="Categories" arguments="{_all}" />
+
+						<cal:renderData object="{event.event}" extensionName="CzSimpleCal" pluginName="Pi1">
+							<f:render partial="EventDetails" arguments="{settings: settings, event: event.event, renderData: renderData}" />
+						</cal:renderData>
+
+					</f:format.cdata></content:encoded>
+
+					<f:if condition="{event.event.imageReferences}">
+						<f:for each="{event.event.imageReferences}" as="image" iteration="iteration">
+							<f:if condition="{iteration.cycle}=='1'">
+								<enclosure length="{image.originalResource.size}"
+									type="{image.originalResource.mimeType}"
+									url="{f:uri.image(image: image.originalResource, treatIdAsReference: '1', absolute: '1')}" />
+							</f:if>
+						</f:for>
+					</f:if>
+				</item>
+			</f:for>
+		</f:if>
+	</channel>
+</rss>

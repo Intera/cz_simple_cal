@@ -14,16 +14,19 @@ namespace Tx\CzSimpleCal\Utility;
  *                                                                        */
 
 use Tx\CzSimpleCal\Domain\Model\Enumeration\EventTimeType;
+use Tx\CzSimpleCal\Domain\Model\Event;
+use Tx\CzSimpleCal\Domain\Model\EventIndex;
+use TYPO3\CMS\Core\SingletonInterface;
 
 /**
  * This utility determines the event time type.
  */
-class EventTimeUtility implements \TYPO3\CMS\Core\SingletonInterface
+class EventTimeUtility implements SingletonInterface
 {
     /**
      * Returns the event time type for the given Event.
      *
-     * @param \Tx\CzSimpleCal\Domain\Model\Event $event
+     * @param Event $event
      * @return string
      */
     public function getEventTimeType($event)
@@ -67,10 +70,10 @@ class EventTimeUtility implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Returns the event time as a plaing string without HTML tags.
      *
-     * @param \Tx\CzSimpleCal\Domain\Model\EventIndex $eventIndex
+     * @param EventIndex $eventIndex
      * @return string
      */
-    public function getPlainEventTimeForEventIndexEntry($eventIndex)
+    public function getPlainEventTimeForEventIndexEntry($eventIndex): string
     {
         $eventTimeType = $this->getEventTimeType($eventIndex->getEvent());
 
