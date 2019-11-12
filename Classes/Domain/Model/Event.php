@@ -113,6 +113,11 @@ class Event extends BaseEvent
     protected $enableEndtime;
 
     /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\SJBR\StaticInfoTables\Domain\Model\Language>
+     */
+    protected $eventLanguages;
+
+    /**
      * Cache for all exceptions retrieved from exceptions and exeption groups.
      *
      * @Extbase\ORM\Transient
@@ -445,6 +450,15 @@ class Event extends BaseEvent
             return false;
         }
         return ($GLOBALS['EXEC_TIME'] > $enableEndtime);
+    }
+
+    public function getEventLanguages(): ObjectStorage
+    {
+        $eventLanguages = $this->eventLanguages;
+        if (is_null($eventLanguages)) {
+            $eventLanguages = $this->objectManager->get(ObjectStorage::class);
+        }
+        return $eventLanguages;
     }
 
     /**

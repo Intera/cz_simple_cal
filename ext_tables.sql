@@ -7,6 +7,7 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 	start_time INT(11) DEFAULT NULL,
 	end_day INT(11) DEFAULT NULL,
 	end_time INT(11) DEFAULT NULL,
+	event_languages VARCHAR(255) DEFAULT '',
 	timezone VARCHAR(20) DEFAULT 'GMT',
 	teaser TEXT,
 	description TEXT,

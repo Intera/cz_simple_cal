@@ -40,6 +40,9 @@
 			<trans-unit id="tx_czsimplecal_domain_model_event.end_time" xml:space="preserve">
 				<source>End Time</source>
 			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.event_languages" xml:space="preserve">
+				<source>Event languages</source>
+			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_event.timezone" xml:space="preserve">
 				<source>Timezone</source>
 			</trans-unit>

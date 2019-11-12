@@ -52,6 +52,10 @@
 				<source>End Time</source>
 				<target>Zeit Ende</target>
 			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.event_languages" xml:space="preserve">
+				<source>Event languages</source>
+				<target>Veranstaltungssprachen</target>
+			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_event.timezone" xml:space="preserve" approved="yes">
 				<source>Timezone</source>
 				<target>Zeitzone</target>

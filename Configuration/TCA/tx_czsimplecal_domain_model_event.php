@@ -34,7 +34,7 @@ return [
         '1' => [
             'showitem' => '
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_general,
-                    title,slug,start_day,start_time,end_day,end_time,status,categories,show_page_instead,teaser,description,
+                    title,slug,start_day,start_time,end_day,end_time,status,categories,event_languages,show_page_instead,teaser,description,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_resources,
                     images,files,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_recurrance,
