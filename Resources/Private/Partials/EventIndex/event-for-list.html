@@ -7,10 +7,9 @@
     </h3>
 
     <p class="tx-czsimplecal-event-list-date">
-        <cal:format.trim>
+        <f:spaceless>
             <f:render partial="StartAndEndDate" arguments="{_all}"/>
-        </cal:format.trim>
-        <f:if condition="{event.activeLocation.name}">, {event.activeLocation.name}</f:if>
+        </f:spaceless><f:if condition="{event.activeLocation.name}">, {event.activeLocation.name}</f:if>
     </p>
 
     <f:render partial="Categories" arguments="{_all}"/>

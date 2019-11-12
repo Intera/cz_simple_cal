@@ -2,7 +2,7 @@
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     data-namespace-typo3-fluid="true">
 
-<f:section name="displayTime"><cal:format.trim>
+<f:section name="displayTime"><f:spaceless>
 	<f:if condition="{timestampEnd}">
 		<f:then>
 			<f:translate key="display_time" arguments="{0: '{f:format.date(format:\'%H:%M\', date: timestamp)} - {f:format.date(format:\'%H:%M\', date: timestampEnd)}'}" />
@@ -11,7 +11,7 @@
 			<f:translate key="display_time" arguments="{0: '{f:format.date(format:\'%H:%M\', date: timestamp)}'}" />
 		</f:else>
 	</f:if>
-</cal:format.trim></f:section>
+</f:spaceless></f:section>
 
 <f:section name="timeElement">
 	<f:switch expression="{cal:eventTimeType(event: event.event)}">
