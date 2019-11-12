@@ -168,6 +168,18 @@
 				<source>descending</source>
 				<target>absteigend</target>
 			</trans-unit>
+			<trans-unit id="field.settings.gridWidth" xml:space="preserve">
+				<source>Grid width (for slider)</source>
+				<target>Spaltenbreite (für Slider)</target>
+			</trans-unit>
+			<trans-unit id="field.settings.gridWidth.I.four_columns" xml:space="preserve">
+				<source>Four columns</source>
+				<target>Vierspaltig</target>
+			</trans-unit>
+			<trans-unit id="field.settings.gridWidth.I.two_columns" xml:space="preserve">
+				<source>Two columns</source>
+				<target>Zweispaltig</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

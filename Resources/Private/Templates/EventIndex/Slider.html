@@ -6,30 +6,32 @@
 
 <cal:useMicroformat format="hcalendar"/>
 
-<div class="vcalendar vcalendar-list slider">
-    <f:if condition="{events}">
-        <f:then>
-            <div class="slick-slider-container">
-                <div class="card card-calendar-carousel card-carousel">
-                    <div class="calendar-carousel quad">
-                        <f:for each="{events}" as="event">
-                            <div class="slide vevent card">
-                                <f:render partial="EventBox/BoxContents" arguments="{_all}"/>
-                                <cal:link.eventDetails class="stretched-link" event="{event}"/>
-                            </div>
-                        </f:for>
-                    </div>
-                    <div class="card-footer">
-                        <f:if condition="{contentObjectData.header}">
-                            {contentObjectData.header}
-                        </f:if>
+<div class="{gridColumnClasses} col-card">
+    <div class="vcalendar vcalendar-list slider">
+        <f:if condition="{events}">
+            <f:then>
+                <div class="slick-slider-container">
+                    <div class="card card-calendar-carousel card-carousel">
+                        <div class="calendar-carousel" data-grid-width="{gridWidth}">
+                            <f:for each="{events}" as="event">
+                                <div class="slide vevent card">
+                                    <f:render partial="EventBox/BoxContents" arguments="{_all}"/>
+                                    <cal:link.eventDetails class="stretched-link" event="{event}"/>
+                                </div>
+                            </f:for>
+                        </div>
+                        <div class="card-footer">
+                            <f:if condition="{contentObjectData.header}">
+                                {contentObjectData.header}
+                            </f:if>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </f:then>
-        <f:else>
-            <div class="alert alert-info"><f:translate key="msg.noEvents"/></div>
-        </f:else>
-    </f:if>
+            </f:then>
+            <f:else>
+                <div class="alert alert-info"><f:translate key="msg.noEvents"/></div>
+            </f:else>
+        </f:if>
+    </div>
 </div>
 </html>

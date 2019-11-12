@@ -127,6 +127,15 @@
 			<trans-unit id="field.action.order.descending" xml:space="preserve">
 				<source>descending</source>
 			</trans-unit>
+			<trans-unit id="field.settings.gridWidth" xml:space="preserve">
+				<source>Grid width (for slider)</source>
+			</trans-unit>
+			<trans-unit id="field.settings.gridWidth.I.four_columns" xml:space="preserve">
+				<source>Four columns</source>
+			</trans-unit>
+			<trans-unit id="field.settings.gridWidth.I.two_columns" xml:space="preserve">
+				<source>Two columns</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

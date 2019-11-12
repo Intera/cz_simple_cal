@@ -14,7 +14,8 @@
                 <el>
                     <switchableControllerActions>
                         <TCEforms>
-                            <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView
+                            <label>
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView
                             </label>
                             <config>
                                 <type>select</type>

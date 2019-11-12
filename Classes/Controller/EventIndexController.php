@@ -121,6 +121,9 @@ class EventIndexController extends BaseExtendableController
 
         $this->view->assign('categories', $this->categoryRepository->findAll());
         $this->view->assign('selectedCategory', $this->getSelectedCategory());
+
+        $this->view->assign('gridColumnClasses', $this->getGridSetting('gridColumnClassMapping'));
+        $this->view->assign('gridWidth', $this->getGridSetting('gridWidthMapping'));
     }
 
     /**
@@ -202,6 +205,19 @@ class EventIndexController extends BaseExtendableController
         } else {
             return null;
         }
+    }
+
+    protected function getGridSetting($mappingConfigKey)
+    {
+        $gridWithSetting = $this->settings['gridWidth'] ?? '';
+        $settingMapping = $this->actionSettings[$mappingConfigKey];
+
+        $settingValue = $settingMapping[$gridWithSetting] ?? '';
+        if (!$settingValue) {
+            $settingValue = array_shift($settingMapping);
+        }
+
+        return $settingValue;
     }
 
     /**
