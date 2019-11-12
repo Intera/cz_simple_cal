@@ -137,7 +137,6 @@ CREATE TABLE tx_czsimplecal_event_category_mm (
 	uid_foreign INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 	tablenames VARCHAR(255) DEFAULT '' NOT NULL,
 	sorting INT(11) UNSIGNED DEFAULT '0' NOT NULL,
-	sorting_foreign INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
 	tstamp INT(10) UNSIGNED DEFAULT '0' NOT NULL,
 	crdate INT(10) UNSIGNED DEFAULT '0' NOT NULL,
