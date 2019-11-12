@@ -6,11 +6,11 @@
 
 <cal:useMicroformat format="hcalendar"/>
 
-<ul class="nav event-list-controls">
+<div class="event-list-controls d-flex">
     <f:if condition="categories">
-        <li class="nav-item dropdown">
+        <div class="dropdown">
             <a aria-expanded="false" aria-haspopup="true"
-                class="nav-link dropdown-toggle" data-toggle="dropdown"
+                class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
                 href="#" role="button" title="{f:if(condition: '{selectedCategory}', then: 'Gefiltert nach Kategorie', else: 'Nach Kategorie filtern')}">
                 <f:if condition="{selectedCategory}">
                     <f:then>{selectedCategory.title}</f:then>
@@ -22,14 +22,17 @@
                     Alle
                 </cal:link.filterCategory>
                 <f:for each="{categories}" as="category">
-                    <cal:link.filterCategory category="{category}" class="dropdown-item{f:if(condition: '{selectedCategory.uid}=={category.uid}', then: ' active')}">
-                        {category.title}
+                    <cal:link.filterCategory
+                        category="{category}"
+                        class="dropdown-item{f:if(condition: '{selectedCategory.uid}=={category.uid}', then: ' active')}{f:if(condition: category.color, then: ' has-background')}"
+                        style="{f:if(condition: category.color, then: 'background-color: {category.color}')}">
+                        <span>{category.title}</span>
                     </cal:link.filterCategory>
                 </f:for>
             </div>
-        </li>
+        </div>
     </f:if>
-</ul>
+</div>
 
 <div class="vcalendar vcalendar-list">
     <f:if condition="{events}">
