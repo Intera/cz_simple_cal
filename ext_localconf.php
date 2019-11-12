@@ -20,6 +20,14 @@ if (!defined('TYPO3_MODE')) {
     []
 );
 
+/** @uses \Tx\CzSimpleCal\Controller\EventIndexController::listAction() */
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'Tx.CzSimpleCal',
+    'Slider',
+    ['EventIndex' => 'list'],
+    []
+);
+
 /** @uses \Tx\CzSimpleCal\Controller\EventAdministrationController::listAction() */
 /** @uses \Tx\CzSimpleCal\Controller\EventAdministrationController::newAction() */
 /** @uses \Tx\CzSimpleCal\Controller\EventAdministrationController::createAction() */
@@ -67,3 +75,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
     = Tx\CzSimpleCal\Hook\DataHandlerHook::class;
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass'][]
     = Tx\CzSimpleCal\Hook\DataHandlerHook::class;
+
+$iconFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+$iconFactory->registerIcon(
+    'tx_czsimplecal-new-content-wizard',
+    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+    ['source' => 'EXT:cz_simple_cal/Resources/Public/Images/calendar_new_content_elmement_wizard.gif']
+);
+unset($iconFactory);

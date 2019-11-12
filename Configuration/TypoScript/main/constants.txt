@@ -6,4 +6,5 @@ plugin.tx_czsimplecal {
 		default =
 	}
 
+  slider.maxEvents = 20
 }

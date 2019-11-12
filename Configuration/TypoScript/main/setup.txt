@@ -27,9 +27,10 @@ plugin.tx_czsimplecal {
         listMonths {
           getPostAllowed = filter
           startDate = today
-          maxEvents = 9999
+
           orderBy = start
           order = ASC
+
           useAction = list
         }
 
@@ -76,6 +77,16 @@ plugin.tx_czsimplecal {
           maxEvents = 999
           orderBy = start
           order = ASC
+
+          useAction = list
+        }
+
+        slider {
+          startDate = today
+
+          maxEvents = {$plugin.tx_czsimplecal.slider.maxEvents}
+          orderBy = start
+          order = asc
 
           useAction = list
         }
@@ -162,3 +173,5 @@ plugin.tx_czsimplecal {
     }
   }
 }
+
+tt_content.list.20.czsimplecal_slider.settings.forceAction = slider

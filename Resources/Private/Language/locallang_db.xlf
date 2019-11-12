@@ -4,6 +4,24 @@
 		  product-name="cz_simple_cal">
 		<header/>
 		<body>
+			<trans-unit id="wizard_new_content_element.pi1.description" xml:space="preserve">
+				<source>List and display events</source>
+			</trans-unit>
+			<trans-unit id="wizard_new_content_element.pi1.title" xml:space="preserve">
+				<source>Calendar</source>
+			</trans-unit>
+			<trans-unit id="wizard_new_content_element.slider.description" xml:space="preserve">
+				<source>List events in a slider</source>
+			</trans-unit>
+			<trans-unit id="wizard_new_content_element.slider.title" xml:space="preserve">
+				<source>Calendar Slider</source>
+			</trans-unit>
+			<trans-unit id="tt_content.list_type.I.czsimplecal_pi1" xml:space="preserve">
+				<source>Calendar</source>
+			</trans-unit>
+			<trans-unit id="tt_content.list_type.I.czsimplecal_slider" xml:space="preserve">
+				<source>Calendar slider</source>
+			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_event" xml:space="preserve">
 				<source>Event</source>
 			</trans-unit>

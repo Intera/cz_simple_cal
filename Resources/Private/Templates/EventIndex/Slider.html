@@ -1,0 +1,21 @@
+<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+
+<f:render partial="Rss/RssLink" arguments="{_all}"/>
+
+<cal:useMicroformat format="hcalendar"/>
+
+<div class="vcalendar vcalendar-list slider">
+    <f:if condition="{events}">
+        <f:then>
+            <f:for each="{events}" as="event">
+                <f:render partial="EventIndex/EventBox" arguments="{_all}"/>
+            </f:for>
+        </f:then>
+        <f:else>
+            <div class="alert alert-info"><f:translate key="msg.noEvents"/></div>
+        </f:else>
+    </f:if>
+</div>
+</html>
