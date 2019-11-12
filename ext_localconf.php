@@ -24,7 +24,7 @@ if (!defined('TYPO3_MODE')) {
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'Tx.CzSimpleCal',
     'Slider',
-    ['EventIndex' => 'list'],
+    ['EventIndex' => 'slider'],
     []
 );
 
