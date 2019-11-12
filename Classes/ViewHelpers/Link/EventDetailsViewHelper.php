@@ -63,10 +63,19 @@ class EventDetailsViewHelper extends AbstractTagBasedViewHelper
         // This is the central part of this view helper! We overwrite the argument prefix to make the
         // parameters available to the target plugin. We can not provide the target plugin to uriFor
         // because then the view.defaultPid setting from the FelxForm is ignored!
-        $targetPluginNamespace = $this->extensionService->getPluginNamespace('CzSimpleCal', 'Pi1');
+        $targetPluginNamespace = $this->extensionService->getPluginNamespace(
+            $this->getControllerContext()->getRequest()->getControllerExtensionName(),
+            'Pi1'
+        );
         $uriBuilder->setArgumentPrefix($targetPluginNamespace);
 
-        $uri = $uriBuilder->uriFor('show', ['event' => $event], 'EventIndex');
+        $uri = $uriBuilder->uriFor(
+            'show',
+            ['event' => $event],
+            'EventIndex',
+            $this->getControllerContext()->getRequest()->getControllerExtensionName(),
+            $this->getControllerContext()->getRequest()->getPluginName()
+        );
 
         $this->tag->setTagName('a');
         $this->tag->addAttribute('href', $uri);
