@@ -34,9 +34,9 @@ return [
         '1' => [
             'showitem' => '
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_general,
-                    title,slug,start_day,start_time,end_day,end_time,status,categories,event_languages,show_page_instead,teaser,description,
+                    title, slug, palette;;start, palette;;end, status, categories, show_page_instead, teaser, description,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_resources,
-                    images,files,
+                    images, files, event_languages,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_recurrance,
                     recurrance_type,recurrance_subtype,recurrance_until,exceptions,exception_groups,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.tab_location,
@@ -51,6 +51,8 @@ return [
         ],
     ],
     'palettes' => [
+        'start' => ['showitem' => 'start_day,start_time'],
+        'end' => ['showitem' => 'end_day,end_time'],
         'access' => [
             'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access',
             'showitem' => 'hidden, enable_endtime',
