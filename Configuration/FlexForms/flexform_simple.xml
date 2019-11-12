@@ -12,20 +12,6 @@
                 </TCEforms>
                 <type>array</type>
                 <el>
-                    <switchableControllerActions>
-                        <TCEforms>
-                            <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView
-                            </label>
-                            <config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items></items>
-                                <itemsProcFunc>Tx\CzSimpleCal\Utility\FlexConfig->getAllowedActions</itemsProcFunc>
-                            </config>
-                        </TCEforms>
-                    </switchableControllerActions>
-
                     <view.defaultPid>
                         <TCEforms>
                             <label>
