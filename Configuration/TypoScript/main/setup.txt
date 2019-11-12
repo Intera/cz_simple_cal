@@ -114,32 +114,6 @@ plugin.tx_czsimplecal {
 
     }
   }
-
-  rendering {
-
-    descriptionAndImages =< tt_content.textpic
-    descriptionAndImages {
-      20 {
-        imgList.cObject.references {
-          table = tx_czsimplecal_domain_model_event
-          fieldName = images
-        }
-
-        preRenderRegisters.allImageCaptions.cObject.references < .imgList.cObject.references
-      }
-    }
-
-    files =< tt_content.uploads
-    files {
-      15 = TEXT
-      15.data = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang.xml:tx_czsimplecal_domain_model_event_files
-      15.wrap = <h3>|</h3>
-      20.references {
-        table = tx_czsimplecal_domain_model_event
-        fieldName = files
-      }
-    }
-  }
 }
 
 tt_content.list.20.czsimplecal_slider.settings.forceAction = slider
