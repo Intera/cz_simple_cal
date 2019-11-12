@@ -35,9 +35,7 @@
 
     <h3><f:translate key="event_show_details_header"/></h3>
 
-    <cal:renderData object="{event}">
-        <f:render partial="EventDetails" arguments="{settings: settings, event: event, renderData: renderData}"/>
-    </cal:renderData>
+    <f:render partial="EventDetails" arguments="{settings: settings, event: event}"/>
 
     <f:render partial="BackToListLink" arguments="{_all}"/>
 </div>

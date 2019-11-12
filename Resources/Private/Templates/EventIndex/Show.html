@@ -59,9 +59,7 @@
     </div>
 </f:if>
 
-<cal:renderData object="{event.event}">
-    <f:render partial="EventDetails" arguments="{settings: settings, event: event.event, renderData: renderData}"/>
-</cal:renderData>
+<f:render partial="EventDetails" arguments="{settings: settings, event: event.event}"/>
 
 <f:if condition="{subscriptionPossible}">
     <f:render partial="EventIndex/SubscriptionForm" arguments="{_all}"/>

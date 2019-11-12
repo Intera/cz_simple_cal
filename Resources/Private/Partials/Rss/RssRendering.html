@@ -47,9 +47,7 @@
 
 						<f:render partial="Categories" arguments="{_all}" />
 
-						<cal:renderData object="{event.event}" extensionName="CzSimpleCal" pluginName="Pi1">
-							<f:render partial="EventDetails" arguments="{settings: settings, event: event.event, renderData: renderData}" />
-						</cal:renderData>
+						<f:render partial="EventDetails" arguments="{settings: settings, event: event.event}" />
 
 					</f:format.cdata></content:encoded>
 

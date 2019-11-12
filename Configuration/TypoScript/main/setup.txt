@@ -106,45 +106,6 @@ plugin.tx_czsimplecal {
     custom {
 
     }
-
-    renderData {
-
-      descriptionAndImages {
-
-        mapObjectProperties {
-          uid = uid
-          bodytext = description
-        }
-
-        overrideData {
-
-          // This might be used as condition somewhere so we set
-          // it just to be sure
-          CType = textpic
-
-          // Images are aligned in tex right by default
-          imageorient = 17
-
-          // Enable click enlarge by default
-          image_zoom = 1
-
-          // we do not want the header to be rendered
-          header =
-        }
-      }
-
-      files {
-
-        mapObjectProperties {
-          uid = uid
-        }
-
-        overrideData {
-          // we do not want the header to be rendered
-          header =
-        }
-      }
-    }
   }
 
   rendering {
