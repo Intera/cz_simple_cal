@@ -142,7 +142,7 @@ class Address extends AbstractEntity
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

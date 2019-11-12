@@ -344,15 +344,14 @@ class Event extends BaseEvent
      *
      * @return Location
      */
-    public function getActiveLocation()
+    public function getActiveLocation(): ?Location
     {
         $location = $this->getLocation();
-
         if (isset($location)) {
-            return $location;
+            return $this->resolveLazyLoadingProx($location);
         }
 
-        return $this->getLocationInline();
+        return $this->resolveLazyLoadingProx($this->getLocationInline());
     }
 
     /**
@@ -361,15 +360,15 @@ class Event extends BaseEvent
      *
      * @return Organizer
      */
-    public function getActiveOrganizer()
+    public function getActiveOrganizer(): ?Organizer
     {
         $organizer = $this->getOrganizer();
 
         if (isset($organizer)) {
-            return $organizer;
+            return $this->resolveLazyLoadingProx($organizer);
         }
 
-        return $this->getOrganizerInline();
+        return $this->resolveLazyLoadingProx($this->getOrganizerInline());
     }
 
     /**

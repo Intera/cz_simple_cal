@@ -31,6 +31,7 @@ namespace Tx\CzSimpleCal\Domain\Model;
 
 use Tx\CzSimpleCal\Domain\Interfaces\IsRecurring;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy;
 
 /**
  * A base version for an event with start, end and possible recurrance
@@ -373,5 +374,14 @@ abstract class BaseEvent extends Base implements IsRecurring
             '@' . $end
         );
         $this->endDateTime->setTimezone(new \DateTimeZone($this->timezone));
+    }
+
+    protected function resolveLazyLoadingProx($possibleProxy)
+    {
+        if ($possibleProxy instanceof LazyLoadingProxy) {
+            return $possibleProxy->_loadRealInstance();
+        }
+
+        return $possibleProxy;
     }
 }
