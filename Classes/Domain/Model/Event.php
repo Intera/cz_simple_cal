@@ -37,6 +37,7 @@ use Tx\CzSimpleCal\Recurrance\Timeline\Event as TimelineEvent;
 use Tx\CzSimpleCal\Utility\FileArrayBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
@@ -562,6 +563,13 @@ class Event extends BaseEvent
             $this->getUidLocalized() .
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']
         );
+    }
+
+    public function getImageReferencePrimary(): ?FileReference
+    {
+        $imageReferences = $this->getImageReferences();
+        $imageReferences->rewind();
+        return $imageReferences->current();
     }
 
     /**
