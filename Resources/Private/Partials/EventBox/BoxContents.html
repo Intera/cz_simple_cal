@@ -1,0 +1,51 @@
+<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+<f:render partial="EventBox/BoxImage" arguments="{_all}"/>
+
+<div class="card-body">
+    <cal:template.dateTag class="date-stamp"
+        date="{event.dateTimeObjectStart}"
+        style="{f:if(condition: event.event.categoryColor, then: 'background-color: {event.event.categoryColor}')}"
+        type="dtstart">
+        <span class="month"><f:format.date date="{event.dateTimeObjectStart}" format="M"/></span>
+        <span class="day"><f:format.date date="{event.dateTimeObjectStart}" format="d"/></span>
+    </cal:template.dateTag>
+
+    <f:if condition="{event.event.eventLanguages}">
+        <div class="tags language-container">
+            <f:for each="{event.event.eventLanguages}" as="language">
+                <span class="badge" title="{language.localName}">{language.isoCodeA2}</span>
+            </f:for>
+        </div>
+    </f:if>
+
+    <f:if condition="{event.category}">
+                <span class="category">
+                    {event.category.title}
+                </span>
+    </f:if>
+
+    <h5 class="summary">{event.title}</h5>
+
+    <div class="meta-info">
+                <span class="time">
+                    <f:spaceless>
+                        <f:format.date date="{event.dateTimeObjectStart}" format="l"/>,
+                        <f:if condition="{event.startTime}">
+                            <f:then><f:format.date date="{event.dateTimeObjectStart}" format="%X"/> Uhr</f:then>
+                            <f:else>Ganztägig</f:else>
+                        </f:if>
+                    </f:spaceless><f:spaceless>
+                        <f:if condition="{event.locationName}">
+                            ,
+                        </f:if>
+                    </f:spaceless>
+                </span>
+    </div>
+
+    <f:if condition="{event.locationName}">
+        <span class="location">{event.locationName}</span>
+    </f:if>
+</div>
+</html>

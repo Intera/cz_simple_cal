@@ -9,9 +9,23 @@
 <div class="vcalendar vcalendar-list slider">
     <f:if condition="{events}">
         <f:then>
-            <f:for each="{events}" as="event">
-                <f:render partial="EventIndex/EventBox" arguments="{_all}"/>
-            </f:for>
+            <div class="slick-slider-container">
+                <div class="card card-calendar-carousel card-carousel">
+                    <div class="calendar-carousel quad">
+                        <f:for each="{events}" as="event">
+                            <div class="slide vevent card">
+                                <f:render partial="EventBox/BoxContents" arguments="{_all}"/>
+                                <cal:link.eventDetails class="stretched-link" event="{event}"/>
+                            </div>
+                        </f:for>
+                    </div>
+                    <div class="card-footer">
+                        <f:if condition="{contentObjectData.header}">
+                            {contentObjectData.header}
+                        </f:if>
+                    </div>
+                </div>
+            </div>
         </f:then>
         <f:else>
             <div class="alert alert-info"><f:translate key="msg.noEvents"/></div>

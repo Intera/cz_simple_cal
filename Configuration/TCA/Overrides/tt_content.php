@@ -31,8 +31,13 @@ $flexFormType = $extensionConfig->get('cz_simple_cal', 'flexFormType') ?: 'advan
 
 // Init flexform for plugin
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['czsimplecal_pi1'] = 'pi_flexform';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['czsimplecal_pi1'] = 'layout,select_key';
 ExtensionManagementUtility::addPiFlexFormValue(
     'czsimplecal_pi1',
+    sprintf('FILE:EXT:cz_simple_cal/Configuration/FlexForms/flexform_%s.xml', $flexFormType)
+);
+
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['czsimplecal_slider'] = 'pi_flexform';
+ExtensionManagementUtility::addPiFlexFormValue(
+    'czsimplecal_slider',
     sprintf('FILE:EXT:cz_simple_cal/Configuration/FlexForms/flexform_%s.xml', $flexFormType)
 );
