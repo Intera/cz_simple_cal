@@ -64,6 +64,10 @@
 				<source>Event</source>
 				<target>Veranstaltung</target>
 			</trans-unit>
+			<trans-unit id="event_language" xml:space="preserve">
+				<source>Language of the event</source>
+				<target>Sprache der Veranstaltung</target>
+			</trans-unit>
 			<trans-unit id="events" xml:space="preserve" approved="yes">
 				<source>Events</source>
 				<target>Veranstaltungen</target>
@@ -71,6 +75,10 @@
 			<trans-unit id="nextAppointments" xml:space="preserve" approved="yes">
 				<source>next Appointments</source>
 				<target>nächste Termine</target>
+			</trans-unit>
+			<trans-unit id="category" xml:space="preserve">
+				<source>Category</source>
+				<target>Kategorie</target>
 			</trans-unit>
 			<trans-unit id="categories" xml:space="preserve" approved="yes">
 				<source>Categories</source>
@@ -198,7 +206,7 @@
 			</trans-unit>
 			<trans-unit id="organizer" xml:space="preserve" approved="yes">
 				<source>Organizer</source>
-				<target>Organisator</target>
+				<target>Veranstalter</target>
 			</trans-unit>
 			<trans-unit id="location" xml:space="preserve" approved="yes">
 				<source>Location</source>

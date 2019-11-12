@@ -1,0 +1,11 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+<f:if condition="{event.event.fileReferences}">
+    <h5><f:translate key="tx_czsimplecal_domain_model_event_files"/></h5>
+    <ul class="files">
+        <f:for each="{event.event.fileReferences}" as="file">
+            <li><a href="{file.originalResource.publicUrl}">{file.originalResource.name}</a></li>
+        </f:for>
+    </ul>
+</f:if>
+</html>

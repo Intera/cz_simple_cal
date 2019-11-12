@@ -541,6 +541,15 @@ class Event extends BaseEvent
         return $this->flickrTags_;
     }
 
+    public function getHasMedia(): bool
+    {
+        if ($this->getImageReferences()->count() > 0) {
+            return true;
+        }
+
+        return $this->getFileReferences()->count() > 0;
+    }
+
     /**
      * get a hash for this recurrance of the event
      *

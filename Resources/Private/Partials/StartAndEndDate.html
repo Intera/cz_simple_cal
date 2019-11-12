@@ -1,4 +1,6 @@
-{namespace cal=Tx\CzSimpleCal\ViewHelpers}
+<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
 
 <f:section name="displayTime"><cal:format.trim>
 	<f:if condition="{timestampEnd}">
@@ -23,7 +25,7 @@
 		</f:case>
 
 		<f:case value="startDateTimeAndEndTime">
-			<!-- Both times need to be in one line to prevent unwanted space after the first tag -->
+			<f:comment><!-- Both times need to be in one line to prevent unwanted space after the first tag --></f:comment>
 			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start, timestampEnd: event.end}" /></time><time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"></time>
 		</f:case>
 
@@ -45,11 +47,6 @@
 	</f:switch>
 </f:section>
 
-<span class="status">
-	<span class="value" title="{event.status}"></span>
-	<span class="tx-czsimplecal-event-status tx-czsimplecal-event-status-{event.status -> cal:format.strToLower()}" title="{f:translate(key: 'event_status_title_{event.status -> cal:format.strToLower()}')}">•</span>
-</span>
-
 <f:if condition="{linkEventTimeToIndex}">
 	<f:then>
 		<f:link.action action="show" controller="eventIndex" arguments="{event: event}">
@@ -60,3 +57,4 @@
 		<f:render section="timeElement" arguments="{_all}" />
 	</f:else>
 </f:if>
+</html>

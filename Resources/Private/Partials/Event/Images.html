@@ -1,0 +1,12 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+<f:if condition="{event.event.imageReferences}">
+    <div class="img-container">
+        <f:for each="{event.event.imageReferences}" as="image">
+            <div class="img-wrap">
+                <f:image class="img-fluid" image="{image}" treatIdAsReference="true"/>
+            </div>
+        </f:for>
+    </div>
+</f:if>
+</html>

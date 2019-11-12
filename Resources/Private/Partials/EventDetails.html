@@ -1,18 +1,14 @@
-
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
 <div class="description">
-	<f:cObject typoscriptObjectPath="plugin.tx_czsimplecal.rendering.descriptionAndImages" data="{renderData.descriptionAndImages}" />
+    <f:format.html>{event.description}</f:format.html>
 </div>
 
-<f:if condition="{event.files}">
-	<div class="files">
-		<f:cObject typoscriptObjectPath="plugin.tx_czsimplecal.rendering.files" data="{renderData.files}" />
-	</div>
-</f:if>
-
 <f:if condition="{event.activeLocation}">
-	<f:render partial="Location/location-for-event-inline.html" arguments="{settings: settings, location: event.activeLocation}" />
+    <f:render partial="Location/location-for-event-inline.html" arguments="{settings: settings, location: event.activeLocation}"/>
 </f:if>
 
 <f:if condition="{event.activeOrganizer}">
-	<f:render partial="Organizer/organizer-for-event-inline.html" arguments="{settings: settings, organizer: event.activeOrganizer}" />
+    <f:render partial="Organizer/organizer-for-event-inline.html" arguments="{settings: settings, organizer: event.activeOrganizer}"/>
 </f:if>
+</html>

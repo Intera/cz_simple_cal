@@ -1,3 +1,8 @@
-<div class="tx-czsimplecal-event-show-backlink">
-	<f:link.action controller="EventIndex" action="list" addQueryString="true"><f:translate key="msg.backToList"/></f:link.action>
-</div>
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+<p class="tx-czsimplecal-event-show-backlink">
+    <f:link.action action="list" addQueryString="true" class="btn btn-secondary" controller="EventIndex">
+        <f:translate key="msg.backToList"/>
+    </f:link.action>
+</p>
+</html>

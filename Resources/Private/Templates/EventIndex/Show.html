@@ -8,26 +8,66 @@
 
 <f:flashMessages/>
 
-<div class="vevent vcalendar-event">
-    <f:render partial="EventHeader" arguments="{_all}"/>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="vevent vcalendar-event">
+            <header>
+                <h2>{event.title}</h2>
+            </header>
 
-    <p class="tx-czsimplecal-event-show-date">
-        <f:render partial="StartAndEndDate" arguments="{_all}"/>
-    </p>
-
-    <f:render partial="CancelledWarning" arguments="{_all}"/>
-
-    <f:render partial="Categories" arguments="{_all}"/>
-
-    <cal:renderData object="{event.event}">
-        <f:render partial="EventDetails" arguments="{settings: settings, event: event.event, renderData: renderData}"/>
-    </cal:renderData>
-
-    <f:if condition="{subscriptionPossible}">
-        <f:render partial="EventIndex/SubscriptionForm" arguments="{_all}"/>
-    </f:if>
-
-    <f:render partial="BackToListLink" arguments="{_all}"/>
+            <f:if condition="{event.event.hasMedia}">
+                <f:then>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                            <f:render partial="Event/Images" arguments="{_all}"/>
+                            <f:render partial="Event/Files" arguments="{_all}"/>
+                        </div>
+                        <div class="col-md-6 col-lg-8">
+                            <div class="description">
+                                <f:render section="eventData" arguments="{_all}"/>
+                            </div>
+                        </div>
+                    </div>
+                </f:then>
+                <f:else>
+                    <f:render section="eventData" arguments="{_all}"/>
+                </f:else>
+            </f:if>
+        </div>
+    </div>
 </div>
+
+
+<f:section name="eventData">
+
+<h4>
+    <f:render partial="StartAndEndDate" arguments="{_all}"/>
+    <f:if condition="{event.event.activeLocation.name}">
+        <br/>{event.event.activeLocation.name}
+    </f:if>
+</h4>
+
+<f:render partial="CancelledWarning" arguments="{_all}"/>
+
+<f:render partial="Categories" arguments="{_all}"/>
+
+<f:if condition="{event.event.eventLanguages}">
+    <div class="tags">
+        <f:for each="{event.event.eventLanguages}" as="language">
+            <span class="badge" title="{f:translate(key: 'event_language')}">{language.localName}</span>
+        </f:for>
+    </div>
+</f:if>
+
+<cal:renderData object="{event.event}">
+    <f:render partial="EventDetails" arguments="{settings: settings, event: event.event, renderData: renderData}"/>
+</cal:renderData>
+
+<f:if condition="{subscriptionPossible}">
+    <f:render partial="EventIndex/SubscriptionForm" arguments="{_all}"/>
+</f:if>
+
+<f:render partial="BackToListLink" arguments="{_all}"/>
+</f:section>
 
 </html>

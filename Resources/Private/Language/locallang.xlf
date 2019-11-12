@@ -49,11 +49,17 @@
 			<trans-unit id="event" xml:space="preserve">
 				<source>Event</source>
 			</trans-unit>
+			<trans-unit id="event_language" xml:space="preserve">
+				<source>Language of the event</source>
+			</trans-unit>
 			<trans-unit id="events" xml:space="preserve">
 				<source>Events</source>
 			</trans-unit>
 			<trans-unit id="nextAppointments" xml:space="preserve">
 				<source>next Appointments</source>
+			</trans-unit>
+			<trans-unit id="category" xml:space="preserve">
+				<source>Category</source>
 			</trans-unit>
 			<trans-unit id="categories" xml:space="preserve">
 				<source>Categories</source>

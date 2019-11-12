@@ -1,22 +1,28 @@
-{namespace cal=Tx\CzSimpleCal\ViewHelpers}
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    data-namespace-typo3-fluid="true">
 
 <cal:useMicroformat format="hcard" />
 
-<dl class="address-data vcard">
-	<f:if condition="{address.name}">
-		<dt><f:translate key="address_name" /></dt>
-		<dd class="fn">{address.name}</dd>
-	</f:if>
-	<f:if condition="{address.address}">
-		<dt><f:translate key="address" /></dt>
-		<dd class="street-address"><f:format.nl2br>{address.address}</f:format.nl2br></dd>
-	</f:if>
-	<f:if condition="{address.city}">
-		<dt><f:translate key="zip_and_city" /></dt>
-		<dd><span class="postal-code">{address.zip}</span> <span class="locality">{address.city}</span></dd>
-	</f:if>
-	<f:if condition="{address.homepage}">
-		<dt><f:translate key="address_homepage"/></dt>
-		<dd><span class="homepage"><f:link.typolink parameter="{address.homepage}"/></span></dd>
-	</f:if>
+<dl class="data-list address-data vcard">
+    <f:if condition="{address.name}">
+        <dt><f:translate key="address_name"/></dt>
+        <dd class="fn">{address.name}</dd>
+    </f:if>
+
+    <f:if condition="{address.address}">
+        <dt><f:translate key="address"/></dt>
+        <dd class="street-address"><f:format.nl2br>{address.address}</f:format.nl2br></dd>
+    </f:if>
+
+    <f:if condition="{address.city}">
+        <dt><f:translate key="zip_and_city"/></dt>
+        <dd><span class="postal-code">{address.zip}</span> <span class="locality">{address.city}</span></dd>
+    </f:if>
+
+    <f:if condition="{address.homepage}">
+        <dt><f:translate key="address_homepage"/></dt>
+        <dd><span class="homepage"><f:link.typolink parameter="{address.homepage}"/></span></dd>
+    </f:if>
 </dl>
+</html>
