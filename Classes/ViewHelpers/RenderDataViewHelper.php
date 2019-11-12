@@ -92,6 +92,16 @@ class RenderDataViewHelper extends AbstractViewHelper
     protected $contentObjectData;
 
     /**
+     * @var bool
+     */
+    protected $escapeChildren = false;
+
+    /**
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
+    /**
      * @var array
      */
     protected $settings;
