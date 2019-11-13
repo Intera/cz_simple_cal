@@ -33,7 +33,20 @@
                             </config>
                         </TCEforms>
                     </view.defaultPid>
+                </el>
+            </ROOT>
+        </sDEF>
+        <slider>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>
+                        LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:sheet.slider
+                    </sheetTitle>
+                </TCEforms>
 
+                <type>array</type>
+
+                <el>
                     <settings.gridWidth>
                         <TCEforms>
                             <label>
@@ -59,9 +72,30 @@
                             </config>
                         </TCEforms>
                     </settings.gridWidth>
+
+                    <settings.slider.label>
+                        <label>
+                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.settings.slider.label
+                        </label>
+                        <config>
+                            <type>input</type>
+                        </config>
+                    </settings.slider.label>
+
+                    <settings.slider.link>
+                        <label>
+                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.settings.slider.link
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <renderType>inputLink</renderType>
+                            <size>50</size>
+                            <softref>typolink</softref>
+                        </config>
+                    </settings.slider.link>
                 </el>
             </ROOT>
-        </sDEF>
+        </slider>
         <rss>
             <ROOT>
                 <TCEforms>

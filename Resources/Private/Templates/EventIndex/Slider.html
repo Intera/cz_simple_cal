@@ -21,9 +21,7 @@
                             </f:for>
                         </div>
                         <div class="card-footer">
-                            <f:if condition="{contentObjectData.header}">
-                                {contentObjectData.header}
-                            </f:if>
+                            <f:render section="sliderLinkedLabel" arguments="{_all}"/>
                         </div>
                     </div>
                 </div>
@@ -34,4 +32,38 @@
         </f:if>
     </div>
 </div>
+
+<f:section name="sliderLinkedLabel">
+<f:if condition="{settings.slider.link}">
+    <f:then>
+        <f:link.typolink parameter="{settings.slider.link}">
+            <f:render section="sliderLabel"/>
+        </f:link.typolink>
+    </f:then>
+    <f:else>
+        <f:if condition="{defaultPid}">
+            <f:then>
+                <f:link.page pageUid="{defaultPid}">
+                    <f:render section="sliderLabel"/>
+                </f:link.page>
+            </f:then>
+            <f:else>
+                <f:render section="sliderLabel"/>
+            </f:else>
+        </f:if>
+    </f:else>
+    {contentObjectData.header}
+</f:if>
+</f:section>
+
+<f:section name="sliderLabel">
+<f:if condition="{settings.slider.label}">
+    <f:then>
+        {settings.slider.label}
+    </f:then>
+    <f:else>
+        {f:translate(key: 'slider_label_default')}
+    </f:else>
+</f:if>
+</f:section>
 </html>

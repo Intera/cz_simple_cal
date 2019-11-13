@@ -7,6 +7,9 @@
 			<trans-unit id="sheet.general" xml:space="preserve">
 				<source>Default</source>
 			</trans-unit>
+			<trans-unit id="sheet.slider" xml:space="preserve">
+				<source>Slider</source>
+			</trans-unit>
 			<trans-unit id="field.useView" xml:space="preserve">
 				<source>selected view</source>
 			</trans-unit>
@@ -135,6 +138,12 @@
 			</trans-unit>
 			<trans-unit id="field.settings.gridWidth.I.two_columns" xml:space="preserve">
 				<source>Two columns</source>
+			</trans-unit>
+			<trans-unit id="field.settings.slider.label" xml:space="preserve">
+				<source>Label</source>
+			</trans-unit>
+			<trans-unit id="field.settings.slider.link" xml:space="preserve">
+				<source>Link (overrides default PID)</source>
 			</trans-unit>
 		</body>
 	</file>

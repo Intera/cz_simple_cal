@@ -244,6 +244,10 @@
 				<source>Upcoming events</source>
 				<target>Kommende Termine</target>
 			</trans-unit>
+			<trans-unit id="slider_label_default" xml:space="preserve">
+				<source>Events</source>
+				<target>Termine</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

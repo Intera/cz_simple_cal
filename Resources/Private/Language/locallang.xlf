@@ -184,6 +184,9 @@
 			<trans-unit id="rss_title_suffix_upcoming" xml:space="preserve">
 				<source>Upcoming events</source>
 			</trans-unit>
+			<trans-unit id="slider_label_default" xml:space="preserve">
+				<source>Events</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

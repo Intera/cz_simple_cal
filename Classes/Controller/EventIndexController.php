@@ -35,6 +35,7 @@ use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -53,6 +54,11 @@ class EventIndexController extends BaseExtendableController
      */
     protected $eventIndexRepository;
 
+    /**
+     * @var ExtensionService
+     */
+    protected $extensionService;
+
     public function injectCategoryRepository(CategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
@@ -61,6 +67,11 @@ class EventIndexController extends BaseExtendableController
     public function injectEventIndexRepository(EventIndexRepository $eventIndexRepository)
     {
         $this->eventIndexRepository = $eventIndexRepository;
+    }
+
+    public function injectExtensionService(ExtensionService $extensionService)
+    {
+        $this->extensionService = $extensionService;
     }
 
     /**
@@ -276,6 +287,13 @@ class EventIndexController extends BaseExtendableController
         $this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
         $this->view->assign('rssTitleLatest', $this->buildRssTitle('latest'));
         $this->view->assign('rssTitleUpcoming', $this->buildRssTitle('upcoming'));
+        $this->view->assign(
+            'defaultPid',
+            $this->extensionService->getTargetPidByPlugin(
+                $this->request->getControllerExtensionName(),
+                $this->request->getPluginName()
+            )
+        );
     }
 
     /**
