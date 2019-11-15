@@ -73,7 +73,7 @@ class Address extends AbstractEntity
      *
      * @var string name
      */
-    protected $name;
+    protected $name = '';
 
     /**
      * the property pid
