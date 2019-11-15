@@ -314,7 +314,7 @@
                 <el>
                     <settings.rss.upcoming.channelDescription>
                         <TCEforms>
-                            <label>Anstehende Termine - Bschreibung des RSS Feeds</label>
+                            <label>Anstehende Termine - Beschreibung des RSS Feeds</label>
                             <config>
                                 <type>input</type>
                                 <size>50</size>
