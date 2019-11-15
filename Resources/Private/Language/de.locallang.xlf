@@ -148,6 +148,14 @@
 				<source>%H:%M</source>
 				<target>%H:%M</target>
 			</trans-unit>
+			<trans-unit id="format.show.time_label" xml:space="preserve">
+				<source>%s o'clock</source>
+				<target>%s Uhr</target>
+			</trans-unit>
+			<trans-unit id="timespan.all_day_event" xml:space="preserve">
+				<source>All-day</source>
+				<target>Ganztägig</target>
+			</trans-unit>
 			<trans-unit id="timespan.format.sameDay" xml:space="preserve" approved="yes">
 				<source>%B %e, %Y</source>
 				<target>%e. %B %Y</target>

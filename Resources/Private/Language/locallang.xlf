@@ -112,6 +112,12 @@
 			<trans-unit id="format.show.time" xml:space="preserve">
 				<source>%H:%M</source>
 			</trans-unit>
+			<trans-unit id="format.show.time_label" xml:space="preserve">
+				<source>%s o'clock</source>
+			</trans-unit>
+			<trans-unit id="timespan.all_day_event" xml:space="preserve">
+				<source>All-day</source>
+			</trans-unit>
 			<trans-unit id="timespan.format.sameDay" xml:space="preserve">
 				<source>%B %e, %Y</source>
 			</trans-unit>

@@ -103,6 +103,7 @@ class EventIndex extends Base
      *
      * TODO: (ugly) integer is used as we'd like an instance of the Utility_DayTime, but extbase would
      *   only return a DateTime Object in the extbase version shipped with TYPO3 4.4
+     *
      * @var integer
      */
     protected $start;
@@ -312,6 +313,11 @@ class EventIndex extends Base
     public function getFlickrTagsArray()
     {
         return $this->getEvent()->getFlickrTagsArray();
+    }
+
+    public function getHasStartTime(): bool
+    {
+        return $this->getEvent()->getStartTime() !== null;
     }
 
     /* Begin event methods, TODO: mark deprecated and remove! */

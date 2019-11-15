@@ -21,27 +21,32 @@
     </f:if>
 
     <f:if condition="{event.category}">
-                <span class="category">
-                    {event.category.title}
-                </span>
+        <span class="category">
+            {event.category.title}
+        </span>
     </f:if>
 
     <h5 class="summary">{event.title}</h5>
 
     <div class="meta-info">
-                <span class="time">
-                    <f:spaceless>
-                        <f:format.date date="{event.dateTimeObjectStart}" format="l"/>,
-                        <f:if condition="{event.startTime}">
-                            <f:then><f:format.date date="{event.dateTimeObjectStart}" format="%X"/> Uhr</f:then>
-                            <f:else>Ganztägig</f:else>
-                        </f:if>
-                    </f:spaceless><f:spaceless>
-                        <f:if condition="{event.locationName}">
-                            ,
-                        </f:if>
-                    </f:spaceless>
-                </span>
+        <span class="time">
+            <f:spaceless>
+                <f:format.date date="{event.dateTimeObjectStart}" format="l"/>,
+                <f:if condition="{event.hasStartTime}">
+                    <f:then>
+                        <f:alias map="{timeFormat: '{f:translate(key: \'format.show.time\')}'}">
+                            <f:translate key="format.show.time_label"
+                                arguments="{0: '{event.dateTimeObjectStart -> f:format.date(format: timeFormat)}'}"/>
+                        </f:alias>
+                    </f:then>
+                    <f:else><f:translate key="timespan.all_day_event"/></f:else>
+                </f:if>
+            </f:spaceless><f:spaceless>
+                <f:if condition="{event.locationName}">
+                    ,
+                </f:if>
+            </f:spaceless>
+        </span>
     </div>
 
     <f:if condition="{event.locationName}">
