@@ -50,8 +50,10 @@ pageCalendarRSSLatest {
   typeNum = {$plugin.tx_czsimplecal.rss.latest.pageType}
 
   10.10.renderObj.list {
-    czsimplecal_pi1 < tt_content.list.20.czsimplecal_rsslatest
+    czsimplecal_pi1 =< tt_content.list.20.czsimplecal_rsslatest
     czsimplecal_pi1.settings.forceAction = rssLatest
+
+    czsimplecal_slider < .czsimplecal_pi1
   }
 }
 
@@ -61,7 +63,9 @@ pageCalendarRSSUpcoming {
   typeNum = {$plugin.tx_czsimplecal.rss.upcoming.pageType}
 
   10.10.renderObj.list {
-    czsimplecal_pi1 < tt_content.list.20.czsimplecal_rssupcoming
+    czsimplecal_pi1 =< tt_content.list.20.czsimplecal_rssupcoming
     czsimplecal_pi1.settings.forceAction = rssUpcoming
+
+    czsimplecal_slider < .czsimplecal_pi1
   }
 }
