@@ -108,6 +108,7 @@ CREATE TABLE tx_czsimplecal_event_exceptiongroup_mm (
 ###
 CREATE TABLE tx_czsimplecal_domain_model_category (
 	color VARCHAR(10) DEFAULT '' NOT NULL,
+	slug VARCHAR(250) DEFAULT '' NOT NULL,
 	title TEXT,
 	show_page_instead VARCHAR(255) DEFAULT '' NOT NULL
 );

@@ -275,7 +275,7 @@
 			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_event.slug" xml:space="preserve" approved="yes">
 				<source>Slug</source>
-				<target>URL</target>
+				<target>URL-Segment</target>
 			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_event.last_indexed" xml:space="preserve" approved="yes">
 				<source>Last indexed</source>
@@ -403,6 +403,10 @@
 			<trans-unit id="tx_czsimplecal_domain_model_category.color" xml:space="preserve" approved="yes">
 				<source>Color</source>
 				<target>Farbe</target>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_category.slug" xml:space="preserve">
+				<source>Slug</source>
+				<target>URL-Segment</target>
 			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_category.title" xml:space="preserve" approved="yes">
 				<source>Title</source>

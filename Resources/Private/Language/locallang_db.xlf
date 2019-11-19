@@ -291,6 +291,9 @@
 			<trans-unit id="tx_czsimplecal_domain_model_category.color" xml:space="preserve">
 				<source>Color</source>
 			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_category.slug" xml:space="preserve">
+				<source>Slug</source>
+			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_category.title" xml:space="preserve">
 				<source>Title</source>
 			</trans-unit>
