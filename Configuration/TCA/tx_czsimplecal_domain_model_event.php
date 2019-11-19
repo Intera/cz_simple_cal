@@ -542,7 +542,6 @@ return [
                     'fields' => ['title'],
                     'replacements' => ['/' => '-'],
                 ],
-                'prependSlash' => true,
                 'fallbackCharacter' => '-',
                 'eval' => 'uniqueInSite',
                 'default' => '',
