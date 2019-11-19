@@ -5,6 +5,7 @@ return [
     'ctrl' => [
         'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_category',
         'label' => 'title',
+        'default_sortby' => 'title',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'versioningWS' => true,

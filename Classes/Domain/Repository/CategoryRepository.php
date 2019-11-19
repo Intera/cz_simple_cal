@@ -27,6 +27,7 @@ namespace Tx\CzSimpleCal\Domain\Repository;
  ***************************************************************/
 
 use Tx\CzSimpleCal\Domain\Model\Category;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -37,6 +38,11 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 class CategoryRepository extends Repository
 {
+    public function initializeObject()
+    {
+        $this->setDefaultOrderings(['title' => QueryInterface::ORDER_ASCENDING]);
+    }
+
     /**
      * Returns all categories with the given UIDs.
      *
