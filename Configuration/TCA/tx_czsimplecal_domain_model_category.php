@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_category',
+        'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_category',
         'label' => 'title',
         'default_sortby' => 'title',
         'tstamp' => 'tstamp',
@@ -88,7 +88,7 @@ return [
         ],
         'color' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_category.color',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_category.color',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'colorpicker',
@@ -96,7 +96,7 @@ return [
         ],
         'title' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_category.title',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_category.title',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -105,7 +105,7 @@ return [
         ],
         'show_page_instead' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_category.show_page_instead',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_category.show_page_instead',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',

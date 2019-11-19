@@ -91,7 +91,7 @@ class DataHandlerHook implements SingletonInterface
      *
      * @var string
      */
-    protected $languageFile = 'EXT:cz_simple_cal/Resources/Private/Language/locallang_mod.xml';
+    protected $languageFile = 'EXT:cz_simple_cal/Resources/Private/Language/locallang_mod.xlf';
 
     /**
      * @var LanguageService

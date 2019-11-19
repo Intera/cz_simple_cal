@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address',
+        'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_address',
         'label' => 'name',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -90,7 +90,7 @@ return [
         ],
         'homepage' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address.homepage',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_address.homepage',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputLink',
@@ -102,7 +102,7 @@ return [
         ],
         'name' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address.name',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_address.name',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -112,7 +112,7 @@ return [
         ],
         'address' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address.address',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_address.address',
             'config' => [
                 'type' => 'text',
                 'cols' => 20,
@@ -122,7 +122,7 @@ return [
         ],
         'zip' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address.zip',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_address.zip',
             'config' => [
                 'type' => 'input',
                 'size' => 7,
@@ -132,7 +132,7 @@ return [
         ],
         'city' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address.city',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_address.city',
             'config' => [
                 'type' => 'input',
                 'size' => 30,

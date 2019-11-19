@@ -362,7 +362,7 @@ class IndexEventsCommandHandler
 
     private function getLocallangPrefix(): string
     {
-        return 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_mod.xml:';
+        return 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_mod.xlf:';
     }
 
     /**

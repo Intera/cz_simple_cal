@@ -8,7 +8,7 @@ if (ExtensionManagementUtility::isLoaded('static_info_tables')) {
     $columns = [
         'country' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_address.country',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_address.country',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

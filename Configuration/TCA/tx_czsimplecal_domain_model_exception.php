@@ -4,14 +4,14 @@ declare(strict_types=1);
 use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
 use Tx\CzSimpleCal\Domain\Model\Enumeration\ExceptionType;
 
-$languagePrefix = 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:';
+$languagePrefix = 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:';
 $languagePrefixColumn = $languagePrefix . 'tx_czsimplecal_domain_model_exception.';
 $commonFields = 'type, title, start_day, start_time, end_day, end_time, --palette--;;system,
 	--div--;' . $languagePrefixColumn . 'tab_recurrance,
 	recurrance_type, recurrance_subtype, recurrance_until';
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception',
+        'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_exception',
         'label' => 'title',
         'delete' => 'deleted',
         'hideTable' => true,
@@ -70,7 +70,7 @@ return [
         ],
         'title' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exception.title',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_exception.title',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -81,7 +81,7 @@ return [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_day',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.start_day',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -93,7 +93,7 @@ return [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.start_time',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.start_time',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -106,7 +106,7 @@ return [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_day',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.end_day',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -119,7 +119,7 @@ return [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.end_time',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.end_time',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -157,7 +157,7 @@ return [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.timezone',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.timezone',
             'config' => [
                 'type' => 'input',
                 'size' => 40,
@@ -170,29 +170,29 @@ return [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_type',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
                     [
-                        'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.none',
+                        'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_type.none',
                         'none',
                     ],
                     [
-                        'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.daily',
+                        'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_type.daily',
                         'daily',
                     ],
                     [
-                        'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.weekly',
+                        'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_type.weekly',
                         'weekly',
                     ],
                     [
-                        'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.monthly',
+                        'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_type.monthly',
                         'monthly',
                     ],
                     [
-                        'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_type.yearly',
+                        'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_type.yearly',
                         'yearly',
                     ],
                 ],
@@ -202,7 +202,7 @@ return [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_subtype',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_subtype',
             'displayCond' => 'FIELD:recurrance_type:!IN:0,,none,daily',
             'config' => [
                 'type' => 'select',
@@ -214,7 +214,7 @@ return [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.recurrance_until',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_until',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',

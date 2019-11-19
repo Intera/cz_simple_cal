@@ -5,7 +5,7 @@ declare(strict_types=1);
 // but this table should not be displayed in the Frontent.
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_eventindex',
+        'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_eventindex',
         'label' => '',
         'hideTable' => true,
         'iconfile' => 'EXT:cz_simple_cal/Resources/Public/Icons/tx_czsimplecal_domain_model_event.gif',

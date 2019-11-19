@@ -7,7 +7,7 @@
             <ROOT>
                 <TCEforms>
                     <sheetTitle>
-                        LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:sheet.general
+                        LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:sheet.general
                     </sheetTitle>
                 </TCEforms>
                 <type>array</type>
@@ -15,7 +15,7 @@
                     <switchableControllerActions>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.useView
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.useView
                             </label>
                             <config>
                                 <type>select</type>
@@ -29,7 +29,7 @@
                     <view.defaultPid>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.view.defaultPid
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.view.defaultPid
                             </label>
                             <config>
                                 <type>group</type>
@@ -51,7 +51,7 @@
                     <settings.override.action.filter.categories.uid>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.filterCategories
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.filterCategories
                             </label>
                             <config>
                                 <type>select</type>
@@ -66,7 +66,7 @@
                     <settings.override.action.filter.organizer>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.filterOrganizer
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.filterOrganizer
                             </label>
                             <config>
                                 <type>group</type>
@@ -82,7 +82,7 @@
                     <settings.override.action.filter.location>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.filterLocation
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.filterLocation
                             </label>
                             <config>
                                 <type>group</type>
@@ -98,62 +98,62 @@
                     <settings.override.action.startDate>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.startDate
                             </label>
                             <config>
                                 <type>select</type>
                                 <items>
                                     <numIndex index="0" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate.default
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.startDate.default
                                         </numIndex>
                                         <numIndex index="1">0</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate.thisYear
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.startDate.thisYear
                                         </numIndex>
                                         <numIndex index="1">%Y</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate.thisMonth
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.startDate.thisMonth
                                         </numIndex>
                                         <numIndex index="1">%B %Y</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate.thisWeek
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.startDate.thisWeek
                                         </numIndex>
                                         <numIndex index="1">%Y-W%V</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate.yesterday
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.startDate.yesterday
                                         </numIndex>
                                         <numIndex index="1">yesterday</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate.today
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.startDate.today
                                         </numIndex>
                                         <numIndex index="1">today</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate.now
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.startDate.now
                                         </numIndex>
                                         <numIndex index="1">now</numIndex>
                                     </numIndex>
                                     <numIndex index="7" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate.tomorrow
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.startDate.tomorrow
                                         </numIndex>
                                         <numIndex index="1">tomorrow</numIndex>
                                     </numIndex>
                                     <numIndex index="8" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.startDate.nextMonth
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.startDate.nextMonth
                                         </numIndex>
                                         <numIndex index="1">%B %Y +1 month</numIndex>
                                     </numIndex>
@@ -165,56 +165,56 @@
                     <settings.override.action.endDate>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.endDate
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.endDate
                             </label>
                             <config>
                                 <type>select</type>
                                 <items>
                                     <numIndex index="0" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.endDate.default
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.endDate.default
                                         </numIndex>
                                         <numIndex index="1">0</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.endDate.today
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.endDate.today
                                         </numIndex>
                                         <numIndex index="1">today 23:59:59</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.endDate.24hours
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.endDate.24hours
                                         </numIndex>
                                         <numIndex index="1">now +1 day -1 second</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.endDate.tomorrow
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.endDate.tomorrow
                                         </numIndex>
                                         <numIndex index="1">tomorrow 23:59:59</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.endDate.thisWeek
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.endDate.thisWeek
                                         </numIndex>
                                         <numIndex index="1">last day of this week 23:59:59</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.endDate.thisMonth
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.endDate.thisMonth
                                         </numIndex>
                                         <numIndex index="1">last day of this month 23:59:59</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.endDate.nextMonth
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.endDate.nextMonth
                                         </numIndex>
                                         <numIndex index="1">last day of next month 23:59:59</numIndex>
                                     </numIndex>
                                     <numIndex index="7" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.endDate.thisYear
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.endDate.thisYear
                                         </numIndex>
                                         <numIndex index="1">last day of this year 23:59:59</numIndex>
                                     </numIndex>
@@ -226,7 +226,7 @@
                     <settings.override.action.maxEvents>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.maxEvents
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.maxEvents
                             </label>
                             <config>
                                 <type>input</type>
@@ -242,26 +242,26 @@
                     <settings.override.action.orderBy>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.orderBy
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.orderBy
                             </label>
                             <config>
                                 <type>select</type>
                                 <items>
                                     <numIndex index="0" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.orderBy.default
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.orderBy.default
                                         </numIndex>
                                         <numIndex index="1">0</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.orderBy.start
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.orderBy.start
                                         </numIndex>
                                         <numIndex index="1">start</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.orderBy.end
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.orderBy.end
                                         </numIndex>
                                         <numIndex index="1">end</numIndex>
                                     </numIndex>
@@ -273,26 +273,26 @@
                     <settings.override.action.order>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.order
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.order
                             </label>
                             <config>
                                 <type>select</type>
                                 <items>
                                     <numIndex index="0" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.order.default
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.order.default
                                         </numIndex>
                                         <numIndex index="1">0</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.order.ascending
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.order.ascending
                                         </numIndex>
                                         <numIndex index="1">asc</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
                                         <numIndex index="0">
-                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.action.order.descending
+                                            LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.action.order.descending
                                         </numIndex>
                                         <numIndex index="1">desc</numIndex>
                                     </numIndex>

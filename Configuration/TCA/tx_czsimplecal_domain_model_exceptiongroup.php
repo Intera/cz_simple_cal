@@ -1,7 +1,7 @@
 <?php
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exceptiongroup',
+        'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_exceptiongroup',
         'label' => 'title',
         'delete' => 'deleted',
         'enablecolumns' => ['disabled' => 'hidden'],
@@ -32,7 +32,7 @@ return [
         ],
         'title' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exceptiongroup.title',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_exceptiongroup.title',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -41,7 +41,7 @@ return [
         ],
         'exceptions' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_exceptiongroup.exceptions',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_exceptiongroup.exceptions',
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_czsimplecal_domain_model_exception',

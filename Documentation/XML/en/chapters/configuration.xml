@@ -78,7 +78,7 @@
 					<para>
 						An array were you can override localized strings with your custom substitudes.<sbr/>
 						<literal>[lang]</literal> is the 2-sign-language code used by <productname>TYPO3</productname>, like <literal>en</literal> or <literal>de</literal>.<sbr/>
-						<literal>[key]</literal> is the identifier of the string. For a list of identifiers, have a look at <literal>EXT:cz_simple_cal/Resources/Private/Language/locallang.xml</literal>.
+						<literal>[key]</literal> is the identifier of the string. For a list of identifiers, have a look at <literal>EXT:cz_simple_cal/Resources/Private/Language/locallang.xlf</literal>.
 					</para>
 				</listitem>
 			</varlistentry>

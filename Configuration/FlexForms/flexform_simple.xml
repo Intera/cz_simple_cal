@@ -7,7 +7,7 @@
             <ROOT>
                 <TCEforms>
                     <sheetTitle>
-                        LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:sheet.general
+                        LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:sheet.general
                     </sheetTitle>
                 </TCEforms>
                 <type>array</type>
@@ -15,7 +15,7 @@
                     <view.defaultPid>
                         <TCEforms>
                             <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:field.view.defaultPid
+                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.view.defaultPid
                             </label>
                             <config>
                                 <type>group</type>
@@ -40,7 +40,7 @@
             <ROOT>
                 <TCEforms>
                     <sheetTitle>
-                        LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xml:sheet.slider
+                        LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:sheet.slider
                     </sheetTitle>
                 </TCEforms>
 

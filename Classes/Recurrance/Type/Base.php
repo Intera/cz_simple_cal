@@ -71,7 +71,7 @@ abstract class Base
      */
     protected function addLL($values)
     {
-        $base = 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:'
+        $base = 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:'
             . 'tx_czsimplecal_domain_model_event.recurrance_subtype.';
         foreach ($values as &$value) {
             $value = [
