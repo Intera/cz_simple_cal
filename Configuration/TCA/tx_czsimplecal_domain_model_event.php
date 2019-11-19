@@ -537,12 +537,12 @@ return [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xml:tx_czsimplecal_domain_model_event.slug',
             'config' => [
                 'type' => 'slug',
+                'size' => 50,
                 'generatorOptions' => [
                     'fields' => ['title'],
-                    'fieldSeparator' => '/',
-                    'prefixParentPageSlug' => true,
-                    'replacements' => ['/' => ''],
+                    'replacements' => ['/' => '-'],
                 ],
+                'prependSlash' => true,
                 'fallbackCharacter' => '-',
                 'eval' => 'uniqueInSite',
                 'default' => '',
