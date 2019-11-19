@@ -124,6 +124,11 @@ abstract class BaseExtendableController extends ActionController
         }
     }
 
+    protected function renderAssetsForRequest($request)
+    {
+        // Left blank for performance reasons!
+    }
+
     /**
      * Tries to resolve the active controller action metheod.
      *
