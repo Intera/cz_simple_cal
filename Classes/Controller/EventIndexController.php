@@ -33,6 +33,7 @@ use Tx\CzSimpleCal\Domain\Model\EventIndex;
 use Tx\CzSimpleCal\Domain\Repository\CategoryRepository;
 use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
+use Tx\CzSimpleCal\Utility\YearOptionCollector;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
@@ -59,6 +60,11 @@ class EventIndexController extends BaseExtendableController
      */
     protected $extensionService;
 
+    /**
+     * @var YearOptionCollector
+     */
+    protected $yearOptionCollector;
+
     public function injectCategoryRepository(CategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
@@ -72,6 +78,11 @@ class EventIndexController extends BaseExtendableController
     public function injectExtensionService(ExtensionService $extensionService)
     {
         $this->extensionService = $extensionService;
+    }
+
+    public function injectYearOptionCollector(YearOptionCollector $yearOptionCollector)
+    {
+        $this->yearOptionCollector = $yearOptionCollector;
     }
 
     /**
@@ -132,6 +143,9 @@ class EventIndexController extends BaseExtendableController
 
         $this->view->assign('categories', $this->categoryRepository->findAll());
         $this->view->assign('selectedCategory', $this->getSelectedCategory());
+
+        $this->view->assign('years', $this->yearOptionCollector->buildYearOptions());
+        $this->view->assign('selectedYear', $this->actionSettings['filter']['year'] ?? '');
 
         $this->view->assign('gridColumnClasses', $this->getGridSetting('gridColumnClassMapping'));
         $this->view->assign('gridWidth', $this->getGridSetting('gridWidthMapping'));
@@ -231,6 +245,24 @@ class EventIndexController extends BaseExtendableController
         return $settingValue;
     }
 
+    protected function getSelectedCategory(): ?Category
+    {
+        if (empty($this->actionSettings['filter']['categories.uid'])) {
+            return null;
+        }
+
+        $filterCategories = GeneralUtility::intExplode(
+            ',',
+            $this->actionSettings['filter']['categories.uid'],
+            true
+        );
+        if ($filterCategories == []) {
+            return null;
+        }
+
+        return $this->categoryRepository->findByUid($filterCategories[0]);
+    }
+
     /**
      * get the start date of events that should be fetched
      *
@@ -306,23 +338,5 @@ class EventIndexController extends BaseExtendableController
     protected function translateById($key, $extensionName = 'CzSimpleCal')
     {
         return LocalizationUtility::translate($key, $extensionName);
-    }
-
-    private function getSelectedCategory(): ?Category
-    {
-        if (empty($this->actionSettings['filter']['categories.uid'])) {
-            return null;
-        }
-
-        $filterCategories = GeneralUtility::intExplode(
-            ',',
-            $this->actionSettings['filter']['categories.uid'],
-            true
-        );
-        if ($filterCategories == []) {
-            return null;
-        }
-
-        return $this->categoryRepository->findByUid($filterCategories[0]);
     }
 }

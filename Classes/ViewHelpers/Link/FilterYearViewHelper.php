@@ -22,7 +22,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 /**
  * Link category view helper.
  */
-class FilterCategoryViewHelper extends AbstractTagBasedViewHelper
+class FilterYearViewHelper extends AbstractTagBasedViewHelper
 {
     /**
      * Registers the universal tag attributes like class, id etc.
@@ -31,7 +31,7 @@ class FilterCategoryViewHelper extends AbstractTagBasedViewHelper
      */
     public function initializeArguments()
     {
-        $this->registerArgument('category', Category::class, '', false, null);
+        $this->registerArgument('year', 'integer', '', false, null);
         $this->registerArgument('action', 'string', '', false, 'listMonths');
         $this->registerUniversalTagAttributes();
     }
@@ -41,30 +41,25 @@ class FilterCategoryViewHelper extends AbstractTagBasedViewHelper
      *
      * @return string Rendered link
      */
-    public function render()
+    public function render(): string
     {
         $this->tag->setContent($this->renderChildren());
 
-        $category = $this->getCategory();
+        $year = $this->getYear();
 
         $filterValue = null;
-        if (isset($category)) {
-            $filterValue = (string)$category->getUid();
+        if (!empty($year)) {
+            $filterValue = (string)$year;
         }
 
         $filterLinkGenerator = new FilterLinkGenerator();
         return $filterLinkGenerator->generateLink(
-            'categories.uid',
+            'year',
             $filterValue,
             $this->arguments['action'],
             $this->tag,
             $this->getControllerContext()
         );
-    }
-
-    private function getCategory(): ?Category
-    {
-        return $this->arguments['category'];
     }
 
     private function getControllerContext(): ControllerContext
@@ -76,5 +71,10 @@ class FilterCategoryViewHelper extends AbstractTagBasedViewHelper
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->renderingContext;
+    }
+
+    private function getYear(): int
+    {
+        return (int)$this->arguments['year'];
     }
 }

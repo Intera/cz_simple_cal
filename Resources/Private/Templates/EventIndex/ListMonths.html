@@ -8,48 +8,15 @@
 
 <div class="event-list-controls d-flex">
     <f:if condition="categories">
-        <div class="dropdown">
-            <a aria-expanded="false" aria-haspopup="true"
-                class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
-                href="#" role="button" title="{f:if(condition: '{selectedCategory}', then: 'Gefiltert nach Kategorie', else: 'Nach Kategorie filtern')}">
-                <f:if condition="{selectedCategory}">
-                    <f:then>{selectedCategory.title}</f:then>
-                    <f:else>Kategorie</f:else>
-                </f:if>
-            </a>
-            <div class="dropdown-menu">
-                <cal:link.filterCategory class="dropdown-item{f:if(condition: '!{selectedCategory}', then: ' active')}">
-                    Alle
-                </cal:link.filterCategory>
-                <f:for each="{categories}" as="category">
-                    <f:if condition="{selectedCategory.uid}=={category.uid}">
-                        <f:then>
-                            <cal:link.filterCategory
-                                category="{category}"
-                                class="dropdown-item active">
-                                <span>{category.title}</span>
-                            </cal:link.filterCategory>
-                        </f:then>
-                        <f:else>
-                            <cal:link.filterCategory
-                                category="{category}"
-                                class="dropdown-item{f:if(condition: category.color, then: ' has-background')}"
-                                style="{f:if(condition: category.color, then: 'background-color: {category.color}')}">
-                                <span>{category.title}</span>
-                            </cal:link.filterCategory>
-                        </f:else>
-                    </f:if>
-
-                </f:for>
-            </div>
-        </div>
+        <f:render partial="Filter/CategoryDropdown" arguments="{_all}"/>
+        <f:render partial="Filter/YearDropdown" arguments="{_all}"/>
     </f:if>
 </div>
 
 <div class="vcalendar vcalendar-list">
     <f:if condition="{events}">
         <f:then>
-            <f:widget.paginate as="paginatedEvents" configuration="{maximumNumberOfLinks: 5}" objects="{events}">
+            <f:widget.paginate as="paginatedEvents" configuration="{maximumNumberOfLinks: 5, addQueryStringMethod: 'GET'}" objects="{events}">
                 <f:for each="{paginatedEvents}" as="event">
                     <cal:calendar.onNewDay event="{event}" mode="month">
                         <cal:template.groupEnd/>

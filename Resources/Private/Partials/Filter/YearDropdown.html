@@ -1,0 +1,40 @@
+<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+<f:if condition="{years}">
+    <div class="dropdown">
+        <a aria-expanded="false" aria-haspopup="true"
+            class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+            href="#" role="button"
+            title="{f:if(condition: '{selectedYear}', then: '{f:translate(key: \'filter_year_title_active\')}', else: '{f:translate(key: \'filter_year_title_inactive\')}')}">
+            <f:if condition="{selectedYear}">
+                <f:then>{selectedYear}</f:then>
+                <f:else><f:translate key="filter_year_all"/></f:else>
+            </f:if>
+        </a>
+        <div class="dropdown-menu">
+            <cal:link.filterYear class="dropdown-item{f:if(condition: '!{selectedYear}', then: ' active')}">
+                <f:translate key="filter_year_all"/>
+            </cal:link.filterYear>
+            <f:for each="{years}" as="year">
+                <f:if condition="{selectedYear}=={year}">
+                    <f:then>
+                        <cal:link.filterYear
+                            class="dropdown-item active"
+                            year="{year}">
+                            <span>{year}</span>
+                        </cal:link.filterYear>
+                    </f:then>
+                    <f:else>
+                        <cal:link.filterYear
+                            class="dropdown-item"
+                            year="{year}">
+                            <span>{year}</span>
+                        </cal:link.filterYear>
+                    </f:else>
+                </f:if>
+            </f:for>
+        </div>
+    </div>
+</f:if>
+</html>

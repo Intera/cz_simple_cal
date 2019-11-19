@@ -256,6 +256,30 @@
 				<source>Events</source>
 				<target>Termine</target>
 			</trans-unit>
+			<trans-unit id="filter_category_all">
+				<source>All</source>
+				<target>Alle</target>
+			</trans-unit>
+			<trans-unit id="filter_category_title_active">
+				<source>Filtered by category</source>
+				<target>Geflitert nach Kategorie</target>
+			</trans-unit>
+			<trans-unit id="filter_category_title_inactive">
+				<source>Filter by category</source>
+				<target>Nach Kategorie filtern</target>
+			</trans-unit>
+			<trans-unit id="filter_year_all">
+				<source>From today</source>
+				<target>Ab heute</target>
+			</trans-unit>
+			<trans-unit id="filter_year_title_active">
+				<source>Filtered by year</source>
+				<target>Gefiltert nach Jahr</target>
+			</trans-unit>
+			<trans-unit id="filter_year_title_inactive">
+				<source>Filter by year</source>
+				<target>Nach Jahr filtern</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

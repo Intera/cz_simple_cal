@@ -193,6 +193,24 @@
 			<trans-unit id="slider_label_default" xml:space="preserve">
 				<source>Events</source>
 			</trans-unit>
+			<trans-unit id="filter_category_all">
+				<source>All</source>
+			</trans-unit>
+			<trans-unit id="filter_category_title_active">
+				<source>Filtered by category</source>
+			</trans-unit>
+			<trans-unit id="filter_category_title_inactive">
+				<source>Filter by category</source>
+			</trans-unit>
+			<trans-unit id="filter_year_all">
+				<source>From today</source>
+			</trans-unit>
+			<trans-unit id="filter_year_title_active">
+				<source>Filtered by year</source>
+			</trans-unit>
+			<trans-unit id="filter_year_title_inactive">
+				<source>Filter by year</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

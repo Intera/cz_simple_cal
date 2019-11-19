@@ -536,6 +536,15 @@ class EventIndexRepository extends Repository
             $query = $this->createQuery();
         }
 
+        if (isset($settings['filter']['year']['value'][0])) {
+            $year = (int)$settings['filter']['year']['value'][0];
+            unset($settings['filter']['year']);
+            if ($year) {
+                $settings['startDate'] = strtotime($year . '-01-01 00:00:00');
+                $settings['endDate'] = strtotime('last day of December ' . $year . ' 23:59:59');
+            }
+        }
+
         if (isset($settings['startDate'])) {
             $constraint = $query->greaterThanOrEqual(
                 $settings['includeStartedEvents'] ? 'end' : 'start',
