@@ -1,7 +1,7 @@
 mod.wizards.newContentElement.wizardItems {
   special.elements {
     czsimplecal_pi1 {
-      iconIdentifier = tx_czsimplecal-new-content-wizard
+      iconIdentifier = extension-czsimplecal-content-calendar
       title = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:wizard_new_content_element.pi1.title
       description = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:wizard_new_content_element.pi1.description
       tt_content_defValues.CType = list
@@ -9,7 +9,7 @@ mod.wizards.newContentElement.wizardItems {
     }
 
     czsimplecal_slider {
-      iconIdentifier = tx_czsimplecal-new-content-wizard
+      iconIdentifier = extension-czsimplecal-content-calendar-slider
       title = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:wizard_new_content_element.slider.title
       description = LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:wizard_new_content_element.slider.description
       tt_content_defValues.CType = list

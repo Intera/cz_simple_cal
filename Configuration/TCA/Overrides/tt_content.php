@@ -11,19 +11,22 @@ $lllPrefixListType = 'LLL:' . 'EXT:cz_simple_cal/./Resources/Private/Language/lo
 ExtensionUtility::registerPlugin(
     'cz_simple_cal',
     'Pi1',
-    $lllPrefixListType . 'czsimplecal_pi1'
+    $lllPrefixListType . 'czsimplecal_pi1',
+    'EXT:cz_simple_cal/Resources/Public/Icons/content_calendar.svg'
 );
 
 ExtensionUtility::registerPlugin(
     'cz_simple_cal',
     'Slider',
-    $lllPrefixListType . 'czsimplecal_slider'
+    $lllPrefixListType . 'czsimplecal_slider',
+    'EXT:cz_simple_cal/Resources/Public/Icons/content_calendar_slider.svg'
 );
 
 ExtensionUtility::registerPlugin(
     'cz_simple_cal',
     'Pi2',
-    'Calendar event submission for users'
+    'Calendar event submission for users',
+    'EXT:cz_simple_cal/Resources/Public/Icons/content_calendar.svg'
 );
 
 $extensionConfig = GeneralUtility::makeInstance(ExtensionConfiguration::class);

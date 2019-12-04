@@ -78,8 +78,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
 
 $iconFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
 $iconFactory->registerIcon(
-    'tx_czsimplecal-new-content-wizard',
-    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-    ['source' => 'EXT:cz_simple_cal/Resources/Public/Images/calendar_new_content_elmement_wizard.gif']
+    'extension-czsimplecal-content-calendar',
+    \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+    ['source' => 'EXT:cz_simple_cal/Resources/Public/Icons/content_calendar.svg']
+);
+$iconFactory->registerIcon(
+    'extension-czsimplecal-content-calendar-slider',
+    \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+    ['source' => 'EXT:cz_simple_cal/Resources/Public/Icons/content_calendar_slider.svg']
 );
 unset($iconFactory);
