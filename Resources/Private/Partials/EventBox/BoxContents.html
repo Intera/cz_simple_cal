@@ -14,8 +14,10 @@
 
     <f:if condition="{event.event.eventLanguages}">
         <div class="tags language-container">
-            <f:for each="{event.event.eventLanguages}" as="language">
-                <span class="badge" title="{language.localName}">{language.isoCodeA2}</span>
+            <f:for each="{event.event.eventLanguagesOrderedByIsoCodeA2}" as="language">
+                <span class="badge" title="{f:translate(key: 'event_language', arguments: '{0: language.nameLocalized}')}">
+                    {language.isoCodeA2}
+                </span>
             </f:for>
         </div>
     </f:if>

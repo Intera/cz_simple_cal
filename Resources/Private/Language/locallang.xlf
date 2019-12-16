@@ -50,7 +50,7 @@
 				<source>Event</source>
 			</trans-unit>
 			<trans-unit id="event_language" xml:space="preserve">
-				<source>Language of the event</source>
+				<source>Language of the event: %s</source>
 			</trans-unit>
 			<trans-unit id="events" xml:space="preserve">
 				<source>Events</source>

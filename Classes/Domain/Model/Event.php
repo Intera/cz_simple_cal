@@ -30,6 +30,7 @@ namespace Tx\CzSimpleCal\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use SJBR\StaticInfoTables\Domain\Model\Language;
 use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
 use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Recurrance\RecurranceFactory;
@@ -127,6 +128,7 @@ class Event extends BaseEvent
     protected $exceptionCache;
 
     /**
+     * Exception groups for this event
      * Exception groups for this event
      *
      * @Extbase\ORM\Lazy
@@ -459,6 +461,30 @@ class Event extends BaseEvent
             $eventLanguages = $this->objectManager->get(ObjectStorage::class);
         }
         return $eventLanguages;
+    }
+
+    public function getEventLanguagesOrderedByIsoCodeA2(): array
+    {
+        $eventLangauges = $this->getEventLanguages()->toArray();
+        usort(
+            $eventLangauges,
+            function (Language $languageA, Language $languageB) {
+                return strnatcasecmp($languageA->getIsoCodeA2(), $languageB->getIsoCodeA2());
+            }
+        );
+        return $eventLangauges;
+    }
+
+    public function getEventLanguagesOrderedByNameLocalized(): array
+    {
+        $eventLangauges = $this->getEventLanguages()->toArray();
+        usort(
+            $eventLangauges,
+            function (Language $languageA, Language $languageB) {
+                return strnatcasecmp($languageA->getNameLocalized(), $languageB->getNameLocalized());
+            }
+        );
+        return $eventLangauges;
     }
 
     /**

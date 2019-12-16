@@ -65,8 +65,8 @@
 				<target>Veranstaltung</target>
 			</trans-unit>
 			<trans-unit id="event_language" xml:space="preserve">
-				<source>Language of the event</source>
-				<target>Sprache der Veranstaltung</target>
+				<source>Language of the event: %s</source>
+				<target>Sprache der Veranstaltung: %s</target>
 			</trans-unit>
 			<trans-unit id="events" xml:space="preserve" approved="yes">
 				<source>Events</source>

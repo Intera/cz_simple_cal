@@ -53,8 +53,10 @@
 
 <f:if condition="{event.event.eventLanguages}">
     <div class="tags">
-        <f:for each="{event.event.eventLanguages}" as="language">
-            <span class="badge" title="{f:translate(key: 'event_language')}">{language.localName}</span>
+        <f:for each="{event.event.eventLanguagesOrderedByNameLocalized}" as="language">
+            <span class="badge" title="{f:translate(key: 'event_language', arguments: '{0: language.nameLocalized}')}">
+                {language.nameLocalized}
+            </span>
         </f:for>
     </div>
 </f:if>
