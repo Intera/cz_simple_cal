@@ -7,13 +7,13 @@ plugin.tx_czsimplecal {
   view.defaultPid = {$plugin.tx_czsimplecal.pids.default}
 
   settings {
-
     // These settings will be used for all actions and are overwritten with the action settings below.
     defaultActionSettings {
       gridColumnClassMapping {
-        four_solumns = col-12
-        two_columns = col-6
+        four_solumns = col
+        two_columns = col-lg-6
       }
+
       gridWidthMapping {
         four_solumns = 12
         two_columns = 6
