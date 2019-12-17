@@ -15,7 +15,6 @@ temp.feedDummyPage {
     xhtml_cleaning = none
     admPanel = 0
     additionalHeaders.10.header = Content-Type: text/xml;charset=utf-8
-    makeImageResourcesAbsolute = 1
   }
 
   10 = COA

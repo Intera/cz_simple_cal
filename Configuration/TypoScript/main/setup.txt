@@ -20,6 +20,8 @@ plugin.tx_czsimplecal {
       }
     }
 
+    enableEventStatus = 0
+
     EventIndex {
       actions {
         list {
@@ -98,8 +100,12 @@ plugin.tx_czsimplecal {
           useAction = list
         }
 
-        rssUpcoming < .miniList
         rssUpcoming {
+          startDate = today
+
+          orderBy = start
+          order = ASC
+
           maxEvents = 10
         }
 

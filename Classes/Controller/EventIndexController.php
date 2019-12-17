@@ -36,6 +36,7 @@ use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 use Tx\CzSimpleCal\Utility\YearOptionCollector;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -123,22 +124,9 @@ class EventIndexController extends BaseExtendableController
         $this->view->assign('start', $start);
         $this->view->assign('end', $end);
 
-        $filterSetting = [];
-        if ($start) {
-            $filterSetting['startDate'] = $start->getTimestamp();
-        }
-        if ($end) {
-            $filterSetting['endDate'] = $end->getTimestamp();
-        }
-
         $this->view->assign(
             'events',
-            $this->eventIndexRepository->findAllWithSettings(
-                array_merge(
-                    $this->actionSettings,
-                    $filterSetting
-                )
-            )
+            $this->findAllWithCurrentSettings($start, $end)
         );
 
         $this->view->assign('categories', $this->categoryRepository->findAll());
@@ -166,7 +154,10 @@ class EventIndexController extends BaseExtendableController
      */
     public function rssUpcomingAction()
     {
-        $events = $this->eventIndexRepository->findAllWithSettings($this->actionSettings);
+        $start = $this->getStartDate();
+        $end = $this->getEndDate();
+
+        $events = $this->findAllWithCurrentSettings($start, $end);
         $this->initializeRssVariablesInView('upcoming');
         $this->view->assign('events', $events);
     }
@@ -217,7 +208,7 @@ class EventIndexController extends BaseExtendableController
      * @return CzSimpleCalDateTime
      * @todo getDate support
      */
-    protected function getEndDate()
+    protected function getEndDate(): ?CzSimpleCalDateTime
     {
         if (array_key_exists('endDate', $this->actionSettings)) {
             if (isset($this->actionSettings['getDate'])) {
@@ -268,7 +259,7 @@ class EventIndexController extends BaseExtendableController
      *
      * @return CzSimpleCalDateTime
      */
-    protected function getStartDate()
+    protected function getStartDate(): ?CzSimpleCalDateTime
     {
         if (array_key_exists('startDate', $this->actionSettings)) {
             if (isset($this->actionSettings['getDate'])) {
@@ -338,5 +329,25 @@ class EventIndexController extends BaseExtendableController
     protected function translateById($key, $extensionName = 'CzSimpleCal')
     {
         return LocalizationUtility::translate($key, $extensionName);
+    }
+
+    private function findAllWithCurrentSettings(
+        ?CzSimpleCalDateTime $start,
+        ?CzSimpleCalDateTime $end
+    ): QueryResultInterface {
+        $startAndEndSetting = [];
+        if ($start) {
+            $startAndEndSetting['startDate'] = $start->getTimestamp();
+        }
+        if ($end) {
+            $startAndEndSetting['endDate'] = $end->getTimestamp();
+        }
+
+        return $this->eventIndexRepository->findAllWithSettings(
+            array_merge(
+                $this->actionSettings,
+                $startAndEndSetting
+            )
+        );
     }
 }
