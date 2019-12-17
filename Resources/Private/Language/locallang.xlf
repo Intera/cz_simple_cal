@@ -76,6 +76,15 @@
 			<trans-unit id="event_show_details_header" xml:space="preserve">
 				<source>Details</source>
 			</trans-unit>
+			<trans-unit id="event_status_CANCELLED" xml:space="preserve">
+				<source>Cancelled</source>
+			</trans-unit>
+			<trans-unit id="event_status_CONFIRMED" xml:space="preserve">
+				<source>Confirmed</source>
+			</trans-unit>
+			<trans-unit id="event_status_TENTATIVE" xml:space="preserve">
+				<source>Tentative</source>
+			</trans-unit>
 			<trans-unit id="event_status_title_tentative" xml:space="preserve">
 				<source>This event is tentative.</source>
 			</trans-unit>

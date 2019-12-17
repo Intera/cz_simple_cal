@@ -100,6 +100,18 @@
 				<source>Details</source>
 				<target>Details</target>
 			</trans-unit>
+			<trans-unit id="event_status_CANCELLED" xml:space="preserve">
+				<source>Cancelled</source>
+				<target>Abgesagt</target>
+			</trans-unit>
+			<trans-unit id="event_status_CONFIRMED" xml:space="preserve">
+				<source>Confirmed</source>
+				<target>Bestätigt</target>
+			</trans-unit>
+			<trans-unit id="event_status_TENTATIVE" xml:space="preserve">
+				<source>Tentative</source>
+				<target>Vorläufig</target>
+			</trans-unit>
 			<trans-unit id="event_status_title_tentative" xml:space="preserve" approved="yes">
 				<source>This event is tentative.</source>
 				<target>Diese Veranstaltung ist vorläufig.</target>
