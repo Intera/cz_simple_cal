@@ -139,9 +139,6 @@
 			<trans-unit id="field.settings.gridWidth.I.two_columns" xml:space="preserve">
 				<source>Two columns</source>
 			</trans-unit>
-			<trans-unit id="field.settings.slider.label" xml:space="preserve">
-				<source>Label</source>
-			</trans-unit>
 			<trans-unit id="field.settings.slider.link" xml:space="preserve">
 				<source>Link (overrides default PID)</source>
 			</trans-unit>

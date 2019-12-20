@@ -137,6 +137,8 @@ class EventIndexController extends BaseExtendableController
 
         $this->view->assign('gridColumnClasses', $this->getGridSetting('gridColumnClassMapping'));
         $this->view->assign('gridWidth', $this->getGridSetting('gridWidthMapping'));
+
+        $this->view->assign('contentElementHeader', $this->configurationManager->getContentObject()->data['header']);
     }
 
     /**

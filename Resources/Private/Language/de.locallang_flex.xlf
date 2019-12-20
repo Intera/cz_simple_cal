@@ -180,10 +180,6 @@
 				<source>Two columns</source>
 				<target>Zweispaltig</target>
 			</trans-unit>
-			<trans-unit id="field.settings.slider.label" xml:space="preserve">
-				<source>Label</source>
-				<target>Bezeichnung</target>
-			</trans-unit>
 			<trans-unit id="field.settings.slider.link" xml:space="preserve">
 				<source>Link (overrides default PID)</source>
 				<target>Link (übeschreibt Standard Zielseite)</target>
