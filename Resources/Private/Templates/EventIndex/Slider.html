@@ -27,7 +27,16 @@
                 </div>
             </f:then>
             <f:else>
-                <div class="alert alert-info"><f:translate key="msg.noEvents"/></div>
+                <div class="card card-custom">
+                    <div class="display-horizontal">
+                        <div class="card-body space">
+                            <h5 class="card-title"><f:translate key="msg.noEvents"/></h5>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <f:render section="sliderLinkedLabel" arguments="{_all}"/>
+                    </div>
+                </div>
             </f:else>
         </f:if>
     </div>
