@@ -2,6 +2,9 @@
 
 namespace Tx\CzSimpleCal\Hook;
 
+use TYPO3\CMS\Backend\RecordList\RecordListGetTableHookInterface;
+use TYPO3\CMS\Recordlist\RecordList\DatabaseRecordList;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +33,7 @@ namespace Tx\CzSimpleCal\Hook;
  * Hooks for the database record list. This hook is currently used
  * to hide the inline addresses in the record list.
  */
-class DatabaseRecordListHook implements \TYPO3\CMS\Backend\RecordList\RecordListGetTableHookInterface
+class DatabaseRecordListHook implements RecordListGetTableHookInterface
 {
     /**
      * Filters inline records from the records list.
@@ -39,7 +42,7 @@ class DatabaseRecordListHook implements \TYPO3\CMS\Backend\RecordList\RecordList
      * @param integer $pageId The record's page ID
      * @param string $additionalWhereClause An additional WHERE clause
      * @param string $selectedFieldsList Comma separated list of selected fields
-     * @param \TYPO3\CMS\Recordlist\RecordList\DatabaseRecordList $parentObject Parent localRecordList object
+     * @param DatabaseRecordList $parentObject Parent localRecordList object
      * @return void
      */
     public function getDBlistQuery($table, $pageId, &$additionalWhereClause, &$selectedFieldsList, &$parentObject)
@@ -48,6 +51,13 @@ class DatabaseRecordListHook implements \TYPO3\CMS\Backend\RecordList\RecordList
             return;
         }
 
-        $additionalWhereClause .= ' AND tx_czsimplecal_domain_model_address.event_uid = 0';
+        $inlineFilterConstraint = 'tx_czsimplecal_domain_model_address.event_uid = 0';
+
+        if (empty($additionalWhereClause)) {
+            $additionalWhereClause = $inlineFilterConstraint;
+            return;
+        }
+
+        $additionalWhereClause = '(' . $additionalWhereClause . ') AND ' . $inlineFilterConstraint;
     }
 }
