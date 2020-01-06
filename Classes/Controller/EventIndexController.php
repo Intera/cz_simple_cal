@@ -32,10 +32,14 @@ use Tx\CzSimpleCal\Domain\Model\Category;
 use Tx\CzSimpleCal\Domain\Model\EventIndex;
 use Tx\CzSimpleCal\Domain\Repository\CategoryRepository;
 use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
+use Tx\CzSimpleCal\Domain\Repository\EventRepository;
 use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
 use Tx\CzSimpleCal\Utility\YearOptionCollector;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3\CMS\Extbase\Persistence\Generic\Session;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -57,9 +61,19 @@ class EventIndexController extends BaseExtendableController
     protected $eventIndexRepository;
 
     /**
+     * @var EventRepository
+     */
+    protected $eventRepository;
+
+    /**
      * @var ExtensionService
      */
     protected $extensionService;
+
+    /**
+     * @var Session
+     */
+    protected $persistenceSession;
 
     /**
      * @var YearOptionCollector
@@ -76,9 +90,19 @@ class EventIndexController extends BaseExtendableController
         $this->eventIndexRepository = $eventIndexRepository;
     }
 
+    public function injectEventRepository(EventRepository $eventRepository)
+    {
+        $this->eventRepository = $eventRepository;
+    }
+
     public function injectExtensionService(ExtensionService $extensionService)
     {
         $this->extensionService = $extensionService;
+    }
+
+    public function injectPersistenceSession(Session $persistenceSession)
+    {
+        $this->persistenceSession = $persistenceSession;
     }
 
     public function injectYearOptionCollector(YearOptionCollector $yearOptionCollector)
@@ -182,6 +206,7 @@ class EventIndexController extends BaseExtendableController
             $this->throwStatus(404, null, $this->translateById('error-404-event-index-not-found'));
         }
 
+        $this->loadEventInActiveLanguage($eventIndexObject);
         $this->view->assign('event', $eventIndexObject);
     }
 
@@ -351,5 +376,34 @@ class EventIndexController extends BaseExtendableController
                 $startAndEndSetting
             )
         );
+    }
+
+    private function getLanguageAspect(): LanguageAspect
+    {
+        $context = GeneralUtility::makeInstance(Context::class);
+        return $context->getAspect('language');
+    }
+
+    /**
+     * This is a workaround for language switching in the detail page when the wrong slug
+     * is provided in the URL.
+     *
+     * We make sure the event attached to the event index entry is loaded in the active
+     * frontend language.
+     *
+     * @param EventIndex $eventIndexObject
+     */
+    private function loadEventInActiveLanguage(EventIndex $eventIndexObject): void
+    {
+        $languageUid = $this->getLanguageAspect()->getContentId();
+        $event = $eventIndexObject->getEvent();
+
+        if ($event->getSysLanguageUid() === $languageUid) {
+            return;
+        }
+
+        $this->persistenceSession->unregisterObject($event);
+        $event = $this->eventRepository->findByUid($event->getUidLocalizedOrDefault());
+        $eventIndexObject->setEvent($event);
     }
 }
