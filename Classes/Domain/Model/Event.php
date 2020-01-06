@@ -399,6 +399,7 @@ class Event extends BaseEvent
             return null;
         }
         $this->categories->rewind();
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->categories->current();
     }
 
@@ -599,6 +600,7 @@ class Event extends BaseEvent
     {
         $imageReferences = $this->getImageReferences();
         $imageReferences->rewind();
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $imageReferences->current();
     }
 
@@ -745,28 +747,33 @@ class Event extends BaseEvent
     public function getNextAppointment()
     {
         $appointments = $this->getNextAppointments(1);
-        return empty($appointments) ? null : $appointments->getFirst();
+        if ($appointments === []) {
+            return null;
+        }
+
+        return array_shift($appointments);
     }
 
     /**
      * get a list of next appointments
      *
      * @param $limit
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return array
      */
-    public function getNextAppointments($limit = 3)
+    public function getNextAppointments($limit = 3): array
     {
         if (is_null($this->nextAppointments) || $this->nextAppointmentsCount < $limit) {
             $eventIndexRepository = $this->objectManager->get(EventIndexRepository::class);
-            $this->nextAppointments = $eventIndexRepository->
-            findNextAppointmentsByEventUid($this->getUid(), $limit);
+            $nextAppointmentsResult = $eventIndexRepository->findNextAppointmentsByEventUid($this->getUid(), $limit);
+            $this->nextAppointments = $nextAppointmentsResult->toArray();
             $this->nextAppointmentsCount = $limit;
         }
+
         if ($this->nextAppointmentsCount === $limit) {
             return $this->nextAppointments;
-        } else {
-            return array_slice($this->nextAppointments, 0, $limit);
         }
+
+        return array_slice($this->nextAppointments, 0, $limit);
     }
 
     /**
@@ -1377,17 +1384,5 @@ class Event extends BaseEvent
                 $hashtag = '#' . $hashtag;
             }
         }
-    }
-
-    /**
-     * generate a raw slug that might have invalid characters
-     *
-     * you could overwrite this if you want a different slug
-     *
-     * @return string
-     */
-    protected function generateRawSlug()
-    {
-        return $this->getTitle();
     }
 }
