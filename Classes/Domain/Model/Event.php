@@ -715,7 +715,11 @@ class Event extends BaseEvent
      */
     public function getLocationName()
     {
-        return $this->getLocationInline(true)->getName();
+        $location = $this->getActiveLocation();
+        if (!$location) {
+            return '';
+        }
+        return $location->getName();
     }
 
     /**
@@ -726,7 +730,11 @@ class Event extends BaseEvent
      */
     public function getLocationZip()
     {
-        return $this->getLocationInline(true)->getZip();
+        $location = $this->getActiveLocation();
+        if (!$location) {
+            return '';
+        }
+        return $location->getZip();
     }
 
     /**
