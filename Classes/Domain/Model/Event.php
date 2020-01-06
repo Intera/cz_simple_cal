@@ -349,12 +349,14 @@ class Event extends BaseEvent
      */
     public function getActiveLocation(): ?Location
     {
-        $location = $this->getLocation();
+        $location = $this->getLocationInline();
         if (isset($location)) {
-            return $this->resolveLazyLoadingProx($location);
+            /** @noinspection PhpIncompatibleReturnTypeInspection */
+            return $this->resolveLazyLoadingProxy($location);
         }
 
-        return $this->resolveLazyLoadingProx($this->getLocationInline());
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->resolveLazyLoadingProxy($this->getLocation());
     }
 
     /**
@@ -365,13 +367,15 @@ class Event extends BaseEvent
      */
     public function getActiveOrganizer(): ?Organizer
     {
-        $organizer = $this->getOrganizer();
+        $organizer = $this->getOrganizerInline();
 
         if (isset($organizer)) {
-            return $this->resolveLazyLoadingProx($organizer);
+            /** @noinspection PhpIncompatibleReturnTypeInspection */
+            return $this->resolveLazyLoadingProxy($organizer);
         }
 
-        return $this->resolveLazyLoadingProx($this->getOrganizerInline());
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->resolveLazyLoadingProxy($this->getOrganizer());
     }
 
     /**

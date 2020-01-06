@@ -376,7 +376,7 @@ abstract class BaseEvent extends Base implements IsRecurring
         $this->endDateTime->setTimezone(new \DateTimeZone($this->timezone));
     }
 
-    protected function resolveLazyLoadingProx($possibleProxy)
+    protected function resolveLazyLoadingProxy($possibleProxy)
     {
         if ($possibleProxy instanceof LazyLoadingProxy) {
             return $possibleProxy->_loadRealInstance();
