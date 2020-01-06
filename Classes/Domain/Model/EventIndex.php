@@ -713,7 +713,6 @@ class EventIndex extends Base
      */
     public function setStatus($status)
     {
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
         $this->status = $this->objectManager->get(EventStatus::class, $status);
     }
 

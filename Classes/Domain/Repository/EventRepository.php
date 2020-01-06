@@ -72,10 +72,10 @@ class EventRepository extends Repository
     public function findAllEverywhere()
     {
         $query = $this->createQuery();
-        $query->getQuerySettings()->
-        setRespectStoragePage(false)->
-        setIgnoreEnableFields(true)->
-        setRespectSysLanguage(false);
+        $query->getQuerySettings()
+            ->setRespectStoragePage(false)
+            ->setIgnoreEnableFields(true)
+            ->setRespectSysLanguage(false);
 
         return $query->execute();
     }
