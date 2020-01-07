@@ -110,7 +110,7 @@
 				<source>%a, %B %e, %Y</source>
 			</trans-unit>
 			<trans-unit id="format.monthWrapper" xml:space="preserve">
-				<source>%B, %Y</source>
+				<source>%Y %B</source>
 			</trans-unit>
 			<trans-unit id="format.show.allday" xml:space="preserve">
 				<source>%B %e, %Y</source>

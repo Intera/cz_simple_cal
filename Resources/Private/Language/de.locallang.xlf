@@ -145,8 +145,8 @@
 				<target>%a, %e. %B %Y</target>
 			</trans-unit>
 			<trans-unit id="format.monthWrapper" xml:space="preserve" approved="yes">
-				<source>%B, %Y</source>
-				<target>%B, %Y</target>
+				<source>%B %Y</source>
+				<target>%B %Y</target>
 			</trans-unit>
 			<trans-unit id="format.show.allday" xml:space="preserve" approved="yes">
 				<source>%B %e, %Y</source>
