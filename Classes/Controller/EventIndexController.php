@@ -28,6 +28,7 @@ namespace Tx\CzSimpleCal\Controller;
  ***************************************************************/
 
 use DateTime;
+use Tx\CzSimpleCal\Configuration\CzSimpleCalSettings;
 use Tx\CzSimpleCal\Domain\Model\Category;
 use Tx\CzSimpleCal\Domain\Model\EventIndex;
 use Tx\CzSimpleCal\Domain\Repository\CategoryRepository;
@@ -54,6 +55,11 @@ class EventIndexController extends BaseExtendableController
      * @var CategoryRepository
      */
     protected $categoryRepository;
+
+    /**
+     * @var CzSimpleCalSettings
+     */
+    protected $czSimpleCalSettings;
 
     /**
      * @var EventIndexRepository
@@ -83,6 +89,11 @@ class EventIndexController extends BaseExtendableController
     public function injectCategoryRepository(CategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
+    }
+
+    public function injectCzSimpleCalSettings(CzSimpleCalSettings $czSimpleCalSettings)
+    {
+        $this->czSimpleCalSettings = $czSimpleCalSettings;
     }
 
     public function injectEventIndexRepository(EventIndexRepository $eventIndexRepository)
@@ -163,6 +174,8 @@ class EventIndexController extends BaseExtendableController
         $this->view->assign('gridWidth', $this->getGridSetting('gridWidthMapping'));
 
         $this->view->assign('contentElementHeader', $this->configurationManager->getContentObject()->data['header']);
+
+        $this->view->assign('itemsPerPage', $this->czSimpleCalSettings->numberOfItemsPerPage());
     }
 
     /**
