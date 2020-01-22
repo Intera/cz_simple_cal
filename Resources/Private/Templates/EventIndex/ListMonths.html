@@ -16,12 +16,12 @@
 <div class="vcalendar vcalendar-list">
     <f:if condition="{events}">
         <f:then>
-            <f:if condition="{events -> f:count()} <= {itemsPerPage}">
+            <f:if condition="{events -> f:count()} <= {settings.itemsPerPage}">
                 <f:then>
                     <f:render section="renderEvents" arguments="{_all: _all, paginatedEvents: events}"/>
                 </f:then>
                 <f:else>
-                    <f:widget.paginate as="paginatedEvents" configuration="{maximumNumberOfLinks: 5, addQueryString:1, addQueryStringMethod: 'GET', itemsPerPage: itemsPerPage}" objects="{events}">
+                    <f:widget.paginate as="paginatedEvents" configuration="{maximumNumberOfLinks: 5, addQueryString:1, addQueryStringMethod: 'GET', itemsPerPage: settings.itemsPerPage}" objects="{events}">
                         <f:render section="renderEvents" arguments="{_all}"/>
                     </f:widget.paginate>
                 </f:else>
