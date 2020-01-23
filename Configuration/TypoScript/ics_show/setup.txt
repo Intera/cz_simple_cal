@@ -1,0 +1,26 @@
+
+ics = PAGE
+ics {
+
+	typeNum = 160
+
+  10 = COA
+  10 {
+    10 = CONTENT
+    10 {
+      table = tt_content
+      select.uidInList {
+        data = GP:tx_czsimplecal_pi1[content]=|
+        intval = 1
+      }
+    }
+  }
+
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:text/calendar | Content-Disposition:inline;filename="calendar.ics"
+		xhtml_cleaning = 0
+		admPanel = 0
+		debug = 0
+	}
+}
