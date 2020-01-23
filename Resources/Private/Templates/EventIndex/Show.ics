@@ -1,0 +1,13 @@
+{namespace cal=Tx\CzSimpleCal\ViewHelpers}
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:{event.hash}
+SUMMARY:{event.title -> f:format.raw()}
+DESCRIPTION:
+CLASS:PUBLIC
+DTSTART:<cal:format.dateTime format="%Y%m%dT%H%M%S" timestamp="{event.start}"/>
+DTEND:<cal:format.dateTime format="%Y%m%dT%H%M%S" timestamp="{event.end}"/>
+END:VEVENT
+END:VCALENDAR
