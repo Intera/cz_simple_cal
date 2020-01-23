@@ -94,6 +94,9 @@
 			<trans-unit id="event_status_title_cancelled" xml:space="preserve">
 				<source>This event has been cancelled!</source>
 			</trans-unit>
+			<trans-unit id="label_ics_download" xml:space="preserve">
+				<source>Add to calendar</source>
+			</trans-unit>
 			<trans-unit id="msg.noEvents" xml:space="preserve">
 				<source>No events have been found.</source>
 			</trans-unit>

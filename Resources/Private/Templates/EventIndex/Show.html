@@ -15,6 +15,16 @@
                 <h2>{event.title}</h2>
             </header>
 
+            <f:link.action
+                class="ical-download inline-text-link"
+                additionalAttributes="{download: 'calendar.ics'}"
+                action="show"
+                format="ics"
+                arguments="{event: event, content: contentObjectData.uid}"
+                pageType="160">
+                <f:translate key="LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang.xlf:label_ics_download"/>
+            </f:link.action>
+
             <f:if condition="{event.event.hasMedia}">
                 <f:then>
                     <div class="row">

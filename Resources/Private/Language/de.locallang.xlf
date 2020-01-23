@@ -124,6 +124,10 @@
 				<source>This event has been cancelled!</source>
 				<target>Diese Veranstaltung wurde abgesagt!</target>
 			</trans-unit>
+			<trans-unit id="label_ics_download" xml:space="preserve" approved="yes">
+				<source>Add to calendar</source>
+				<target>Meinem Kalender hinzufügen</target>
+			</trans-unit>
 			<trans-unit id="msg.noEvents" xml:space="preserve" approved="yes">
 				<source>No events have been found.</source>
 				<target>Es wurden keine passenden Veranstaltungen gefunden.</target>
