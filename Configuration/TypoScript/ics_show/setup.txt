@@ -13,9 +13,10 @@ ics {
         data = GP:tx_czsimplecal_pi1[content]=|
         intval = 1
       }
+      
+      renderObj =< tt_content
+      renderObj.list.templateName = ListNoLayout
     }
-    10.renderObj =< tt_content
-    10.renderObj.list.templateName = ListNoLayout
   }
 
 	config {
