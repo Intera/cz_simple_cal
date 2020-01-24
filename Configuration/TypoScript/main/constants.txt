@@ -7,4 +7,6 @@ plugin.tx_czsimplecal {
 	}
 
   slider.maxEvents = 20
+
+  itemsPerPage = 20
 }

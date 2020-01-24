@@ -16,18 +16,16 @@
 <div class="vcalendar vcalendar-list">
     <f:if condition="{events}">
         <f:then>
-            <f:widget.paginate as="paginatedEvents" configuration="{maximumNumberOfLinks: 5, addQueryStringMethod: 'GET'}" objects="{events}">
-                <f:for each="{paginatedEvents}" as="event">
-                    <cal:calendar.onNewDay event="{event}" mode="month">
-                        <cal:template.groupEnd/>
-                        <f:render partial="EventIndex/MonthWrapper" arguments="{_all}"/>
-                        <cal:template.groupStart class="row"/>
-                    </cal:calendar.onNewDay>
-
-                    <f:render section="eventBox" arguments="{_all}"/>
-                </f:for>
-                <cal:template.groupEnd/>
-            </f:widget.paginate>
+            <f:if condition="{events -> f:count()} <= {settings.itemsPerPage}">
+                <f:then>
+                    <f:render section="renderEvents" arguments="{_all: _all, paginatedEvents: events}"/>
+                </f:then>
+                <f:else>
+                    <f:widget.paginate as="paginatedEvents" configuration="{maximumNumberOfLinks: 5, addQueryString:1, addQueryStringMethod: 'GET', itemsPerPage: settings.itemsPerPage}" objects="{events}">
+                        <f:render section="renderEvents" arguments="{_all}"/>
+                    </f:widget.paginate>
+                </f:else>
+            </f:if>
         </f:then>
         <f:else>
             <div class="alert alert-info"><f:translate key="msg.noEvents"/></div>
@@ -43,4 +41,18 @@
     </div>
 </div>
 </f:section>
+
+<f:section name="renderEvents">
+<f:for each="{paginatedEvents}" as="event">
+    <cal:calendar.onNewDay event="{event}" mode="month">
+        <cal:template.groupEnd/>
+        <f:render partial="EventIndex/MonthWrapper" arguments="{_all}"/>
+        <cal:template.groupStart class="row"/>
+    </cal:calendar.onNewDay>
+
+    <f:render section="eventBox" arguments="{_all}"/>
+</f:for>
+<cal:template.groupEnd/>
+</f:section>
+
 </html>

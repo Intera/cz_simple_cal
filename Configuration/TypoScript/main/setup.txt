@@ -119,6 +119,8 @@ plugin.tx_czsimplecal {
     custom {
 
     }
+
+    itemsPerPage = {$plugin.tx_czsimplecal.itemsPerPage}
   }
 }
 
