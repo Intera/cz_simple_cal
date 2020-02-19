@@ -20,7 +20,6 @@ return [
     ],
     'columns' => [
         'pid' => [
-            'exclude' => 0,
             'label' => '',
             'config' => [
                 'type' => 'select',
@@ -31,7 +30,6 @@ return [
             ],
         ],
         'start' => [
-            'exclude' => 0,
             'label' => '',
             'config' => [
                 'type' => 'input',
@@ -40,7 +38,6 @@ return [
             ],
         ],
         'end' => [
-            'exclude' => 0,
             'label' => '',
             'config' => [
                 'type' => 'input',
@@ -49,7 +46,6 @@ return [
             ],
         ],
         'event' => [
-            'exclude' => 0,
             'label' => '',
             'config' => [
                 'type' => 'passthrough',
@@ -57,12 +53,10 @@ return [
             ],
         ],
         'slug' => [
-            'exclude' => 0,
             'label' => '',
             'config' => ['type' => 'none'],
         ],
         'status' => [
-            'exclude' => 0,
             'label' => '',
             'config' => [
                 'type' => 'input',
@@ -88,7 +82,6 @@ return [
             ],
         ],
         'teaser' => [
-            'exclude' => 0,
             'label' => '',
             'config' => ['type' => 'none'],
         ],

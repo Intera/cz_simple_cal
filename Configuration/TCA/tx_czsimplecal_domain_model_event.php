@@ -127,7 +127,6 @@ return [
             'config' => ['type' => 'passthrough'],
         ],
         'pid' => [
-            'exclude' => 0,
             'label' => '',
             'config' => [
                 'type' => 'select',
@@ -141,7 +140,7 @@ return [
             'config' => ['type' => 'passthrough'],
         ],
         'title' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.title',
             'config' => [
                 'type' => 'input',
@@ -152,7 +151,7 @@ return [
         'start_day' => [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.start_day',
             'config' => [
                 'type' => 'input',
@@ -164,7 +163,7 @@ return [
         'start_time' => [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.start_time',
             'config' => [
                 'type' => 'input',
@@ -175,7 +174,7 @@ return [
             ],
         ],
         'enable_endtime' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
             'config' => [
                 'type' => 'input',
@@ -190,7 +189,7 @@ return [
         'end_day' => [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.end_day',
             'config' => [
                 'type' => 'input',
@@ -203,7 +202,7 @@ return [
         'end_time' => [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.end_time',
             'config' => [
                 'type' => 'input',
@@ -214,7 +213,7 @@ return [
             ],
         ],
         'timezone' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.timezone',
             'config' => [
                 'type' => 'input',
@@ -225,7 +224,7 @@ return [
             ],
         ],
         'teaser' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.teaser',
             'config' => [
                 'type' => 'text',
@@ -235,7 +234,7 @@ return [
             ],
         ],
         'description' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.description',
             'config' => [
                 'type' => 'text',
@@ -245,7 +244,7 @@ return [
             ],
         ],
         'images' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.images',
             'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
                 'images',
@@ -298,7 +297,7 @@ return [
             ),
         ],
         'files' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.files',
             'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
                 'files',
@@ -310,7 +309,7 @@ return [
         'recurrance_type' => [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_type',
             'onChange' => 'reload',
             'config' => [
@@ -343,7 +342,7 @@ return [
         'recurrance_subtype' => [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_subtype',
             'displayCond' => 'FIELD:recurrance_type:!IN:0,,none,daily',
             'config' => [
@@ -355,7 +354,7 @@ return [
         'recurrance_until' => [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.recurrance_until',
             'config' => [
                 'type' => 'input',
@@ -366,7 +365,7 @@ return [
             ],
         ],
         'location_inline' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.location',
             'config' => [
                 'type' => 'inline',
@@ -385,7 +384,7 @@ return [
             ],
         ],
         'location' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.location',
             'config' => [
                 'type' => 'group',
@@ -397,7 +396,7 @@ return [
             ],
         ],
         'organizer_inline' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.organizer',
             'config' => [
                 'type' => 'inline',
@@ -416,7 +415,7 @@ return [
             ],
         ],
         'organizer' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.organizer',
             'config' => [
                 'type' => 'group',
@@ -429,7 +428,6 @@ return [
         ],
         'categories' => [
             'l10n_mode' => 'exclude',
-            'exclude' => 0,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.categories',
             'config' => [
                 'type' => 'select',
@@ -440,7 +438,6 @@ return [
             ],
         ],
         'show_page_instead' => [
-            'exclude' => 0,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.show_page_instead',
             'config' => [
                 'type' => 'group',
@@ -456,7 +453,6 @@ return [
             ],
         ],
         'exceptions' => [
-            'exclude' => 0,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.exceptions',
             'config' => [
                 'type' => 'inline',
@@ -473,7 +469,6 @@ return [
             ],
         ],
         'exception_groups' => [
-            'exclude' => 0,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.exception_groups',
             'config' => [
                 'type' => 'group',
@@ -488,7 +483,7 @@ return [
             ],
         ],
         'twitter_hashtags' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.twitter_hashtags',
             'config' => [
                 'type' => 'input',
@@ -498,7 +493,7 @@ return [
             ],
         ],
         'flickr_tags' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.flickr_tags',
             'config' => [
                 'type' => 'input',
@@ -510,7 +505,7 @@ return [
         'status' => [
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.status',
             'config' => [
                 'type' => 'select',
@@ -533,7 +528,6 @@ return [
             ],
         ],
         'slug' => [
-            'exclude' => 0,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.slug',
             'config' => [
                 'type' => 'slug',
@@ -548,7 +542,7 @@ return [
             ],
         ],
         'last_indexed' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.last_indexed',
             'config' => [
                 'type' => 'input',
@@ -558,11 +552,11 @@ return [
             ],
         ],
         'cruser_fe' => [
-            'exclude' => 1,
+            'exclude' => true,
             'config' => ['type' => 'none'],
         ],
         'crgroup_fe' => [
-            'exclude' => 1,
+            'exclude' => true,
             'config' => ['type' => 'none'],
         ],
     ],
