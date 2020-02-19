@@ -159,8 +159,7 @@ class Event
         // Get all recurrances...
         foreach ($event->getRecurrances() as $recurrance) {
             // ...and store them to the repository
-            /** @var EventIndex $eventIndex */
-            $eventIndex = $this->objectManager->get('Tx\\CzSimpleCal\\Domain\\Model\\EventIndex');
+            $eventIndex = $this->objectManager->get(EventIndex::class);
             $instance = EventIndex::fromArray(
                 $eventIndex,
                 $recurrance
