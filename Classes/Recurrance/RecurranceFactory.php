@@ -102,7 +102,7 @@ class RecurranceFactory
 
         if (!$class instanceof RecurranceTypeBase) {
             throw new \BadMethodCallException(
-                sprintf('The class %s does not implement \\Tx\\CzSimpleCal\\Recurrance\\Type\\Base.', get_class($class))
+                sprintf('The class %s does not implement %s', get_class($class), RecurranceTypeBase::class)
             );
         }
 
