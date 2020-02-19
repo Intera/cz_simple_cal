@@ -273,6 +273,10 @@
 				<source>Cancelled</source>
 				<target>Abgesagt</target>
 			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.is_internal" xml:space="preserve">
+				<source>Internal event</source>
+				<target>Interne Veranstaltung</target>
+			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_event.slug" xml:space="preserve" approved="yes">
 				<source>Slug</source>
 				<target>URL-Segment</target>

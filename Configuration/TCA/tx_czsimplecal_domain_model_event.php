@@ -34,7 +34,7 @@ return [
         '1' => [
             'showitem' => '
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.tab_general,
-                    title, slug, palette;;start, palette;;end, status, categories, show_page_instead, teaser, description,
+                    title, slug, palette;;start, palette;;end, palette;;metadata, show_page_instead, teaser, description,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.tab_resources,
                     images, files, event_languages,
                 --div--;LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.tab_recurrance,
@@ -51,8 +51,9 @@ return [
         ],
     ],
     'palettes' => [
-        'start' => ['showitem' => 'start_day,start_time'],
-        'end' => ['showitem' => 'end_day,end_time'],
+        'start' => ['showitem' => 'start_day, start_time'],
+        'end' => ['showitem' => 'end_day, end_time'],
+        'metadata' => ['showitem' => 'categories, status, is_internal'],
         'access' => [
             'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access',
             'showitem' => 'hidden, enable_endtime',
@@ -525,6 +526,13 @@ return [
                     ],
                 ],
                 'default' => 'CONFIRMED',
+            ],
+        ],
+        'is_internal' => [
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.is_internal',
+            'config' => [
+                'type' => 'check',
+                'renderType' => 'checkboxToggle',
             ],
         ],
         'slug' => [

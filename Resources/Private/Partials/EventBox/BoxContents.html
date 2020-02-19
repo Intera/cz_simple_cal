@@ -1,6 +1,18 @@
 <html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     data-namespace-typo3-fluid="true">
+<f:if condition="{event.event.isInternal}">
+<div class="intern-event-badge">
+    <div class="badge-body"
+        style="{f:if(condition: event.event.categoryColor, then: 'background-color: {event.event.categoryColor}')}">
+        <i class="far-lock-alt"></i>
+        <span class="sr-only">Interne Veranstaltung</span>
+    </div>
+    <div class="badge-footer"
+        style="{f:if(condition: event.event.categoryColor, then: 'border-top-color: {event.event.categoryColor}')}"></div>
+</div>
+</f:if>
+
 <f:render partial="EventBox/BoxImage" arguments="{_all}"/>
 
 <div class="card-body">

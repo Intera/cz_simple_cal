@@ -26,6 +26,7 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 	exception_groups INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 	twitter_hashtags VARCHAR(255) DEFAULT '',
 	status VARCHAR(255) DEFAULT NULL,
+	is_internal SMALLINT(5) UNSIGNED DEFAULT '0' NOT NULL,
 	flickr_tags VARCHAR(255) DEFAULT '',
 	slug VARCHAR(250) DEFAULT '' NOT NULL,
 	last_indexed INT(11) DEFAULT '0',

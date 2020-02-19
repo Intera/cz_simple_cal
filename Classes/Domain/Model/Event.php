@@ -180,6 +180,11 @@ class Event extends BaseEvent
     protected $images;
 
     /**
+     * @var bool
+     */
+    protected $isInternal;
+
+    /**
      * the property lastIndexed
      *
      * @var \DateTime lastIndexed
@@ -626,6 +631,11 @@ class Event extends BaseEvent
             $this->_cache_images = FileArrayBuilder::buildFromReferences($this->images);
         }
         return $this->_cache_images;
+    }
+
+    public function getIsInternal(): bool
+    {
+        return $this->isInternal;
     }
 
     /**

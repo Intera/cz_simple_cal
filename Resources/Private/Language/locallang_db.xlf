@@ -198,6 +198,9 @@
 			<trans-unit id="tx_czsimplecal_domain_model_event.status.cancelled" xml:space="preserve">
 				<source>Cancelled</source>
 			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.is_internal" xml:space="preserve">
+				<source>Internal event</source>
+			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_event.slug" xml:space="preserve">
 				<source>Slug</source>
 			</trans-unit>
