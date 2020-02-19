@@ -30,7 +30,7 @@ return [
             ],
         ],
         'start' => [
-            'label' => '',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_eventindex.start',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -38,7 +38,7 @@ return [
             ],
         ],
         'end' => [
-            'label' => '',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_eventindex.end',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -46,18 +46,18 @@ return [
             ],
         ],
         'event' => [
-            'label' => '',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_eventindex.event',
             'config' => [
                 'type' => 'passthrough',
                 'foreign_table' => 'tx_czsimplecal_domain_model_event',
             ],
         ],
         'slug' => [
-            'label' => '',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.slug',
             'config' => ['type' => 'none'],
         ],
         'status' => [
-            'label' => '',
+            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.status',
             'config' => [
                 'type' => 'input',
                 'eval' => 'null',

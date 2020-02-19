@@ -225,6 +225,15 @@
 			<trans-unit id="tx_czsimplecal_domain_model_eventindex" xml:space="preserve">
 				<source>Event index</source>
 			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_eventindex.end" xml:space="preserve">
+				<source>End</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_eventindex.event" xml:space="preserve">
+				<source>Event</source>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_eventindex.start" xml:space="preserve">
+				<source>Start</source>
+			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_exception" xml:space="preserve">
 				<source>Exception</source>
 			</trans-unit>

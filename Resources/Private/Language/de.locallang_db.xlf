@@ -309,6 +309,18 @@
 				<source>Event index</source>
 				<target>Event Index</target>
 			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_eventindex.end" xml:space="preserve">
+				<source>End</source>
+				<target>Ende</target>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_eventindex.event" xml:space="preserve">
+				<source>Event</source>
+				<target>Termin</target>
+			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_eventindex.start" xml:space="preserve">
+				<source>Start</source>
+				<target>Beginn</target>
+			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_exception" xml:space="preserve" approved="yes">
 				<source>Exception</source>
 				<target>Ausnahme</target>
