@@ -13,35 +13,39 @@
 	</f:if>
 </f:spaceless></f:section>
 
+<f:section name="formatDate">
+    <f:format.date date="{rawDateTime}" format="%A"/>, <f:format.date format="%B" date="{rawDateTime}" /> <f:format.date format="%d" date="{rawDateTime}" />, <f:format.date format="%Y" date="{rawDateTime}" />
+</f:section>
+
 <f:section name="timeElement">
 	<f:switch expression="{cal:eventTimeType(event: event.event)}">
 
 		<f:case value="startDate">
-			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /></time>
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:render section="formatDate" arguments="{rawDateTime: event.start}"/></time>
 		</f:case>
 
 		<f:case value="startDateTime">
-			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start}" /></time>
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:render section="formatDate" arguments="{rawDateTime: event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start}" /></time>
 		</f:case>
 
 		<f:case value="startDateTimeAndEndTime">
 			<f:comment><!-- Both times need to be in one line to prevent unwanted space after the first tag --></f:comment>
-			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start, timestampEnd: event.end}" /></time><time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"></time>
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:render section="formatDate" arguments="{rawDateTime: event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start, timestampEnd: event.end}" /></time><time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"></time>
 		</f:case>
 
 		<f:case value="allDates">
-			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /></time> -
-			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:format.date format="%x" date="{event.end}" /></time>
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:render section="formatDate" arguments="{rawDateTime: event.start}" /></time> -
+			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:render section="formatDate" arguments="{rawDateTime: event.end}" /></time>
 		</f:case>
 
 		<f:case value="allDateTimes">
-			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:format.date format="%x" date="{event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start}" /></time> -
-			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:format.date format="%x" date="{event.end}" /> <f:render section="displayTime" arguments="{timestamp: event.end}" /></time>
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:render section="formatDate" arguments="{rawDateTime: event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start}" /></time> -
+			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:render section="formatDate" arguments="{rawDateTime: event.end}" /> <f:render section="displayTime" arguments="{timestamp: event.end}" /></time>
 		</f:case>
 
 		<f:defaultCase>
-			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date({format: 'c', date: event.start})}"><f:format.date format="%x" date="{event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start}" /></time> -
-			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:format.date format="%x" date="{event.end}" /> <f:render section="displayTime" arguments="{timestamp: event.end}" /></time>
+			<time class="tx-czsimplecal-datetime dtstart" datetime="{f:format.date(format: 'c', date: event.start)}"><f:render section="formatDate" arguments="{rawDateTime: event.start}" /> <f:render section="displayTime" arguments="{timestamp: event.start}" /></time> -
+			<time class="tx-czsimplecal-datetime dtend" datetime="{f:format.date(format: 'c', date: event.end)}"><f:render section="formatDate" arguments="{rawDateTime: event.end}" /> <f:render section="displayTime" arguments="{timestamp: event.end}" /></time>
 		</f:defaultCase>
 
 	</f:switch>
