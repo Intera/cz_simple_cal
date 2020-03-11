@@ -20,7 +20,7 @@
         date="{event.dateTimeObjectStart}"
         style="{f:if(condition: event.event.categoryColor, then: 'background-color: {event.event.categoryColor}')}"
         type="dtstart">
-        <span class="month"><f:format.date date="{event.dateTimeObjectStart}" format="M"/></span>
+        <span class="month"><f:format.date date="{event.dateTimeObjectStart}" format="%b"/></span>
         <span class="day"><f:format.date date="{event.dateTimeObjectStart}" format="d"/></span>
     </cal:template.dateTag>
 
