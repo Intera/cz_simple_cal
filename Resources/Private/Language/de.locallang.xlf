@@ -88,6 +88,10 @@
 				<source>%s</source>
 				<target>%s Uhr</target>
 			</trans-unit>
+			<trans-unit id="event_is_internal_badge" xml:space="preserve">
+				<source>Internal event</source>
+				<target>Interne Veranstaltung</target>
+			</trans-unit>
 			<trans-unit id="event_show_upcoming_events_header" xml:space="preserve" approved="yes">
 				<source>Upcoming events (up to three)</source>
 				<target>Kommende Termine (bis zu drei)</target>

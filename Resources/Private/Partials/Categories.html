@@ -1,14 +1,23 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     data-namespace-typo3-fluid="true">
-<f:if condition="{event.categories}">
+<f:if condition="{event.categories} || {event.event.isInternal}">
     <div class="tags event-category-container">
         <f:for each="{event.categories}" as="category">
             <span class="badge badge-lg"
-                title="{f:translate(key: 'category')}"
-                style="{f:if(condition: category.color, then: 'background-color: {category.color}')}">
+                style="{f:if(condition: category.color, then: 'background-color: {category.color}')}"
+                title="{f:translate(key: 'category')}">
                 {category.title}
             </span>
         </f:for>
+        <f:alias map="{category: event.event.category}">
+            <f:if condition="{event.event.isInternal}">
+                <span class="badge badge-lg intern-event-badge"
+                    style="{f:if(condition: category.color, then: 'background-color: {category.color}')}">
+                    <i class="far-lock-alt"></i>
+                    {f:translate(key: 'event_is_internal_badge')}
+                </span>
+            </f:if>
+        </f:alias>
     </div>
 </f:if>
 </html>

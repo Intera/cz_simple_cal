@@ -67,6 +67,9 @@
 			<trans-unit id="display_time" xml:space="preserve">
 				<source>%s</source>
 			</trans-unit>
+			<trans-unit id="event_is_internal_badge" xml:space="preserve">
+				<source>Internal event</source>
+			</trans-unit>
 			<trans-unit id="event_show_upcoming_events_header" xml:space="preserve">
 				<source>Upcoming events (up to three)</source>
 			</trans-unit>
