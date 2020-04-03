@@ -4,6 +4,7 @@
 <f:if condition="{event.event.isInternal}">
 <div class="intern-event-badge">
     <div class="badge-body"
+        title="{f:translate(key: 'event_is_internal_badge')}"
         style="{f:if(condition: event.event.categoryColor, then: 'background-color: {event.event.categoryColor}')}">
         <i class="far-lock-alt"></i>
         <span class="sr-only"><f:translate key="event_is_internal_badge"/></span>
