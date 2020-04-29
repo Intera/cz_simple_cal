@@ -26,6 +26,8 @@ ics {
         }
       }
     }
+
+    stdWrap.trim = 1
   }
 
   config {

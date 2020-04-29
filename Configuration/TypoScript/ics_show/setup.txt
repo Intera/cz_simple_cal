@@ -15,6 +15,8 @@ ics {
       renderObj =< tt_content
       renderObj.list.templateName = ListNoLayout
     }
+
+    stdWrap.trim = 1
   }
 
   config {
