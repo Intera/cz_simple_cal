@@ -406,7 +406,7 @@ class Event extends BaseEvent
         if ($this->category) {
             $objectStorage->attach($this->category);
         }
-        return new $objectStorage;
+        return $objectStorage;
     }
 
     /**
