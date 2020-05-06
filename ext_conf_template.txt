@@ -1,5 +1,8 @@
-# cat=basic/enable/320; type=text; label= Final end of recurring events: When using recurring events this is the last date a recurring event will take place. Format is YYYY-MM-DD or a relative value like "+1 year". Needs reindexing after change.
+# cat=basic/enable/320; type=text; label=Final end of recurring events: When using recurring events this is the last date a recurring event will take place. Format is YYYY-MM-DD or a relative value like "+1 year". Needs reindexing after change.
 recurrenceEnd = +1 year
 
-# cat=basic/enable/420; type=options[Advanced=advanced,Simple=simple]; label= Flexform type:
+# cat=basic/enable/420; type=options[Advanced=advanced,Simple=simple]; label=Flexform type
 flexFormType = advanced
+
+# cat=basic/enable/420; type=boolean; label=Use single category
+useSingleCategory = 0

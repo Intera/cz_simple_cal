@@ -171,6 +171,9 @@
 			<trans-unit id="tx_czsimplecal_domain_model_event.categories" xml:space="preserve">
 				<source>Categories</source>
 			</trans-unit>
+			<trans-unit id="tx_czsimplecal_domain_model_event.category" xml:space="preserve">
+				<source>Category</source>
+			</trans-unit>
 			<trans-unit id="tx_czsimplecal_domain_model_event.show_page_instead" xml:space="preserve">
 				<source>Show this page instead</source>
 			</trans-unit>

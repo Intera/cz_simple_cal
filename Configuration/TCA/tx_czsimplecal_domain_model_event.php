@@ -2,9 +2,11 @@
 declare(strict_types=1);
 
 use Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-return [
+$tca = [
     'ctrl' => [
         'title' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event',
         'label' => 'title',
@@ -27,7 +29,7 @@ return [
     ],
     'interface' => [
         'showRecordFieldList' => 'title,slug,start_day,start_time,end_day,end_time,teaser,description,recurrance_type'
-            . ',recurrance_subtype,recurrance_until,location_inline,location,organizer_inline,organizer,categories'
+            . ',recurrance_subtype,recurrance_until,location_inline,location,organizer_inline,organizer,categories,category'
             . ',show_page_instead,exceptions,exception_groups,flickr_tags,twitter_hashtags',
     ],
     'types' => [
@@ -53,7 +55,7 @@ return [
     'palettes' => [
         'start' => ['showitem' => 'start_day, start_time'],
         'end' => ['showitem' => 'end_day, end_time'],
-        'metadata' => ['showitem' => 'categories, status, is_internal'],
+        'metadata' => ['showitem' => 'categories, category, status, is_internal'],
         'access' => [
             'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access',
             'showitem' => 'hidden, enable_endtime',
@@ -427,17 +429,6 @@ return [
                 'allowed' => 'tx_czsimplecal_domain_model_address',
             ],
         ],
-        'categories' => [
-            'l10n_mode' => 'exclude',
-            'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.categories',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectMultipleSideBySide',
-                'enableMultiSelectFilterTextfield' => true,
-                'foreign_table' => 'tx_czsimplecal_domain_model_category',
-                'MM' => 'tx_czsimplecal_event_category_mm',
-            ],
-        ],
         'show_page_instead' => [
             'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.show_page_instead',
             'config' => [
@@ -569,3 +560,34 @@ return [
         ],
     ],
 ];
+
+$isUsingSingleCategory = (bool)GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
+    'cz_simple_cal',
+    'useSingleCategory'
+);
+
+if ($isUsingSingleCategory) {
+    $tca['columns']['category'] = [
+        'l10n_mode' => 'exclude',
+        'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.category',
+        'config' => [
+            'type' => 'select',
+            'renderType' => 'selectSingle',
+            'foreign_table' => 'tx_czsimplecal_domain_model_category',
+        ],
+    ];
+    return $tca;
+}
+
+$tca['columns']['categories'] = [
+    'l10n_mode' => 'exclude',
+    'label' => 'LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tx_czsimplecal_domain_model_event.categories',
+    'config' => [
+        'type' => 'select',
+        'renderType' => 'selectMultipleSideBySide',
+        'enableMultiSelectFilterTextfield' => true,
+        'foreign_table' => 'tx_czsimplecal_domain_model_category',
+        'MM' => 'tx_czsimplecal_event_category_mm',
+    ],
+];
+return $tca;

@@ -21,6 +21,7 @@ CREATE TABLE tx_czsimplecal_domain_model_event (
 	organizer VARCHAR(255) DEFAULT '',
 	organizer_inline INT(11) DEFAULT '0',
 	categories INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	category INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 	show_page_instead VARCHAR(255) DEFAULT '' NOT NULL,
 	exceptions INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 	exception_groups INT(11) UNSIGNED DEFAULT '0' NOT NULL,

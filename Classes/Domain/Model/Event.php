@@ -36,6 +36,7 @@ use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Recurrance\RecurranceFactory;
 use Tx\CzSimpleCal\Recurrance\Timeline\Event as TimelineEvent;
 use Tx\CzSimpleCal\Utility\FileArrayBuilder;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
@@ -81,11 +82,18 @@ class Event extends BaseEvent
     protected $_cache_images = null;
 
     /**
-     * categories
+     * Only available if multiple categories are enabled in config!
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tx\CzSimpleCal\Domain\Model\Category>
      */
     protected $categories;
+
+    /**
+     * Only available if single category is enabled in config!
+     *
+     * @var \Tx\CzSimpleCal\Domain\Model\Category
+     */
+    protected $category;
 
     /**
      * @var int cruserFe
@@ -386,20 +394,32 @@ class Event extends BaseEvent
     /**
      * Getter for category
      *
-     * @return ObjectStorage<Category> categories
+     * @return Category[]|ObjectStorage categories
      */
     public function getCategories()
     {
-        return $this->categories;
+        if (!$this->isUsingSingleCategory()) {
+            return $this->categories;
+        }
+
+        $objectStorage = new ObjectStorage();
+        if ($this->category) {
+            $objectStorage->attach($this->category);
+        }
+        return new $objectStorage;
     }
 
     /**
      * getter for the first category
      *
-     * @return Category
+     * @return Category|null
      */
-    public function getCategory()
+    public function getCategory(): ?Category
     {
+        if ($this->isUsingSingleCategory()) {
+            return $this->category;
+        }
+
         if (is_null($this->categories) || $this->categories->count() === 0) {
             return null;
         }
@@ -1394,5 +1414,13 @@ class Event extends BaseEvent
                 $hashtag = '#' . $hashtag;
             }
         }
+    }
+
+    private function isUsingSingleCategory(): bool
+    {
+        return (bool)GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
+            'cz_simple_cal',
+            'useSingleCategory'
+        );
     }
 }

@@ -1,6 +1,6 @@
 <?php
-/** @noinspection PhpMissingStrictTypesDeclarationInspection */
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
+/** @noinspection PhpMissingStrictTypesDeclarationInspection */
 
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
@@ -76,7 +76,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass'][]
     = Tx\CzSimpleCal\Hook\DataHandlerHook::class;
 
-$iconFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+$iconFactory = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
 $iconFactory->registerIcon(
     'extension-czsimplecal-content-calendar',
     \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
@@ -88,3 +88,15 @@ $iconFactory->registerIcon(
     ['source' => 'EXT:cz_simple_cal/Resources/Public/Icons/content_calendar_slider.svg']
 );
 unset($iconFactory);
+
+$useSingleCategory = (bool)TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+    TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+)->get(
+    'cz_simple_cal',
+    'useSingleCategory'
+);
+if ($useSingleCategory) {
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['tx-czsimplecal-multiple-to-single-category']
+        = Tx\CzSimpleCal\Updates\MultipleToSingleCategoryMigrator::class;
+}
+unset($useSingleCategory);
