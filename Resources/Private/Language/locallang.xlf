@@ -206,7 +206,7 @@
 				<source>Upcoming events</source>
 			</trans-unit>
 			<trans-unit id="slider_label_default" xml:space="preserve">
-				<source>Events</source>
+				<source>Show all events</source>
 			</trans-unit>
 			<trans-unit id="filter_category_all">
 				<source>All</source>

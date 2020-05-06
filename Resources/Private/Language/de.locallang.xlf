@@ -273,8 +273,8 @@
 				<target>Kommende Termine</target>
 			</trans-unit>
 			<trans-unit id="slider_label_default" xml:space="preserve">
-				<source>Events</source>
-				<target>Termine</target>
+				<source>Show all events</source>
+				<target>Alle Termine anzeigen</target>
 			</trans-unit>
 			<trans-unit id="filter_category_all">
 				<source>All</source>
