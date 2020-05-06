@@ -16,9 +16,6 @@ class MultipleToSingleCategoryMigrator implements UpgradeWizardInterface
 {
     public function executeUpdate(): bool
     {
-        // uid_local = event uid
-        // uid_foreign = category uid
-
         $builder = $this->buildFirstCategoryQueryBuilder();
         $result = $builder->execute();
         $connection = $builder->getConnection();
@@ -88,6 +85,12 @@ class MultipleToSingleCategoryMigrator implements UpgradeWizardInterface
         return $builder;
     }
 
+    /**
+     * uid_local = event uid
+     * uid_foreign = category uid
+     *
+     * @param ResultStatement $result
+     */
     private function migrateCategories(ResultStatement $result): void
     {
         while ($row = $result->fetch(FetchMode::ASSOCIATIVE)) {
