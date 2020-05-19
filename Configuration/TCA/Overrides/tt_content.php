@@ -6,7 +6,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
-$lllPrefixListType = 'LLL:' . 'EXT:cz_simple_cal/./Resources/Private/Language/locallang_db.xlf:tt_content.list_type.I.';
+$lllPrefixListType = 'LLL:' . 'EXT:cz_simple_cal/Resources/Private/Language/locallang_db.xlf:tt_content.list_type.I.';
 
 ExtensionUtility::registerPlugin(
     'cz_simple_cal',
