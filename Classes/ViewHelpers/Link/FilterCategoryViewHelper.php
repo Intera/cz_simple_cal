@@ -14,6 +14,7 @@ namespace Tx\CzSimpleCal\ViewHelpers\Link;
  *                                                                        */
 
 use Tx\CzSimpleCal\Domain\Model\Category;
+use Tx\CzSimpleCal\Utility\ExtensionConfiguration;
 use Tx\CzSimpleCal\Utility\FilterLinkGenerator;
 use TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
@@ -25,6 +26,11 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 class FilterCategoryViewHelper extends AbstractTagBasedViewHelper
 {
     /**
+     * @var ExtensionConfiguration
+     */
+    protected $extensionConfiguration;
+
+    /**
      * Registers the universal tag attributes like class, id etc.
      *
      * @return void
@@ -34,6 +40,11 @@ class FilterCategoryViewHelper extends AbstractTagBasedViewHelper
         $this->registerArgument('category', Category::class, '', false, null);
         $this->registerArgument('action', 'string', '', false, 'listMonths');
         $this->registerUniversalTagAttributes();
+    }
+
+    public function injectExtensionConfiguration(ExtensionConfiguration $extensionConfiguration)
+    {
+        $this->extensionConfiguration = $extensionConfiguration;
     }
 
     /**
@@ -54,7 +65,7 @@ class FilterCategoryViewHelper extends AbstractTagBasedViewHelper
 
         $filterLinkGenerator = new FilterLinkGenerator();
         return $filterLinkGenerator->generateLink(
-            'categories.uid',
+            $this->getCategoryFilterProperty(),
             $filterValue,
             $this->arguments['action'],
             $this->tag,
@@ -65,6 +76,11 @@ class FilterCategoryViewHelper extends AbstractTagBasedViewHelper
     private function getCategory(): ?Category
     {
         return $this->arguments['category'];
+    }
+
+    private function getCategoryFilterProperty(): string
+    {
+        return $this->extensionConfiguration->isUsingSingleCategory() ? 'category.uid' : 'categories.uid';
     }
 
     private function getControllerContext(): ControllerContext

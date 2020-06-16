@@ -35,8 +35,8 @@ use Tx\CzSimpleCal\Domain\Model\Enumeration\EventStatus;
 use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Recurrance\RecurranceFactory;
 use Tx\CzSimpleCal\Recurrance\Timeline\Event as TimelineEvent;
+use Tx\CzSimpleCal\Utility\ExtensionConfiguration;
 use Tx\CzSimpleCal\Utility\FileArrayBuilder;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
@@ -324,6 +324,16 @@ class Event extends BaseEvent
      * @var array
      */
     protected $twitterHashtags_ = null;
+
+    /**
+     * @var ExtensionConfiguration
+     */
+    private $extensionConfiguration;
+
+    public function injectExtensionConfiguration(ExtensionConfiguration $extensionConfiguration)
+    {
+        $this->extensionConfiguration = $extensionConfiguration;
+    }
 
     public function injectObjectManager(ObjectManagerInterface $objectManager)
     {
@@ -1418,9 +1428,6 @@ class Event extends BaseEvent
 
     private function isUsingSingleCategory(): bool
     {
-        return (bool)GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
-            'cz_simple_cal',
-            'useSingleCategory'
-        );
+        return $this->extensionConfiguration->isUsingSingleCategory();
     }
 }

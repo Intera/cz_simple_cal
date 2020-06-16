@@ -2,9 +2,7 @@
 declare(strict_types=1);
 
 use Tx\CzSimpleCal\Domain\Model\Enumeration\RecurranceType;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 $tca = [
     'ctrl' => [
@@ -561,10 +559,9 @@ $tca = [
     ],
 ];
 
-$isUsingSingleCategory = (bool)GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
-    'cz_simple_cal',
-    'useSingleCategory'
-);
+$isUsingSingleCategory = (bool)TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+    Tx\CzSimpleCal\Utility\ExtensionConfiguration::class
+)->isUsingSingleCategory();
 
 if ($isUsingSingleCategory) {
     $tca['columns']['category'] = [

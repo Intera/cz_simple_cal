@@ -89,14 +89,11 @@ $iconFactory->registerIcon(
 );
 unset($iconFactory);
 
-$useSingleCategory = (bool)TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-    TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
-)->get(
-    'cz_simple_cal',
-    'useSingleCategory'
-);
-if ($useSingleCategory) {
+$isUsingSingleCategory = (bool)TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+    Tx\CzSimpleCal\Utility\ExtensionConfiguration::class
+)->isUsingSingleCategory();
+if ($isUsingSingleCategory) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['tx-czsimplecal-multiple-to-single-category']
         = Tx\CzSimpleCal\Updates\MultipleToSingleCategoryMigrator::class;
 }
-unset($useSingleCategory);
+unset($isUsingSingleCategory);

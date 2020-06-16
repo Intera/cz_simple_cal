@@ -34,6 +34,7 @@ use Tx\CzSimpleCal\Domain\Repository\CategoryRepository;
 use Tx\CzSimpleCal\Domain\Repository\EventIndexRepository;
 use Tx\CzSimpleCal\Domain\Repository\EventRepository;
 use Tx\CzSimpleCal\Utility\DateTime as CzSimpleCalDateTime;
+use Tx\CzSimpleCal\Utility\ExtensionConfiguration;
 use Tx\CzSimpleCal\Utility\YearOptionCollector;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
@@ -80,6 +81,11 @@ class EventIndexController extends BaseExtendableController
      */
     protected $yearOptionCollector;
 
+    /**
+     * @var ExtensionConfiguration
+     */
+    private $extensionConfiguration;
+
     public function injectCategoryRepository(CategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
@@ -93,6 +99,11 @@ class EventIndexController extends BaseExtendableController
     public function injectEventRepository(EventRepository $eventRepository)
     {
         $this->eventRepository = $eventRepository;
+    }
+
+    public function injectExtensionConfiguration(ExtensionConfiguration $extensionConfiguration)
+    {
+        $this->extensionConfiguration = $extensionConfiguration;
     }
 
     public function injectExtensionService(ExtensionService $extensionService)
@@ -265,20 +276,11 @@ class EventIndexController extends BaseExtendableController
 
     protected function getSelectedCategory(): ?Category
     {
-        if (empty($this->actionSettings['filter']['categories.uid'])) {
+        $selectedCategoryUid = $this->getSelectedCategoryUid();
+        if (!$selectedCategoryUid) {
             return null;
         }
-
-        $filterCategories = GeneralUtility::intExplode(
-            ',',
-            $this->actionSettings['filter']['categories.uid'],
-            true
-        );
-        if ($filterCategories == []) {
-            return null;
-        }
-
-        return $this->categoryRepository->findByUid($filterCategories[0]);
+        return $this->categoryRepository->findByUid($selectedCategoryUid);
     }
 
     /**
@@ -382,6 +384,28 @@ class EventIndexController extends BaseExtendableController
     {
         $context = GeneralUtility::makeInstance(Context::class);
         return $context->getAspect('language');
+    }
+
+    private function getSelectedCategoryUid(): ?int
+    {
+        if ($this->extensionConfiguration->isUsingSingleCategory()) {
+            if (empty($this->actionSettings['filter']['category.uid'])) {
+                return null;
+            }
+
+            return (int)$this->actionSettings['filter']['category.uid'];
+        }
+
+        if (empty($this->actionSettings['filter']['categories.uid'])) {
+            return null;
+        }
+
+        $filterCategories = GeneralUtility::intExplode(',', $this->actionSettings['filter']['categories.uid'], true);
+        if ($filterCategories == []) {
+            return null;
+        }
+
+        return $filterCategories[0];
     }
 
     /**
