@@ -32,7 +32,11 @@ ics {
 
   config {
     disableAllHeaderCode = 1
-    additionalHeaders = Content-type:text/calendar | Content-Disposition:inline;filename="calendar.ics"
+    disableCharsetHeader = 1
+    additionalHeaders.10.header = Content-Type: text/calendar; charset=UTF-8
+    additionalHeaders.10.replace = 1
+    additionalHeaders.20.header = Content-Disposition: inline;filename="calendar.ics"
+    additionalHeaders.20.replace = 1
     xhtml_cleaning = 0
     admPanel = 0
     debug = 0
