@@ -10,7 +10,7 @@ plugin.tx_czsimplecal {
     // These settings will be used for all actions and are overwritten with the action settings below.
     defaultActionSettings {
       gridColumnClassMapping {
-        four_solumns = col
+        four_solumns = col-lg-12
         two_columns = col-lg-6
       }
 
