@@ -40,12 +40,12 @@
 
 <f:section name="eventData">
 
-<h4>
+<p class="h4 mt-0">
     <f:render partial="StartAndEndDate" arguments="{_all}"/>
     <f:if condition="{event.event.activeLocation.name}">
         <br/>{event.event.activeLocation.name}
     </f:if>
-</h4>
+</p>
 
 <f:render partial="CancelledWarning" arguments="{_all}"/>
 

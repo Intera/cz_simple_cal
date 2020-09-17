@@ -1,6 +1,6 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-    data-namespace-typo3-fluid="true">
-<h4 id="month-header-{f:format.date(date: event.start, format: 'Y-m')}">
+<html data-namespace-typo3-fluid="true"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
+<h2 id="month-header-{f:format.date(date: event.start, format: 'Y-m')}" class="h4">
     <f:format.date date="{event.start}" format="{f:translate(key: 'format.monthWrapper')}"/>
-</h4>
+</h2>
 </html>
