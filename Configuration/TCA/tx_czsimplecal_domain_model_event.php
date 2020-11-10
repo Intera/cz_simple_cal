@@ -563,6 +563,9 @@ $isUsingSingleCategory = (bool)TYPO3\CMS\Core\Utility\GeneralUtility::makeInstan
     Tx\CzSimpleCal\Utility\ExtensionConfiguration::class
 )->isUsingSingleCategory();
 
+$categoryForeignTableWhere = ' AND tx_czsimplecal_domain_model_category.sys_language_uid IN (-1, 0)'
+    . ' ORDER BY tx_czsimplecal_domain_model_category.title ASC';
+
 if ($isUsingSingleCategory) {
     $tca['columns']['category'] = [
         'l10n_mode' => 'exclude',
@@ -571,6 +574,7 @@ if ($isUsingSingleCategory) {
             'type' => 'select',
             'renderType' => 'selectSingle',
             'foreign_table' => 'tx_czsimplecal_domain_model_category',
+            'foreign_table_where' => $categoryForeignTableWhere,
         ],
     ];
     return $tca;
@@ -584,6 +588,7 @@ $tca['columns']['categories'] = [
         'renderType' => 'selectMultipleSideBySide',
         'enableMultiSelectFilterTextfield' => true,
         'foreign_table' => 'tx_czsimplecal_domain_model_category',
+        'foreign_table_where' => $categoryForeignTableWhere,
         'MM' => 'tx_czsimplecal_event_category_mm',
     ],
 ];
