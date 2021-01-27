@@ -575,6 +575,7 @@ if ($isUsingSingleCategory) {
             'renderType' => 'selectSingle',
             'foreign_table' => 'tx_czsimplecal_domain_model_category',
             'foreign_table_where' => $categoryForeignTableWhere,
+            'default' => null
         ],
     ];
     return $tca;
