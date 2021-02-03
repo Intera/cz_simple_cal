@@ -16,6 +16,9 @@
 			<trans-unit id="field.view.defaultPid" xml:space="preserve">
 				<source>Default target page</source>
 			</trans-unit>
+			<trans-unit id="field.view.defaultPid.description" xml:space="preserve" approved="yes">
+				<source>Page where events are displayed</source>
+			</trans-unit>
 			<trans-unit id="field.useView.list" xml:space="preserve">
 				<source>List some events</source>
 			</trans-unit>

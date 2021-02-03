@@ -14,9 +14,8 @@
                 <el>
                     <view.defaultPid>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.view.defaultPid
-                            </label>
+                            <label>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.view.defaultPid</label>
+                            <description>LLL:EXT:cz_simple_cal/Resources/Private/Language/locallang_flex.xlf:field.view.defaultPid.description</description>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>

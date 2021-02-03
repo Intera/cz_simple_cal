@@ -14,7 +14,11 @@
 			</trans-unit>
 			<trans-unit id="field.view.defaultPid" xml:space="preserve" approved="yes">
 				<source>Default target page</source>
-				<target>Standard Zielseite</target>
+				<target>Standard-Zielseite</target>
+			</trans-unit>
+			<trans-unit id="field.view.defaultPid.description" xml:space="preserve" approved="yes">
+				<source>Page where events are displayed</source>
+				<target>Darstellungsort der Termine</target>
 			</trans-unit>
 			<trans-unit id="field.useView.list" xml:space="preserve" approved="yes">
 				<source>List some events</source>
@@ -182,7 +186,7 @@
 			</trans-unit>
 			<trans-unit id="field.settings.slider.link" xml:space="preserve">
 				<source>Link (overrides default PID)</source>
-				<target>Link (übeschreibt Standard Zielseite)</target>
+				<target>Link (überschreibt Standard-Zielseite)</target>
 			</trans-unit>
 		</body>
 	</file>
