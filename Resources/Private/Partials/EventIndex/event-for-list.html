@@ -1,9 +1,9 @@
-<html xmlns:cal="http://typo3.org/ns/Tx/CzSimpleCal/ViewHelpers"
-    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-    data-namespace-typo3-fluid="true">
+<html data-namespace-typo3-fluid="true"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
 <div class="vevent tx-czsimplecal-event-list-item" id="{event.hash}">
     <h3 class="tx-czsimplecal-event-list-header summary">
-        <f:link.action arguments="{event: event}" action="show" addQueryString="true" class="url">{event.title}</f:link.action>
+        <f:link.action action="show" addQueryString="true" arguments="{event: event}"
+            class="url">{event.title}</f:link.action>
     </h3>
 
     <p class="tx-czsimplecal-event-list-date">
@@ -17,7 +17,7 @@
     <f:render partial="EventIndex/Teaser" arguments="{_all}"/>
 
     <div class="tx-czsimplecal-event-list-more">
-        <f:link.action arguments="{event: event}" action="show" addQueryString="true" class="url">[...]</f:link.action>
+        <f:link.action action="show" addQueryString="true" arguments="{event: event}" class="url">[...]</f:link.action>
     </div>
 </div>
 </html>
