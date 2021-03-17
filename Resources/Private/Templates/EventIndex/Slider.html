@@ -16,7 +16,8 @@
                             <f:for each="{events}" as="event">
                                 <div class="slide vevent card">
                                     <f:render partial="EventBox/BoxContents" arguments="{_all}"/>
-                                    <cal:link.eventDetails class="stretched-link" event="{event}"/>
+                                    <cal:link.eventDetails class="stretched-link" event="{event}"
+                                        additionalAttributes="{aria-label: '{event.title}'}"/>
                                 </div>
                             </f:for>
                         </div>

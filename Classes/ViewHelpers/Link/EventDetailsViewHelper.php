@@ -39,6 +39,7 @@ class EventDetailsViewHelper extends AbstractTagBasedViewHelper
      */
     public function initializeArguments()
     {
+        parent::initializeArguments();
         $this->registerArgument('event', EventIndex::class, '', true);
         $this->registerUniversalTagAttributes();
     }
